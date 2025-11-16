@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { WalletBalanceWarning } from '@/components/WalletBalanceWarning';
 import { RescheduleDialog } from '@/components/RescheduleDialog';
 import { PricingDisplay } from '@/components/PricingDisplay';
+import { MentorBrowseSection } from '@/components/MentorBrowseSection';
 
 const MenteeDashboard = () => {
   const navigate = useNavigate();
@@ -120,33 +121,6 @@ const MenteeDashboard = () => {
           {/* Low Balance Warning */}
           <WalletBalanceWarning />
 
-          {/* Quick Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <Button
-              onClick={() => navigate('/mentee/browse')}
-              className="h-20 flex items-center justify-center gap-3 text-base font-medium"
-            >
-              <Search className="h-5 w-5" />
-              Browse Mentors
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => navigate('/mentee/wallet/recharge')}
-              className="h-20 flex items-center justify-center gap-3 text-base font-medium"
-            >
-              <Wallet className="h-5 w-5" />
-              Manage Wallet
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => navigate('/mentee/sessions')}
-              className="h-20 flex items-center justify-center gap-3 text-base font-medium"
-            >
-              <Calendar className="h-5 w-5" />
-              My Sessions
-            </Button>
-          </div>
-
           {/* Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             {stats.map((stat) => (
@@ -231,7 +205,13 @@ const MenteeDashboard = () => {
             </div>
           </div>
 
-          {/* Recent Mentors */}
+          {/* Browse Mentors Section */}
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-foreground mb-4">Browse Mentors</h2>
+            <MentorBrowseSection />
+          </div>
+
+          {/* Continue with Recent Mentors */}
           <div>
             <h2 className="text-xl font-semibold text-foreground mb-4">Continue with Recent Mentors</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
