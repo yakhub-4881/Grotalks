@@ -13,10 +13,15 @@ import { MentorBrowseSection } from '@/components/MentorBrowseSection';
 
 const MenteeDashboard = () => {
   const navigate = useNavigate();
-  const { walletBalance } = useAppContext();
+  const { walletBalance, setIsAuthenticated } = useAppContext();
   const { toast } = useToast();
   const [showRescheduleDialog, setShowRescheduleDialog] = useState(false);
   const [timeUntilSession, setTimeUntilSession] = useState('');
+
+  // Set authentication state on mount
+  useEffect(() => {
+    setIsAuthenticated(true);
+  }, [setIsAuthenticated]);
 
   const stats = [
     { label: 'Wallet Balance', value: `₹${walletBalance}`, icon: Wallet, color: 'text-success' },

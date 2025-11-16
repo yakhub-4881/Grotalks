@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Star, MapPin, Briefcase, GraduationCap, Award, Calendar, Clock } from 'lucide-react';
+import { Star, MapPin, Briefcase, GraduationCap, Award, Calendar, Clock, ArrowLeft } from 'lucide-react';
 import { getCollegeDisplay } from '@/lib/college-config';
 import { PricingDisplay } from '@/components/PricingDisplay';
 
@@ -47,19 +47,29 @@ const MentorProfile = () => {
   return (
     <Layout>
       <div className="min-h-[calc(100vh-4rem)] bg-muted">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-4 md:py-8">
+          {/* Back Button */}
+          <Button 
+            variant="ghost" 
+            onClick={() => navigate(-1)}
+            className="mb-4 -ml-2"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+
           {/* Header Card */}
-          <Card className="p-6 md:p-8 mb-8">
-            <div className="grid md:grid-cols-3 gap-6">
+          <Card className="p-4 md:p-8 mb-6 md:mb-8">
+            <div className="grid md:grid-cols-3 gap-4 md:gap-6">
               {/* Left: Profile Info */}
-              <div className="md:col-span-2 space-y-6">
-                <div className="flex items-start gap-4">
-                  <Avatar className="h-20 w-20 bg-primary/10 flex items-center justify-center text-2xl font-bold text-primary">
+              <div className="md:col-span-2 space-y-4 md:space-y-6">
+                <div className="flex items-start gap-3 md:gap-4">
+                  <Avatar className="h-16 w-16 md:h-20 md:w-20 bg-primary/10 flex items-center justify-center text-xl md:text-2xl font-bold text-primary flex-shrink-0">
                     {mentor.name.split(' ').map(n => n[0]).join('')}
                   </Avatar>
-                  <div className="flex-1">
-                    <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">{mentor.name}</h1>
-                    <p className="text-base text-muted-foreground mb-2">{mentor.role}</p>
+                  <div className="flex-1 min-w-0">
+                    <h1 className="text-xl md:text-3xl font-bold text-foreground mb-1 md:mb-2 break-words">{mentor.name}</h1>
+                    <p className="text-sm md:text-base text-muted-foreground mb-2 break-words">{mentor.role}</p>
                     <div className="flex flex-wrap items-center gap-3 text-sm">
                       <Badge variant="secondary" className="gap-1">
                         <GraduationCap className="h-3 w-3" />
@@ -109,7 +119,7 @@ const MentorProfile = () => {
 
               {/* Right: Booking Card */}
               <div className="md:col-span-1">
-                <Card className="p-6 border-2 border-primary/20 bg-primary/5 sticky top-4">
+                <Card className="p-4 md:p-6 border-2 border-primary/20 bg-primary/5 md:sticky md:top-20">
                   <div className="space-y-4">
                     <div>
                       <p className="text-sm text-muted-foreground mb-2">Session Rate</p>
@@ -139,17 +149,17 @@ const MentorProfile = () => {
             </TabsList>
 
             <TabsContent value="availability" className="space-y-4">
-              <Card className="p-6">
+              <Card className="p-4 md:p-6">
                 <h3 className="text-lg font-semibold text-foreground mb-4">Available Time Slots</h3>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                   {mentor.availability.map((day) => (
-                    <Card key={day.day} className="p-4 border-2">
-                      <h4 className="font-semibold text-foreground mb-3">{day.day}</h4>
-                      <div className="space-y-2">
+                    <Card key={day.day} className="p-3 md:p-4 border">
+                      <h4 className="font-semibold text-foreground mb-2 text-sm md:text-base">{day.day}</h4>
+                      <div className="space-y-1.5">
                         {day.slots.map((slot) => (
-                          <div key={slot} className="flex items-center gap-2 text-sm">
-                            <Clock className="h-4 w-4 text-primary" />
-                            <span>{slot}</span>
+                          <div key={slot} className="flex items-center gap-2 text-xs md:text-sm py-1">
+                            <Clock className="h-3.5 w-3.5 md:h-4 md:w-4 text-primary flex-shrink-0" />
+                            <span className="text-foreground">{slot}</span>
                           </div>
                         ))}
                       </div>
