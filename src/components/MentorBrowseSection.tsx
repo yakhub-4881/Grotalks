@@ -118,6 +118,7 @@ export const MentorBrowseSection = () => {
   const [batchYearFilter, setBatchYearFilter] = useState('all');
   const [languageFilter, setLanguageFilter] = useState('all');
   const [sortBy, setSortBy] = useState('rating');
+  const [showAll, setShowAll] = useState(false);
 
   const filteredMentors = mentors
     .filter((mentor) => {
@@ -291,10 +292,10 @@ export const MentorBrowseSection = () => {
       {/* Results */}
       <div>
         <p className="text-sm text-muted-foreground mb-4">
-          Showing {filteredMentors.length} mentor{filteredMentors.length !== 1 ? 's' : ''}
+          Showing {showAll ? filteredMentors.length : Math.min(4, filteredMentors.length)} of {filteredMentors.length} mentor{filteredMentors.length !== 1 ? 's' : ''}
         </p>
         <div className="grid gap-4 md:gap-6">
-          {filteredMentors.map((mentor) => (
+          {filteredMentors.slice(0, showAll ? undefined : 4).map((mentor) => (
             <Card key={mentor.id} className="p-4 md:p-6 hover:shadow-md transition-shadow">
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1 space-y-3">
@@ -350,6 +351,35 @@ export const MentorBrowseSection = () => {
             </Card>
           ))}
         </div>
+
+        {filteredMentors.length > 4 && !showAll && (
+          <div className="mt-6 text-center">
+            <Button 
+              variant="outline" 
+              size="lg"
+              onClick={() => setShowAll(true)}
+              className="min-w-[200px]"
+            >
+              View More Mentors ({filteredMentors.length - 4} more)
+            </Button>
+          </div>
+        )}
+
+        {showAll && filteredMentors.length > 4 && (
+          <div className="mt-6 text-center">
+            <Button 
+              variant="outline" 
+              size="lg"
+              onClick={() => {
+                setShowAll(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="min-w-[200px]"
+            >
+              Show Less
+            </Button>
+          </div>
+        )}
 
         {filteredMentors.length === 0 && (
           <Card className="p-8 text-center">
