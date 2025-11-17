@@ -174,17 +174,53 @@ const MentorDashboard = () => {
           {/* Stats Grid */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
             {stats.map((stat) => (
-              <Card key={stat.label} className="p-4 md:p-6">
+              <Card key={stat.label} className="p-3 md:p-6">
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center gap-2">
-                    <stat.icon className={`h-4 w-4 md:h-5 md:w-5 ${stat.color}`} />
-                    <p className="text-xs md:text-sm text-muted-foreground line-clamp-1">{stat.label}</p>
+                    <stat.icon className={`h-4 w-4 md:h-5 md:w-5 flex-shrink-0 ${stat.color}`} />
+                    <p className="text-xs md:text-sm text-muted-foreground line-clamp-1 truncate">{stat.label}</p>
                   </div>
-                  <p className="text-xl md:text-2xl font-bold text-foreground">{stat.value}</p>
+                  <p className="text-xl md:text-2xl font-bold text-foreground truncate">{stat.value}</p>
                 </div>
               </Card>
             ))}
           </div>
+
+          {/* Upcoming Sessions */}
+          {upcomingSessions.length > 0 && (
+            <div className="mb-6 md:mb-8">
+              <h2 className="text-lg md:text-xl font-semibold text-foreground mb-4">📅 Upcoming Sessions</h2>
+              <div className="grid gap-4">
+                {upcomingSessions.map((session) => (
+                  <Card key={session.id} className="p-4 md:p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      <div className="space-y-2 min-w-0 flex-1">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
+                          <span className="text-xs font-medium text-success uppercase">Confirmed</span>
+                        </div>
+                        <h3 className="font-semibold text-base md:text-lg truncate">{session.mentee}</h3>
+                        <p className="text-sm text-muted-foreground line-clamp-1">{session.topic}</p>
+                        <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm">
+                          <span className="text-foreground font-medium whitespace-nowrap">{session.date}</span>
+                          <span className="text-muted-foreground whitespace-nowrap">{session.time}</span>
+                        </div>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        <Button className="text-sm h-9 md:h-10" onClick={() => navigate(`/session/${session.id}`)}>
+                          <MessageSquare className="mr-2 h-4 w-4" />
+                          Start Chat
+                        </Button>
+                        <Button variant="outline" className="text-sm h-9 md:h-10">
+                          View Details
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Pending Requests */}
           {pendingRequests.length > 0 && (
@@ -382,7 +418,16 @@ const MentorDashboard = () => {
               <Calendar className="mr-2 h-4 w-4 md:h-5 md:w-5" />
               <span className="truncate">Manage Availability</span>
             </Button>
-            <Button variant="outline" className="h-12 md:h-14 text-sm md:text-base font-medium" onClick={() => navigate('/mentor/profile')}>
+            <Button 
+              variant="outline" 
+              className="h-12 md:h-14 text-sm md:text-base font-medium" 
+              onClick={() => {
+                toast({
+                  title: "Reviews & Ratings",
+                  description: "Your average rating is 4.9 stars from 28 reviews",
+                });
+              }}
+            >
               <Star className="mr-2 h-4 w-4 md:h-5 md:w-5" />
               <span className="truncate">View Reviews</span>
             </Button>
