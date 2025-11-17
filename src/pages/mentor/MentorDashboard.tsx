@@ -348,7 +348,7 @@ const MentorDashboard = () => {
               <h2 className="text-lg md:text-xl font-semibold text-foreground mb-4">Upcoming Confirmed Sessions</h2>
               <div className="space-y-4">
                 {acceptedRequests.map((session) => {
-                  const sessionTime = new Date('2024-11-04 14:00:00');
+                  const sessionTime = new Date(Date.now() + 2 * 60 * 60 * 1000); // 2 hours from now
                   const now = new Date();
                   const diff = sessionTime.getTime() - now.getTime();
                   const canStart = diff <= 5 * 60 * 1000; // 5 minutes before
@@ -370,8 +370,8 @@ const MentorDashboard = () => {
                             <span className="text-muted-foreground whitespace-nowrap">{session.time}</span>
                           </div>
                           {!canStart && (
-                            <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
-                              <Clock className="h-3 w-3 md:h-4 md:w-4" />
+                            <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground bg-muted px-3 py-2 rounded-md w-fit">
+                              <Clock className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
                               <span>Session starts in {hours}h {minutes}m</span>
                             </div>
                           )}

@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { useAppContext } from '@/lib/app-context';
-import { Calendar as CalendarIcon, Clock, User, Coins, AlertCircle } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, User, Coins, AlertCircle, ArrowLeft } from 'lucide-react';
 import { PricingDisplay } from '@/components/PricingDisplay';
 import { WalletBalanceWarning } from '@/components/WalletBalanceWarning';
 
@@ -91,6 +91,16 @@ const BookingSchedule = () => {
     <Layout>
       <div className="min-h-[calc(100vh-4rem)] bg-muted">
         <div className="container mx-auto px-4 py-8 max-w-5xl">
+          {/* Back Button */}
+          <Button 
+            variant="ghost" 
+            onClick={() => navigate(-1)}
+            className="mb-4 -ml-2"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+
           <div className="mb-6">
             <h1 className="text-3xl font-bold text-foreground mb-2">Schedule Session</h1>
             <p className="text-muted-foreground">Book a session with {mentor.name}</p>

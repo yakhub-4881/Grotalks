@@ -10,12 +10,27 @@ import { WalletBalanceWarning } from '@/components/WalletBalanceWarning';
 import { RescheduleDialog } from '@/components/RescheduleDialog';
 import { PricingDisplay } from '@/components/PricingDisplay';
 import { MentorBrowseSection } from '@/components/MentorBrowseSection';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 
 const MenteeDashboard = () => {
   const navigate = useNavigate();
   const { walletBalance, setIsAuthenticated } = useAppContext();
   const { toast } = useToast();
   const [showRescheduleDialog, setShowRescheduleDialog] = useState(false);
+  const [showDeclineDialog, setShowDeclineDialog] = useState(false);
+  const [declineReason, setDeclineReason] = useState('');
+  const [selectedSession, setSelectedSession] = useState<any>(null);
   const [timeUntilSession, setTimeUntilSession] = useState('');
 
   // Set authentication state on mount
@@ -88,6 +103,32 @@ const MenteeDashboard = () => {
       description: 'Your reschedule request has been sent to the mentor.',
     });
     setShowRescheduleDialog(false);
+  };
+
+  const handleDeclineClick = (session: any) => {
+    setSelectedSession(session);
+    setShowDeclineDialog(true);
+  };
+
+  const handleDeclineConfirm = () => {
+    if (declineReason.trim().length < 10) {
+      toast({
+        title: 'Reason Required',
+        description: 'Please provide at least 10 characters explaining why you want to decline',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    toast({
+      title: 'Session Declined',
+      description: 'Your cancellation reason has been sent to the mentor.',
+      variant: 'destructive'
+    });
+    
+    setShowDeclineDialog(false);
+    setDeclineReason('');
+    setSelectedSession(null);
   };
 
   const recentMentors = [
@@ -195,11 +236,7 @@ const MenteeDashboard = () => {
                         <Button 
                           variant="destructive" 
                           className="flex-1 text-sm h-9 md:h-10"
-                          onClick={() => toast({
-                            title: 'Session Declined',
-                            description: 'Your session has been cancelled.',
-                            variant: 'destructive'
-                          })}
+                          onClick={() => handleDeclineClick(session)}
                         >
                           <XCircle className="mr-2 h-4 w-4" />
                           <span className="truncate">Decline</span>
@@ -256,6 +293,46 @@ const MenteeDashboard = () => {
         onSubmit={handleReschedule}
         isMentor={false}
       />
+
+      {/* Decline Dialog */}
+      <AlertDialog open={showDeclineDialog} onOpenChange={setShowDeclineDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Decline Session</AlertDialogTitle>
+            <AlertDialogDescription>
+              Please let {selectedSession?.mentor} know why you want to decline this session. This helps mentors understand your needs better.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="my-4 space-y-2">
+            <Label htmlFor="decline-reason">Reason for declining*</Label>
+            <Textarea
+              id="decline-reason"
+              placeholder="Please explain why you need to decline... (minimum 10 characters)"
+              value={declineReason}
+              onChange={(e) => setDeclineReason(e.target.value)}
+              className="min-h-24 resize-none"
+              maxLength={500}
+            />
+            <p className="text-xs text-muted-foreground">
+              {declineReason.length}/500 characters
+            </p>
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => {
+              setDeclineReason('');
+              setSelectedSession(null);
+            }}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeclineConfirm}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Decline Session
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Layout>
   );
 };
