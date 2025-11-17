@@ -102,18 +102,20 @@ const BookingSchedule = () => {
             {/* Main Form */}
             <div className="lg:col-span-2 space-y-6">
               {/* Date Selection */}
-              <Card className="p-6">
+              <Card className="p-4 md:p-6">
                 <Label className="flex items-center gap-2 mb-4 text-lg">
                   <CalendarIcon className="h-5 w-5" />
                   Select Date
                 </Label>
-                <Calendar
-                  mode="single"
-                  selected={selectedDate}
-                  onSelect={setSelectedDate}
-                  disabled={(date) => date < new Date() || date.getDay() === 0}
-                  className="rounded-md border w-full"
-                />
+                <div className="flex justify-center">
+                  <Calendar
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={setSelectedDate}
+                    disabled={(date) => date < new Date() || date.getDay() === 0}
+                    className="rounded-md border w-fit"
+                  />
+                </div>
                 {selectedDate && (
                   <p className="mt-4 text-sm text-success flex items-center gap-1">
                     <span>✓</span> Selected: {selectedDate.toDateString()}
@@ -122,17 +124,17 @@ const BookingSchedule = () => {
               </Card>
 
               {/* Time Slot Selection */}
-              <Card className="p-6">
+              <Card className="p-4 md:p-6">
                 <Label className="flex items-center gap-2 mb-4 text-lg">
                   <Clock className="h-5 w-5" />
                   Select Time Slot
                 </Label>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
                   {mentor.availability.slots.map((slot) => (
                     <Button
                       key={slot}
                       variant={selectedSlot === slot ? 'default' : 'outline'}
-                      className="h-12"
+                      className="h-10 text-sm"
                       onClick={() => setSelectedSlot(slot)}
                     >
                       {slot}
@@ -147,7 +149,7 @@ const BookingSchedule = () => {
               </Card>
 
               {/* Message to Mentor */}
-              <Card className="p-6">
+              <Card className="p-4 md:p-6">
                 <Label htmlFor="message" className="flex items-center gap-2 mb-4 text-lg">
                   <User className="h-5 w-5" />
                   Message to Mentor* (min 20 characters)
@@ -157,7 +159,7 @@ const BookingSchedule = () => {
                   placeholder="Describe what you're looking for in this session... (e.g., career guidance, interview preparation, specific topics you want to discuss)"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className="min-h-32 resize-none"
+                  className="min-h-28 resize-none"
                   maxLength={500}
                 />
                 <div className="flex justify-between items-center mt-2">
@@ -173,26 +175,26 @@ const BookingSchedule = () => {
 
             {/* Summary Sidebar */}
             <div className="lg:col-span-1">
-              <Card className="p-6 sticky top-4 space-y-6">
+              <Card className="p-4 md:p-6 sticky top-4 space-y-4">
                 <div>
-                  <h3 className="font-semibold text-foreground mb-2">Booking Summary</h3>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex justify-between">
+                  <h3 className="font-semibold text-foreground mb-3">Booking Summary</h3>
+                  <div className="space-y-2.5 text-sm">
+                    <div className="flex justify-between items-start gap-2">
                       <span className="text-muted-foreground">Mentor</span>
-                      <span className="font-medium">{mentor.name}</span>
+                      <span className="font-medium text-right">{mentor.name}</span>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between items-start gap-2">
                       <span className="text-muted-foreground">Role</span>
-                      <span className="font-medium text-right">{mentor.role}</span>
+                      <span className="font-medium text-right line-clamp-2">{mentor.role}</span>
                     </div>
                     {selectedDate && (
-                      <div className="flex justify-between">
+                      <div className="flex justify-between items-start gap-2">
                         <span className="text-muted-foreground">Date</span>
-                        <span className="font-medium">{selectedDate.toLocaleDateString()}</span>
+                        <span className="font-medium text-right">{selectedDate.toLocaleDateString()}</span>
                       </div>
                     )}
                     {selectedSlot && (
-                      <div className="flex justify-between">
+                      <div className="flex justify-between items-start gap-2">
                         <span className="text-muted-foreground">Time</span>
                         <span className="font-medium">{selectedSlot}</span>
                       </div>

@@ -151,15 +151,15 @@ const MentorProfile = () => {
             <TabsContent value="availability" className="space-y-4">
               <Card className="p-4 md:p-6">
                 <h3 className="text-lg font-semibold text-foreground mb-4">Available Time Slots</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
                   {mentor.availability.map((day) => (
-                    <Card key={day.day} className="p-3 md:p-4 border">
-                      <h4 className="font-semibold text-foreground mb-2 text-sm md:text-base">{day.day}</h4>
+                    <Card key={day.day} className="p-3 border">
+                      <h4 className="font-semibold text-foreground mb-2.5 text-sm">{day.day}</h4>
                       <div className="space-y-1.5">
                         {day.slots.map((slot) => (
-                          <div key={slot} className="flex items-center gap-2 text-xs md:text-sm py-1">
-                            <Clock className="h-3.5 w-3.5 md:h-4 md:w-4 text-primary flex-shrink-0" />
-                            <span className="text-foreground">{slot}</span>
+                          <div key={slot} className="flex items-center gap-1.5 text-xs py-0.5">
+                            <Clock className="h-3 w-3 text-primary flex-shrink-0" />
+                            <span className="text-foreground truncate">{slot}</span>
                           </div>
                         ))}
                       </div>
