@@ -171,22 +171,22 @@ const MenteeSessions = () => {
                       </Button>
                       <Button
                         variant="outline"
-                        className="text-sm h-9 md:h-10"
+                        className="flex-1 text-sm h-9 md:h-10"
                         onClick={() => {
                           setSelectedSession(session);
                           setRescheduleOpen(true);
                         }}
                       >
                         <RotateCcw className="mr-2 h-4 w-4" />
-                        <span className="hidden sm:inline">Reschedule</span>
+                        <span className="truncate">Reschedule</span>
                       </Button>
                       <Button
                         variant="destructive"
-                        className="text-sm h-9 md:h-10"
+                        className="flex-1 text-sm h-9 md:h-10"
                         onClick={() => handleCancelSession(session)}
                       >
                         <XCircle className="mr-2 h-4 w-4" />
-                        <span className="hidden sm:inline">Cancel</span>
+                        <span className="truncate">Cancel</span>
                       </Button>
                     </div>
                   </div>
