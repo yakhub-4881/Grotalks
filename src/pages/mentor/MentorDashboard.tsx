@@ -201,36 +201,68 @@ const MentorDashboard = () => {
                   
                   return (
                     <Card key={session.id} className="p-4 md:p-6">
-                      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                        <div className="space-y-2 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
-                            <span className="text-xs font-medium text-success uppercase">Confirmed</span>
-                          </div>
-                          <h3 className="text-base md:text-lg font-semibold text-foreground truncate">{session.mentee}</h3>
-                          <p className="text-sm text-muted-foreground line-clamp-2">{session.topic}</p>
-                          <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm">
-                            <span className="text-foreground font-medium whitespace-nowrap">{session.date}</span>
-                            <span className="text-muted-foreground whitespace-nowrap">{session.time}</span>
-                          </div>
-                          {!canStart && (
-                            <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground bg-muted px-3 py-2 rounded-md w-fit">
-                              <Clock className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
-                              <span>Session starts in {hours}h {minutes}m</span>
+                      <div className="space-y-4">
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                          <div className="space-y-2 flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
+                              <span className="text-xs font-medium text-success uppercase">Confirmed</span>
                             </div>
-                          )}
+                            <h3 className="text-base md:text-lg font-semibold text-foreground truncate">{session.mentee}</h3>
+                            <p className="text-sm text-muted-foreground line-clamp-2">{session.topic}</p>
+                            <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm">
+                              <span className="text-foreground font-medium whitespace-nowrap">{session.date}</span>
+                              <span className="text-muted-foreground whitespace-nowrap">{session.time}</span>
+                            </div>
+                            {!canStart && (
+                              <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground bg-muted px-3 py-2 rounded-md w-fit">
+                                <Clock className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
+                                <span>Session starts in {hours}h {minutes}m</span>
+                              </div>
+                            )}
+                          </div>
                         </div>
+
                         <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
                           <Button 
-                            className="text-sm h-9 md:h-10"
+                            className="flex-1 text-sm h-9 md:h-10"
                             onClick={() => navigate(`/session/${session.id}`)}
                             disabled={!canStart}
                           >
                             <MessageSquare className="mr-2 h-4 w-4" />
                             {canStart ? 'Start Chat' : 'Locked'}
                           </Button>
-                          <Button variant="outline" className="text-sm h-9 md:h-10">
-                            View Details
+                          <Button 
+                            variant="outline" 
+                            className="flex-1 text-sm h-9 md:h-10"
+                            onClick={() => handleRescheduleClick({ 
+                              id: session.id.toString(), 
+                              mentee: { name: session.mentee, college: 'iit-bombay' }, 
+                              date: session.date, 
+                              time: session.time.split(' - ')[0], 
+                              duration: 60, 
+                              status: 'accepted',
+                              hourlyRate: 600
+                            })}
+                          >
+                            <RotateCcw className="mr-2 h-4 w-4" />
+                            <span className="truncate">Reschedule</span>
+                          </Button>
+                          <Button 
+                            variant="destructive" 
+                            className="flex-1 text-sm h-9 md:h-10"
+                            onClick={() => handleDeclineClick({ 
+                              id: session.id.toString(), 
+                              mentee: { name: session.mentee, college: 'iit-bombay' }, 
+                              date: session.date, 
+                              time: session.time.split(' - ')[0], 
+                              duration: 60, 
+                              status: 'accepted',
+                              hourlyRate: 600
+                            })}
+                          >
+                            <XCircle className="mr-2 h-4 w-4" />
+                            <span className="truncate">Decline</span>
                           </Button>
                         </div>
                       </div>
@@ -440,12 +472,7 @@ const MentorDashboard = () => {
             <Button 
               variant="outline" 
               className="h-12 md:h-14 text-sm md:text-base font-medium" 
-              onClick={() => {
-                toast({
-                  title: "Reviews & Ratings",
-                  description: "Your average rating is 4.9 stars from 28 reviews",
-                });
-              }}
+              onClick={() => navigate('/mentor/profile')}
             >
               <Star className="mr-2 h-4 w-4 md:h-5 md:w-5" />
               <span className="truncate">View Reviews</span>
