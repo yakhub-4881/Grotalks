@@ -20,6 +20,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 
 interface BookingRequest {
   id: string;
@@ -67,6 +69,7 @@ const MentorDashboard = () => {
   const [showRescheduleDialog, setShowRescheduleDialog] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState<BookingRequest | null>(null);
   const [declineReason, setDeclineReason] = useState('');
+  const [customDeclineReason, setCustomDeclineReason] = useState('');
 
   const handleAccept = async (request: BookingRequest) => {
     setProcessingId(request.id);
@@ -110,6 +113,7 @@ const MentorDashboard = () => {
       setShowDeclineDialog(false);
       setSelectedRequest(null);
       setDeclineReason('');
+      setCustomDeclineReason('');
     }, 1500);
   };
 
@@ -472,7 +476,12 @@ const MentorDashboard = () => {
             <Button 
               variant="outline" 
               className="h-12 md:h-14 text-sm md:text-base font-medium" 
-              onClick={() => navigate('/mentor/profile')}
+              onClick={() => {
+                toast({
+                  title: "Reviews & Ratings",
+                  description: "Your average rating is 4.9 stars from 28 reviews",
+                });
+              }}
             >
               <Star className="mr-2 h-4 w-4 md:h-5 md:w-5" />
               <span className="truncate">View Reviews</span>
@@ -490,24 +499,49 @@ const MentorDashboard = () => {
               Please let {selectedRequest?.mentee.name} know why you're declining this request
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <div className="my-4">
-            <Select value={declineReason} onValueChange={setDeclineReason}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a reason" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="not-available">Not available at that time</SelectItem>
-                <SelectItem value="different-expertise">Different expertise required</SelectItem>
-                <SelectItem value="too-many">Too many sessions today</SelectItem>
-                <SelectItem value="other">Other reason</SelectItem>
-              </SelectContent>
-            </Select>
+          <div className="my-4 space-y-4">
+            <div>
+              <Label>Select a reason</Label>
+              <Select value={declineReason} onValueChange={setDeclineReason}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a reason" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="not-available">Not available at that time</SelectItem>
+                  <SelectItem value="different-expertise">Different expertise required</SelectItem>
+                  <SelectItem value="too-many">Too many sessions today</SelectItem>
+                  <SelectItem value="other">Other reason</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            {declineReason === 'other' && (
+              <div className="space-y-2">
+                <Label htmlFor="custom-reason">Please specify the reason*</Label>
+                <Textarea
+                  id="custom-reason"
+                  placeholder="Please explain why you're declining... (minimum 10 characters)"
+                  value={customDeclineReason}
+                  onChange={(e) => setCustomDeclineReason(e.target.value)}
+                  className="min-h-24 resize-none"
+                  maxLength={500}
+                />
+                <p className="text-xs text-muted-foreground">
+                  {customDeclineReason.length}/500 characters (minimum 10)
+                </p>
+              </div>
+            )}
           </div>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setDeclineReason('')}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => {
+              setDeclineReason('');
+              setCustomDeclineReason('');
+            }}>
+              Cancel
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDeclineConfirm}
-              disabled={!declineReason}
+              disabled={!declineReason || (declineReason === 'other' && customDeclineReason.trim().length < 10)}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               {processingId ? (
