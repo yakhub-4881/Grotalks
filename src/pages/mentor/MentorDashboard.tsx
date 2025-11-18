@@ -191,33 +191,52 @@ const MentorDashboard = () => {
             <div className="mb-6 md:mb-8">
               <h2 className="text-lg md:text-xl font-semibold text-foreground mb-4">📅 Upcoming Sessions</h2>
               <div className="grid gap-4">
-                {upcomingSessions.map((session) => (
-                  <Card key={session.id} className="p-4 md:p-6">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                      <div className="space-y-2 min-w-0 flex-1">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
-                          <span className="text-xs font-medium text-success uppercase">Confirmed</span>
+                {upcomingSessions.map((session) => {
+                  const sessionTime = new Date(Date.now() + 2 * 60 * 60 * 1000); // 2 hours from now
+                  const now = new Date();
+                  const diff = sessionTime.getTime() - now.getTime();
+                  const canStart = diff <= 5 * 60 * 1000; // 5 minutes before
+                  const hours = Math.floor(diff / (1000 * 60 * 60));
+                  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                  
+                  return (
+                    <Card key={session.id} className="p-4 md:p-6">
+                      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                        <div className="space-y-2 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
+                            <span className="text-xs font-medium text-success uppercase">Confirmed</span>
+                          </div>
+                          <h3 className="text-base md:text-lg font-semibold text-foreground truncate">{session.mentee}</h3>
+                          <p className="text-sm text-muted-foreground line-clamp-2">{session.topic}</p>
+                          <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm">
+                            <span className="text-foreground font-medium whitespace-nowrap">{session.date}</span>
+                            <span className="text-muted-foreground whitespace-nowrap">{session.time}</span>
+                          </div>
+                          {!canStart && (
+                            <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground bg-muted px-3 py-2 rounded-md w-fit">
+                              <Clock className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
+                              <span>Session starts in {hours}h {minutes}m</span>
+                            </div>
+                          )}
                         </div>
-                        <h3 className="font-semibold text-base md:text-lg truncate">{session.mentee}</h3>
-                        <p className="text-sm text-muted-foreground line-clamp-1">{session.topic}</p>
-                        <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm">
-                          <span className="text-foreground font-medium whitespace-nowrap">{session.date}</span>
-                          <span className="text-muted-foreground whitespace-nowrap">{session.time}</span>
+                        <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
+                          <Button 
+                            className="text-sm h-9 md:h-10"
+                            onClick={() => navigate(`/session/${session.id}`)}
+                            disabled={!canStart}
+                          >
+                            <MessageSquare className="mr-2 h-4 w-4" />
+                            {canStart ? 'Start Chat' : 'Locked'}
+                          </Button>
+                          <Button variant="outline" className="text-sm h-9 md:h-10">
+                            View Details
+                          </Button>
                         </div>
                       </div>
-                      <div className="flex flex-col sm:flex-row gap-2">
-                        <Button className="text-sm h-9 md:h-10" onClick={() => navigate(`/session/${session.id}`)}>
-                          <MessageSquare className="mr-2 h-4 w-4" />
-                          Start Chat
-                        </Button>
-                        <Button variant="outline" className="text-sm h-9 md:h-10">
-                          View Details
-                        </Button>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
+                    </Card>
+                  );
+                })}
               </div>
             </div>
           )}
