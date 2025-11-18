@@ -30,7 +30,7 @@ const UniversalLanding = () => {
             <a href="/universal/contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Contact</a>
             <a href="/universal/faq" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">FAQ</a>
             <Button variant="ghost" onClick={() => navigate('/login')}>Login</Button>
-            <Button onClick={() => navigate('/login')}>Get Started</Button>
+            <Button onClick={() => navigate('/signup')}>Get Started</Button>
           </nav>
         </div>
       </header>
