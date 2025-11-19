@@ -13,7 +13,8 @@ import {
   XCircle,
   MessageSquare,
   RotateCcw,
-  AlertCircle
+  AlertCircle,
+  ArrowLeft
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useAppContext } from '@/lib/app-context';
@@ -102,6 +103,14 @@ const MenteeSessions = () => {
       <div className="min-h-[calc(100vh-4rem)] bg-muted">
         <div className="container mx-auto px-4 py-4 md:py-8">
           <div className="mb-4 md:mb-6">
+            <Button
+              variant="ghost"
+              onClick={() => navigate('/mentee/dashboard')}
+              className="mb-4"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Dashboard
+            </Button>
             <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">My Sessions</h1>
             <p className="text-sm md:text-base text-muted-foreground">Manage your mentorship sessions</p>
           </div>

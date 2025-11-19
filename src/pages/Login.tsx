@@ -33,10 +33,6 @@ const Login = () => {
       newErrors.phone = 'Phone number must be exactly 10 digits';
     }
     
-    if (!agreedToTerms) {
-      newErrors.terms = 'You must agree to Terms & Conditions';
-    }
-    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -91,33 +87,16 @@ const Login = () => {
                   className={`flex-1 h-12 text-base ${errors.phone ? 'border-destructive' : ''}`}
                 />
               </div>
-              {errors.phone && <p className="text-sm text-destructive">{errors.phone}</p>}
+            {errors.phone && <p className="text-sm text-destructive">{errors.phone}</p>}
             </div>
-
-            {/* Terms Checkbox */}
-            <div className="flex items-start space-x-3">
-              <Checkbox
-                id="terms"
-                checked={agreedToTerms}
-                onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
-                className="mt-1"
-              />
-              <Label htmlFor="terms" className="text-sm leading-relaxed cursor-pointer">
-                I agree to the{' '}
-                <Button variant="link" className="p-0 h-auto text-primary font-medium">
-                  Terms & Conditions
-                </Button>
-              </Label>
-            </div>
-            {errors.terms && <p className="text-sm text-destructive">{errors.terms}</p>}
 
             {/* Continue Button */}
             <Button
               onClick={handleContinue}
               className="w-full h-12 text-base font-medium"
-              disabled={!phone || !agreedToTerms}
+              disabled={!phone}
             >
-              Continue
+              Continue with OTP
             </Button>
 
             {/* Sign Up Link */}

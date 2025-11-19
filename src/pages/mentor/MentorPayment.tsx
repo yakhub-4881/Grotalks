@@ -6,9 +6,11 @@ import { Label } from '@/components/ui/label';
 import { Layout } from '@/components/Layout';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useAppContext } from '@/lib/app-context';
+import { useToast } from '@/hooks/use-toast';
 
 const MentorPayment = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const { setIsAuthenticated, setUserType } = useAppContext();
   const [upiId, setUpiId] = useState('');
   const [upiVerified, setUpiVerified] = useState(false);
@@ -29,7 +31,21 @@ const MentorPayment = () => {
   const handleComplete = () => {
     setIsAuthenticated(true);
     setUserType('mentor');
+    
+    toast({
+      title: '🎉 Welcome to GroTalks!',
+      description: 'Your mentor profile has been created successfully',
+    });
+    
     navigate('/mentor/dashboard');
+    
+    // Show success notification after navigation
+    setTimeout(() => {
+      toast({
+        title: '✅ Profile Setup Complete',
+        description: 'Welcome! You have successfully completed your profile setup as a mentor.',
+      });
+    }, 500);
   };
 
   const isFormValid = 
