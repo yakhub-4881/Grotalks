@@ -51,19 +51,19 @@ const Landing = () => {
             {/* CTA Buttons */}
             <div className="space-y-3 max-w-md mb-8">
               <Button 
-                onClick={handleMentorSignup}
-                className="w-full h-12 text-base font-medium"
-                size="lg"
-              >
-                Sign Up as Mentor
-              </Button>
-              <Button 
                 onClick={handleSeekerSignup}
-                variant="secondary"
                 className="w-full h-12 text-base font-medium"
                 size="lg"
               >
                 Sign Up as Student
+              </Button>
+              <Button 
+                onClick={handleMentorSignup}
+                variant="secondary"
+                className="w-full h-12 text-base font-medium"
+                size="lg"
+              >
+                Sign Up as Mentor
               </Button>
               <p className="text-center text-sm text-muted-foreground pt-2">
                 Already have an account?{' '}
