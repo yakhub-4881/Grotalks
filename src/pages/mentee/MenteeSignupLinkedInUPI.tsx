@@ -125,11 +125,20 @@ const MenteeSignupLinkedInUPI = () => {
     sessionStorage.removeItem('menteeInterests');
 
     toast({
-      title: '🎉 Welcome to Grotalks!',
+      title: '🎉 Welcome to GroTalks!',
       description: '₹100 bonus credited to your wallet',
     });
 
+    // Navigate and show success message
     navigate('/mentee/dashboard');
+    
+    // Show success notification after navigation
+    setTimeout(() => {
+      toast({
+        title: '✅ Profile Setup Complete',
+        description: 'Welcome! You have successfully completed your profile setup.',
+      });
+    }, 500);
   };
 
   const canComplete = linkedinState === 'connected' && upiState === 'verified';
@@ -217,16 +226,13 @@ const MenteeSignupLinkedInUPI = () => {
                         placeholder="yourname@paytm"
                         value={upiId}
                         onChange={(e) => setUpiId(e.target.value)}
-                        className={`flex-1 h-12 ${
-                          upiState === 'verified' ? 'border-success' : 
-                          upiState === 'failed' ? 'border-destructive' : ''
-                        }`}
                         disabled={upiState === 'verified'}
+                        className="flex-1 h-12"
                       />
                       <Button
                         onClick={handleUpiVerify}
-                        disabled={!upiId || upiState === 'verifying' || upiState === 'verified' || upiRetries >= 3}
-                        className="h-12 px-6"
+                        disabled={!upiId || upiState === 'verifying' || upiState === 'verified'}
+                        className="h-12 min-w-[120px]"
                       >
                         {upiState === 'verifying' ? (
                           <>
@@ -268,25 +274,40 @@ const MenteeSignupLinkedInUPI = () => {
                 </div>
               </Card>
 
-              {/* Info Box */}
-              <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
-                <p className="text-sm text-muted-foreground">
-                  <strong>🎁 Welcome Bonus:</strong><br />
-                  Complete setup to receive ₹100 free credits in your wallet!
-                </p>
-              </div>
+              {/* Welcome Bonus Card */}
+              <Card className="p-6 bg-gradient-to-r from-primary/10 to-success/10 border-2 border-primary/20">
+                <div className="flex items-start gap-4">
+                  <div className="text-4xl">🎁</div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold mb-1">Welcome Bonus</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Complete your profile setup to receive <span className="font-bold text-primary">₹100 free credits</span> instantly in your wallet!
+                    </p>
+                  </div>
+                </div>
+              </Card>
 
-              <div className="flex gap-4">
-                <Button variant="outline" onClick={() => navigate('/mentee/interests')} className="flex-1 h-12">
-                  Back
-                </Button>
-                <Button
-                  onClick={handleComplete}
-                  className="flex-1 h-12 font-medium"
-                  disabled={!canComplete}
-                >
-                  Complete Setup & Get ₹100
-                </Button>
+              <div className="space-y-6">
+                {/* Info Box */}
+                <div className="bg-muted/50 border border-border rounded-lg p-4">
+                  <p className="text-sm text-muted-foreground">
+                    <strong>Why we need this:</strong><br />
+                    LinkedIn helps verify your identity, and UPI is required for secure wallet refunds. Your information is never shared without permission.
+                  </p>
+                </div>
+
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={() => navigate('/mentee/interests')} className="flex-1 h-12">
+                    Back
+                  </Button>
+                  <Button
+                    onClick={handleComplete}
+                    className="flex-1 h-12 font-medium"
+                    disabled={!canComplete}
+                  >
+                    Complete Setup & Get ₹100
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

@@ -4,9 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Layout } from '@/components/Layout';
+import { useAppContext } from '@/lib/app-context';
 
 const LoginOTP = () => {
   const navigate = useNavigate();
+  const { userType } = useAppContext();
   const [otp, setOtp] = useState('');
   const [countdown, setCountdown] = useState(60);
   const [canResend, setCanResend] = useState(false);
@@ -38,7 +40,11 @@ const LoginOTP = () => {
       setVerified(true);
       setTimeout(() => {
         // Redirect based on user type from context
-        navigate('/mentee/dashboard');
+        if (userType === 'mentor') {
+          navigate('/mentor/dashboard');
+        } else {
+          navigate('/mentee/dashboard');
+        }
       }, 1000);
     } else {
       setError('Invalid OTP. Please try again.');
