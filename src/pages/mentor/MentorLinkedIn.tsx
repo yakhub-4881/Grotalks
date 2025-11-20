@@ -11,22 +11,41 @@ import { Linkedin, CheckCircle2, XCircle, Loader2 } from 'lucide-react';
 const MentorLinkedIn = () => {
   const navigate = useNavigate();
   const [linkedInConnected, setLinkedInConnected] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [company, setCompany] = useState('');
-  const [jobTitle, setJobTitle] = useState('');
+  const [profileData, setProfileData] = useState({
+    name: '',
+    email: '',
+    jobTitle: '',
+    company: '',
+    profilePicture: '',
+    about: '',
+    workExperience: [] as Array<{ company: string; role: string; duration: string }>,
+    certifications: [] as Array<{ title: string; issuer: string; date: string }>
+  });
   const [batch, setBatch] = useState('');
   const [branch, setBranch] = useState('');
   const [alumniId, setAlumniId] = useState('');
   const [verificationStatus, setVerificationStatus] = useState<'idle' | 'verifying' | 'verified' | 'failed'>('idle');
 
   const handleLinkedInConnect = () => {
-    // Mock LinkedIn connection
+    // Mock LinkedIn connection with detailed profile data
     setLinkedInConnected(true);
-    setName('Arjun Singh');
-    setEmail('arjun.singh@example.com');
-    setCompany('Flipkart');
-    setJobTitle('Product Manager');
+    setProfileData({
+      name: 'Arjun Singh',
+      email: 'arjun.singh@example.com',
+      jobTitle: 'Senior Product Manager',
+      company: 'Flipkart',
+      profilePicture: '👤',
+      about: 'Experienced Product Manager with 8+ years in e-commerce and fintech. Passionate about building products that solve real user problems. Led multiple 0-1 product launches and scaled features to millions of users.',
+      workExperience: [
+        { company: 'Flipkart', role: 'Senior Product Manager', duration: '2021 - Present' },
+        { company: 'PayTM', role: 'Product Manager', duration: '2018 - 2021' },
+        { company: 'Amazon', role: 'Associate Product Manager', duration: '2016 - 2018' }
+      ],
+      certifications: [
+        { title: 'Product Management Certification', issuer: 'Product School', date: '2020' },
+        { title: 'AWS Solutions Architect', issuer: 'Amazon Web Services', date: '2019' }
+      ]
+    });
   };
 
   // Alumni ID verification
@@ -100,44 +119,70 @@ const MentorLinkedIn = () => {
                   Connect with LinkedIn
                 </Button>
               ) : (
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3 p-4 bg-success/10 border border-success/20 rounded-lg">
-                    <div className="text-4xl">👤</div>
+                <div className="space-y-6">
+                  {/* Profile Header */}
+                  <div className="flex items-start gap-4 p-4 bg-gradient-to-br from-success/5 to-success/10 border border-success/20 rounded-xl">
+                    <div className="text-6xl">{profileData.profilePicture}</div>
                     <div className="flex-1">
-                      <div className="font-semibold">{name}</div>
-                      <div className="text-sm text-muted-foreground">{jobTitle} @ {company}</div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <h4 className="text-xl font-bold">{profileData.name}</h4>
+                        <CheckCircle2 className="h-5 w-5 text-success" />
+                      </div>
+                      <p className="text-base font-medium text-foreground/80">{profileData.jobTitle}</p>
+                      <p className="text-sm text-muted-foreground">{profileData.company}</p>
                     </div>
-                    <CheckCircle2 className="h-6 w-6 text-success" />
                   </div>
-                  <Button variant="outline" onClick={handleLinkedInConnect} className="w-full">
+
+                  {/* About Section */}
+                  <div className="space-y-2">
+                    <h5 className="text-sm font-semibold text-foreground/90 flex items-center gap-2">
+                      <div className="w-1 h-4 bg-primary rounded-full"></div>
+                      About
+                    </h5>
+                    <p className="text-sm text-muted-foreground leading-relaxed pl-3">
+                      {profileData.about}
+                    </p>
+                  </div>
+
+                  {/* Work Experience */}
+                  <div className="space-y-3">
+                    <h5 className="text-sm font-semibold text-foreground/90 flex items-center gap-2">
+                      <div className="w-1 h-4 bg-primary rounded-full"></div>
+                      Work Experience
+                    </h5>
+                    <div className="space-y-3 pl-3">
+                      {profileData.workExperience.map((exp, index) => (
+                        <div key={index} className="relative pl-4 pb-3 border-l-2 border-border/50 last:border-l-0 last:pb-0">
+                          <div className="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-primary"></div>
+                          <div>
+                            <p className="font-medium text-sm">{exp.role}</p>
+                            <p className="text-sm text-foreground/70">{exp.company}</p>
+                            <p className="text-xs text-muted-foreground mt-0.5">{exp.duration}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Certifications */}
+                  <div className="space-y-3">
+                    <h5 className="text-sm font-semibold text-foreground/90 flex items-center gap-2">
+                      <div className="w-1 h-4 bg-primary rounded-full"></div>
+                      Certifications
+                    </h5>
+                    <div className="space-y-2 pl-3">
+                      {profileData.certifications.map((cert, index) => (
+                        <div key={index} className="p-3 bg-muted/50 rounded-lg border border-border/50">
+                          <p className="font-medium text-sm">{cert.title}</p>
+                          <p className="text-xs text-muted-foreground">{cert.issuer} • {cert.date}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <Button variant="outline" onClick={handleLinkedInConnect} className="w-full" size="sm">
                     Reconnect LinkedIn
                   </Button>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
-                    <div className="space-y-2">
-                      <Label className="text-sm font-semibold">Name</Label>
-                      <Input value={name} onChange={(e) => setName(e.target.value)} className="h-12" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label className="text-sm font-semibold">Email</Label>
-                      <Input value={email} onChange={(e) => setEmail(e.target.value)} className="h-12" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label className="text-sm font-semibold">Company</Label>
-                      <Input value={company} onChange={(e) => setCompany(e.target.value)} className="h-12" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label className="text-sm font-semibold">Job Title</Label>
-                      <Input value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} className="h-12" />
-                    </div>
-                  </div>
-                  
-                  <div className="pt-2">
-                    <Label className="text-sm">LinkedIn Profile</Label>
-                    <Button variant="link" className="p-0 h-auto text-primary">
-                      linkedin.com/in/arjunsingh
-                    </Button>
-                  </div>
                 </div>
               )}
             </Card>
@@ -149,9 +194,9 @@ const MentorLinkedIn = () => {
                   🎓
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold mb-1">College Verification (Optional)</h3>
+                  <h3 className="text-lg font-semibold mb-1">College Verification</h3>
                   <p className="text-sm text-muted-foreground">
-                    Optional but highly recommended for profile credibility. Helps students identify alumni mentors.
+                    Required for profile credibility. Helps students identify and trust alumni mentors.
                   </p>
                 </div>
               </div>
