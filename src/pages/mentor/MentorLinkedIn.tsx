@@ -96,18 +96,22 @@ const MentorLinkedIn = () => {
 
           <div className="space-y-6">
             {/* Section 1: LinkedIn */}
-            <Card className="p-6">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 bg-[#0A66C2]/10 text-[#0A66C2] rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Linkedin className="h-6 w-6" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold mb-1">Connect LinkedIn</h3>
-                  <p className="text-sm text-muted-foreground">
-                    LinkedIn verification is required for all mentors to ensure authenticity. We never post without permission.
-                  </p>
-                </div>
-              </div>
+            <Card className="p-4 sm:p-6">
+              {!linkedInConnected ? (
+                <>
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="w-12 h-12 bg-[#0A66C2]/10 text-[#0A66C2] rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Linkedin className="h-6 w-6" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold mb-1">Connect LinkedIn</h3>
+                      <p className="text-sm text-muted-foreground">
+                        LinkedIn verification is required for all mentors to ensure authenticity. We never post without permission.
+                      </p>
+                    </div>
+                  </div>
+                </>
+              ) : null}
               
               {!linkedInConnected ? (
                 <Button
@@ -119,27 +123,39 @@ const MentorLinkedIn = () => {
                   Connect with LinkedIn
                 </Button>
               ) : (
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
+                  {/* Success Header */}
+                  <div className="flex items-center gap-3 pb-3 border-b border-border/50">
+                    <div className="w-10 h-10 bg-[#0A66C2]/10 text-[#0A66C2] rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Linkedin className="h-5 w-5" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-base sm:text-lg font-semibold text-success flex items-center gap-2">
+                        LinkedIn Connected Successfully
+                        <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+                      </h3>
+                    </div>
+                  </div>
+
                   {/* Profile Header */}
-                  <div className="flex items-start gap-4 p-4 bg-gradient-to-br from-success/5 to-success/10 border border-success/20 rounded-xl">
-                    <div className="text-6xl">{profileData.profilePicture}</div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h4 className="text-xl font-bold">{profileData.name}</h4>
-                        <CheckCircle2 className="h-5 w-5 text-success" />
+                  <div className="flex flex-col sm:flex-row items-start gap-4 p-4 bg-gradient-to-br from-success/5 to-success/10 border border-success/20 rounded-xl">
+                    <div className="text-5xl sm:text-6xl">{profileData.profilePicture}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start gap-2 mb-1">
+                        <h4 className="text-lg sm:text-xl font-bold break-words">{profileData.name}</h4>
                       </div>
-                      <p className="text-base font-medium text-foreground/80">{profileData.jobTitle}</p>
-                      <p className="text-sm text-muted-foreground">{profileData.company}</p>
+                      <p className="text-sm sm:text-base font-medium text-foreground/80 break-words">{profileData.jobTitle}</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground break-words">{profileData.company}</p>
                     </div>
                   </div>
 
                   {/* About Section */}
                   <div className="space-y-2">
                     <h5 className="text-sm font-semibold text-foreground/90 flex items-center gap-2">
-                      <div className="w-1 h-4 bg-primary rounded-full"></div>
+                      <div className="w-1 h-4 bg-primary rounded-full flex-shrink-0"></div>
                       About
                     </h5>
-                    <p className="text-sm text-muted-foreground leading-relaxed pl-3">
+                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed pl-3">
                       {profileData.about}
                     </p>
                   </div>
@@ -147,16 +163,16 @@ const MentorLinkedIn = () => {
                   {/* Work Experience */}
                   <div className="space-y-3">
                     <h5 className="text-sm font-semibold text-foreground/90 flex items-center gap-2">
-                      <div className="w-1 h-4 bg-primary rounded-full"></div>
+                      <div className="w-1 h-4 bg-primary rounded-full flex-shrink-0"></div>
                       Work Experience
                     </h5>
                     <div className="space-y-3 pl-3">
                       {profileData.workExperience.map((exp, index) => (
                         <div key={index} className="relative pl-4 pb-3 border-l-2 border-border/50 last:border-l-0 last:pb-0">
                           <div className="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-primary"></div>
-                          <div>
-                            <p className="font-medium text-sm">{exp.role}</p>
-                            <p className="text-sm text-foreground/70">{exp.company}</p>
+                          <div className="min-w-0">
+                            <p className="font-medium text-xs sm:text-sm break-words">{exp.role}</p>
+                            <p className="text-xs sm:text-sm text-foreground/70 break-words">{exp.company}</p>
                             <p className="text-xs text-muted-foreground mt-0.5">{exp.duration}</p>
                           </div>
                         </div>
@@ -167,14 +183,14 @@ const MentorLinkedIn = () => {
                   {/* Certifications */}
                   <div className="space-y-3">
                     <h5 className="text-sm font-semibold text-foreground/90 flex items-center gap-2">
-                      <div className="w-1 h-4 bg-primary rounded-full"></div>
+                      <div className="w-1 h-4 bg-primary rounded-full flex-shrink-0"></div>
                       Certifications
                     </h5>
                     <div className="space-y-2 pl-3">
                       {profileData.certifications.map((cert, index) => (
-                        <div key={index} className="p-3 bg-muted/50 rounded-lg border border-border/50">
-                          <p className="font-medium text-sm">{cert.title}</p>
-                          <p className="text-xs text-muted-foreground">{cert.issuer} • {cert.date}</p>
+                        <div key={index} className="p-2.5 sm:p-3 bg-muted/50 rounded-lg border border-border/50">
+                          <p className="font-medium text-xs sm:text-sm break-words">{cert.title}</p>
+                          <p className="text-xs text-muted-foreground break-words">{cert.issuer} • {cert.date}</p>
                         </div>
                       ))}
                     </div>
