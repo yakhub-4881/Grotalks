@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,21 +9,30 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { X, Plus, Trash2 } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+
+type WorkExperienceItem = {
+  id: number;
+  company: string;
+  role: string;
+  duration: string;
+  isCurrent?: boolean;
+};
 
 const MentorBio = () => {
   const navigate = useNavigate();
   
   // Mock LinkedIn data - in real app, this would come from LinkedIn API
   const [bio, setBio] = useState('Experienced Product Manager with 8+ years in e-commerce and fintech. Passionate about building products that solve real user problems. Led multiple 0-1 product launches and scaled features to millions of users.');
-  const [jobTitle, setJobTitle] = useState('Senior Product Manager');
-  const [company, setCompany] = useState('Flipkart');
-  const [location, setLocation] = useState('');
-  const [experience, setExperience] = useState('5-10');
-  const [workExperience, setWorkExperience] = useState([
-    { id: 1, company: 'Flipkart', role: 'Senior Product Manager', duration: '2021 - Present' },
+  const initialWorkExperience: WorkExperienceItem[] = [
+    { id: 1, company: 'Flipkart', role: 'Senior Product Manager', duration: '2021 - Present', isCurrent: true },
     { id: 2, company: 'PayTM', role: 'Product Manager', duration: '2018 - 2021' },
     { id: 3, company: 'Amazon', role: 'Associate Product Manager', duration: '2016 - 2018' }
-  ]);
+  ];
+
+  const [workExperience, setWorkExperience] = useState<WorkExperienceItem[]>(initialWorkExperience);
+  const [location, setLocation] = useState('');
+  const [experience, setExperience] = useState('5-10');
   const [certifications, setCertifications] = useState([
     { id: 1, title: 'Product Management Certification', issuer: 'Product School', date: '2020' },
     { id: 2, title: 'AWS Solutions Architect', issuer: 'Amazon Web Services', date: '2019' }
@@ -33,12 +42,90 @@ const MentorBio = () => {
   
   const MAX_BIO_LENGTH = 250;
 
+  const hasCurrentExperience = useMemo(
+    () => workExperience.some(exp => exp.isCurrent),
+    [workExperience]
+  );
+
+  const isCurrentExperienceValid = useMemo(
+    () =>
+      workExperience.some(
+        exp =>
+          exp.isCurrent &&
+          exp.role.trim().length > 0 &&
+          exp.company.trim().length > 0 &&
+          exp.duration.trim().length > 0
+      ),
+    [workExperience]
+  );
+
   const removeWorkExperience = (id: number) => {
     setWorkExperience(workExperience.filter(exp => exp.id !== id));
   };
 
+  const addWorkExperience = (overrides: Partial<WorkExperienceItem> = {}) => {
+    setWorkExperience(prev => {
+      const nextId = prev.length > 0 ? Math.max(...prev.map(exp => exp.id)) + 1 : 1;
+      return [
+        ...prev,
+        {
+          id: nextId,
+          company: '',
+          role: '',
+          duration: '',
+          isCurrent: false,
+          ...overrides
+        }
+      ];
+    });
+  };
+
+  const updateWorkExperience = (id: number, field: keyof WorkExperienceItem, value: string | boolean) => {
+    setWorkExperience(prev =>
+      prev.map(exp => {
+        if (field === 'isCurrent') {
+          if (value) {
+            return { ...exp, isCurrent: exp.id === id };
+          }
+          if (exp.id === id) {
+            return { ...exp, isCurrent: false };
+          }
+          return exp;
+        }
+        return exp.id === id ? { ...exp, [field]: value } : exp;
+      })
+    );
+  };
+
   const removeCertification = (id: number) => {
     setCertifications(certifications.filter(cert => cert.id !== id));
+  };
+
+  const addCertification = () => {
+    const nextId = certifications.length > 0 ? Math.max(...certifications.map(cert => cert.id)) + 1 : 1;
+    setCertifications([
+      ...certifications,
+      { id: nextId, title: '', issuer: '', date: '' }
+    ]);
+  };
+
+  const updateCertification = (id: number, field: 'title' | 'issuer' | 'date', value: string) => {
+    setCertifications((prev) =>
+      prev.map((cert) =>
+        cert.id === id ? { ...cert, [field]: value } : cert
+      )
+    );
+  };
+
+  const ensureCurrentExperienceEntry = () => {
+    setWorkExperience(prev => {
+      if (prev.some(exp => exp.isCurrent)) return prev;
+      const nextId = prev.length > 0 ? Math.max(...prev.map(exp => exp.id)) + 1 : 1;
+      return [
+        ...prev,
+        { id: nextId, company: '', role: '', duration: '', isCurrent: true }
+      ];
+    });
   };
 
   const addLanguage = () => {
@@ -51,6 +138,16 @@ const MentorBio = () => {
   const removeLanguage = (language: string) => {
     setLanguages(languages.filter(lang => lang !== language));
   };
+
+  const canProceed = useMemo(() => {
+    const hasBasicInfo =
+      bio.trim().length > 0 &&
+      location.trim().length > 0 &&
+      experience.trim().length > 0 &&
+      languages.length > 0;
+    const currentRoleOk = !hasCurrentExperience || isCurrentExperienceValid;
+    return hasBasicInfo && currentRoleOk;
+  }, [bio, location, experience, languages.length, hasCurrentExperience, isCurrentExperienceValid]);
 
   return (
     <Layout>
@@ -90,31 +187,9 @@ const MentorBio = () => {
                   className="min-h-32 text-base resize-none"
                   maxLength={MAX_BIO_LENGTH}
                 />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="jobTitle" className="text-sm font-semibold">Job Title*</Label>
-                  <Input
-                    id="jobTitle"
-                    placeholder="Product Manager"
-                    value={jobTitle}
-                    onChange={(e) => setJobTitle(e.target.value)}
-                    className="h-12 text-base"
-                  />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="company" className="text-sm font-semibold">Company*</Label>
-                  <Input
-                    id="company"
-                    placeholder="Flipkart"
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
-                    className="h-12 text-base"
-                  />
-                </div>
-
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="location" className="text-sm font-semibold">Location*</Label>
                   <Input
@@ -127,7 +202,7 @@ const MentorBio = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="experience" className="text-sm font-semibold">Experience*</Label>
+                  <Label htmlFor="experience" className="text-sm font-semibold">Total Experience*</Label>
                   <Select value={experience} onValueChange={setExperience}>
                     <SelectTrigger className="h-12">
                       <SelectValue placeholder="Select experience" />
@@ -141,63 +216,184 @@ const MentorBio = () => {
                   </Select>
                 </div>
               </div>
+
+              {!hasCurrentExperience && (
+                <div className="flex items-start gap-3 pt-2">
+                  <Checkbox
+                    id="currently-working"
+                    checked={false}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        ensureCurrentExperienceEntry();
+                      }
+                    }}
+                  />
+                  <div>
+                    <Label htmlFor="currently-working" className="text-sm font-semibold">Are you working currently?</Label>
+                    <p className="text-xs text-muted-foreground">Add your current role by checking this box.</p>
+                  </div>
+                </div>
+              )}
             </Card>
 
             {/* Work Experience */}
-            <Card className="p-4 sm:p-6 space-y-4">
-              <h2 className="text-lg font-semibold text-foreground">Work Experience</h2>
-              <p className="text-sm text-muted-foreground">Remove any experience you don't want to display</p>
+            <Card className="p-4 sm:p-6 space-y-5">
+              <div>
+                <h2 className="text-lg font-semibold text-foreground">Work Experience</h2>
+                <p className="text-sm text-muted-foreground">Showcase meaningful roles (latest first) to build credibility.</p>
+              </div>
               
-              <div className="space-y-3">
-                {workExperience.map((exp) => (
-                  <div key={exp.id} className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg group hover:bg-muted transition-colors">
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-foreground text-sm">{exp.role}</h3>
-                      <p className="text-sm text-muted-foreground">{exp.company}</p>
-                      <p className="text-xs text-muted-foreground mt-1">{exp.duration}</p>
+              <div className="space-y-4">
+                {workExperience.map((exp, index) => (
+                  <div
+                    key={exp.id}
+                    className={`rounded-2xl border bg-card/80 shadow-sm p-4 space-y-4 ${
+                      exp.isCurrent ? 'border-primary/60' : 'border-muted'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <p className="text-sm font-semibold text-foreground">
+                        {exp.isCurrent ? 'Current Role' : `Experience #${index + 1}`}
+                      </p>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeWorkExperience(exp.id)}
+                        aria-label="Remove experience"
+                      >
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => removeWorkExperience(exp.id)}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
-                    >
-                      <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label className="text-xs font-medium text-muted-foreground uppercase">Role / Title</Label>
+                        <Input
+                          value={exp.role}
+                          onChange={(e) => updateWorkExperience(exp.id, 'role', e.target.value)}
+                          placeholder="Senior Product Manager"
+                          className="h-11"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-xs font-medium text-muted-foreground uppercase">Company</Label>
+                        <Input
+                          value={exp.company}
+                          onChange={(e) => updateWorkExperience(exp.id, 'company', e.target.value)}
+                          placeholder="Flipkart"
+                          className="h-11"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-xs font-medium text-muted-foreground uppercase">Duration</Label>
+                        <Input
+                          value={exp.duration}
+                          onChange={(e) => updateWorkExperience(exp.id, 'duration', e.target.value)}
+                          placeholder="2021 - Present"
+                          className="h-11"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-xs font-medium text-muted-foreground uppercase">Current Role?</Label>
+                        <Select
+                          value={exp.isCurrent ? 'yes' : 'no'}
+                          onValueChange={(val) => {
+                            const isCurrent = val === 'yes';
+                            updateWorkExperience(exp.id, 'isCurrent', isCurrent);
+                          }}
+                        >
+                          <SelectTrigger className="h-11">
+                            <SelectValue placeholder="Select" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="yes">Yes</SelectItem>
+                            <SelectItem value="no">No</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
                   </div>
                 ))}
                 {workExperience.length === 0 && (
-                  <p className="text-sm text-muted-foreground text-center py-4">No work experience added</p>
+                  <div className="rounded-2xl border border-dashed border-muted p-6 text-center text-sm text-muted-foreground">
+                    No work experience added yet.
+                  </div>
                 )}
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+                <p className="text-xs text-muted-foreground sm:flex-1">Add internships, full-time roles, or entrepreneurial journeys.</p>
+                <Button variant="secondary" className="flex-1 sm:flex-none" onClick={() => addWorkExperience()}>
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add another experience
+                </Button>
               </div>
             </Card>
 
             {/* Certifications */}
-            <Card className="p-4 sm:p-6 space-y-4">
-              <h2 className="text-lg font-semibold text-foreground">Certifications</h2>
-              <p className="text-sm text-muted-foreground">Remove any certifications you don't want to display</p>
+            <Card className="p-4 sm:p-6 space-y-5">
+              <div>
+                <h2 className="text-lg font-semibold text-foreground">Certifications</h2>
+                <p className="text-sm text-muted-foreground">Highlight credentials that reinforce trust.</p>
+              </div>
               
-              <div className="space-y-3">
-                {certifications.map((cert) => (
-                  <div key={cert.id} className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg group hover:bg-muted transition-colors">
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-foreground text-sm">{cert.title}</h3>
-                      <p className="text-sm text-muted-foreground">{cert.issuer}</p>
-                      <p className="text-xs text-muted-foreground mt-1">{cert.date}</p>
+              <div className="space-y-4">
+                {certifications.map((cert, index) => (
+                  <div key={cert.id} className="rounded-2xl border border-muted bg-card/80 shadow-sm p-4 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-semibold text-foreground">Certification #{index + 1}</p>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeCertification(cert.id)}
+                        aria-label="Remove certification"
+                      >
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => removeCertification(cert.id)}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
-                    >
-                      <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="space-y-2">
+                        <Label className="text-xs font-medium text-muted-foreground uppercase">Title</Label>
+                        <Input
+                          value={cert.title}
+                          onChange={(e) => updateCertification(cert.id, 'title', e.target.value)}
+                          placeholder="Product Management Certification"
+                          className="h-11"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-xs font-medium text-muted-foreground uppercase">Issuer</Label>
+                        <Input
+                          value={cert.issuer}
+                          onChange={(e) => updateCertification(cert.id, 'issuer', e.target.value)}
+                          placeholder="Product School"
+                          className="h-11"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-xs font-medium text-muted-foreground uppercase">Year / Date</Label>
+                        <Input
+                          value={cert.date}
+                          onChange={(e) => updateCertification(cert.id, 'date', e.target.value)}
+                          placeholder="2023"
+                          className="h-11"
+                        />
+                      </div>
+                    </div>
                   </div>
                 ))}
                 {certifications.length === 0 && (
-                  <p className="text-sm text-muted-foreground text-center py-4">No certifications added</p>
+                  <div className="rounded-2xl border border-dashed border-muted p-6 text-center text-sm text-muted-foreground">
+                    No certifications added yet.
+                  </div>
                 )}
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+                <p className="text-xs text-muted-foreground sm:flex-1">Include degrees, bootcamps, licenses, or industry-recognized programs.</p>
+                <Button variant="secondary" className="flex-1 sm:flex-none" onClick={addCertification}>
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add another certification
+                </Button>
               </div>
             </Card>
 
@@ -244,7 +440,7 @@ const MentorBio = () => {
               <Button
                 onClick={() => navigate('/mentor/expertise')}
                 className="flex-1 h-12 font-medium"
-                disabled={!bio || !jobTitle || !company || !location || !experience || languages.length === 0}
+                disabled={!canProceed}
               >
                 Next
               </Button>
