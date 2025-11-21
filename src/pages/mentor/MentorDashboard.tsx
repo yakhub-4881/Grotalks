@@ -203,7 +203,7 @@ const MentorDashboard = () => {
           {/* Active Session */}
           {activeSessions.length > 0 && (
             <div className="mb-6 md:mb-8">
-              <h2 className="text-lg md:text-xl font-semibold text-foreground mb-4">🔴 Active Session</h2>
+              <h2 className="text-lg md:text-xl font-semibold text-foreground mb-4">Active Session</h2>
               <div className="grid gap-4">
                 {activeSessions.map((session) => (
                   <Card key={session.id} className="p-4 md:p-6 border-success/30 bg-success/5">
@@ -274,7 +274,7 @@ const MentorDashboard = () => {
           {/* Upcoming Sessions */}
           {upcomingSessions.length > 0 && (
             <div className="mb-6 md:mb-8">
-              <h2 className="text-lg md:text-xl font-semibold text-foreground mb-4">📅 Upcoming Sessions</h2>
+              <h2 className="text-lg md:text-xl font-semibold text-foreground mb-4">Upcoming Sessions</h2>
               <div className="grid gap-4">
                 {upcomingSessions.map((session) => {
                   const sessionTime = new Date(Date.now() + 2 * 60 * 60 * 1000); // 2 hours from now
@@ -361,9 +361,8 @@ const MentorDashboard = () => {
           {/* Pending Requests */}
           {pendingRequests.length > 0 && (
             <div className="mb-6 md:mb-8">
-              <h2 className="text-lg md:text-xl font-semibold mb-4 flex flex-wrap items-center gap-2">
-                ⏳ Pending Session Requests 
-                <Badge variant="secondary" className="text-xs">{pendingRequests.length} new</Badge>
+              <h2 className="text-lg md:text-xl font-semibold mb-4">
+                Pending Session Requests
               </h2>
               <div className="space-y-4">
                 {pendingRequests.map((request) => {
