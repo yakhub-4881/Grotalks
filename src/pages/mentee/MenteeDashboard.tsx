@@ -6,7 +6,6 @@ import { Card } from '@/components/ui/card';
 import { useAppContext } from '@/lib/app-context';
 import { Search, Calendar, User, Wallet, Plus, Clock, RotateCcw, MessageSquare, Star, TrendingUp, XCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { WalletBalanceWarning } from '@/components/WalletBalanceWarning';
 import { RescheduleDialog } from '@/components/RescheduleDialog';
 import { PricingDisplay } from '@/components/PricingDisplay';
 import { MentorBrowseSection } from '@/components/MentorBrowseSection';
@@ -175,9 +174,6 @@ const MenteeDashboard = () => {
             <p className="text-sm md:text-base text-muted-foreground">Here's your mentorship overview</p>
           </div>
 
-          {/* Low Balance Warning */}
-          <WalletBalanceWarning />
-
           {/* Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
             {stats.map((stat) => (
@@ -217,15 +213,14 @@ const MenteeDashboard = () => {
                               <span className="text-muted-foreground whitespace-nowrap">{session.time}</span>
                             </div>
                             {lowBalance && (
-                              <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs md:text-sm bg-destructive/10 border border-destructive/20 text-destructive px-3 py-3 rounded-md">
-                                <div className="flex items-start gap-2 flex-1">
-                                  <Wallet className="h-4 w-4 flex-shrink-0 mt-0.5" />
-                                  <span>Low wallet balance! Recharge now to avoid session disruption.</span>
+                              <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs md:text-sm bg-warning/10 border border-warning/30 px-3 py-3 rounded-md">
+                                <div className="flex items-start gap-2 flex-1 text-warning-foreground/90">
+                                  <Wallet className="h-4 w-4 flex-shrink-0 mt-0.5 text-warning" />
+                                  <span className="text-foreground">Low wallet balance! Recharge now to avoid session disruption.</span>
                                 </div>
                                 <Button 
                                   size="sm" 
-                                  variant="destructive"
-                                  className="h-8 self-start sm:self-center whitespace-nowrap"
+                                  className="h-8 self-start sm:self-center whitespace-nowrap bg-warning hover:bg-warning/90 text-warning-foreground"
                                   onClick={() => navigate('/mentee/wallet/recharge')}
                                 >
                                   <Wallet className="mr-2 h-3 w-3" />
@@ -295,15 +290,14 @@ const MenteeDashboard = () => {
                             </div>
                           )}
                           {lowBalance && (
-                            <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs md:text-sm bg-destructive/10 border border-destructive/20 text-destructive px-3 py-3 rounded-md">
-                              <div className="flex items-start gap-2 flex-1">
-                                <Wallet className="h-4 w-4 flex-shrink-0 mt-0.5" />
-                                <span>Low wallet balance! Recharge now to avoid session disruption.</span>
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs md:text-sm bg-warning/10 border border-warning/30 px-3 py-3 rounded-md">
+                              <div className="flex items-start gap-2 flex-1 text-warning-foreground/90">
+                                <Wallet className="h-4 w-4 flex-shrink-0 mt-0.5 text-warning" />
+                                <span className="text-foreground">Low wallet balance! Recharge now to avoid session disruption.</span>
                               </div>
                               <Button 
                                 size="sm" 
-                                variant="destructive"
-                                className="h-8 self-start sm:self-center whitespace-nowrap"
+                                className="h-8 self-start sm:self-center whitespace-nowrap bg-warning hover:bg-warning/90 text-warning-foreground"
                                 onClick={() => navigate('/mentee/wallet/recharge')}
                               >
                                 <Wallet className="mr-2 h-3 w-3" />

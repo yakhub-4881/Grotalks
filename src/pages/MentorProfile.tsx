@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Star, MapPin, Briefcase, GraduationCap, Award, Calendar, Clock, ArrowLeft } from 'lucide-react';
+import { Star, MapPin, Briefcase, GraduationCap, Award, Calendar, Clock, ArrowLeft, Building2 } from 'lucide-react';
 import { getCollegeDisplay } from '@/lib/college-config';
 import { PricingDisplay } from '@/components/PricingDisplay';
 
@@ -30,6 +30,26 @@ const MentorProfile = () => {
     sessionsCompleted: 45,
     bio: 'Product manager with 6+ years of experience in e-commerce and fintech. Helped 40+ students land product roles at top companies. Passionate about mentoring and career growth.',
     languages: ['English', 'Hindi', 'Tamil'],
+    workExperience: [
+      { 
+        id: 1, 
+        title: 'Senior Product Manager', 
+        company: 'Flipkart', 
+        duration: 'Jan 2021 - Present',
+        description: 'Leading product strategy for e-commerce platform with 100M+ users'
+      },
+      { 
+        id: 2, 
+        title: 'Product Manager', 
+        company: 'Paytm', 
+        duration: 'Mar 2019 - Dec 2020',
+        description: 'Managed fintech products and payment solutions'
+      },
+    ],
+    certifications: [
+      { id: 1, name: 'Certified Scrum Product Owner (CSPO)', issuer: 'Scrum Alliance', year: '2020' },
+      { id: 2, name: 'Product Management Certification', issuer: 'Product School', year: '2019' },
+    ],
     availability: [
       { day: 'Monday', slots: ['10:00 AM', '2:00 PM', '5:00 PM'] },
       { day: 'Tuesday', slots: ['11:00 AM', '3:00 PM'] },
@@ -142,11 +162,60 @@ const MentorProfile = () => {
           </Card>
 
           {/* Tabs Section */}
-          <Tabs defaultValue="availability" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-2 lg:w-auto lg:inline-grid">
+          <Tabs defaultValue="experience" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid">
+              <TabsTrigger value="experience">Experience</TabsTrigger>
+              <TabsTrigger value="certifications">Certifications</TabsTrigger>
               <TabsTrigger value="availability">Availability</TabsTrigger>
               <TabsTrigger value="reviews">Reviews ({mentor.reviewsList.length})</TabsTrigger>
             </TabsList>
+
+            <TabsContent value="experience" className="space-y-4">
+              <Card className="p-4 md:p-6">
+                <h3 className="text-lg font-semibold text-foreground mb-4">Work Experience</h3>
+                <div className="space-y-6">
+                  {mentor.workExperience.map((exp) => (
+                    <div key={exp.id} className="flex gap-4 pb-6 border-b last:border-0 last:pb-0">
+                      <div className="flex-shrink-0">
+                        <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                          <Building2 className="h-6 w-6 text-primary" />
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-semibold text-foreground text-base mb-1">{exp.title}</h4>
+                        <p className="text-sm text-muted-foreground mb-1">{exp.company}</p>
+                        <p className="text-xs text-muted-foreground mb-2">{exp.duration}</p>
+                        <p className="text-sm text-foreground">{exp.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="certifications" className="space-y-4">
+              <Card className="p-4 md:p-6">
+                <h3 className="text-lg font-semibold text-foreground mb-4">Certifications</h3>
+                <div className="grid gap-4 md:grid-cols-2">
+                  {mentor.certifications.map((cert) => (
+                    <Card key={cert.id} className="p-4 border bg-muted/30">
+                      <div className="flex gap-3">
+                        <div className="flex-shrink-0">
+                          <div className="w-10 h-10 rounded-lg bg-bonus/10 flex items-center justify-center">
+                            <Award className="h-5 w-5 text-bonus" />
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-foreground text-sm mb-1 line-clamp-2">{cert.name}</h4>
+                          <p className="text-xs text-muted-foreground">{cert.issuer}</p>
+                          <p className="text-xs text-muted-foreground mt-1">{cert.year}</p>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              </Card>
+            </TabsContent>
 
             <TabsContent value="availability" className="space-y-4">
               <Card className="p-4 md:p-6">
