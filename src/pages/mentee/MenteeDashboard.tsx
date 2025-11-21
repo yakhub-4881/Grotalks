@@ -178,10 +178,25 @@ const MenteeDashboard = () => {
           {/* Low Balance Warning */}
           <WalletBalanceWarning />
 
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
+            {stats.map((stat) => (
+              <Card key={stat.label} className="p-3 md:p-6">
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <stat.icon className={`h-4 w-4 md:h-5 md:w-5 ${stat.color} flex-shrink-0`} />
+                    <p className="text-xs md:text-sm text-muted-foreground line-clamp-1">{stat.label}</p>
+                  </div>
+                  <p className="text-xl md:text-2xl font-bold text-foreground truncate">{stat.value}</p>
+                </div>
+              </Card>
+            ))}
+          </div>
+
           {/* Active Session */}
           {activeSessions.length > 0 && (
             <div className="mb-8">
-              <h2 className="text-xl font-semibold text-foreground mb-4">🔴 Active Session</h2>
+              <h2 className="text-xl font-semibold text-foreground mb-4">Active Session</h2>
               <div className="space-y-4">
                 {activeSessions.map((session) => {
                   const lowBalance = walletBalance < 100;
@@ -253,21 +268,6 @@ const MenteeDashboard = () => {
               </div>
             </div>
           )}
-
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
-            {stats.map((stat) => (
-              <Card key={stat.label} className="p-3 md:p-6">
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center gap-2">
-                    <stat.icon className={`h-4 w-4 md:h-5 md:w-5 ${stat.color} flex-shrink-0`} />
-                    <p className="text-xs md:text-sm text-muted-foreground line-clamp-1">{stat.label}</p>
-                  </div>
-                  <p className="text-xl md:text-2xl font-bold text-foreground truncate">{stat.value}</p>
-                </div>
-              </Card>
-            ))}
-          </div>
 
           {/* Upcoming Sessions */}
           <div className="mb-8">
