@@ -45,6 +45,17 @@ const MenteeDashboard = () => {
     { label: 'Hours of Learning', value: '0.5', icon: TrendingUp, color: 'text-secondary' },
   ];
 
+  const activeSessions = [
+    {
+      id: 0,
+      mentor: 'Priya Sharma',
+      topic: 'Software Engineering Interview Prep',
+      date: 'Nov 4, 2024',
+      time: '1:00 PM - 2:00 PM',
+      status: 'active',
+    },
+  ];
+
   const upcomingSessions = [
     {
       id: 1,
@@ -166,6 +177,82 @@ const MenteeDashboard = () => {
 
           {/* Low Balance Warning */}
           <WalletBalanceWarning />
+
+          {/* Active Session */}
+          {activeSessions.length > 0 && (
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold text-foreground mb-4">🔴 Active Session</h2>
+              <div className="space-y-4">
+                {activeSessions.map((session) => {
+                  const lowBalance = walletBalance < 100;
+                  
+                  return (
+                    <Card key={session.id} className="p-4 md:p-6 border-success/30 bg-success/5">
+                      <div className="space-y-4">
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                          <div className="space-y-2 flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 rounded-full bg-success animate-pulse flex-shrink-0"></div>
+                              <span className="text-xs font-medium text-success uppercase">Live Now</span>
+                            </div>
+                            <h3 className="text-base md:text-lg font-semibold text-foreground truncate">{session.mentor}</h3>
+                            <p className="text-sm text-muted-foreground line-clamp-2">{session.topic}</p>
+                            <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm">
+                              <span className="text-foreground font-medium whitespace-nowrap">{session.date}</span>
+                              <span className="text-muted-foreground whitespace-nowrap">{session.time}</span>
+                            </div>
+                            {lowBalance && (
+                              <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs md:text-sm bg-destructive/10 border border-destructive/20 text-destructive px-3 py-3 rounded-md">
+                                <div className="flex items-start gap-2 flex-1">
+                                  <Wallet className="h-4 w-4 flex-shrink-0 mt-0.5" />
+                                  <span>Low wallet balance! Recharge now to avoid session disruption.</span>
+                                </div>
+                                <Button 
+                                  size="sm" 
+                                  variant="destructive"
+                                  className="h-8 self-start sm:self-center whitespace-nowrap"
+                                  onClick={() => navigate('/mentee/wallet/recharge')}
+                                >
+                                  <Wallet className="mr-2 h-3 w-3" />
+                                  Recharge
+                                </Button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
+                          <Button 
+                            onClick={() => handleJoinSession(session.id)} 
+                            className="flex-1 text-sm h-9 md:h-10 bg-success hover:bg-success/90"
+                          >
+                            <MessageSquare className="mr-2 h-4 w-4" />
+                            Join Chat
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            className="flex-1 text-sm h-9 md:h-10"
+                            onClick={() => setShowRescheduleDialog(true)}
+                          >
+                            <RotateCcw className="mr-2 h-4 w-4" />
+                            <span className="truncate">Reschedule</span>
+                          </Button>
+                          <Button 
+                            variant="destructive" 
+                            className="flex-1 text-sm h-9 md:h-10"
+                            onClick={() => handleDeclineClick(session)}
+                          >
+                            <XCircle className="mr-2 h-4 w-4" />
+                            <span className="truncate">End Session</span>
+                          </Button>
+                        </div>
+                      </div>
+                    </Card>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
