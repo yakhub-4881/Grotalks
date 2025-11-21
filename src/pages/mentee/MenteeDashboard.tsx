@@ -295,9 +295,20 @@ const MenteeDashboard = () => {
                             </div>
                           )}
                           {lowBalance && (
-                            <div className="flex items-start gap-2 text-xs md:text-sm bg-destructive/10 border border-destructive/20 text-destructive px-3 py-2 rounded-md">
-                              <Wallet className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0 mt-0.5" />
-                              <span>Low wallet balance! Recharge to ₹100 minimum to avoid disruptions during session.</span>
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs md:text-sm bg-destructive/10 border border-destructive/20 text-destructive px-3 py-3 rounded-md">
+                              <div className="flex items-start gap-2 flex-1">
+                                <Wallet className="h-4 w-4 flex-shrink-0 mt-0.5" />
+                                <span>Low wallet balance! Recharge now to avoid session disruption.</span>
+                              </div>
+                              <Button 
+                                size="sm" 
+                                variant="destructive"
+                                className="h-8 self-start sm:self-center whitespace-nowrap"
+                                onClick={() => navigate('/mentee/wallet/recharge')}
+                              >
+                                <Wallet className="mr-2 h-3 w-3" />
+                                Recharge
+                              </Button>
                             </div>
                           )}
                         </div>

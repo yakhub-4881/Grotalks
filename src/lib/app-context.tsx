@@ -22,7 +22,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [versionMode, setVersionMode] = useState<VersionMode>('mvp');
   const [userType, setUserType] = useState<UserType>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [walletBalance, setWalletBalance] = useState(100); // FREE ₹100 bonus
+  const [walletBalance, setWalletBalance] = useState(75); // Current balance
   const [selectedCollege, setSelectedCollege] = useState(
     'Vel Tech Rangarajan Dr. Sagunthala R & D Institute of Science & Technology'
   );
