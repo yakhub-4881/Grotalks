@@ -7,7 +7,30 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, Upload, Loader2, Save, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Upload, Loader2, Save, AlertCircle, Plus, Trash2, Edit2, Building2, Award } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+interface WorkExperience {
+  id: number;
+  title: string;
+  company: string;
+  duration: string;
+  description: string;
+}
+
+interface Certification {
+  id: number;
+  name: string;
+  issuer: string;
+  year: string;
+}
 
 const MentorProfile = () => {
   const navigate = useNavigate();
@@ -31,6 +54,38 @@ const MentorProfile = () => {
 
   const [editedProfile, setEditedProfile] = useState(profile);
 
+  // Work Experience State
+  const [workExperiences, setWorkExperiences] = useState<WorkExperience[]>([
+    { 
+      id: 1, 
+      title: 'Senior Product Manager', 
+      company: 'Google', 
+      duration: 'Jan 2021 - Present',
+      description: 'Leading product strategy for cloud services with focus on enterprise solutions'
+    },
+    { 
+      id: 2, 
+      title: 'Product Manager', 
+      company: 'Microsoft', 
+      duration: 'Mar 2018 - Dec 2020',
+      description: 'Managed cross-functional teams to deliver innovative software products'
+    },
+  ]);
+  
+  const [showWorkDialog, setShowWorkDialog] = useState(false);
+  const [editingWork, setEditingWork] = useState<WorkExperience | null>(null);
+  const [workForm, setWorkForm] = useState<Partial<WorkExperience>>({});
+
+  // Certification State
+  const [certifications, setCertifications] = useState<Certification[]>([
+    { id: 1, name: 'Certified Product Manager', issuer: 'Product School', year: '2020' },
+    { id: 2, name: 'Agile Scrum Master', issuer: 'Scrum Alliance', year: '2019' },
+  ]);
+  
+  const [showCertDialog, setShowCertDialog] = useState(false);
+  const [editingCert, setEditingCert] = useState<Certification | null>(null);
+  const [certForm, setCertForm] = useState<Partial<Certification>>({});
+
   const handleSave = async () => {
     if (editedProfile.bio.length < 10 || editedProfile.bio.length > 250) {
       toast({
@@ -52,9 +107,7 @@ const MentorProfile = () => {
 
     setIsSaving(true);
     
-    // Simulate API call
     setTimeout(() => {
-      // Check if credibility fields changed
       const credibilityChanged = 
         editedProfile.jobTitle !== profile.jobTitle ||
         editedProfile.company !== profile.company ||
@@ -81,6 +134,103 @@ const MentorProfile = () => {
   const handleCancel = () => {
     setEditedProfile(profile);
     setIsEditing(false);
+  };
+
+  // Work Experience Handlers
+  const handleAddWork = () => {
+    setEditingWork(null);
+    setWorkForm({});
+    setShowWorkDialog(true);
+  };
+
+  const handleEditWork = (work: WorkExperience) => {
+    setEditingWork(work);
+    setWorkForm(work);
+    setShowWorkDialog(true);
+  };
+
+  const handleSaveWork = () => {
+    if (!workForm.title || !workForm.company || !workForm.duration) {
+      toast({
+        title: 'Validation Error',
+        description: 'Please fill in all required fields',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    if (editingWork) {
+      setWorkExperiences(workExperiences.map(w => 
+        w.id === editingWork.id ? { ...w, ...workForm } as WorkExperience : w
+      ));
+      toast({ title: 'Work experience updated successfully' });
+    } else {
+      const newWork: WorkExperience = {
+        id: Date.now(),
+        title: workForm.title!,
+        company: workForm.company!,
+        duration: workForm.duration!,
+        description: workForm.description || ''
+      };
+      setWorkExperiences([...workExperiences, newWork]);
+      toast({ title: 'Work experience added successfully' });
+    }
+    
+    setShowWorkDialog(false);
+    setWorkForm({});
+  };
+
+  const handleDeleteWork = (id: number) => {
+    setWorkExperiences(workExperiences.filter(w => w.id !== id));
+    toast({ title: 'Work experience removed' });
+  };
+
+  // Certification Handlers
+  const handleAddCert = () => {
+    setEditingCert(null);
+    setCertForm({});
+    setShowCertDialog(true);
+  };
+
+  const handleEditCert = (cert: Certification) => {
+    setEditingCert(cert);
+    setCertForm(cert);
+    setShowCertDialog(true);
+  };
+
+  const handleSaveCert = () => {
+    if (!certForm.name || !certForm.issuer || !certForm.year) {
+      toast({
+        title: 'Validation Error',
+        description: 'Please fill in all required fields',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    if (editingCert) {
+      setCertifications(certifications.map(c => 
+        c.id === editingCert.id ? { ...c, ...certForm } as Certification : c
+      ));
+      toast({ title: 'Certification updated successfully' });
+    } else {
+      const newCert: Certification = {
+        id: Date.now(),
+        name: certForm.name!,
+        issuer: certForm.issuer!,
+        year: certForm.year!
+      };
+      setCertifications([...certifications, newCert]);
+      toast({ title: 'Certification added successfully' });
+    }
+    
+    setShowCertDialog(false);
+    setCertForm({});
+  };
+
+  const handleDeleteCert = (id: number) => {
+    setCertifications(certifications.filter(c => c.id !== id));
+    toast({ title: 'Certification removed' });
   };
 
   return (
@@ -204,6 +354,85 @@ const MentorProfile = () => {
             </div>
           </Card>
 
+          {/* Work Experience Section */}
+          <Card className="p-6 mb-6">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-semibold">Work Experience</h3>
+              <Button size="sm" onClick={handleAddWork}>
+                <Plus className="mr-2 h-4 w-4" />
+                Add Experience
+              </Button>
+            </div>
+            
+            <div className="space-y-4">
+              {workExperiences.map((work) => (
+                <Card key={work.id} className="p-4 border bg-muted/30">
+                  <div className="flex gap-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <Building2 className="h-6 w-6 text-primary" />
+                      </div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-semibold text-foreground text-base mb-1">{work.title}</h4>
+                      <p className="text-sm text-muted-foreground mb-1">{work.company}</p>
+                      <p className="text-xs text-muted-foreground mb-2">{work.duration}</p>
+                      {work.description && (
+                        <p className="text-sm text-foreground">{work.description}</p>
+                      )}
+                    </div>
+                    <div className="flex gap-2 flex-shrink-0">
+                      <Button size="sm" variant="ghost" onClick={() => handleEditWork(work)}>
+                        <Edit2 className="h-4 w-4" />
+                      </Button>
+                      <Button size="sm" variant="ghost" onClick={() => handleDeleteWork(work.id)}>
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </Card>
+
+          {/* Certifications Section */}
+          <Card className="p-6 mb-6">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-semibold">Certifications</h3>
+              <Button size="sm" onClick={handleAddCert}>
+                <Plus className="mr-2 h-4 w-4" />
+                Add Certification
+              </Button>
+            </div>
+            
+            <div className="grid gap-4 md:grid-cols-2">
+              {certifications.map((cert) => (
+                <Card key={cert.id} className="p-4 border bg-muted/30 relative">
+                  <div className="flex gap-3">
+                    <div className="flex-shrink-0">
+                      <div className="w-10 h-10 rounded-lg bg-bonus/10 flex items-center justify-center">
+                        <Award className="h-5 w-5 text-bonus" />
+                      </div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-semibold text-foreground text-sm mb-1 line-clamp-2">{cert.name}</h4>
+                      <p className="text-xs text-muted-foreground">{cert.issuer}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{cert.year}</p>
+                    </div>
+                  </div>
+                  <div className="absolute top-2 right-2 flex gap-1">
+                    <Button size="sm" variant="ghost" className="h-8 w-8 p-0" onClick={() => handleEditCert(cert)}>
+                      <Edit2 className="h-3 w-3" />
+                    </Button>
+                    <Button size="sm" variant="ghost" className="h-8 w-8 p-0" onClick={() => handleDeleteCert(cert.id)}>
+                      <Trash2 className="h-3 w-3 text-destructive" />
+                    </Button>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </Card>
+
           {/* Contact Information */}
           <Card className="p-6 mb-6">
             <h3 className="text-lg font-semibold mb-6">Contact Details</h3>
@@ -284,6 +513,106 @@ const MentorProfile = () => {
           )}
         </div>
       </div>
+
+      {/* Work Experience Dialog */}
+      <Dialog open={showWorkDialog} onOpenChange={setShowWorkDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{editingWork ? 'Edit' : 'Add'} Work Experience</DialogTitle>
+            <DialogDescription>
+              Add your professional work experience from LinkedIn
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="work-title">Job Title*</Label>
+              <Input
+                id="work-title"
+                value={workForm.title || ''}
+                onChange={(e) => setWorkForm({ ...workForm, title: e.target.value })}
+                placeholder="e.g., Senior Product Manager"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="work-company">Company*</Label>
+              <Input
+                id="work-company"
+                value={workForm.company || ''}
+                onChange={(e) => setWorkForm({ ...workForm, company: e.target.value })}
+                placeholder="e.g., Google"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="work-duration">Duration*</Label>
+              <Input
+                id="work-duration"
+                value={workForm.duration || ''}
+                onChange={(e) => setWorkForm({ ...workForm, duration: e.target.value })}
+                placeholder="e.g., Jan 2021 - Present"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="work-description">Description</Label>
+              <Textarea
+                id="work-description"
+                value={workForm.description || ''}
+                onChange={(e) => setWorkForm({ ...workForm, description: e.target.value })}
+                placeholder="Brief description of your role and achievements"
+                rows={3}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowWorkDialog(false)}>Cancel</Button>
+            <Button onClick={handleSaveWork}>Save</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Certification Dialog */}
+      <Dialog open={showCertDialog} onOpenChange={setShowCertDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{editingCert ? 'Edit' : 'Add'} Certification</DialogTitle>
+            <DialogDescription>
+              Add your professional certifications from LinkedIn
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="cert-name">Certification Name*</Label>
+              <Input
+                id="cert-name"
+                value={certForm.name || ''}
+                onChange={(e) => setCertForm({ ...certForm, name: e.target.value })}
+                placeholder="e.g., Certified Scrum Master"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="cert-issuer">Issuing Organization*</Label>
+              <Input
+                id="cert-issuer"
+                value={certForm.issuer || ''}
+                onChange={(e) => setCertForm({ ...certForm, issuer: e.target.value })}
+                placeholder="e.g., Scrum Alliance"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="cert-year">Year Obtained*</Label>
+              <Input
+                id="cert-year"
+                value={certForm.year || ''}
+                onChange={(e) => setCertForm({ ...certForm, year: e.target.value })}
+                placeholder="e.g., 2020"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowCertDialog(false)}>Cancel</Button>
+            <Button onClick={handleSaveCert}>Save</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 };

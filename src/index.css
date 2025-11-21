@@ -35,7 +35,11 @@ All colors MUST be HSL.
     --success: 160 84% 39%;
     --success-foreground: 0 0% 100%;
     
-    /* Warning Red #EF4444 */
+    /* Warning Amber */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    
+    /* Destructive Red #EF4444 */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     
@@ -84,6 +88,9 @@ All colors MUST be HSL.
     
     --success: 160 84% 39%;
     --success-foreground: 0 0% 100%;
+    
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
     
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
