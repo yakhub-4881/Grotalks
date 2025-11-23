@@ -294,64 +294,61 @@ export const MentorBrowseSection = () => {
         <p className="text-sm text-muted-foreground mb-4">
           Showing {showAll ? filteredMentors.length : Math.min(6, filteredMentors.length)} of {filteredMentors.length} mentor{filteredMentors.length !== 1 ? 's' : ''}
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredMentors.slice(0, showAll ? undefined : 6).map((mentor) => (
-            <Card key={mentor.id} className="p-6 hover:shadow-lg transition-all duration-300 flex flex-col h-full">
-              {/* Header Section - Fixed Height */}
-              <div className="mb-4 pb-4 border-b border-border">
-                <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-1">
+            <Card key={mentor.id} className="group p-6 hover:shadow-xl hover:border-primary/20 transition-all duration-300 flex flex-col">
+              {/* Header: Name + Rating */}
+              <div className="flex items-start justify-between gap-3 mb-3">
+                <h3 className="text-lg font-bold text-foreground leading-tight">
                   {mentor.name}
                 </h3>
-                <p className="text-sm text-muted-foreground flex items-center gap-2 min-h-[20px]">
-                  <Briefcase className="h-4 w-4 flex-shrink-0" />
-                  <span className="line-clamp-1">{mentor.role}</span>
-                </p>
+                <div className="flex items-center gap-1.5 bg-muted px-2.5 py-1 rounded-full flex-shrink-0">
+                  <Star className="h-3.5 w-3.5 fill-bonus text-bonus" />
+                  <span className="text-sm font-semibold text-foreground">{mentor.rating}</span>
+                </div>
               </div>
 
-              {/* College & Location Info - Fixed Height */}
-              <div className="flex flex-col gap-2 mb-4 min-h-[72px]">
-                <div className="flex items-center gap-2">
+              {/* Role */}
+              <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                {mentor.role}
+              </p>
+
+              {/* College Badge + Metadata */}
+              <div className="mb-4 pb-4 border-b border-border/50">
+                <div className="mb-2">
                   <CollegeDisplay collegeName={collegeMap[mentor.college]?.fullName || mentor.college} />
                 </div>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <Badge variant="outline" className="text-xs whitespace-nowrap">
-                    <MapPin className="h-3 w-3 mr-1" />
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1">
+                    <MapPin className="h-3 w-3" />
                     {mentor.location}
-                  </Badge>
-                  <Badge variant="outline" className="text-xs whitespace-nowrap">
-                    Batch {mentor.batch}
-                  </Badge>
+                  </span>
+                  <span>•</span>
+                  <span>Batch {mentor.batch}</span>
+                  <span>•</span>
+                  <span>{mentor.sessionsCompleted} sessions</span>
                 </div>
               </div>
 
-              {/* Expertise Tags - Fixed Height */}
-              <div className="flex flex-wrap gap-2 mb-4 min-h-[64px]">
+              {/* Expertise Tags */}
+              <div className="flex flex-wrap gap-1.5 mb-6">
                 {mentor.expertise.slice(0, 3).map((exp) => (
-                  <Badge key={exp} variant="secondary" className="text-xs">
+                  <span 
+                    key={exp} 
+                    className="text-xs px-2.5 py-1 bg-secondary/50 text-secondary-foreground rounded-md"
+                  >
                     {exp}
-                  </Badge>
+                  </span>
                 ))}
               </div>
 
-              {/* Rating & Sessions - Fixed Height */}
-              <div className="flex items-center gap-4 text-sm mb-6 min-h-[24px]">
-                <div className="flex items-center gap-1">
-                  <Star className="h-4 w-4 fill-bonus text-bonus flex-shrink-0" />
-                  <span className="font-semibold">{mentor.rating}</span>
-                  <span className="text-muted-foreground">({mentor.reviews})</span>
-                </div>
-                <span className="text-muted-foreground">
-                  {mentor.sessionsCompleted} sessions
-                </span>
-              </div>
-
-              {/* Pricing & Button - Pushed to Bottom */}
-              <div className="mt-auto pt-4 border-t border-border flex items-center justify-between gap-4">
+              {/* Footer: Pricing + CTA */}
+              <div className="mt-auto pt-4 border-t border-border/50 flex items-center justify-between gap-4">
                 <PricingDisplay hourlyRate={mentor.hourlyRate} variant="inline" />
                 <Button
                   onClick={() => navigate(`/mentor/profile/${mentor.id}`)}
                   size="sm"
-                  className="whitespace-nowrap"
+                  className="group-hover:shadow-md transition-shadow"
                 >
                   View Profile
                 </Button>

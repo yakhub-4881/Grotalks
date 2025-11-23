@@ -350,32 +350,27 @@ const MenteeDashboard = () => {
           {/* Continue with Recent Mentors */}
           <div>
             <h2 className="text-xl font-semibold text-foreground mb-4">Continue with Recent Mentors</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {recentMentors.map((mentor) => (
                 <Card 
                   key={mentor.id} 
-                  className="p-6 hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col h-full"
+                  className="p-6 hover:shadow-lg transition-shadow cursor-pointer"
                   onClick={() => navigate(`/mentor/profile/${mentor.id}`)}
                 >
-                  {/* Header Section */}
-                  <div className="mb-4 pb-4 border-b border-border">
-                    <div className="flex items-start justify-between gap-3 mb-2">
-                      <h3 className="text-lg font-semibold text-foreground line-clamp-1">{mentor.name}</h3>
-                      <div className="flex items-center gap-1 flex-shrink-0">
-                        <Star className="h-4 w-4 fill-bonus text-bonus" />
-                        <span className="text-sm font-semibold">{mentor.rating}</span>
-                      </div>
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <h3 className="text-lg font-semibold text-foreground mb-1">{mentor.name}</h3>
+                      <p className="text-sm text-muted-foreground">{mentor.role}</p>
                     </div>
-                    <p className="text-sm text-muted-foreground line-clamp-1">{mentor.role}</p>
+                    <div className="flex items-center gap-1">
+                      <Star className="h-4 w-4 fill-bonus text-bonus" />
+                      <span className="text-sm font-semibold">{mentor.rating}</span>
+                    </div>
                   </div>
-
-                  {/* Expertise */}
-                  <p className="text-sm text-foreground mb-6 min-h-[40px]">{mentor.expertise}</p>
-
-                  {/* Pricing & Button - Pushed to Bottom */}
-                  <div className="mt-auto pt-4 border-t border-border flex items-center justify-between gap-4">
+                  <p className="text-sm text-foreground mb-4">{mentor.expertise}</p>
+                  <div className="flex items-center justify-between pt-4 border-t">
                     <PricingDisplay hourlyRate={mentor.hourlyRate} variant="inline" />
-                    <Button size="sm" className="whitespace-nowrap">Book Again</Button>
+                    <Button size="sm">Book Again</Button>
                   </div>
                 </Card>
               ))}
