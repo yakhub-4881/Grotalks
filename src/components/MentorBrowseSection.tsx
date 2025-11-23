@@ -296,57 +296,65 @@ export const MentorBrowseSection = () => {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {filteredMentors.slice(0, showAll ? undefined : 6).map((mentor) => (
-            <Card key={mentor.id} className="p-4 md:p-6 hover:shadow-md transition-shadow">
-              <div className="flex flex-col md:flex-row gap-4">
-                <div className="flex-1 space-y-3">
-                  <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-1">{mentor.name}</h3>
-                    <p className="text-sm text-muted-foreground flex items-center gap-2">
-                      <Briefcase className="h-4 w-4" />
-                      {mentor.role}
-                    </p>
-                  </div>
+            <Card key={mentor.id} className="p-6 hover:shadow-lg transition-all duration-300 flex flex-col h-full">
+              {/* Header Section - Fixed Height */}
+              <div className="mb-4 pb-4 border-b border-border">
+                <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-1">
+                  {mentor.name}
+                </h3>
+                <p className="text-sm text-muted-foreground flex items-center gap-2 min-h-[20px]">
+                  <Briefcase className="h-4 w-4 flex-shrink-0" />
+                  <span className="line-clamp-1">{mentor.role}</span>
+                </p>
+              </div>
 
-                  <div className="flex flex-wrap gap-2">
-                    <CollegeDisplay collegeName={collegeMap[mentor.college]?.fullName || mentor.college} />
-                    <Badge variant="outline" className="text-xs">
-                      <MapPin className="h-3 w-3 mr-1" />
-                      {mentor.location}
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      Batch {mentor.batch}
-                    </Badge>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2">
-                    {mentor.expertise.slice(0, 3).map((exp) => (
-                      <Badge key={exp} variant="secondary" className="text-xs">
-                        {exp}
-                      </Badge>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center gap-4 text-sm">
-                    <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4 fill-bonus text-bonus" />
-                      <span className="font-medium">{mentor.rating}</span>
-                      <span className="text-muted-foreground">({mentor.reviews})</span>
-                    </div>
-                    <span className="text-muted-foreground">
-                      {mentor.sessionsCompleted} sessions
-                    </span>
-                  </div>
+              {/* College & Location Info - Fixed Height */}
+              <div className="flex flex-col gap-2 mb-4 min-h-[72px]">
+                <div className="flex items-center gap-2">
+                  <CollegeDisplay collegeName={collegeMap[mentor.college]?.fullName || mentor.college} />
                 </div>
-
-                <div className="flex flex-col items-end justify-between gap-3 md:min-w-[180px]">
-                  <PricingDisplay hourlyRate={mentor.hourlyRate} />
-                  <Button
-                    onClick={() => navigate(`/mentor/profile/${mentor.id}`)}
-                    className="w-full md:w-auto"
-                  >
-                    View Profile
-                  </Button>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <Badge variant="outline" className="text-xs whitespace-nowrap">
+                    <MapPin className="h-3 w-3 mr-1" />
+                    {mentor.location}
+                  </Badge>
+                  <Badge variant="outline" className="text-xs whitespace-nowrap">
+                    Batch {mentor.batch}
+                  </Badge>
                 </div>
+              </div>
+
+              {/* Expertise Tags - Fixed Height */}
+              <div className="flex flex-wrap gap-2 mb-4 min-h-[64px]">
+                {mentor.expertise.slice(0, 3).map((exp) => (
+                  <Badge key={exp} variant="secondary" className="text-xs">
+                    {exp}
+                  </Badge>
+                ))}
+              </div>
+
+              {/* Rating & Sessions - Fixed Height */}
+              <div className="flex items-center gap-4 text-sm mb-6 min-h-[24px]">
+                <div className="flex items-center gap-1">
+                  <Star className="h-4 w-4 fill-bonus text-bonus flex-shrink-0" />
+                  <span className="font-semibold">{mentor.rating}</span>
+                  <span className="text-muted-foreground">({mentor.reviews})</span>
+                </div>
+                <span className="text-muted-foreground">
+                  {mentor.sessionsCompleted} sessions
+                </span>
+              </div>
+
+              {/* Pricing & Button - Pushed to Bottom */}
+              <div className="mt-auto pt-4 border-t border-border flex items-center justify-between gap-4">
+                <PricingDisplay hourlyRate={mentor.hourlyRate} variant="inline" />
+                <Button
+                  onClick={() => navigate(`/mentor/profile/${mentor.id}`)}
+                  size="sm"
+                  className="whitespace-nowrap"
+                >
+                  View Profile
+                </Button>
               </div>
             </Card>
           ))}
