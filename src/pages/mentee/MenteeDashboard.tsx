@@ -350,7 +350,7 @@ const MenteeDashboard = () => {
           {/* Continue with Recent Mentors */}
           <div>
             <h2 className="text-xl font-semibold text-foreground mb-4">Continue with Recent Mentors</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {recentMentors.map((mentor) => (
                 <Card key={mentor.id} className="p-6 hover:shadow-lg transition-shadow cursor-pointer"
                   onClick={() => navigate(`/mentor/profile/${mentor.id}`)}>
