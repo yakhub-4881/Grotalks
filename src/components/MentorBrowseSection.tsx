@@ -292,10 +292,10 @@ export const MentorBrowseSection = () => {
       {/* Results */}
       <div>
         <p className="text-sm text-muted-foreground mb-4">
-          Showing {showAll ? filteredMentors.length : Math.min(4, filteredMentors.length)} of {filteredMentors.length} mentor{filteredMentors.length !== 1 ? 's' : ''}
+          Showing {showAll ? filteredMentors.length : Math.min(6, filteredMentors.length)} of {filteredMentors.length} mentor{filteredMentors.length !== 1 ? 's' : ''}
         </p>
-        <div className="grid gap-4 md:gap-6">
-          {filteredMentors.slice(0, showAll ? undefined : 4).map((mentor) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          {filteredMentors.slice(0, showAll ? undefined : 6).map((mentor) => (
             <Card key={mentor.id} className="p-4 md:p-6 hover:shadow-md transition-shadow">
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1 space-y-3">
@@ -352,7 +352,7 @@ export const MentorBrowseSection = () => {
           ))}
         </div>
 
-        {filteredMentors.length > 4 && !showAll && (
+        {filteredMentors.length > 6 && !showAll && (
           <div className="mt-6 text-center">
             <Button 
               variant="outline" 
@@ -360,12 +360,12 @@ export const MentorBrowseSection = () => {
               onClick={() => setShowAll(true)}
               className="min-w-[200px]"
             >
-              View More Mentors ({filteredMentors.length - 4} more)
+              View More Mentors ({filteredMentors.length - 6} more)
             </Button>
           </div>
         )}
 
-        {showAll && filteredMentors.length > 4 && (
+        {showAll && filteredMentors.length > 6 && (
           <div className="mt-6 text-center">
             <Button 
               variant="outline" 
