@@ -189,16 +189,18 @@ const MenteeDashboard = () => {
             ))}
           </div>
 
-          {/* Active Session */}
-          {activeSessions.length > 0 && (
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold text-foreground mb-4">Active Session</h2>
-              <div className="space-y-4">
-                {activeSessions.map((session) => {
-                  const lowBalance = walletBalance < 100;
+          {/* Sessions Grid - Side by side on desktop */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            {/* Active Session */}
+            {activeSessions.length > 0 && (
+              <div>
+                <h2 className="text-xl font-semibold text-foreground mb-4">Active Session</h2>
+                <div className="space-y-4">
+                  {activeSessions.map((session) => {
+                    const lowBalance = walletBalance < 100;
                   
-                  return (
-                    <Card key={session.id} className="p-4 md:p-6 border-success/30 bg-success/5">
+                    return (
+                      <Card key={session.id} className="p-4 md:p-6 border-success/30 bg-success/5 h-full">
                       <div className="space-y-4">
                         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                           <div className="space-y-2 flex-1 min-w-0">
@@ -258,22 +260,22 @@ const MenteeDashboard = () => {
                         </div>
                       </div>
                     </Card>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {/* Upcoming Sessions */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold text-foreground mb-4">Upcoming Sessions</h2>
+            {/* Upcoming Sessions */}
+            <div>
+              <h2 className="text-xl font-semibold text-foreground mb-4">Upcoming Sessions</h2>
             <div className="space-y-4">
               {upcomingSessions.map((session) => {
                 const sessionCanJoin = canJoinSession(session);
                 const lowBalance = walletBalance < 100;
                 
-                return (
-                  <Card key={session.id} className="p-4 md:p-6">
+                  return (
+                    <Card key={session.id} className="p-4 md:p-6 h-full">
                     <div className="space-y-4">
                       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                         <div className="space-y-2 flex-1 min-w-0">
@@ -336,8 +338,9 @@ const MenteeDashboard = () => {
                       </div>
                     </div>
                   </Card>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
 
