@@ -74,7 +74,7 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
                   <DropdownMenuContent align="end" className="w-56">
                     <DropdownMenuLabel>Mentor Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => navigate('/mentor/profile')}>
+                    <DropdownMenuItem onClick={() => navigate('/mentor/profile/edit')}>
                       <User className="mr-2 h-4 w-4" />
                       Edit Profile
                     </DropdownMenuItem>
