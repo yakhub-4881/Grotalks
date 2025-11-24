@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Settings, Menu, User } from 'lucide-react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Settings, Menu, User, LogOut, UserCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -20,12 +20,22 @@ interface LayoutProps {
 }
 
 export const Layout = ({ children, showNav = true }: LayoutProps) => {
-  const { versionMode, setVersionMode, isAuthenticated, selectedCollege, setSelectedCollege } = useAppContext();
+  const { versionMode, setVersionMode, isAuthenticated, selectedCollege, setSelectedCollege, setIsAuthenticated } = useAppContext();
   const navigate = useNavigate();
+  const location = useLocation();
   
   // Check for dark mode
   const isDarkMode = document.documentElement.classList.contains('dark');
   const logo = isDarkMode ? logoLight : logoDark;
+
+  // Check if current path is mentor
+  const isMentorPage = location.pathname.startsWith('/mentor');
+  const isMenteePage = location.pathname.startsWith('/mentee');
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    navigate('/');
+  };
 
   const screens = [
     { name: '🏠 Landing', path: '/' },
@@ -54,7 +64,30 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
             </Link>
 
             <div className="flex items-center gap-2 md:gap-4">
-              {isAuthenticated && (
+              {isAuthenticated && isMentorPage && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="rounded-full">
+                      <UserCircle className="h-5 w-5" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuLabel>Mentor Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => navigate('/mentor/profile')}>
+                      <User className="mr-2 h-4 w-4" />
+                      Edit Profile
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className="text-destructive" onClick={handleLogout}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+
+              {isAuthenticated && isMenteePage && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon" className="rounded-full">
@@ -74,7 +107,7 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
                       My Sessions
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className="text-destructive">
+                    <DropdownMenuItem className="text-destructive" onClick={handleLogout}>
                       Logout
                     </DropdownMenuItem>
                   </DropdownMenuContent>
