@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Settings, Menu, User, LogOut, UserCircle } from 'lucide-react';
+import { Settings, Menu, User, LogOut, UserCircle, GraduationCap, Wallet, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -98,16 +98,25 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => navigate('/mentee/profile')}>
+                      <User className="mr-2 h-4 w-4" />
                       Profile Settings
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => navigate('/mentee/wallet/recharge')}>
+                      <Wallet className="mr-2 h-4 w-4" />
                       Wallet & Payments
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => navigate('/mentee/sessions')}>
+                      <Calendar className="mr-2 h-4 w-4" />
                       My Sessions
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => navigate('/mentee/become-mentor')}>
+                      <GraduationCap className="mr-2 h-4 w-4" />
+                      Become Mentor?
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem className="text-destructive" onClick={handleLogout}>
+                      <LogOut className="mr-2 h-4 w-4" />
                       Logout
                     </DropdownMenuItem>
                   </DropdownMenuContent>

@@ -42,6 +42,7 @@ import BrowseMentors from "./pages/mentee/BrowseMentors";
 import MenteeProfile from "./pages/mentee/MenteeProfile";
 import MenteeSessions from "./pages/mentee/MenteeSessions";
 import WalletRecharge from "./pages/mentee/WalletRecharge";
+import BecomeMentor from "./pages/mentee/BecomeMentor";
 
 // Booking & Feedback
 import BookingSchedule from "./pages/BookingSchedule";
@@ -109,6 +110,7 @@ const App = () => (
             <Route path="/mentee/browse" element={<BrowseMentors />} />
             <Route path="/mentee/profile" element={<MenteeProfile />} />
             <Route path="/mentee/sessions" element={<MenteeSessions />} />
+            <Route path="/mentee/become-mentor" element={<BecomeMentor />} />
             
             {/* Chat Session */}
             <Route path="/session/:sessionId" element={<ChatSession />} />

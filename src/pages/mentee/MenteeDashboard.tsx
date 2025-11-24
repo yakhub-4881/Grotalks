@@ -4,7 +4,7 @@ import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useAppContext } from '@/lib/app-context';
-import { Search, Calendar, User, Wallet, Plus, Clock, RotateCcw, MessageSquare, Star, TrendingUp, XCircle, GraduationCap, Coins, CheckCircle, ArrowRight } from 'lucide-react';
+import { Search, Calendar, User, Wallet, Plus, Clock, RotateCcw, MessageSquare, Star, TrendingUp, XCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { RescheduleDialog } from '@/components/RescheduleDialog';
 import { PricingDisplay } from '@/components/PricingDisplay';
@@ -343,85 +343,6 @@ const MenteeDashboard = () => {
               </div>
             </div>
           </div>
-
-          {/* Become a Mentor CTA */}
-          <Card className="mb-8 overflow-hidden border-primary/20 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
-            <div className="p-6 md:p-8">
-              <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-                <div className="flex-1 space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                      <GraduationCap className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <h2 className="text-xl md:text-2xl font-bold text-foreground">Ready to Become a Mentor?</h2>
-                      <p className="text-sm text-muted-foreground">Share your knowledge and earn while helping others</p>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div className="flex items-start gap-3 p-3 rounded-lg bg-background/50">
-                      <Coins className="h-5 w-5 text-success flex-shrink-0 mt-0.5" />
-                      <div>
-                        <p className="text-sm font-semibold text-foreground">Earn Money</p>
-                        <p className="text-xs text-muted-foreground">Set your own rates</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3 p-3 rounded-lg bg-background/50">
-                      <Star className="h-5 w-5 text-bonus flex-shrink-0 mt-0.5" />
-                      <div>
-                        <p className="text-sm font-semibold text-foreground">Build Reputation</p>
-                        <p className="text-xs text-muted-foreground">Grow your network</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3 p-3 rounded-lg bg-background/50">
-                      <TrendingUp className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                      <div>
-                        <p className="text-sm font-semibold text-foreground">Help Others</p>
-                        <p className="text-xs text-muted-foreground">Make an impact</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2 pt-2">
-                    <p className="text-sm font-medium text-foreground">Requirements:</p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <CheckCircle className="h-4 w-4 text-success flex-shrink-0" />
-                        <span>Completed at least 3 sessions as mentee</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <CheckCircle className="h-4 w-4 text-success flex-shrink-0" />
-                        <span>3rd year or above / Work experience</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <CheckCircle className="h-4 w-4 text-success flex-shrink-0" />
-                        <span>LinkedIn verification required</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <CheckCircle className="h-4 w-4 text-success flex-shrink-0" />
-                        <span>Maintain 4.5+ rating</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="lg:flex-shrink-0 w-full lg:w-auto">
-                  <Button 
-                    size="lg" 
-                    className="w-full lg:w-auto text-base h-12 px-8"
-                    onClick={() => navigate('/mentor/signup')}
-                  >
-                    Apply to Mentor
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                  <p className="text-xs text-muted-foreground mt-3 text-center lg:text-left">
-                    Approval within 48 hours
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Card>
 
           {/* Browse Mentors Section */}
           <div className="mb-8">
