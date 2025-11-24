@@ -50,6 +50,7 @@ import FeedbackRating from "./pages/FeedbackRating";
 
 // Mentor Profile & Withdrawal
 import MentorProfile from "./pages/MentorProfile";
+import MentorProfileEdit from "./pages/mentor/MentorProfile";
 import MentorWithdraw from "./pages/mentor/MentorWithdraw";
 
 // Chat Session
@@ -95,7 +96,7 @@ const App = () => (
             <Route path="/mentor/payment" element={<MentorPayment />} />
             <Route path="/mentor/dashboard" element={<MentorDashboard />} />
             <Route path="/mentor/requests" element={<MentorRequests />} />
-            <Route path="/mentor/profile" element={<MentorProfile />} />
+            <Route path="/mentor/profile/edit" element={<MentorProfileEdit />} />
             <Route path="/mentor/withdraw" element={<MentorWithdraw />} />
             
             {/* Mentee Routes */}
