@@ -200,8 +200,8 @@ const MentorDashboard = () => {
             ))}
           </div>
 
-          {/* Sessions Grid - Three columns on desktop */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6 md:mb-8">
+          {/* Sessions Grid - Two columns on desktop, Pending Requests below */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 md:mb-8">
             {/* Active Session */}
             {activeSessions.length > 0 && (
               <div>
@@ -360,14 +360,16 @@ const MentorDashboard = () => {
               </div>
             )}
 
-            {/* Pending Requests */}
-            {pendingRequests.length > 0 && (
-              <div>
-                <h2 className="text-lg md:text-xl font-semibold mb-4">
-                  Pending Requests
-                </h2>
-                <div className="space-y-4">
-                  {pendingRequests.map((request) => {
+          </div>
+
+          {/* Pending Requests - Separate row below */}
+          {pendingRequests.length > 0 && (
+            <div className="mb-6 md:mb-8">
+              <h2 className="text-lg md:text-xl font-semibold mb-4">
+                Pending Requests
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {pendingRequests.map((request) => {
                     const perMinuteRate = calculatePerMinuteRate(request.hourlyRate);
                     const estimatedEarning = calculateSessionCost(perMinuteRate, request.duration);
                     
@@ -453,12 +455,11 @@ const MentorDashboard = () => {
                           </div>
                         </div>
                       </Card>
-                    );
-                  })}
-                </div>
+                  );
+                })}
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           {/* Upcoming Sessions */}
           {acceptedRequests.length > 0 && (
