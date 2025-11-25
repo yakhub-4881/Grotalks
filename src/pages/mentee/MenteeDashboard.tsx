@@ -200,7 +200,7 @@ const MenteeDashboard = () => {
                     const lowBalance = walletBalance < 100;
                   
                     return (
-                      <Card key={session.id} className="p-4 md:p-6 border-success/30 bg-success/5 h-full min-h-[280px] flex flex-col">
+                      <Card key={session.id} className="p-4 md:p-6 border-success/30 bg-success/5 h-full min-h-[280px] lg:h-[360px] flex flex-col">
                       <div className="space-y-4 flex-1 flex flex-col">
                         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 flex-1">
                           <div className="space-y-2 flex-1 min-w-0">
@@ -275,7 +275,7 @@ const MenteeDashboard = () => {
                 const lowBalance = walletBalance < 100;
                 
                   return (
-                    <Card key={session.id} className="p-4 md:p-6 h-full min-h-[280px] flex flex-col">
+                    <Card key={session.id} className="p-4 md:p-6 h-full min-h-[280px] lg:h-[360px] flex flex-col">
                     <div className="space-y-4 flex-1 flex flex-col">
                       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 flex-1">
                         <div className="space-y-2 flex-1 min-w-0">
