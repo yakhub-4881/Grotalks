@@ -208,7 +208,7 @@ const MentorDashboard = () => {
                 <h2 className="text-lg md:text-xl font-semibold text-foreground mb-4">Active Session</h2>
                 <div className="space-y-4">
                   {activeSessions.map((session) => (
-                    <Card key={session.id} className="p-4 md:p-6 border-success/30 bg-success/5 h-full min-h-[280px] lg:h-[360px] flex flex-col">
+                    <Card key={session.id} className="p-4 md:p-6 border-success/30 bg-success/5 h-full min-h-[280px] flex flex-col">
                       <div className="space-y-4 flex-1 flex flex-col">
                         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 flex-1">
                           <div className="space-y-2 flex-1 min-w-0">
@@ -287,7 +287,7 @@ const MentorDashboard = () => {
                     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                     
                     return (
-                      <Card key={session.id} className="p-4 md:p-6 h-full min-h-[280px] lg:h-[360px] flex flex-col">
+                      <Card key={session.id} className="p-4 md:p-6 h-full min-h-[280px] flex flex-col">
                         <div className="space-y-4 flex-1 flex flex-col">
                           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 flex-1">
                             <div className="space-y-2 flex-1 min-w-0">
