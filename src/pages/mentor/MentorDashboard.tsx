@@ -225,7 +225,7 @@ const MentorDashboard = () => {
                           </div>
                         </div>
 
-                        <div className="flex flex-col gap-2 mt-auto">
+                        <div className="flex flex-col md:flex-row gap-2 mt-auto">
                           <Button 
                             className="w-full text-sm h-9 bg-success hover:bg-success/90"
                             onClick={() => navigate(`/session/${session.id}`)}
@@ -310,7 +310,7 @@ const MentorDashboard = () => {
                             </div>
                           </div>
 
-                          <div className="flex flex-col gap-2 mt-auto">
+                          <div className="flex flex-col md:flex-row gap-2 mt-auto">
                             <Button 
                               className="w-full text-sm h-9"
                               onClick={() => navigate(`/session/${session.id}`)}
