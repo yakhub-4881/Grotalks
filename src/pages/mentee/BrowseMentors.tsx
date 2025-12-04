@@ -6,9 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { Search, Star, MapPin, Briefcase, Coins } from 'lucide-react';
-import { getCollegeDisplay, calculatePerMinuteRate } from '@/lib/college-config';
-import { CollegeDisplay } from '@/components/CollegeDisplay';
+import { Search, Star, MapPin, Video } from 'lucide-react';
+import { getCollegeDisplay } from '@/lib/college-config';
 import { PricingDisplay } from '@/components/PricingDisplay';
 
 const BrowseMentors = () => {
@@ -34,7 +33,7 @@ const BrowseMentors = () => {
       expertise: ['Product Management', 'Career Guidance', 'Interview Prep'],
       rating: 4.9,
       reviews: 28,
-      hourlyRate: 600,
+      baseRate: 500, // Base rate for 30 min session
       sessionsCompleted: 45,
     },
     {
@@ -50,7 +49,7 @@ const BrowseMentors = () => {
       expertise: ['Masters Abroad', 'Interview Prep', 'Data Science'],
       rating: 4.9,
       reviews: 32,
-      hourlyRate: 900,
+      baseRate: 750,
       sessionsCompleted: 52,
     },
     {
@@ -66,7 +65,7 @@ const BrowseMentors = () => {
       expertise: ['Entrepreneurship', 'Startup Funding', 'Career Guidance'],
       rating: 4.8,
       reviews: 25,
-      hourlyRate: 1200,
+      baseRate: 1000,
       sessionsCompleted: 38,
     },
     {
@@ -82,7 +81,7 @@ const BrowseMentors = () => {
       expertise: ['Data Science', 'ML/AI', 'Interview Prep'],
       rating: 4.7,
       reviews: 18,
-      hourlyRate: 720,
+      baseRate: 600,
       sessionsCompleted: 25,
     },
     {
@@ -98,7 +97,7 @@ const BrowseMentors = () => {
       expertise: ['Finance & Investing', 'Career Guidance', 'MBA Abroad'],
       rating: 4.8,
       reviews: 22,
-      hourlyRate: 840,
+      baseRate: 700,
       sessionsCompleted: 32,
     },
     {
@@ -114,7 +113,7 @@ const BrowseMentors = () => {
       expertise: ['UX/UI Design', 'Career Guidance', 'Portfolio Review'],
       rating: 4.9,
       reviews: 30,
-      hourlyRate: 660,
+      baseRate: 550,
       sessionsCompleted: 42,
     },
   ];
@@ -122,11 +121,11 @@ const BrowseMentors = () => {
   return (
     <Layout>
       <div className="min-h-[calc(100vh-4rem)] bg-muted">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-4 md:py-8">
           {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-foreground mb-2">Browse Mentors</h1>
-            <p className="text-base text-muted-foreground">Find the perfect mentor for your Student journey</p>
+          <div className="mb-6 md:mb-8">
+            <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Browse Mentors</h1>
+            <p className="text-sm md:text-base text-muted-foreground">Book 1:1 video call sessions with industry experts</p>
           </div>
 
           {/* Search & Filters */}
@@ -231,89 +230,88 @@ const BrowseMentors = () => {
           </div>
 
           {/* Results Count */}
-          <div className="mb-6">
+          <div className="mb-4 md:mb-6">
             <p className="text-sm text-muted-foreground">
               Showing {mentors.length} mentors
             </p>
           </div>
 
           {/* Mentors Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mentors.map((mentor) => {
-              const perMinuteRate = calculatePerMinuteRate(mentor.hourlyRate);
-              
-              return (
-                <Card
-                  key={mentor.id}
-                  className="p-6 hover:shadow-xl transition-all cursor-pointer group"
-                  onClick={() => navigate(`/mentor/profile/${mentor.id}`)}
-                >
-                  <div className="space-y-4">
-                    {/* Header */}
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
-                          {mentor.name}
-                        </h3>
-                        <p className="text-sm text-muted-foreground mb-1">{mentor.role}</p>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <div className="inline-flex items-center gap-2 text-xs">
-                              <span className="px-2 py-1 bg-accent/50 text-accent-foreground rounded-md font-medium">
-                                {getCollegeDisplay(mentor.college, 'both')}
-                              </span>
-                              <span className="text-muted-foreground">• Batch {mentor.batch}</span>
-                            </div>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p className="text-xs">{mentor.college}</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Star className="h-4 w-4 fill-bonus text-bonus" />
-                        <span className="text-sm font-semibold">{mentor.rating}</span>
-                        <span className="text-xs text-muted-foreground">({mentor.reviews})</span>
-                      </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {mentors.map((mentor) => (
+              <Card
+                key={mentor.id}
+                className="p-4 md:p-6 hover:shadow-xl transition-all cursor-pointer group"
+                onClick={() => navigate(`/mentor/profile/${mentor.id}`)}
+              >
+                <div className="space-y-3 md:space-y-4">
+                  {/* Header */}
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-base md:text-lg font-semibold text-foreground group-hover:text-primary transition-colors truncate">
+                        {mentor.name}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mb-1 truncate">{mentor.role}</p>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="inline-flex items-center gap-2 text-xs">
+                            <span className="px-2 py-1 bg-accent/50 text-accent-foreground rounded-md font-medium truncate max-w-[150px]">
+                              {getCollegeDisplay(mentor.college, 'abbr')}
+                            </span>
+                            <span className="text-muted-foreground whitespace-nowrap">• {mentor.batch}</span>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p className="text-xs">{getCollegeDisplay(mentor.college, 'full')}</p>
+                        </TooltipContent>
+                      </Tooltip>
                     </div>
-
-                    {/* Expertise Tags */}
-                    <div className="flex flex-wrap gap-2">
-                      {mentor.expertise.slice(0, 3).map((exp) => (
-                        <span
-                          key={exp}
-                          className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md font-medium"
-                        >
-                          {exp}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Stats */}
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground pt-2 border-t">
-                      <div className="flex items-center gap-1">
-                        <MapPin className="h-3 w-3" />
-                        <span>{mentor.location}</span>
-                      </div>
-                      <div>{mentor.sessionsCompleted} sessions</div>
-                    </div>
-
-                    {/* Pricing - PER-MINUTE HIGHLIGHTED */}
-                    <div className="flex items-center justify-between pt-2 border-t">
-                      <div>
-                        <PricingDisplay hourlyRate={mentor.hourlyRate} variant="detail" />
-                      </div>
-                      <Button size="sm" onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/mentor/profile/${mentor.id}`);
-                      }}>
-                        Book Now
-                      </Button>
+                    <div className="flex items-center gap-1 flex-shrink-0 ml-2">
+                      <Star className="h-4 w-4 fill-bonus text-bonus" />
+                      <span className="text-sm font-semibold">{mentor.rating}</span>
+                      <span className="text-xs text-muted-foreground">({mentor.reviews})</span>
                     </div>
                   </div>
-                </Card>
-              );
-            })}
+
+                  {/* Expertise Tags */}
+                  <div className="flex flex-wrap gap-1.5 md:gap-2">
+                    {mentor.expertise.slice(0, 3).map((exp) => (
+                      <span
+                        key={exp}
+                        className="px-2 py-0.5 md:py-1 bg-primary/10 text-primary text-xs rounded-md font-medium"
+                      >
+                        {exp}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Stats */}
+                  <div className="flex items-center gap-3 md:gap-4 text-xs md:text-sm text-muted-foreground pt-2 border-t">
+                    <div className="flex items-center gap-1">
+                      <MapPin className="h-3 w-3" />
+                      <span>{mentor.location}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Video className="h-3 w-3" />
+                      <span>{mentor.sessionsCompleted} calls</span>
+                    </div>
+                  </div>
+
+                  {/* Pricing */}
+                  <div className="flex items-center justify-between pt-2 border-t">
+                    <div>
+                      <PricingDisplay baseRate={mentor.baseRate} variant="detail" />
+                    </div>
+                    <Button size="sm" onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/booking/schedule/${mentor.id}`);
+                    }}>
+                      Book Call
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            ))}
           </div>
         </div>
       </div>

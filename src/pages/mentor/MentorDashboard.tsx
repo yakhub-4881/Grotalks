@@ -5,8 +5,8 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
-import { IndianRupee, Calendar, Clock, Star, TrendingUp, User, MessageSquare, CheckCircle2, XCircle, Loader2, Coins, RotateCcw } from 'lucide-react';
-import { calculatePerMinuteRate, calculateSessionCost } from '@/lib/college-config';
+import { IndianRupee, Calendar, Clock, Star, TrendingUp, User, Video, CheckCircle2, XCircle, Loader2, RotateCcw, ExternalLink } from 'lucide-react';
+import { calculateSessionPrice, formatPrice } from '@/lib/college-config';
 import { CollegeDisplay } from '@/components/CollegeDisplay';
 import { RescheduleDialog } from '@/components/RescheduleDialog';
 import {
@@ -34,7 +34,8 @@ interface BookingRequest {
   duration: number;
   message?: string;
   status: 'pending' | 'accepted' | 'declined';
-  hourlyRate: number;
+  baseRate: number;
+  meetLink?: string;
 }
 
 const MentorDashboard = () => {

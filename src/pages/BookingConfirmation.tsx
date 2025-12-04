@@ -3,37 +3,37 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useAppContext } from '@/lib/app-context';
+import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, Calendar, Clock, Wallet, User, Coins, CheckCircle2, Loader2 } from 'lucide-react';
-import { calculatePerMinuteRate, calculateSessionCost, getCollegeDisplay } from '@/lib/college-config';
-import { CollegeDisplay } from '@/components/CollegeDisplay';
-import { PricingDisplay } from '@/components/PricingDisplay';
+import { ArrowLeft, Calendar, Clock, Video, Shield, CheckCircle2, Loader2, User, Mail, Phone } from 'lucide-react';
+import { calculateSessionPrice, formatPrice, PLATFORM_FEE_PERCENT } from '@/lib/college-config';
 
 interface LocationState {
   mentor: {
     id: number;
     name: string;
     role: string;
-    college: string;
-    hourlyRate: number;
+    baseRate: number;
   };
   date: string;
   time: string;
   duration: number;
+  message?: string;
 }
 
 const BookingConfirmation = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { walletBalance, setWalletBalance } = useAppContext();
   const { toast } = useToast();
   
-  const [message, setMessage] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
-  const [isBooking, setIsBooking] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const state = location.state as LocationState;
   
@@ -42,17 +42,16 @@ const BookingConfirmation = () => {
     return null;
   }
 
-  const { mentor, date, time, duration } = state;
-  const perMinuteRate = calculatePerMinuteRate(mentor.hourlyRate);
-  const totalCost = calculateSessionCost(perMinuteRate, duration);
-  const walletAfter = walletBalance - totalCost;
-  const hasInsufficientBalance = walletBalance < totalCost;
+  const { mentor, date, time, duration, message } = state;
+  const sessionPrice = calculateSessionPrice(mentor.baseRate, duration);
+  const platformFee = 0; // Free for students
+  const totalAmount = sessionPrice;
 
-  const handleConfirmBooking = async () => {
-    if (hasInsufficientBalance) {
+  const handlePayment = async () => {
+    if (!name || !email || !phone) {
       toast({
-        title: "Insufficient Balance",
-        description: "Please top up your wallet to continue",
+        title: "Missing Information",
+        description: "Please fill in all required fields",
         variant: "destructive"
       });
       return;
@@ -67,203 +66,198 @@ const BookingConfirmation = () => {
       return;
     }
 
-    setIsBooking(true);
+    setIsProcessing(true);
     
-    // Simulate booking process
+    // Simulate payment processing
     setTimeout(() => {
-      setIsBooking(false);
+      setIsProcessing(false);
       
       toast({
-        title: "✓ Session Booked!",
-        description: `Waiting for ${mentor.name}'s approval`,
+        title: "🎉 Booking Confirmed!",
+        description: `Your session with ${mentor.name} is booked. Check your email for details.`,
       });
       
-      navigate('/mentee/dashboard', { 
+      navigate('/mentee/sessions', { 
         state: { 
-          bookingStatus: 'pending',
-          bookingId: `BK${Date.now()}`,
-          mentor: mentor.name
+          bookingSuccess: true,
+          mentor: mentor.name,
+          date,
+          time
         } 
       });
-    }, 2000);
+    }, 2500);
   };
 
   return (
     <Layout>
-      <div className="min-h-[calc(100vh-4rem)] bg-muted py-8">
+      <div className="min-h-[calc(100vh-4rem)] bg-muted py-4 md:py-8">
         <div className="container max-w-3xl px-4">
           {/* Back Button */}
           <Button 
             variant="ghost" 
             onClick={() => navigate(-1)}
-            className="mb-6"
+            className="mb-4 -ml-2"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back
           </Button>
 
-          {/* Header */}
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold text-foreground mb-2">Confirm Your Session</h1>
-            <p className="text-muted-foreground">Review the details before booking</p>
-          </div>
-
-          {/* Booking Details Card */}
-          <Card className="p-6 mb-6">
-            <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <User className="h-5 w-5 text-primary" />
-              Session Details
-            </h2>
-            
-            <div className="space-y-4">
-              {/* Mentor Info */}
-              <div className="flex items-start justify-between pb-4 border-b">
-                <div>
-                  <div className="font-semibold text-lg">{mentor.name}</div>
-                  <div className="text-sm text-muted-foreground">{mentor.role}</div>
-                  <div className="mt-1">
-                    <CollegeDisplay collegeName={mentor.college} variant="desktop" />
+          <div className="grid md:grid-cols-5 gap-6">
+            {/* Left: Order Summary */}
+            <div className="md:col-span-2 order-2 md:order-1">
+              <Card className="p-4 md:p-6 md:sticky md:top-4">
+                {/* Mentor Info */}
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold flex-shrink-0">
+                    {mentor.name.split(' ').map(n => n[0]).join('')}
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="font-semibold truncate">{mentor.name}</h3>
+                    <p className="text-xs text-muted-foreground truncate">{mentor.role}</p>
                   </div>
                 </div>
-              </div>
 
-              {/* Session Time */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-center gap-3">
-                  <Calendar className="h-5 w-5 text-primary" />
-                  <div>
-                    <div className="text-xs text-muted-foreground">Date</div>
-                    <div className="font-semibold">{date}</div>
+                {/* Session Details */}
+                <div className="space-y-3 py-4 border-y">
+                  <div className="flex items-center gap-2 text-sm">
+                    <Calendar className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span>{date}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <Clock className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span>{time} • {duration} min</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <Video className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span>Google Meet</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Clock className="h-5 w-5 text-primary" />
-                  <div>
-                    <div className="text-xs text-muted-foreground">Time</div>
-                    <div className="font-semibold">{time} ({duration} min)</div>
+
+                {/* Price Breakdown */}
+                <div className="py-4 space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">{duration} min session</span>
+                    <span>{formatPrice(sessionPrice)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Platform fee</span>
+                    <span className="text-success">FREE</span>
+                  </div>
+                  <Separator className="my-2" />
+                  <div className="flex justify-between font-bold text-lg">
+                    <span>Total</span>
+                    <span className="text-primary">{formatPrice(totalAmount)}</span>
                   </div>
                 </div>
-              </div>
 
-              {/* Pricing Breakdown */}
-              <div className="bg-muted rounded-lg p-4 space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Rate</span>
-                  <PricingDisplay hourlyRate={mentor.hourlyRate} variant="inline" />
+                {/* Security Badge */}
+                <div className="flex items-center gap-2 text-xs text-muted-foreground pt-4 border-t">
+                  <Shield className="h-4 w-4 text-success" />
+                  <span>100% secure payment • Full refund if declined</span>
                 </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Duration</span>
-                  <span className="font-medium">{duration} minutes</span>
-                </div>
-                <div className="flex items-center justify-between text-base font-bold pt-2 border-t">
-                  <span>Total Cost</span>
-                  <span className="text-primary">₹{totalCost.toFixed(2)}</span>
-                </div>
-              </div>
+              </Card>
+            </div>
 
-              {/* Wallet Status */}
-              <div className={`flex items-center justify-between p-4 rounded-lg ${hasInsufficientBalance ? 'bg-destructive/10 border border-destructive/20' : 'bg-success/10 border border-success/20'}`}>
-                <div className="flex items-center gap-3">
-                  <Wallet className={`h-5 w-5 ${hasInsufficientBalance ? 'text-destructive' : 'text-success'}`} />
-                  <div>
-                    <div className="text-sm text-muted-foreground">Current Wallet Balance</div>
-                    <div className="font-bold">₹{walletBalance.toFixed(2)}</div>
+            {/* Right: Payment Form */}
+            <div className="md:col-span-3 order-1 md:order-2">
+              <Card className="p-4 md:p-6">
+                <h1 className="text-xl md:text-2xl font-bold mb-6">Complete Your Booking</h1>
+
+                {/* Contact Details */}
+                <div className="space-y-4 mb-6">
+                  <h2 className="font-semibold text-base">Your Details</h2>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="name" className="text-sm">Full Name *</Label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="name"
+                        placeholder="Enter your name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="pl-10 h-11"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className="text-sm">Email *</Label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="pl-10 h-11"
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground">Meeting link will be sent here</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="phone" className="text-sm">Phone Number *</Label>
+                    <div className="relative">
+                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="phone"
+                        type="tel"
+                        placeholder="+91"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className="pl-10 h-11"
+                      />
+                    </div>
                   </div>
                 </div>
-                <div>
-                  <div className="text-sm text-muted-foreground text-right">After Booking</div>
-                  <div className={`font-bold ${hasInsufficientBalance ? 'text-destructive' : 'text-success'}`}>
-                    ₹{hasInsufficientBalance ? '0.00' : walletAfter.toFixed(2)}
-                  </div>
-                </div>
-              </div>
 
-              {hasInsufficientBalance && (
-                <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
-                  <p className="text-sm text-destructive font-medium mb-2">⚠️ Insufficient Balance</p>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    You need ₹{(totalCost - walletBalance).toFixed(2)} more to book this session
+                {/* Terms */}
+                <div className="flex items-start gap-3 mb-6 p-4 bg-muted rounded-lg">
+                  <Checkbox 
+                    id="terms" 
+                    checked={agreedToTerms}
+                    onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
+                    className="mt-0.5"
+                  />
+                  <label htmlFor="terms" className="text-sm leading-relaxed cursor-pointer">
+                    I agree to the <a href="/universal/terms" className="text-primary underline">Terms & Conditions</a> and <a href="/universal/privacy" className="text-primary underline">Privacy Policy</a>. I understand the mentor may reschedule or decline, and I'll receive a full refund if that happens.
+                  </label>
+                </div>
+
+                {/* Payment Button */}
+                <Button
+                  className="w-full h-12 text-base font-semibold"
+                  onClick={handlePayment}
+                  disabled={!name || !email || !phone || !agreedToTerms || isProcessing}
+                >
+                  {isProcessing ? (
+                    <>
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                      Processing Payment...
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle2 className="mr-2 h-5 w-5" />
+                      Pay {formatPrice(totalAmount)}
+                    </>
+                  )}
+                </Button>
+
+                {/* Payment Info */}
+                <div className="mt-4 p-4 bg-primary/5 rounded-lg border border-primary/20">
+                  <p className="text-sm text-muted-foreground">
+                    <strong>What happens next?</strong><br />
+                    1. Complete payment to confirm your slot<br />
+                    2. Mentor will receive your booking request<br />
+                    3. You'll get the Google Meet link via email<br />
+                    4. Join the call at the scheduled time
                   </p>
-                  <Button 
-                    variant="destructive" 
-                    size="sm"
-                    onClick={() => navigate('/mentee/wallet')}
-                  >
-                    Top Up Wallet
-                  </Button>
                 </div>
-              )}
+              </Card>
             </div>
-          </Card>
-
-          {/* Message to Mentor */}
-          <Card className="p-6 mb-6">
-            <h2 className="text-lg font-semibold mb-3">Message to Mentor (Optional)</h2>
-            <Textarea
-              placeholder="Let the mentor know what you'd like to discuss..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              maxLength={200}
-              rows={4}
-              className="resize-none"
-            />
-            <p className="text-xs text-muted-foreground mt-2">{message.length}/200 characters</p>
-          </Card>
-
-          {/* Terms Agreement */}
-          <Card className="p-6 mb-6">
-            <div className="flex items-start gap-3">
-              <Checkbox 
-                id="terms" 
-                checked={agreedToTerms}
-                onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
-              />
-              <label htmlFor="terms" className="text-sm leading-relaxed cursor-pointer">
-                I agree to the mentoring session terms. I understand that the session will be charged at ₹{perMinuteRate.toFixed(2)}/minute and the mentor has the right to accept or decline this booking request.
-              </label>
-            </div>
-          </Card>
-
-          {/* Action Buttons */}
-          <div className="flex gap-4">
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={() => navigate(-1)}
-              className="flex-1"
-            >
-              Cancel
-            </Button>
-            <Button
-              size="lg"
-              onClick={handleConfirmBooking}
-              disabled={!agreedToTerms || hasInsufficientBalance || isBooking}
-              className="flex-1"
-            >
-              {isBooking ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Booking...
-                </>
-              ) : (
-                <>
-                  <CheckCircle2 className="mr-2 h-4 w-4" />
-                  Confirm Booking
-                </>
-              )}
-            </Button>
           </div>
-
-          {/* Info Box */}
-          <Card className="mt-6 p-4 bg-primary/5 border-primary/20">
-            <p className="text-sm text-muted-foreground">
-              <strong>What happens next?</strong><br />
-              1. Your booking request will be sent to {mentor.name}<br />
-              2. The mentor will respond within 1 hour<br />
-              3. You'll receive a notification once confirmed<br />
-              4. Payment will only be deducted after mentor approval
-            </p>
-          </Card>
         </div>
       </div>
     </Layout>

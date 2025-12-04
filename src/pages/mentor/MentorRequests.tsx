@@ -5,10 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { User, Calendar, Clock, MessageSquare, CheckCircle2, XCircle, Loader2, Coins } from 'lucide-react';
-import { calculatePerMinuteRate, calculateSessionCost, getCollegeDisplay } from '@/lib/college-config';
+import { User, Calendar, Clock, MessageSquare, CheckCircle2, XCircle, Loader2, Video, ExternalLink } from 'lucide-react';
+import { formatPrice, calculateSessionPrice } from '@/lib/college-config';
 import { CollegeDisplay } from '@/components/CollegeDisplay';
-import { PricingDisplay } from '@/components/PricingDisplay';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,7 +31,9 @@ interface BookingRequest {
   duration: number;
   message?: string;
   status: 'pending' | 'accepted' | 'declined';
-  hourlyRate: number;
+  baseRate: number;
+  meetLink?: string;
+  isPaid: boolean;
 }
 
 const MentorRequests = () => {
@@ -43,22 +44,24 @@ const MentorRequests = () => {
     {
       id: 'REQ001',
       mentee: { name: 'Ravi Kumar', college: 'vel-tech' },
-      date: 'Nov 5, 2025',
+      date: 'Dec 8, 2025',
       time: '2:00 PM',
       duration: 30,
       message: 'I need career guidance for transitioning into product management',
       status: 'pending',
-      hourlyRate: 600
+      baseRate: 500,
+      isPaid: true
     },
     {
       id: 'REQ002',
       mentee: { name: 'Sneha Patel', college: 'iit-bombay' },
-      date: 'Nov 6, 2025',
+      date: 'Dec 10, 2025',
       time: '4:30 PM',
-      duration: 45,
+      duration: 60,
       message: 'Looking for advice on masters programs abroad',
       status: 'pending',
-      hourlyRate: 600
+      baseRate: 500,
+      isPaid: true
     },
   ]);
 
@@ -70,15 +73,18 @@ const MentorRequests = () => {
   const handleAccept = async (request: BookingRequest) => {
     setProcessingId(request.id);
     
-    // Simulate API call
     setTimeout(() => {
       setRequests(prev => 
-        prev.map(r => r.id === request.id ? { ...r, status: 'accepted' } : r)
+        prev.map(r => r.id === request.id ? { 
+          ...r, 
+          status: 'accepted',
+          meetLink: 'https://meet.google.com/abc-defg-hij'
+        } : r)
       );
       
       toast({
-        title: "✓ Request Accepted!",
-        description: `Session with ${request.mentee.name} confirmed`,
+        title: "✓ Session Confirmed!",
+        description: `Video call with ${request.mentee.name} scheduled. Meeting link sent!`,
       });
       
       setProcessingId(null);
@@ -95,15 +101,14 @@ const MentorRequests = () => {
     
     setProcessingId(selectedRequest.id);
     
-    // Simulate API call
     setTimeout(() => {
       setRequests(prev => 
         prev.map(r => r.id === selectedRequest.id ? { ...r, status: 'declined' } : r)
       );
       
       toast({
-        title: "Request Declined",
-        description: `${selectedRequest.mentee.name} has been notified`,
+        title: "Session Declined",
+        description: `${selectedRequest.mentee.name} has been notified and refunded`,
         variant: "destructive"
       });
       
@@ -119,67 +124,80 @@ const MentorRequests = () => {
 
   return (
     <Layout>
-      <div className="min-h-[calc(100vh-4rem)] bg-muted py-8">
+      <div className="min-h-[calc(100vh-4rem)] bg-muted py-4 md:py-8">
         <div className="container max-w-5xl px-4">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-foreground mb-2">Session Requests</h1>
-            <p className="text-muted-foreground">Manage incoming booking requests</p>
+          <div className="mb-6 md:mb-8">
+            <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Session Requests</h1>
+            <p className="text-sm md:text-base text-muted-foreground">Manage incoming booking requests</p>
           </div>
 
           {/* Pending Requests */}
           {pendingRequests.length > 0 && (
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+            <div className="mb-6 md:mb-8">
+              <h2 className="text-lg md:text-xl font-semibold mb-4 flex items-center gap-2">
                 ⏳ Pending Requests 
                 <Badge variant="secondary">{pendingRequests.length} new</Badge>
               </h2>
               <div className="space-y-4">
                 {pendingRequests.map((request) => {
-                  const perMinuteRate = calculatePerMinuteRate(request.hourlyRate);
-                  const estimatedEarning = calculateSessionCost(perMinuteRate, request.duration);
+                  const sessionPrice = calculateSessionPrice(request.baseRate, request.duration);
                   
                   return (
-                    <Card key={request.id} className="p-6 border-primary/20 bg-card">
+                    <Card key={request.id} className="p-4 md:p-6 border-primary/20 bg-card">
                       <div className="space-y-4">
                         {/* Header */}
-                        <div className="flex items-start justify-between">
+                        <div className="flex flex-col md:flex-row md:items-start justify-between gap-3">
                           <div>
                             <div className="flex items-center gap-3 mb-2">
-                              <div className="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center font-semibold">
+                              <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center font-semibold text-sm md:text-base">
                                 {request.mentee.name.split(' ').map(n => n[0]).join('')}
                               </div>
                               <div>
-                                <div className="font-semibold text-lg">{request.mentee.name}</div>
+                                <div className="font-semibold text-base md:text-lg">{request.mentee.name}</div>
                                 <CollegeDisplay collegeName={request.mentee.college} variant="desktop" />
                               </div>
                             </div>
                           </div>
-                          <Badge className="bg-yellow-500/10 text-yellow-600 border-yellow-500/20">
-                            ⏳ PENDING YOUR RESPONSE
-                          </Badge>
+                          <div className="flex flex-wrap gap-2">
+                            <Badge className="bg-yellow-500/10 text-yellow-600 border-yellow-500/20 text-xs">
+                              ⏳ PENDING
+                            </Badge>
+                            {request.isPaid && (
+                              <Badge className="bg-success/10 text-success border-success/20 text-xs">
+                                ✓ PAID
+                              </Badge>
+                            )}
+                          </div>
                         </div>
 
                         {/* Session Details */}
-                        <div className="grid grid-cols-3 gap-4 py-4 border-y">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 py-4 border-y">
                           <div className="flex items-center gap-2">
-                            <Calendar className="h-4 w-4 text-primary" />
-                            <div>
+                            <Calendar className="h-4 w-4 text-primary flex-shrink-0" />
+                            <div className="min-w-0">
                               <div className="text-xs text-muted-foreground">Date</div>
-                              <div className="text-sm font-medium">{request.date}</div>
+                              <div className="text-sm font-medium truncate">{request.date}</div>
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Clock className="h-4 w-4 text-primary" />
-                            <div>
+                            <Clock className="h-4 w-4 text-primary flex-shrink-0" />
+                            <div className="min-w-0">
                               <div className="text-xs text-muted-foreground">Time</div>
-                              <div className="text-sm font-medium">{request.time} ({request.duration} min)</div>
+                              <div className="text-sm font-medium truncate">{request.time}</div>
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Coins className="h-4 w-4 text-success" />
-                            <div>
-                              <div className="text-xs text-muted-foreground">Estimated Earning</div>
-                              <div className="text-sm font-bold text-success">₹{estimatedEarning.toFixed(2)}</div>
+                            <Video className="h-4 w-4 text-primary flex-shrink-0" />
+                            <div className="min-w-0">
+                              <div className="text-xs text-muted-foreground">Duration</div>
+                              <div className="text-sm font-medium">{request.duration} min</div>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="h-4 w-4 text-success flex-shrink-0 font-bold text-xs">₹</div>
+                            <div className="min-w-0">
+                              <div className="text-xs text-muted-foreground">Your Earning</div>
+                              <div className="text-sm font-bold text-success">{formatPrice(sessionPrice * 0.85)}</div>
                             </div>
                           </div>
                         </div>
@@ -188,17 +206,17 @@ const MentorRequests = () => {
                         {request.message && (
                           <div className="bg-muted rounded-lg p-3">
                             <div className="flex items-start gap-2">
-                              <MessageSquare className="h-4 w-4 text-muted-foreground mt-0.5" />
-                              <div>
-                                <div className="text-xs text-muted-foreground mb-1">Message from mentee:</div>
-                                <div className="text-sm">{request.message}</div>
+                              <MessageSquare className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                              <div className="min-w-0">
+                                <div className="text-xs text-muted-foreground mb-1">Message from student:</div>
+                                <div className="text-sm break-words">{request.message}</div>
                               </div>
                             </div>
                           </div>
                         )}
 
                         {/* Actions */}
-                        <div className="flex gap-3">
+                        <div className="flex flex-col sm:flex-row gap-3">
                           <Button
                             className="flex-1"
                             onClick={() => handleAccept(request)}
@@ -212,7 +230,7 @@ const MentorRequests = () => {
                             ) : (
                               <>
                                 <CheckCircle2 className="mr-2 h-4 w-4" />
-                                Accept
+                                Accept & Send Meet Link
                               </>
                             )}
                           </Button>
@@ -223,13 +241,13 @@ const MentorRequests = () => {
                             disabled={processingId === request.id}
                           >
                             <XCircle className="mr-2 h-4 w-4" />
-                            Decline
+                            Decline & Refund
                           </Button>
                         </div>
 
                         {/* Time Limit */}
                         <p className="text-xs text-muted-foreground text-center">
-                          ⏰ Please respond within 1 hour
+                          ⏰ Please respond within 24 hours
                         </p>
                       </div>
                     </Card>
@@ -242,31 +260,43 @@ const MentorRequests = () => {
           {/* Accepted Requests */}
           {acceptedRequests.length > 0 && (
             <div>
-              <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+              <h2 className="text-lg md:text-xl font-semibold mb-4 flex items-center gap-2">
                 ✓ Confirmed Sessions
               </h2>
               <div className="space-y-4">
                 {acceptedRequests.map((request) => {
-                  const perMinuteRate = calculatePerMinuteRate(request.hourlyRate);
-                  const estimatedEarning = calculateSessionCost(perMinuteRate, request.duration);
+                  const sessionPrice = calculateSessionPrice(request.baseRate, request.duration);
                   
                   return (
-                    <Card key={request.id} className="p-6 border-success/20 bg-success/5">
-                      <div className="flex items-center justify-between">
+                    <Card key={request.id} className="p-4 md:p-6 border-success/20 bg-success/5">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 bg-success/10 text-success rounded-full flex items-center justify-center">
+                          <div className="w-10 h-10 bg-success/10 text-success rounded-full flex items-center justify-center flex-shrink-0">
                             ✓
                           </div>
-                          <div>
-                            <div className="font-semibold">{request.mentee.name}</div>
+                          <div className="min-w-0">
+                            <div className="font-semibold truncate">{request.mentee.name}</div>
                             <div className="text-sm text-muted-foreground">
                               {request.date} • {request.time} • {request.duration} min
                             </div>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-sm text-muted-foreground">Your Earning</div>
-                          <div className="text-lg font-bold text-success">₹{estimatedEarning.toFixed(2)}</div>
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                          {request.meetLink && (
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => window.open(request.meetLink, '_blank')}
+                            >
+                              <Video className="mr-2 h-4 w-4" />
+                              Join Meet
+                              <ExternalLink className="ml-2 h-3 w-3" />
+                            </Button>
+                          )}
+                          <div className="text-right">
+                            <div className="text-xs text-muted-foreground">Your Earning</div>
+                            <div className="text-base md:text-lg font-bold text-success">{formatPrice(sessionPrice * 0.85)}</div>
+                          </div>
                         </div>
                       </div>
                     </Card>
@@ -278,11 +308,11 @@ const MentorRequests = () => {
 
           {/* Empty State */}
           {pendingRequests.length === 0 && acceptedRequests.length === 0 && (
-            <Card className="p-12 text-center">
-              <User className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">No Requests Yet</h3>
-              <p className="text-muted-foreground">
-                Booking requests will appear here when mentees request sessions
+            <Card className="p-8 md:p-12 text-center">
+              <User className="h-12 w-12 md:h-16 md:w-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-lg md:text-xl font-semibold mb-2">No Requests Yet</h3>
+              <p className="text-sm md:text-base text-muted-foreground">
+                Booking requests will appear here when students book sessions
               </p>
             </Card>
           )}
@@ -291,11 +321,11 @@ const MentorRequests = () => {
 
       {/* Decline Dialog */}
       <AlertDialog open={showDeclineDialog} onOpenChange={setShowDeclineDialog}>
-        <AlertDialogContent>
+        <AlertDialogContent className="max-w-[95vw] sm:max-w-[425px]">
           <AlertDialogHeader>
             <AlertDialogTitle>Why are you declining?</AlertDialogTitle>
             <AlertDialogDescription>
-              Please let {selectedRequest?.mentee.name} know why you're declining this request
+              Please let {selectedRequest?.mentee.name} know why you're declining. They will receive a full refund.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="my-4">
@@ -306,12 +336,12 @@ const MentorRequests = () => {
               <SelectContent>
                 <SelectItem value="not-available">Not available at that time</SelectItem>
                 <SelectItem value="different-expertise">Different expertise required</SelectItem>
-                <SelectItem value="too-many">Too many sessions today</SelectItem>
+                <SelectItem value="too-many">Too many sessions scheduled</SelectItem>
                 <SelectItem value="other">Other reason</SelectItem>
               </SelectContent>
             </Select>
           </div>
-          <AlertDialogFooter>
+          <AlertDialogFooter className="flex-col sm:flex-row gap-2">
             <AlertDialogCancel onClick={() => setDeclineReason('')}>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDeclineConfirm}
@@ -324,7 +354,7 @@ const MentorRequests = () => {
                   Declining...
                 </>
               ) : (
-                'Send Decline'
+                'Decline & Refund'
               )}
             </AlertDialogAction>
           </AlertDialogFooter>
