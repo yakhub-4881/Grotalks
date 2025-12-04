@@ -6,91 +6,74 @@ import { Card } from '@/components/ui/card';
 import { Calendar } from '@/components/ui/calendar';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { useAppContext } from '@/lib/app-context';
-import { Calendar as CalendarIcon, Clock, User, Coins, AlertCircle, ArrowLeft } from 'lucide-react';
-import { PricingDisplay } from '@/components/PricingDisplay';
-import { WalletBalanceWarning } from '@/components/WalletBalanceWarning';
+import { Calendar as CalendarIcon, Clock, User, ArrowLeft, Video, ChevronLeft, ChevronRight } from 'lucide-react';
+import { sessionPackages, calculateSessionPrice, formatPrice } from '@/lib/college-config';
+import { format, addDays, startOfDay, isSameDay } from 'date-fns';
 
 const BookingSchedule = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { walletBalance } = useAppContext();
 
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedSlot, setSelectedSlot] = useState('');
+  const [selectedDuration, setSelectedDuration] = useState(30);
   const [message, setMessage] = useState('');
+  const [dateScrollIndex, setDateScrollIndex] = useState(0);
 
   // Mock mentor data
   const mentor = {
     id: Number(id) || 1,
     name: 'Arjun Singh',
     role: 'Product Manager @ Flipkart',
-    hourlyRate: 600,
+    baseRate: 500,
+    rating: 4.9,
     availability: {
-      slots: ['10:00 AM', '11:00 AM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM']
+      slots: ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM', '06:00 PM']
     }
   };
 
-  const handleSubmit = () => {
+  // Generate available dates (next 14 days excluding Sundays)
+  const availableDates = Array.from({ length: 14 }, (_, i) => addDays(startOfDay(new Date()), i + 1))
+    .filter(date => date.getDay() !== 0);
+
+  const visibleDates = availableDates.slice(dateScrollIndex, dateScrollIndex + 5);
+
+  const handleProceedToPayment = () => {
     if (!selectedDate || !selectedSlot) {
       toast({
         title: 'Missing Information',
-        description: 'Please select both date and time slot',
+        description: 'Please select date and time',
         variant: 'destructive'
       });
       return;
     }
 
-    if (walletBalance < 100) {
-      toast({
-        title: 'Insufficient Balance',
-        description: 'Please recharge your wallet to book a session',
-        variant: 'destructive'
-      });
-      return;
-    }
-
-    if (message.length < 20) {
-      toast({
-        title: 'Message Required',
-        description: 'Please describe what you\'re looking for (minimum 20 characters)',
-        variant: 'destructive'
-      });
-      return;
-    }
-
-    // Navigate to mentor requests with booking data
-    toast({
-      title: 'Booking Request Sent!',
-      description: 'The mentor will review your request shortly',
+    // Navigate to payment/confirmation
+    navigate('/booking/confirm', {
+      state: {
+        mentor: {
+          id: mentor.id,
+          name: mentor.name,
+          role: mentor.role,
+          baseRate: mentor.baseRate
+        },
+        date: format(selectedDate, 'EEE, dd MMM yyyy'),
+        time: selectedSlot,
+        duration: selectedDuration,
+        message
+      }
     });
-    
-    // Store booking request in sessionStorage for demonstration
-    const bookingRequest = {
-      mentorId: mentor.id,
-      mentorName: mentor.name,
-      date: selectedDate.toDateString(),
-      slot: selectedSlot,
-      message,
-      status: 'pending',
-      submittedAt: new Date().toISOString()
-    };
-    
-    const existingRequests = JSON.parse(sessionStorage.getItem('studentBookingRequests') || '[]');
-    sessionStorage.setItem('studentBookingRequests', JSON.stringify([...existingRequests, bookingRequest]));
-    
-    navigate('/mentee/dashboard');
   };
 
-  const isFormValid = selectedDate && selectedSlot && message.length >= 20;
+  const sessionPrice = calculateSessionPrice(mentor.baseRate, selectedDuration);
+  const isFormValid = selectedDate && selectedSlot;
 
   return (
     <Layout>
       <div className="min-h-[calc(100vh-4rem)] bg-muted">
-        <div className="container mx-auto px-4 py-8 max-w-5xl">
+        <div className="container mx-auto px-4 py-4 md:py-8 max-w-5xl">
           {/* Back Button */}
           <Button 
             variant="ghost" 
@@ -101,50 +84,139 @@ const BookingSchedule = () => {
             Back
           </Button>
 
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold text-foreground mb-2">Schedule Session</h1>
-            <p className="text-muted-foreground">Book a session with {mentor.name}</p>
-          </div>
+          <div className="grid lg:grid-cols-5 gap-6">
+            {/* Left: Session Info */}
+            <div className="lg:col-span-2">
+              <Card className="p-4 md:p-6 sticky top-4">
+                {/* Mentor Info */}
+                <div className="flex items-start gap-3 mb-4 pb-4 border-b">
+                  <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg flex-shrink-0">
+                    {mentor.name.split(' ').map(n => n[0]).join('')}
+                  </div>
+                  <div className="min-w-0">
+                    <h2 className="font-semibold text-foreground truncate">{mentor.name}</h2>
+                    <p className="text-sm text-muted-foreground truncate">{mentor.role}</p>
+                    <div className="flex items-center gap-1 mt-1 text-sm">
+                      <span className="text-bonus">★</span>
+                      <span className="font-medium">{mentor.rating}</span>
+                    </div>
+                  </div>
+                </div>
 
-          <WalletBalanceWarning />
+                {/* Session Duration Selection */}
+                <div className="mb-4">
+                  <Label className="text-sm font-semibold mb-3 block">Session Duration</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {sessionPackages.map((pkg) => {
+                      const price = calculateSessionPrice(mentor.baseRate, pkg.duration);
+                      return (
+                        <Button
+                          key={pkg.duration}
+                          variant={selectedDuration === pkg.duration ? 'default' : 'outline'}
+                          className={`h-auto py-3 flex flex-col items-center ${selectedDuration === pkg.duration ? '' : 'hover:border-primary'}`}
+                          onClick={() => setSelectedDuration(pkg.duration)}
+                        >
+                          <span className="font-semibold">{pkg.label}</span>
+                          <span className={`text-xs ${selectedDuration === pkg.duration ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
+                            {formatPrice(price)}
+                          </span>
+                        </Button>
+                      );
+                    })}
+                  </div>
+                </div>
 
-          <div className="grid lg:grid-cols-3 gap-6 mt-6">
-            {/* Main Form */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Date Selection */}
+                {/* Price Summary */}
+                <div className="bg-primary/5 rounded-lg p-4 border border-primary/20">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-muted-foreground">Session</span>
+                    <span className="font-medium">{selectedDuration} min video call</span>
+                  </div>
+                  <div className="flex items-center justify-between text-lg font-bold">
+                    <span>Total</span>
+                    <span className="text-primary">{formatPrice(sessionPrice)}</span>
+                  </div>
+                </div>
+
+                {/* Video Call Info */}
+                <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+                  <Video className="h-4 w-4" />
+                  <span>Video call via Google Meet</span>
+                </div>
+              </Card>
+            </div>
+
+            {/* Right: Booking Form */}
+            <div className="lg:col-span-3 space-y-4 md:space-y-6">
+              {/* Date Selection - Horizontal Scroll */}
               <Card className="p-4 md:p-6">
-                <Label className="flex items-center gap-2 mb-4 text-lg">
-                  <CalendarIcon className="h-5 w-5" />
+                <Label className="flex items-center gap-2 mb-4 text-base font-semibold">
+                  <CalendarIcon className="h-5 w-5 text-primary" />
                   Select Date
                 </Label>
-                <div className="flex justify-center">
-                  <Calendar
-                    mode="single"
-                    selected={selectedDate}
-                    onSelect={setSelectedDate}
-                    disabled={(date) => date < new Date() || date.getDay() === 0}
-                    className="rounded-md border w-fit"
-                  />
+                
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setDateScrollIndex(Math.max(0, dateScrollIndex - 1))}
+                    disabled={dateScrollIndex === 0}
+                    className="flex-shrink-0"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  
+                  <div className="flex gap-2 overflow-hidden flex-1 justify-center">
+                    {visibleDates.map((date) => (
+                      <Button
+                        key={date.toISOString()}
+                        variant={selectedDate && isSameDay(selectedDate, date) ? 'default' : 'outline'}
+                        className={`flex flex-col h-auto py-2 px-3 md:px-4 min-w-[60px] md:min-w-[70px] ${
+                          selectedDate && isSameDay(selectedDate, date) ? '' : 'hover:border-primary'
+                        }`}
+                        onClick={() => setSelectedDate(date)}
+                      >
+                        <span className={`text-[10px] md:text-xs ${selectedDate && isSameDay(selectedDate, date) ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
+                          {format(date, 'EEE')}
+                        </span>
+                        <span className="font-bold text-sm md:text-base">{format(date, 'd')}</span>
+                        <span className={`text-[10px] md:text-xs ${selectedDate && isSameDay(selectedDate, date) ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
+                          {format(date, 'MMM')}
+                        </span>
+                      </Button>
+                    ))}
+                  </div>
+                  
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setDateScrollIndex(Math.min(availableDates.length - 5, dateScrollIndex + 1))}
+                    disabled={dateScrollIndex >= availableDates.length - 5}
+                    className="flex-shrink-0"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
                 </div>
+
                 {selectedDate && (
-                  <p className="mt-4 text-sm text-success flex items-center gap-1">
-                    <span>✓</span> Selected: {selectedDate.toDateString()}
+                  <p className="mt-3 text-sm text-success flex items-center gap-1">
+                    <span>✓</span> {format(selectedDate, 'EEEE, MMMM d, yyyy')}
                   </p>
                 )}
               </Card>
 
-              {/* Time Slot Selection */}
+              {/* Time Selection */}
               <Card className="p-4 md:p-6">
-                <Label className="flex items-center gap-2 mb-4 text-lg">
-                  <Clock className="h-5 w-5" />
-                  Select Time Slot
+                <Label className="flex items-center gap-2 mb-4 text-base font-semibold">
+                  <Clock className="h-5 w-5 text-primary" />
+                  Select Time
                 </Label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                   {mentor.availability.slots.map((slot) => (
                     <Button
                       key={slot}
                       variant={selectedSlot === slot ? 'default' : 'outline'}
-                      className="h-10 text-sm"
+                      className={`h-10 text-sm ${selectedSlot === slot ? '' : 'hover:border-primary'}`}
                       onClick={() => setSelectedSlot(slot)}
                     >
                       {slot}
@@ -152,117 +224,43 @@ const BookingSchedule = () => {
                   ))}
                 </div>
                 {selectedSlot && (
-                  <p className="mt-4 text-sm text-success flex items-center gap-1">
-                    <span>✓</span> Selected: {selectedSlot}
+                  <p className="mt-3 text-sm text-success flex items-center gap-1">
+                    <span>✓</span> {selectedSlot} (IST)
                   </p>
                 )}
               </Card>
 
-              {/* Message to Mentor */}
+              {/* Message */}
               <Card className="p-4 md:p-6">
-                <Label htmlFor="message" className="flex items-center gap-2 mb-4 text-lg">
-                  <User className="h-5 w-5" />
-                  Message to Mentor* (min 20 characters)
+                <Label htmlFor="message" className="flex items-center gap-2 mb-4 text-base font-semibold">
+                  <User className="h-5 w-5 text-primary" />
+                  What would you like to discuss? (Optional)
                 </Label>
                 <Textarea
                   id="message"
-                  placeholder="Describe what you're looking for in this session... (e.g., career guidance, interview preparation, specific topics you want to discuss)"
+                  placeholder="Tell the mentor what you'd like to cover in this session..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className="min-h-28 resize-none"
+                  className="min-h-24 resize-none"
                   maxLength={500}
                 />
-                <div className="flex justify-between items-center mt-2">
-                  <p className="text-xs text-muted-foreground">
-                    {message.length}/500 characters
-                  </p>
-                  {message.length >= 20 && (
-                    <p className="text-xs text-success">✓ Looks good!</p>
-                  )}
-                </div>
+                <p className="text-xs text-muted-foreground mt-2 text-right">
+                  {message.length}/500
+                </p>
               </Card>
-            </div>
 
-            {/* Summary Sidebar */}
-            <div className="lg:col-span-1">
-              <Card className="p-4 md:p-6 sticky top-4 space-y-4">
-                <div>
-                  <h3 className="font-semibold text-foreground mb-3">Booking Summary</h3>
-                  <div className="space-y-2.5 text-sm">
-                    <div className="flex justify-between items-start gap-2">
-                      <span className="text-muted-foreground">Mentor</span>
-                      <span className="font-medium text-right">{mentor.name}</span>
-                    </div>
-                    <div className="flex justify-between items-start gap-2">
-                      <span className="text-muted-foreground">Role</span>
-                      <span className="font-medium text-right line-clamp-2">{mentor.role}</span>
-                    </div>
-                    {selectedDate && (
-                      <div className="flex justify-between items-start gap-2">
-                        <span className="text-muted-foreground">Date</span>
-                        <span className="font-medium text-right">{selectedDate.toLocaleDateString()}</span>
-                      </div>
-                    )}
-                    {selectedSlot && (
-                      <div className="flex justify-between items-start gap-2">
-                        <span className="text-muted-foreground">Time</span>
-                        <span className="font-medium">{selectedSlot}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
+              {/* Continue Button */}
+              <Button
+                className="w-full h-12 text-base font-semibold"
+                onClick={handleProceedToPayment}
+                disabled={!isFormValid}
+              >
+                Continue to Payment • {formatPrice(sessionPrice)}
+              </Button>
 
-                <div className="pt-4 border-t space-y-3">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">Session Rate</p>
-                    <PricingDisplay hourlyRate={mentor.hourlyRate} variant="detail" />
-                  </div>
-                  <div className="bg-accent/20 rounded-lg p-3">
-                    <div className="flex items-center gap-2 text-sm">
-                      <Coins className="h-4 w-4 text-primary" />
-                      <span className="text-muted-foreground">Your Balance:</span>
-                      <span className="font-bold text-foreground">₹{walletBalance.toFixed(2)}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {walletBalance < 100 && (
-                  <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3">
-                    <div className="flex items-start gap-2">
-                      <AlertCircle className="h-4 w-4 text-destructive mt-0.5 flex-shrink-0" />
-                      <p className="text-xs text-destructive">
-                        Minimum ₹100 balance required to book
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                <div className="space-y-3">
-                  <Button
-                    className="w-full h-12 text-base font-semibold"
-                    onClick={handleSubmit}
-                    disabled={!isFormValid}
-                  >
-                    Send Booking Request
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => navigate(`/mentor/profile/${id}`)}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-
-                <div className="pt-4 border-t">
-                  <p className="text-xs text-muted-foreground leading-relaxed">
-                    <strong>Next Steps:</strong><br />
-                    • Mentor will review your request<br />
-                    • You'll be notified of acceptance/reschedule<br />
-                    • Payment charged only when session starts
-                  </p>
-                </div>
-              </Card>
+              <p className="text-xs text-center text-muted-foreground">
+                Secure payment • Instant confirmation • Full refund if declined
+              </p>
             </div>
           </div>
         </div>

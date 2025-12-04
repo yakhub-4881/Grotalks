@@ -76,10 +76,34 @@ export const getCollegeDisplay = (collegeKey: string, mode: 'full' | 'abbr' | 'b
   return `${college.full} [${college.abbr}]`;
 };
 
-export const calculatePerMinuteRate = (hourlyRate: number): number => {
-  return parseFloat((hourlyRate / 60).toFixed(2));
+// Session duration options and pricing
+export interface SessionPackage {
+  duration: number; // in minutes
+  label: string;
+  description: string;
+}
+
+export const sessionPackages: SessionPackage[] = [
+  { duration: 15, label: '15 mins', description: 'Quick consultation' },
+  { duration: 30, label: '30 mins', description: 'Standard session' },
+  { duration: 45, label: '45 mins', description: 'Extended session' },
+  { duration: 60, label: '1 hour', description: 'Deep dive session' },
+];
+
+// Calculate session price based on base rate and duration
+export const calculateSessionPrice = (baseRate: number, durationMinutes: number): number => {
+  return Math.round(baseRate * (durationMinutes / 30)); // Base rate is for 30 mins
 };
 
-export const calculateSessionCost = (perMinuteRate: number, minutes: number): number => {
-  return parseFloat((perMinuteRate * minutes).toFixed(2));
+// Format price for display
+export const formatPrice = (price: number): string => {
+  return `₹${price.toLocaleString('en-IN')}`;
+};
+
+// Platform fee percentage
+export const PLATFORM_FEE_PERCENT = 15;
+
+// Calculate mentor earnings after platform fee
+export const calculateMentorEarnings = (sessionPrice: number): number => {
+  return Math.round(sessionPrice * (100 - PLATFORM_FEE_PERCENT) / 100);
 };
