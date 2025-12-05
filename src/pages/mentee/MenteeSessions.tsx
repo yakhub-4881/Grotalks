@@ -4,28 +4,22 @@ import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
 import { 
   Calendar, 
   Clock, 
-  MessageSquare as ChatIcon, 
+  Video,
   CheckCircle,
   XCircle,
   MessageSquare,
   RotateCcw,
-  AlertCircle,
   ArrowLeft
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { useAppContext } from '@/lib/app-context';
-import { WalletBalanceWarning } from '@/components/WalletBalanceWarning';
-import { PricingDisplay } from '@/components/PricingDisplay';
 import { RescheduleDialog } from '@/components/RescheduleDialog';
 
 const MenteeSessions = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { walletBalance } = useAppContext();
   
   const [rescheduleOpen, setRescheduleOpen] = useState(false);
   const [selectedSession, setSelectedSession] = useState<any>(null);
@@ -38,11 +32,9 @@ const MenteeSessions = () => {
       topic: 'Product Management Career Path',
       date: 'Nov 5, 2024',
       time: '3:00 PM',
-      duration: '60 min',
-      hourlyRate: 600,
+      duration: 60,
       status: 'confirmed',
-      startsIn: '2 hours 30 minutes',
-      canJoin: false,
+      meetLink: 'https://meet.google.com/xyz-abcd-efg',
     },
     {
       id: 2,
@@ -51,11 +43,9 @@ const MenteeSessions = () => {
       topic: 'Interview Preparation Tips',
       date: 'Nov 10, 2024',
       time: '5:00 PM',
-      duration: '45 min',
-      hourlyRate: 900,
+      duration: 45,
       status: 'pending',
-      startsIn: '5 days',
-      canJoin: false,
+      meetLink: 'https://meet.google.com/abc-defg-hij',
     },
   ];
 
@@ -66,23 +56,10 @@ const MenteeSessions = () => {
       mentorRole: 'Startup Founder',
       topic: 'Startup Funding Guidance',
       date: 'Oct 28, 2024',
-      duration: '30 min',
-      cost: 360,
+      duration: 30,
       rating: 5,
     },
   ];
-
-  const handleJoinSession = (sessionId: number) => {
-    if (walletBalance < 100) {
-      toast({
-        title: 'Insufficient Balance',
-        description: 'Please recharge your wallet before joining',
-        variant: 'destructive'
-      });
-      return;
-    }
-    navigate(`/session/${sessionId}`);
-  };
 
   const handleCancelSession = (session: any) => {
     toast({
@@ -115,8 +92,6 @@ const MenteeSessions = () => {
             <p className="text-sm md:text-base text-muted-foreground">Manage your mentorship sessions</p>
           </div>
 
-          <WalletBalanceWarning />
-
           <Tabs defaultValue="upcoming" className="mt-4 md:mt-6">
             <TabsList className="grid w-full grid-cols-2 lg:w-auto lg:inline-grid">
               <TabsTrigger value="upcoming" className="text-sm">Upcoming ({upcomingSessions.length})</TabsTrigger>
@@ -126,76 +101,60 @@ const MenteeSessions = () => {
             <TabsContent value="upcoming" className="mt-4 md:mt-6 space-y-4">
               {upcomingSessions.map((session) => (
                 <Card key={session.id} className="p-4 md:p-6">
-                  <div className="space-y-4">
-                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-2">
-                          <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                            session.status === 'confirmed' ? 'bg-success' : 'bg-yellow-500'
-                          }`}></div>
-                          <span className={`text-xs font-medium uppercase ${
-                            session.status === 'confirmed' ? 'text-success' : 'text-yellow-600'
-                          }`}>
-                            {session.status}
-                          </span>
-                        </div>
-                        <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 truncate">{session.mentor}</h3>
-                        <p className="text-xs md:text-sm text-muted-foreground mb-3 line-clamp-1">{session.mentorRole}</p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-4 text-xs md:text-sm">
-                          <div className="flex items-center gap-2">
-                            <Calendar className="h-3 w-3 md:h-4 md:w-4 text-primary flex-shrink-0" />
-                            <span className="truncate">{session.date}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Clock className="h-3 w-3 md:h-4 md:w-4 text-primary flex-shrink-0" />
-                            <span className="truncate">{session.time} ({session.duration})</span>
-                          </div>
-                        </div>
-                        {!session.canJoin && (
-                          <div className="mt-3 flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
-                            <AlertCircle className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
-                            <span>Available in {session.startsIn}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="bg-muted rounded-lg p-3">
-                      <p className="text-xs md:text-sm break-words"><strong>Topic:</strong> {session.topic}</p>
-                      <div className="mt-2 flex items-center justify-between">
-                        <span className="text-xs md:text-sm text-muted-foreground">
-                          <PricingDisplay baseRate={session.hourlyRate} />
+                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                    {/* Session Info */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                          session.status === 'confirmed' ? 'bg-success' : 'bg-yellow-500'
+                        }`}></div>
+                        <span className={`text-xs font-medium uppercase ${
+                          session.status === 'confirmed' ? 'text-success' : 'text-yellow-600'
+                        }`}>
+                          {session.status}
                         </span>
                       </div>
+                      <h3 className="text-base md:text-lg font-semibold text-foreground mb-1">{session.mentor}</h3>
+                      <p className="text-xs md:text-sm text-muted-foreground mb-3">{session.topic}</p>
+                      <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-1.5">
+                          <Calendar className="h-4 w-4 text-primary" />
+                          <span>{session.date} at {session.time}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <Clock className="h-4 w-4 text-primary" />
+                          <span>{session.duration} min</span>
+                        </div>
+                      </div>
                     </div>
-
-                    <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
-                      <Button
-                        className="flex-1 text-sm h-9 md:h-10"
-                        disabled={!session.canJoin}
-                        onClick={() => handleJoinSession(session.id)}
+                    
+                    {/* Action Buttons */}
+                    <div className="flex flex-col sm:flex-row gap-2 lg:flex-shrink-0">
+                      <Button 
+                        className="text-sm h-10"
+                        onClick={() => window.open(session.meetLink, '_blank')}
                       >
-                        <ChatIcon className="mr-2 h-4 w-4" />
-                        <span className="truncate">{session.canJoin ? 'Join Chat' : 'Locked'}</span>
+                        <Video className="mr-2 h-4 w-4" />
+                        Join Google Meet
                       </Button>
-                      <Button
-                        variant="outline"
-                        className="flex-1 text-sm h-9 md:h-10"
+                      <Button 
+                        variant="outline" 
+                        className="text-sm h-10"
                         onClick={() => {
                           setSelectedSession(session);
                           setRescheduleOpen(true);
                         }}
                       >
                         <RotateCcw className="mr-2 h-4 w-4" />
-                        <span className="truncate">Reschedule</span>
+                        Reschedule
                       </Button>
-                      <Button
-                        variant="destructive"
-                        className="flex-1 text-sm h-9 md:h-10"
+                      <Button 
+                        variant="ghost" 
+                        className="text-sm h-10 text-destructive hover:text-destructive hover:bg-destructive/10"
                         onClick={() => handleCancelSession(session)}
                       >
                         <XCircle className="mr-2 h-4 w-4" />
-                        <span className="truncate">Cancel</span>
+                        Cancel
                       </Button>
                     </div>
                   </div>
@@ -205,24 +164,22 @@ const MenteeSessions = () => {
 
             <TabsContent value="completed" className="mt-6 space-y-4">
               {completedSessions.map((session) => (
-                <Card key={session.id} className="p-6">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
+                <Card key={session.id} className="p-4 md:p-6">
+                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                    <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2">
-                        <CheckCircle className="h-5 w-5 text-success" />
-                        <h3 className="text-lg font-semibold">{session.mentor}</h3>
+                        <CheckCircle className="h-5 w-5 text-success flex-shrink-0" />
+                        <h3 className="text-base md:text-lg font-semibold">{session.mentor}</h3>
                       </div>
-                      <p className="text-sm text-muted-foreground mb-1">{session.mentorRole}</p>
-                      <p className="text-sm text-foreground mb-2">{session.topic}</p>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <p className="text-xs md:text-sm text-muted-foreground mb-1">{session.mentorRole}</p>
+                      <p className="text-sm text-foreground mb-3">{session.topic}</p>
+                      <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
                         <span>{session.date}</span>
                         <span>•</span>
-                        <span>{session.duration}</span>
-                        <span>•</span>
-                        <span className="font-medium text-foreground">₹{session.cost}</span>
+                        <span>{session.duration} min</span>
                       </div>
                     </div>
-                    <div>
+                    <div className="flex-shrink-0">
                       {session.rating ? (
                         <div className="flex items-center gap-1 text-bonus">
                           {'⭐'.repeat(session.rating)}

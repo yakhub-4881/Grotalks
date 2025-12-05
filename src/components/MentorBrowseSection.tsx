@@ -6,10 +6,9 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, Star, MapPin, Briefcase, Filter, SlidersHorizontal } from 'lucide-react';
-import { getCollegeDisplay, collegeMap } from '@/lib/college-config';
+import { Search, Star, MapPin, SlidersHorizontal } from 'lucide-react';
+import { collegeMap } from '@/lib/college-config';
 import { CollegeDisplay } from '@/components/CollegeDisplay';
-import { PricingDisplay } from '@/components/PricingDisplay';
 
 const mentors = [
   {
@@ -141,8 +140,6 @@ export const MentorBrowseSection = () => {
     })
     .sort((a, b) => {
       if (sortBy === 'rating') return b.rating - a.rating;
-      if (sortBy === 'price-low') return a.baseRate - b.baseRate;
-      if (sortBy === 'price-high') return b.baseRate - a.baseRate;
       if (sortBy === 'sessions') return b.sessionsCompleted - a.sessionsCompleted;
       return 0;
     });
@@ -174,8 +171,6 @@ export const MentorBrowseSection = () => {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="rating">Top Rated</SelectItem>
-              <SelectItem value="price-low">Price: Low to High</SelectItem>
-              <SelectItem value="price-high">Price: High to Low</SelectItem>
               <SelectItem value="sessions">Most Sessions</SelectItem>
             </SelectContent>
           </Select>
@@ -342,9 +337,8 @@ export const MentorBrowseSection = () => {
                 ))}
               </div>
 
-              {/* Footer: Pricing + CTA */}
-              <div className="mt-auto pt-4 border-t border-border/50 flex items-center justify-between gap-4">
-                <PricingDisplay baseRate={mentor.baseRate} variant="inline" />
+              {/* Footer: CTA */}
+              <div className="mt-auto pt-4 border-t border-border/50 flex items-center justify-end">
                 <Button
                   onClick={() => navigate(`/mentor/profile/${mentor.id}`)}
                   size="sm"
