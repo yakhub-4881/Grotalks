@@ -25,7 +25,7 @@ const mentors = [
     expertise: ['Product Management', 'Career Guidance', 'Interview Prep'],
     rating: 4.9,
     reviews: 28,
-    hourlyRate: 600,
+    baseRate: 2500,
     sessionsCompleted: 45,
   },
   {
@@ -41,7 +41,7 @@ const mentors = [
     expertise: ['Masters Abroad', 'Interview Prep', 'Data Science'],
     rating: 4.9,
     reviews: 32,
-    hourlyRate: 900,
+    baseRate: 4000,
     sessionsCompleted: 52,
   },
   {
@@ -57,7 +57,7 @@ const mentors = [
     expertise: ['Entrepreneurship', 'Startup Funding', 'Career Guidance'],
     rating: 4.8,
     reviews: 25,
-    hourlyRate: 1200,
+    baseRate: 6000,
     sessionsCompleted: 38,
   },
   {
@@ -73,7 +73,7 @@ const mentors = [
     expertise: ['Data Science', 'ML/AI', 'Interview Prep'],
     rating: 4.7,
     reviews: 18,
-    hourlyRate: 720,
+    baseRate: 3000,
     sessionsCompleted: 25,
   },
   {
@@ -89,7 +89,7 @@ const mentors = [
     expertise: ['Finance & Investing', 'Career Guidance', 'MBA Abroad'],
     rating: 4.8,
     reviews: 22,
-    hourlyRate: 840,
+    baseRate: 5000,
     sessionsCompleted: 32,
   },
   {
@@ -105,7 +105,7 @@ const mentors = [
     expertise: ['UX/UI Design', 'Career Guidance', 'Portfolio Review'],
     rating: 4.9,
     reviews: 30,
-    hourlyRate: 660,
+    baseRate: 2000,
     sessionsCompleted: 42,
   },
 ];
@@ -141,8 +141,8 @@ export const MentorBrowseSection = () => {
     })
     .sort((a, b) => {
       if (sortBy === 'rating') return b.rating - a.rating;
-      if (sortBy === 'price-low') return a.hourlyRate - b.hourlyRate;
-      if (sortBy === 'price-high') return b.hourlyRate - a.hourlyRate;
+      if (sortBy === 'price-low') return a.baseRate - b.baseRate;
+      if (sortBy === 'price-high') return b.baseRate - a.baseRate;
       if (sortBy === 'sessions') return b.sessionsCompleted - a.sessionsCompleted;
       return 0;
     });
@@ -344,7 +344,7 @@ export const MentorBrowseSection = () => {
 
               {/* Footer: Pricing + CTA */}
               <div className="mt-auto pt-4 border-t border-border/50 flex items-center justify-between gap-4">
-                <PricingDisplay baseRate={mentor.hourlyRate} variant="inline" />
+                <PricingDisplay baseRate={mentor.baseRate} variant="inline" />
                 <Button
                   onClick={() => navigate(`/mentor/profile/${mentor.id}`)}
                   size="sm"

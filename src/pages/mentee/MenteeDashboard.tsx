@@ -4,10 +4,11 @@ import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useAppContext } from '@/lib/app-context';
-import { Search, Calendar, User, Wallet, Plus, Clock, RotateCcw, MessageSquare, Star, TrendingUp, XCircle } from 'lucide-react';
+import { Search, Calendar, User, Wallet, Plus, Clock, RotateCcw, Video, Star, TrendingUp, XCircle, IndianRupee } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { RescheduleDialog } from '@/components/RescheduleDialog';
 import { PricingDisplay } from '@/components/PricingDisplay';
+import { calculateSessionPrice, formatPrice } from '@/lib/college-config';
 import { MentorBrowseSection } from '@/components/MentorBrowseSection';
 import {
   AlertDialog,
@@ -44,26 +45,18 @@ const MenteeDashboard = () => {
     { label: 'Hours of Learning', value: '0.5', icon: TrendingUp, color: 'text-secondary' },
   ];
 
-  const activeSessions = [
-    {
-      id: 0,
-      mentor: 'Priya Sharma',
-      topic: 'Software Engineering Interview Prep',
-      date: 'Nov 4, 2024',
-      time: '1:00 PM - 2:00 PM',
-      status: 'active',
-    },
-  ];
-
   const upcomingSessions = [
     {
       id: 1,
       mentor: 'Arjun Singh',
       topic: 'Product Management Career Path',
       date: 'Nov 5, 2024',
-      time: '3:00 PM - 4:00 PM',
+      time: '3:00 PM',
+      duration: 30,
       status: 'confirmed',
-      startTime: new Date(Date.now() + 2 * 60 * 60 * 1000) // 2 hours from now
+      baseRate: 4000,
+      meetLink: 'https://meet.google.com/xyz-abcd-efg',
+      startTime: new Date(Date.now() + 2 * 60 * 60 * 1000)
     },
   ];
 
@@ -148,7 +141,7 @@ const MenteeDashboard = () => {
       role: 'Software Engineer @ Google',
       expertise: 'Masters Abroad, Interview Prep',
       rating: 4.9,
-      hourlyRate: 350,
+      baseRate: 3500,
     },
     {
       id: 2,
@@ -156,7 +149,7 @@ const MenteeDashboard = () => {
       role: 'Startup Founder',
       expertise: 'Entrepreneurship, Funding',
       rating: 4.8,
-      hourlyRate: 400,
+      baseRate: 5000,
     },
   ];
 
@@ -189,160 +182,76 @@ const MenteeDashboard = () => {
             ))}
           </div>
 
-          {/* Sessions Grid - Side by side on desktop */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            {/* Active Session */}
-            {activeSessions.length > 0 && (
-              <div>
-                <h2 className="text-xl font-semibold text-foreground mb-4">Active Session</h2>
-                <div className="space-y-4">
-                  {activeSessions.map((session) => {
-                    const lowBalance = walletBalance < 100;
+          {/* Upcoming Sessions */}
+          {upcomingSessions.length > 0 && (
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold text-foreground mb-4">Upcoming Sessions</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {upcomingSessions.map((session) => {
+                  const sessionCanJoin = canJoinSession(session);
+                  const sessionPrice = calculateSessionPrice(session.baseRate, session.duration);
                   
-                    return (
-                      <Card key={session.id} className="p-4 md:p-6 border-success/30 bg-success/5 h-full min-h-[280px] flex flex-col">
-                      <div className="space-y-4 flex-1 flex flex-col">
-                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 flex-1">
+                  return (
+                    <Card key={session.id} className="p-4 md:p-6">
+                      <div className="space-y-4">
+                        <div className="flex items-start justify-between gap-3">
                           <div className="space-y-2 flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <div className="w-2 h-2 rounded-full bg-success animate-pulse flex-shrink-0"></div>
-                              <span className="text-xs font-medium text-success uppercase">Live Now</span>
+                              <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
+                              <span className="text-xs font-medium text-success uppercase">Confirmed</span>
                             </div>
                             <h3 className="text-base md:text-lg font-semibold text-foreground truncate">{session.mentor}</h3>
                             <p className="text-sm text-muted-foreground line-clamp-2">{session.topic}</p>
-                            <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm">
-                              <span className="text-foreground font-medium whitespace-nowrap">{session.date}</span>
-                              <span className="text-muted-foreground whitespace-nowrap">{session.time}</span>
-                            </div>
-                            {lowBalance && (
-                              <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs md:text-sm bg-warning/10 border border-warning/30 px-3 py-3 rounded-md">
-                                <div className="flex items-start gap-2 flex-1 text-warning-foreground/90">
-                                  <Wallet className="h-4 w-4 flex-shrink-0 mt-0.5 text-warning" />
-                                  <span className="text-foreground">Low wallet balance! Recharge now to avoid session disruption.</span>
-                                </div>
-                                <Button 
-                                  size="sm" 
-                                  className="h-8 self-start sm:self-center whitespace-nowrap bg-warning hover:bg-warning/90 text-warning-foreground"
-                                  onClick={() => navigate('/mentee/wallet/recharge')}
-                                >
-                                  <Wallet className="mr-2 h-3 w-3" />
-                                  Recharge
-                                </Button>
-                              </div>
-                            )}
                           </div>
                         </div>
-                        
-                        <div className="flex flex-col sm:flex-row gap-2 md:gap-3 mt-auto">
+
+                        <div className="space-y-2 py-3 border-y text-sm">
+                          <div className="flex items-center gap-2">
+                            <Calendar className="h-4 w-4 text-primary flex-shrink-0" />
+                            <span className="text-muted-foreground">{session.date} at {session.time}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Clock className="h-4 w-4 text-primary flex-shrink-0" />
+                            <span className="text-muted-foreground">{session.duration} minutes</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <IndianRupee className="h-4 w-4 text-success flex-shrink-0" />
+                            <span className="text-foreground font-medium">{formatPrice(sessionPrice)} (Paid)</span>
+                          </div>
+                        </div>
+
+                        {!sessionCanJoin && (
+                          <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground bg-muted px-3 py-2 rounded-md w-fit">
+                            <Clock className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
+                            <span>Session starts in {timeUntilSession}</span>
+                          </div>
+                        )}
+
+                        <div className="flex flex-col sm:flex-row gap-2">
                           <Button 
-                            onClick={() => handleJoinSession(session.id)} 
-                            className="flex-1 text-sm h-9 md:h-10 bg-success hover:bg-success/90"
+                            className="flex-1 text-sm h-9"
+                            onClick={() => window.open(session.meetLink, '_blank')}
+                            disabled={!sessionCanJoin}
                           >
-                            <MessageSquare className="mr-2 h-4 w-4" />
-                            Join Chat
+                            <Video className="mr-2 h-4 w-4" />
+                            {sessionCanJoin ? 'Join Google Meet' : 'Locked'}
                           </Button>
                           <Button 
                             variant="outline" 
-                            className="flex-1 text-sm h-9 md:h-10"
+                            className="flex-1 text-sm h-9"
                             onClick={() => setShowRescheduleDialog(true)}
                           >
                             <RotateCcw className="mr-2 h-4 w-4" />
-                            <span className="truncate">Reschedule</span>
-                          </Button>
-                          <Button 
-                            variant="destructive" 
-                            className="flex-1 text-sm h-9 md:h-10"
-                            onClick={() => handleDeclineClick(session)}
-                          >
-                            <XCircle className="mr-2 h-4 w-4" />
-                            <span className="truncate">End Session</span>
+                            Reschedule
                           </Button>
                         </div>
                       </div>
                     </Card>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* Upcoming Sessions */}
-            <div>
-              <h2 className="text-xl font-semibold text-foreground mb-4">Upcoming Sessions</h2>
-            <div className="space-y-4">
-              {upcomingSessions.map((session) => {
-                const sessionCanJoin = canJoinSession(session);
-                const lowBalance = walletBalance < 100;
-                
-                  return (
-                    <Card key={session.id} className="p-4 md:p-6 h-full min-h-[280px] flex flex-col">
-                    <div className="space-y-4 flex-1 flex flex-col">
-                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 flex-1">
-                        <div className="space-y-2 flex-1 min-w-0">
-                          <h3 className="text-base md:text-lg font-semibold text-foreground truncate">{session.mentor}</h3>
-                          <p className="text-sm text-muted-foreground line-clamp-2">{session.topic}</p>
-                          <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm">
-                            <span className="text-foreground font-medium whitespace-nowrap">{session.date}</span>
-                            <span className="text-muted-foreground whitespace-nowrap">{session.time}</span>
-                          </div>
-                          {!sessionCanJoin && (
-                            <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground bg-muted px-3 py-2 rounded-md w-fit">
-                              <Clock className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
-                              <span>Session starts in {timeUntilSession}</span>
-                            </div>
-                          )}
-                          {lowBalance && (
-                            <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs md:text-sm bg-warning/10 border border-warning/30 px-3 py-3 rounded-md">
-                              <div className="flex items-start gap-2 flex-1 text-warning-foreground/90">
-                                <Wallet className="h-4 w-4 flex-shrink-0 mt-0.5 text-warning" />
-                                <span className="text-foreground">Low wallet balance! Recharge now to avoid session disruption.</span>
-                              </div>
-                              <Button 
-                                size="sm" 
-                                className="h-8 self-start sm:self-center whitespace-nowrap bg-warning hover:bg-warning/90 text-warning-foreground"
-                                onClick={() => navigate('/mentee/wallet/recharge')}
-                              >
-                                <Wallet className="mr-2 h-3 w-3" />
-                                Recharge
-                              </Button>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      
-                      <div className="flex flex-col sm:flex-row gap-2 md:gap-3 mt-auto">
-                        <Button 
-                          onClick={() => handleJoinSession(session.id)} 
-                          className="flex-1 text-sm h-9 md:h-10"
-                          disabled={!sessionCanJoin}
-                        >
-                          <MessageSquare className="mr-2 h-4 w-4" />
-                          {sessionCanJoin ? 'Join Chat' : 'Locked'}
-                        </Button>
-                        <Button 
-                          variant="outline" 
-                          className="flex-1 text-sm h-9 md:h-10"
-                          onClick={() => setShowRescheduleDialog(true)}
-                        >
-                          <RotateCcw className="mr-2 h-4 w-4" />
-                          <span className="truncate">Reschedule</span>
-                        </Button>
-                        <Button 
-                          variant="destructive" 
-                          className="flex-1 text-sm h-9 md:h-10"
-                          onClick={() => handleDeclineClick(session)}
-                        >
-                          <XCircle className="mr-2 h-4 w-4" />
-                          <span className="truncate">Decline</span>
-                        </Button>
-                      </div>
-                    </div>
-                  </Card>
                   );
                 })}
               </div>
             </div>
-          </div>
+          )}
 
           {/* Browse Mentors Section */}
           <div className="mb-8">
@@ -372,7 +281,7 @@ const MenteeDashboard = () => {
                   </div>
                   <p className="text-sm text-foreground mb-4">{mentor.expertise}</p>
                   <div className="flex items-center justify-between pt-4 border-t">
-                    <PricingDisplay baseRate={mentor.hourlyRate} variant="inline" />
+                    <PricingDisplay baseRate={mentor.baseRate} variant="inline" />
                     <Button size="sm">Book Again</Button>
                   </div>
                 </Card>
