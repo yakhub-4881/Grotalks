@@ -164,7 +164,7 @@ const MenteeSessions = () => {
                       <p className="text-xs md:text-sm break-words"><strong>Topic:</strong> {session.topic}</p>
                       <div className="mt-2 flex items-center justify-between">
                         <span className="text-xs md:text-sm text-muted-foreground">
-                          <PricingDisplay hourlyRate={session.hourlyRate} />
+                          <PricingDisplay baseRate={session.hourlyRate} />
                         </span>
                       </div>
                     </div>

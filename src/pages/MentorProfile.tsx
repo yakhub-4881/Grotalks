@@ -143,7 +143,7 @@ const MentorProfile = () => {
                   <div className="space-y-4">
                     <div>
                       <p className="text-sm text-muted-foreground mb-2">Session Rate</p>
-                      <PricingDisplay hourlyRate={mentor.hourlyRate} variant="detail" />
+                      <PricingDisplay baseRate={mentor.hourlyRate} variant="detail" />
                     </div>
                     <Button 
                       className="w-full h-12 text-base font-semibold"
