@@ -4,11 +4,9 @@ import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useAppContext } from '@/lib/app-context';
-import { Search, Calendar, User, Wallet, Plus, Clock, RotateCcw, Video, Star, TrendingUp, XCircle, IndianRupee } from 'lucide-react';
+import { Calendar, Clock, RotateCcw, Video, Star, TrendingUp, XCircle, Users } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { RescheduleDialog } from '@/components/RescheduleDialog';
-import { PricingDisplay } from '@/components/PricingDisplay';
-import { calculateSessionPrice, formatPrice } from '@/lib/college-config';
 import { MentorBrowseSection } from '@/components/MentorBrowseSection';
 import {
   AlertDialog,
@@ -25,13 +23,12 @@ import { Label } from '@/components/ui/label';
 
 const MenteeDashboard = () => {
   const navigate = useNavigate();
-  const { walletBalance, setIsAuthenticated } = useAppContext();
+  const { setIsAuthenticated } = useAppContext();
   const { toast } = useToast();
   const [showRescheduleDialog, setShowRescheduleDialog] = useState(false);
   const [showDeclineDialog, setShowDeclineDialog] = useState(false);
   const [declineReason, setDeclineReason] = useState('');
   const [selectedSession, setSelectedSession] = useState<any>(null);
-  const [timeUntilSession, setTimeUntilSession] = useState('');
 
   // Set authentication state on mount
   useEffect(() => {
@@ -39,10 +36,10 @@ const MenteeDashboard = () => {
   }, [setIsAuthenticated]);
 
   const stats = [
-    { label: 'Wallet Balance', value: `₹${walletBalance}`, icon: Wallet, color: 'text-success' },
     { label: 'Sessions Booked', value: '2', icon: Calendar, color: 'text-primary' },
     { label: 'Sessions Completed', value: '1', icon: Star, color: 'text-bonus' },
-    { label: 'Hours of Learning', value: '0.5', icon: TrendingUp, color: 'text-secondary' },
+    { label: 'Hours of Learning', value: '0.5', icon: TrendingUp, color: 'text-success' },
+    { label: 'Mentors Connected', value: '3', icon: Users, color: 'text-secondary' },
   ];
 
   const upcomingSessions = [
@@ -54,51 +51,9 @@ const MenteeDashboard = () => {
       time: '3:00 PM',
       duration: 30,
       status: 'confirmed',
-      baseRate: 4000,
       meetLink: 'https://meet.google.com/xyz-abcd-efg',
-      startTime: new Date(Date.now() + 2 * 60 * 60 * 1000)
     },
   ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (upcomingSessions[0]?.startTime) {
-        const now = new Date();
-        const sessionTime = new Date(upcomingSessions[0].startTime);
-        const diff = sessionTime.getTime() - now.getTime();
-        
-        if (diff > 0) {
-          const hours = Math.floor(diff / (1000 * 60 * 60));
-          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-          setTimeUntilSession(`${hours}h ${minutes}m`);
-        } else {
-          setTimeUntilSession('Session can start now');
-        }
-      }
-    }, 1000);
-    
-    return () => clearInterval(interval);
-  }, []);
-
-  const canJoinSession = (session: any) => {
-    const now = new Date();
-    const sessionTime = new Date(session.startTime);
-    const diff = sessionTime.getTime() - now.getTime();
-    return diff <= 5 * 60 * 1000; // Can join 5 minutes before
-  };
-
-  const handleJoinSession = (sessionId: number) => {
-    if (walletBalance < 100) {
-      toast({
-        title: 'Insufficient Balance',
-        description: 'Please recharge your wallet before joining',
-        variant: 'destructive'
-      });
-      navigate('/mentee/wallet/recharge');
-      return;
-    }
-    navigate(`/session/${sessionId}`);
-  };
 
   const handleReschedule = (date: string, time: string, reason: string) => {
     toast({
@@ -141,7 +96,6 @@ const MenteeDashboard = () => {
       role: 'Software Engineer @ Google',
       expertise: 'Masters Abroad, Interview Prep',
       rating: 4.9,
-      baseRate: 3500,
     },
     {
       id: 2,
@@ -149,7 +103,6 @@ const MenteeDashboard = () => {
       role: 'Startup Founder',
       expertise: 'Entrepreneurship, Funding',
       rating: 4.8,
-      baseRate: 5000,
     },
   ];
 
@@ -186,69 +139,59 @@ const MenteeDashboard = () => {
           {upcomingSessions.length > 0 && (
             <div className="mb-8">
               <h2 className="text-xl font-semibold text-foreground mb-4">Upcoming Sessions</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {upcomingSessions.map((session) => {
-                  const sessionCanJoin = canJoinSession(session);
-                  const sessionPrice = calculateSessionPrice(session.baseRate, session.duration);
-                  
-                  return (
-                    <Card key={session.id} className="p-4 md:p-6">
-                      <div className="space-y-4">
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="space-y-2 flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                              <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
-                              <span className="text-xs font-medium text-success uppercase">Confirmed</span>
-                            </div>
-                            <h3 className="text-base md:text-lg font-semibold text-foreground truncate">{session.mentor}</h3>
-                            <p className="text-sm text-muted-foreground line-clamp-2">{session.topic}</p>
-                          </div>
+              <div className="space-y-4">
+                {upcomingSessions.map((session) => (
+                  <Card key={session.id} className="p-4 md:p-6">
+                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                      {/* Session Info */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
+                          <span className="text-xs font-medium text-success uppercase">Confirmed</span>
                         </div>
-
-                        <div className="space-y-2 py-3 border-y text-sm">
-                          <div className="flex items-center gap-2">
-                            <Calendar className="h-4 w-4 text-primary flex-shrink-0" />
-                            <span className="text-muted-foreground">{session.date} at {session.time}</span>
+                        <h3 className="text-base md:text-lg font-semibold text-foreground mb-1">{session.mentor}</h3>
+                        <p className="text-sm text-muted-foreground mb-3">{session.topic}</p>
+                        <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                          <div className="flex items-center gap-1.5">
+                            <Calendar className="h-4 w-4 text-primary" />
+                            <span>{session.date} at {session.time}</span>
                           </div>
-                          <div className="flex items-center gap-2">
-                            <Clock className="h-4 w-4 text-primary flex-shrink-0" />
-                            <span className="text-muted-foreground">{session.duration} minutes</span>
+                          <div className="flex items-center gap-1.5">
+                            <Clock className="h-4 w-4 text-primary" />
+                            <span>{session.duration} min</span>
                           </div>
-                          <div className="flex items-center gap-2">
-                            <IndianRupee className="h-4 w-4 text-success flex-shrink-0" />
-                            <span className="text-foreground font-medium">{formatPrice(sessionPrice)} (Paid)</span>
-                          </div>
-                        </div>
-
-                        {!sessionCanJoin && (
-                          <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground bg-muted px-3 py-2 rounded-md w-fit">
-                            <Clock className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
-                            <span>Session starts in {timeUntilSession}</span>
-                          </div>
-                        )}
-
-                        <div className="flex flex-col sm:flex-row gap-2">
-                          <Button 
-                            className="flex-1 text-sm h-9"
-                            onClick={() => window.open(session.meetLink, '_blank')}
-                            disabled={!sessionCanJoin}
-                          >
-                            <Video className="mr-2 h-4 w-4" />
-                            {sessionCanJoin ? 'Join Google Meet' : 'Locked'}
-                          </Button>
-                          <Button 
-                            variant="outline" 
-                            className="flex-1 text-sm h-9"
-                            onClick={() => setShowRescheduleDialog(true)}
-                          >
-                            <RotateCcw className="mr-2 h-4 w-4" />
-                            Reschedule
-                          </Button>
                         </div>
                       </div>
-                    </Card>
-                  );
-                })}
+                      
+                      {/* Action Buttons */}
+                      <div className="flex flex-col sm:flex-row gap-2 lg:flex-shrink-0">
+                        <Button 
+                          className="text-sm h-10"
+                          onClick={() => window.open(session.meetLink, '_blank')}
+                        >
+                          <Video className="mr-2 h-4 w-4" />
+                          Join Google Meet
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          className="text-sm h-10"
+                          onClick={() => setShowRescheduleDialog(true)}
+                        >
+                          <RotateCcw className="mr-2 h-4 w-4" />
+                          Reschedule
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          className="text-sm h-10 text-destructive hover:text-destructive hover:bg-destructive/10"
+                          onClick={() => handleDeclineClick(session)}
+                        >
+                          <XCircle className="mr-2 h-4 w-4" />
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
               </div>
             </div>
           )}
@@ -270,18 +213,17 @@ const MenteeDashboard = () => {
                   onClick={() => navigate(`/mentor/profile/${mentor.id}`)}
                 >
                   <div className="flex items-start justify-between mb-3">
-                    <div>
+                    <div className="flex-1 min-w-0">
                       <h3 className="text-lg font-semibold text-foreground mb-1">{mentor.name}</h3>
                       <p className="text-sm text-muted-foreground">{mentor.role}</p>
                     </div>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 flex-shrink-0">
                       <Star className="h-4 w-4 fill-bonus text-bonus" />
                       <span className="text-sm font-semibold">{mentor.rating}</span>
                     </div>
                   </div>
                   <p className="text-sm text-foreground mb-4">{mentor.expertise}</p>
-                  <div className="flex items-center justify-between pt-4 border-t">
-                    <PricingDisplay baseRate={mentor.baseRate} variant="inline" />
+                  <div className="flex items-center justify-end pt-4 border-t">
                     <Button size="sm">Book Again</Button>
                   </div>
                 </Card>
