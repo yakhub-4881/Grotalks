@@ -344,7 +344,7 @@ export const MentorBrowseSection = () => {
 
               {/* Footer: Pricing + CTA */}
               <div className="mt-auto pt-4 border-t border-border/50 flex items-center justify-between gap-4">
-                <PricingDisplay hourlyRate={mentor.hourlyRate} variant="inline" />
+                <PricingDisplay baseRate={mentor.hourlyRate} variant="inline" />
                 <Button
                   onClick={() => navigate(`/mentor/profile/${mentor.id}`)}
                   size="sm"

@@ -372,7 +372,7 @@ const MenteeDashboard = () => {
                   </div>
                   <p className="text-sm text-foreground mb-4">{mentor.expertise}</p>
                   <div className="flex items-center justify-between pt-4 border-t">
-                    <PricingDisplay hourlyRate={mentor.hourlyRate} variant="inline" />
+                    <PricingDisplay baseRate={mentor.hourlyRate} variant="inline" />
                     <Button size="sm">Book Again</Button>
                   </div>
                 </Card>

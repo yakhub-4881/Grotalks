@@ -51,7 +51,7 @@ const MentorDashboard = () => {
       duration: 30,
       message: 'I need career guidance for transitioning into product management',
       status: 'pending',
-      hourlyRate: 600
+      baseRate: 600
     },
     {
       id: 'REQ002',
@@ -61,7 +61,7 @@ const MentorDashboard = () => {
       duration: 45,
       message: 'Looking for advice on masters programs abroad',
       status: 'pending',
-      hourlyRate: 600
+      baseRate: 600
     },
   ]);
 
@@ -231,8 +231,8 @@ const MentorDashboard = () => {
                             className="w-full text-sm h-9 bg-success hover:bg-success/90"
                             onClick={() => navigate(`/session/${session.id}`)}
                           >
-                            <MessageSquare className="mr-2 h-4 w-4" />
-                            Join Chat
+                            <Video className="mr-2 h-4 w-4" />
+                            Join Meeting
                           </Button>
                           <Button 
                             variant="outline" 
@@ -244,7 +244,7 @@ const MentorDashboard = () => {
                             time: session.time.split(' - ')[0], 
                             duration: 60, 
                             status: 'accepted',
-                            hourlyRate: 600
+                            baseRate: 600
                           })}
                         >
                             <RotateCcw className="mr-2 h-4 w-4" />
@@ -260,7 +260,7 @@ const MentorDashboard = () => {
                             time: session.time.split(' - ')[0], 
                             duration: 60, 
                             status: 'accepted',
-                            hourlyRate: 600
+                            baseRate: 600
                           })}
                         >
                             <XCircle className="mr-2 h-4 w-4" />
@@ -317,8 +317,8 @@ const MentorDashboard = () => {
                               onClick={() => navigate(`/session/${session.id}`)}
                               disabled={!canStart}
                             >
-                              <MessageSquare className="mr-2 h-4 w-4" />
-                              {canStart ? 'Start Chat' : 'Locked'}
+                              <Video className="mr-2 h-4 w-4" />
+                              {canStart ? 'Join Meeting' : 'Locked'}
                             </Button>
                             <Button 
                               variant="outline" 
@@ -330,7 +330,7 @@ const MentorDashboard = () => {
                               time: session.time.split(' - ')[0], 
                               duration: 60, 
                               status: 'accepted',
-                              hourlyRate: 600
+                              baseRate: 600
                             })}
                           >
                               <RotateCcw className="mr-2 h-4 w-4" />
@@ -346,7 +346,7 @@ const MentorDashboard = () => {
                               time: session.time.split(' - ')[0], 
                               duration: 60, 
                               status: 'accepted',
-                              hourlyRate: 600
+                              baseRate: 600
                             })}
                           >
                               <XCircle className="mr-2 h-4 w-4" />
@@ -371,8 +371,8 @@ const MentorDashboard = () => {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {pendingRequests.map((request) => {
-                    const perMinuteRate = calculatePerMinuteRate(request.hourlyRate);
-                    const estimatedEarning = calculateSessionCost(perMinuteRate, request.duration);
+                    const sessionPrice = calculateSessionPrice(request.baseRate, request.duration);
+                    const estimatedEarning = sessionPrice;
                     
                     return (
                       <Card key={request.id} className="p-4 md:p-6 border-primary/20 bg-card h-full">
@@ -404,8 +404,8 @@ const MentorDashboard = () => {
                               <span className="text-muted-foreground truncate">{request.time} · {request.duration}min</span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <Coins className="h-3 w-3 text-success flex-shrink-0" />
-                              <span className="text-muted-foreground truncate">₹{estimatedEarning.toFixed(2)}</span>
+                              <IndianRupee className="h-3 w-3 text-success flex-shrink-0" />
+                              <span className="text-muted-foreground truncate">{formatPrice(estimatedEarning)}</span>
                             </div>
                           </div>
 
@@ -502,8 +502,8 @@ const MentorDashboard = () => {
                             onClick={() => navigate(`/session/${session.id}`)}
                             disabled={!canStart}
                           >
-                            <MessageSquare className="mr-2 h-4 w-4" />
-                            {canStart ? 'Start Chat' : 'Locked'}
+                            <Video className="mr-2 h-4 w-4" />
+                            {canStart ? 'Join Meeting' : 'Locked'}
                           </Button>
                           <Button variant="outline" className="text-sm h-9 md:h-10">
                             View Details
