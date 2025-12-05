@@ -51,7 +51,7 @@ const MentorDashboard = () => {
       duration: 30,
       message: 'I need career guidance for transitioning into product management',
       status: 'pending',
-      baseRate: 600
+      baseRate: 3000
     },
     {
       id: 'REQ002',
@@ -61,7 +61,7 @@ const MentorDashboard = () => {
       duration: 45,
       message: 'Looking for advice on masters programs abroad',
       status: 'pending',
-      baseRate: 600
+      baseRate: 3000
     },
   ]);
 
@@ -150,25 +150,17 @@ const MentorDashboard = () => {
     { label: 'Average Rating', value: '4.9', icon: Star, color: 'text-bonus' },
   ];
 
-  const activeSessions = [
-    {
-      id: 0,
-      mentee: 'Ravi Kumar',
-      topic: 'Career guidance for product management',
-      date: 'Nov 4, 2024',
-      time: '1:00 PM - 2:00 PM',
-      status: 'active',
-    },
-  ];
-
   const upcomingSessions = [
     {
       id: 1,
       mentee: 'Amit Sharma',
       topic: 'Startup funding strategies',
       date: 'Nov 4, 2024',
-      time: '2:00 PM - 3:00 PM',
+      time: '2:00 PM',
+      duration: 30,
       status: 'confirmed',
+      baseRate: 3000,
+      meetLink: 'https://meet.google.com/abc-defg-hij',
     },
   ];
 
@@ -201,167 +193,90 @@ const MentorDashboard = () => {
             ))}
           </div>
 
-          {/* Sessions Grid - Two columns on desktop, Pending Requests below */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 md:mb-8">
-            {/* Active Session */}
-            {activeSessions.length > 0 && (
-              <div>
-                <h2 className="text-lg md:text-xl font-semibold text-foreground mb-4">Active Session</h2>
-                <div className="space-y-4">
-                  {activeSessions.map((session) => (
-                    <Card key={session.id} className="p-4 md:p-6 border-success/30 bg-success/5 h-full min-h-[280px] flex flex-col">
-                      <div className="space-y-4 flex-1 flex flex-col">
-                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 flex-1">
+          {/* Upcoming Sessions */}
+          {upcomingSessions.length > 0 && (
+            <div className="mb-6 md:mb-8">
+              <h2 className="text-lg md:text-xl font-semibold text-foreground mb-4">Upcoming Sessions</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {upcomingSessions.map((session) => {
+                  const sessionTime = new Date(Date.now() + 2 * 60 * 60 * 1000);
+                  const now = new Date();
+                  const diff = sessionTime.getTime() - now.getTime();
+                  const canStart = diff <= 5 * 60 * 1000;
+                  const hours = Math.floor(diff / (1000 * 60 * 60));
+                  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                  const sessionPrice = calculateSessionPrice(session.baseRate, session.duration);
+                  
+                  return (
+                    <Card key={session.id} className="p-4 md:p-6">
+                      <div className="space-y-4">
+                        <div className="flex items-start justify-between gap-3">
                           <div className="space-y-2 flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <div className="w-2 h-2 rounded-full bg-success animate-pulse flex-shrink-0"></div>
-                              <span className="text-xs font-medium text-success uppercase">Live Now</span>
+                              <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
+                              <span className="text-xs font-medium text-success uppercase">Confirmed</span>
                             </div>
                             <h3 className="text-base md:text-lg font-semibold text-foreground truncate">{session.mentee}</h3>
                             <p className="text-sm text-muted-foreground line-clamp-2">{session.topic}</p>
-                            <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm">
-                              <span className="text-foreground font-medium whitespace-nowrap">{session.date}</span>
-                              <span className="text-muted-foreground whitespace-nowrap">{session.time}</span>
-                            </div>
                           </div>
                         </div>
 
-                        <div className="flex flex-col md:flex-row gap-2 mt-auto">
+                        <div className="space-y-2 py-3 border-y text-sm">
+                          <div className="flex items-center gap-2">
+                            <Calendar className="h-4 w-4 text-primary flex-shrink-0" />
+                            <span className="text-muted-foreground">{session.date} at {session.time}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Clock className="h-4 w-4 text-primary flex-shrink-0" />
+                            <span className="text-muted-foreground">{session.duration} minutes</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <IndianRupee className="h-4 w-4 text-success flex-shrink-0" />
+                            <span className="text-foreground font-medium">{formatPrice(sessionPrice)}</span>
+                          </div>
+                        </div>
+
+                        {!canStart && (
+                          <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground bg-muted px-3 py-2 rounded-md w-fit">
+                            <Clock className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
+                            <span>Starts in {hours}h {minutes}m</span>
+                          </div>
+                        )}
+
+                        <div className="flex flex-col sm:flex-row gap-2">
                           <Button 
-                            className="w-full text-sm h-9 bg-success hover:bg-success/90"
-                            onClick={() => navigate(`/session/${session.id}`)}
+                            className="flex-1 text-sm h-9"
+                            onClick={() => window.open(session.meetLink, '_blank')}
+                            disabled={!canStart}
                           >
                             <Video className="mr-2 h-4 w-4" />
-                            Join Meeting
+                            {canStart ? 'Join Google Meet' : 'Locked'}
                           </Button>
                           <Button 
                             variant="outline" 
-                            className="w-full text-sm h-9"
-                          onClick={() => handleRescheduleClick({ 
-                            id: session.id.toString(), 
-                            mentee: { name: session.mentee, college: 'vel-tech' }, 
-                            date: session.date, 
-                            time: session.time.split(' - ')[0], 
-                            duration: 60, 
-                            status: 'accepted',
-                            baseRate: 600
-                          })}
-                        >
-                            <RotateCcw className="mr-2 h-4 w-4" />
-                            Reschedule
-                          </Button>
-                          <Button 
-                            variant="destructive" 
-                            className="w-full text-sm h-9"
-                          onClick={() => handleDeclineClick({ 
-                            id: session.id.toString(), 
-                            mentee: { name: session.mentee, college: 'vel-tech' }, 
-                            date: session.date, 
-                            time: session.time.split(' - ')[0], 
-                            duration: 60, 
-                            status: 'accepted',
-                            baseRate: 600
-                          })}
-                        >
-                            <XCircle className="mr-2 h-4 w-4" />
-                            End Session
-                          </Button>
-                        </div>
-                      </div>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Upcoming Sessions */}
-            {upcomingSessions.length > 0 && (
-              <div>
-                <h2 className="text-lg md:text-xl font-semibold text-foreground mb-4">Upcoming Sessions</h2>
-                <div className="space-y-4">
-                  {upcomingSessions.map((session) => {
-                    const sessionTime = new Date(Date.now() + 2 * 60 * 60 * 1000);
-                    const now = new Date();
-                    const diff = sessionTime.getTime() - now.getTime();
-                    const canStart = diff <= 5 * 60 * 1000;
-                    const hours = Math.floor(diff / (1000 * 60 * 60));
-                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    
-                    return (
-                      <Card key={session.id} className="p-4 md:p-6 h-full min-h-[280px] flex flex-col">
-                        <div className="space-y-4 flex-1 flex flex-col">
-                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 flex-1">
-                            <div className="space-y-2 flex-1 min-w-0">
-                              <div className="flex items-center gap-2">
-                                <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
-                                <span className="text-xs font-medium text-success uppercase">Confirmed</span>
-                              </div>
-                              <h3 className="text-base md:text-lg font-semibold text-foreground truncate">{session.mentee}</h3>
-                              <p className="text-sm text-muted-foreground line-clamp-2">{session.topic}</p>
-                              <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm">
-                                <span className="text-foreground font-medium whitespace-nowrap">{session.date}</span>
-                                <span className="text-muted-foreground whitespace-nowrap">{session.time}</span>
-                              </div>
-                              {!canStart && (
-                                <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground bg-muted px-3 py-2 rounded-md w-fit">
-                                  <Clock className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
-                                  <span>Starts in {hours}h {minutes}m</span>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-
-                          <div className="flex flex-col md:flex-row gap-2 mt-auto">
-                            <Button 
-                              className="w-full text-sm h-9"
-                              onClick={() => navigate(`/session/${session.id}`)}
-                              disabled={!canStart}
-                            >
-                              <Video className="mr-2 h-4 w-4" />
-                              {canStart ? 'Join Meeting' : 'Locked'}
-                            </Button>
-                            <Button 
-                              variant="outline" 
-                              className="w-full text-sm h-9"
+                            className="flex-1 text-sm h-9"
                             onClick={() => handleRescheduleClick({ 
                               id: session.id.toString(), 
                               mentee: { name: session.mentee, college: 'iit-bombay' }, 
                               date: session.date, 
-                              time: session.time.split(' - ')[0], 
-                              duration: 60, 
+                              time: session.time, 
+                              duration: session.duration, 
                               status: 'accepted',
-                              baseRate: 600
+                              baseRate: session.baseRate
                             })}
                           >
-                              <RotateCcw className="mr-2 h-4 w-4" />
-                              Reschedule
-                            </Button>
-                            <Button 
-                              variant="destructive" 
-                              className="w-full text-sm h-9"
-                            onClick={() => handleDeclineClick({ 
-                              id: session.id.toString(), 
-                              mentee: { name: session.mentee, college: 'iit-bombay' }, 
-                              date: session.date, 
-                              time: session.time.split(' - ')[0], 
-                              duration: 60, 
-                              status: 'accepted',
-                              baseRate: 600
-                            })}
-                          >
-                              <XCircle className="mr-2 h-4 w-4" />
-                              Decline
-                            </Button>
-                          </div>
+                            <RotateCcw className="mr-2 h-4 w-4" />
+                            Reschedule
+                          </Button>
                         </div>
-                      </Card>
-                    );
-                  })}
-                </div>
+                      </div>
+                    </Card>
+                  );
+                })}
               </div>
-            )}
+            </div>
+          )}
 
-          </div>
 
           {/* Pending Requests - Separate row below */}
           {pendingRequests.length > 0 && (
