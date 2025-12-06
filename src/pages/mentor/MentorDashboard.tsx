@@ -236,21 +236,13 @@ const MentorDashboard = () => {
                           </div>
                         </div>
 
-                        {!canStart && (
-                          <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground bg-muted px-3 py-2 rounded-md w-fit">
-                            <Clock className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
-                            <span>Starts in {hours}h {minutes}m</span>
-                          </div>
-                        )}
-
                         <div className="flex flex-col sm:flex-row gap-2">
                           <Button 
                             className="flex-1 text-sm h-9"
-                            onClick={() => window.open(session.meetLink, '_blank')}
                             disabled={!canStart}
                           >
                             <Video className="mr-2 h-4 w-4" />
-                            {canStart ? 'Join Google Meet' : 'Locked'}
+                            Join Call
                           </Button>
                           <Button 
                             variant="outline" 

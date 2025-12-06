@@ -6,15 +6,15 @@ import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Star, MapPin, Briefcase, GraduationCap, Award, Calendar, Clock, ArrowLeft, Building2 } from 'lucide-react';
+import { Star, MapPin, GraduationCap, Award, Calendar, Clock, ArrowLeft, Building2 } from 'lucide-react';
 import { getCollegeDisplay } from '@/lib/college-config';
-import { PricingDisplay } from '@/components/PricingDisplay';
+import { MentorServices, MentorService } from '@/components/MentorServices';
 
 const MentorProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // Mock mentor data
+  // Mock mentor data with services
   const mentor = {
     id: Number(id) || 1,
     name: 'Arjun Singh',
@@ -26,10 +26,16 @@ const MentorProfile = () => {
     expertise: ['Product Management', 'Career Guidance', 'Interview Prep', 'Agile Methodologies'],
     rating: 4.9,
     totalReviews: 28,
-    hourlyRate: 600,
     sessionsCompleted: 45,
     bio: 'Product manager with 6+ years of experience in e-commerce and fintech. Helped 40+ students land product roles at top companies. Passionate about mentoring and career growth.',
     languages: ['English', 'Hindi', 'Tamil'],
+    services: [
+      { id: 1, type: 'call' as const, title: '1:1 Career Guidance Call', duration: 30, price: 2000 },
+      { id: 2, type: 'call' as const, title: 'Mock Interview Session', duration: 45, price: 3500 },
+      { id: 3, type: 'dm' as const, title: 'Resume Review', duration: 0, price: 1500, description: 'Get detailed feedback on your resume within 48 hours' },
+      { id: 4, type: 'product' as const, title: 'LinkedIn Optimization', duration: 0, price: 2500, description: 'Complete profile revamp with keyword optimization' },
+      { id: 5, type: 'workshop' as const, title: 'Abroad Studies Consultation', duration: 60, price: 4000, description: 'Comprehensive guidance on MS applications, SOP review, and university selection' },
+    ],
     workExperience: [
       { 
         id: 1, 
@@ -64,6 +70,10 @@ const MentorProfile = () => {
     ]
   };
 
+  const handleBookService = (service: MentorService) => {
+    navigate(`/booking/schedule/${mentor.id}?service=${service.id}`);
+  };
+
   return (
     <Layout>
       <div className="min-h-[calc(100vh-4rem)] bg-muted">
@@ -80,9 +90,9 @@ const MentorProfile = () => {
 
           {/* Header Card */}
           <Card className="p-4 md:p-8 mb-6 md:mb-8">
-            <div className="grid md:grid-cols-3 gap-4 md:gap-6">
-              {/* Left: Profile Info */}
-              <div className="md:col-span-2 space-y-4 md:space-y-6">
+            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+              {/* Profile Info */}
+              <div className="flex-1 space-y-4 md:space-y-6">
                 <div className="flex items-start gap-3 md:gap-4">
                   <Avatar className="h-16 w-16 md:h-20 md:w-20 bg-primary/10 flex items-center justify-center text-xl md:text-2xl font-bold text-primary flex-shrink-0">
                     {mentor.name.split(' ').map(n => n[0]).join('')}
@@ -90,7 +100,7 @@ const MentorProfile = () => {
                   <div className="flex-1 min-w-0">
                     <h1 className="text-xl md:text-3xl font-bold text-foreground mb-1 md:mb-2 break-words">{mentor.name}</h1>
                     <p className="text-sm md:text-base text-muted-foreground mb-2 break-words">{mentor.role}</p>
-                    <div className="flex flex-wrap items-center gap-3 text-sm">
+                    <div className="flex flex-wrap items-center gap-2 md:gap-3 text-sm">
                       <Badge variant="secondary" className="gap-1">
                         <GraduationCap className="h-3 w-3" />
                         {getCollegeDisplay(mentor.college, 'both')} • {mentor.batch}
@@ -137,25 +147,14 @@ const MentorProfile = () => {
                 </div>
               </div>
 
-              {/* Right: Booking Card */}
-              <div className="md:col-span-1">
-                <Card className="p-4 md:p-6 border-2 border-primary/20 bg-primary/5 md:sticky md:top-20">
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-sm text-muted-foreground mb-2">Session Rate</p>
-                      <PricingDisplay baseRate={mentor.hourlyRate} variant="detail" />
-                    </div>
-                    <Button 
-                      className="w-full h-12 text-base font-semibold"
-                      onClick={() => navigate(`/booking/schedule/${mentor.id}`)}
-                    >
-                      <Calendar className="mr-2 h-5 w-5" />
-                      Book Session
-                    </Button>
-                    <p className="text-xs text-center text-muted-foreground">
-                      Choose your preferred date & time slot
-                    </p>
-                  </div>
+              {/* Services Card - Right Side */}
+              <div className="lg:w-[400px] lg:flex-shrink-0">
+                <Card className="p-4 md:p-6 border-2 border-primary/20 bg-primary/5 lg:sticky lg:top-20">
+                  <h3 className="font-semibold text-foreground mb-4">Book a Session</h3>
+                  <MentorServices 
+                    services={mentor.services} 
+                    onBookService={handleBookService}
+                  />
                 </Card>
               </div>
             </div>
