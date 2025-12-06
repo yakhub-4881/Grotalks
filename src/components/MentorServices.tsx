@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { formatPrice } from '@/lib/college-config';
-import { Plus, Edit2, Trash2, Video, MessageSquare, Users, Package, GraduationCap, FileText } from 'lucide-react';
+import { Plus, Edit2, Trash2, Video, MessageSquare, Users, Package, GraduationCap, FileText, ArrowRight, Clock } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -131,9 +131,9 @@ export const MentorServices = ({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {isEditable && (
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">Services Offered</h3>
           <Button size="sm" onClick={handleAdd}>
             <Plus className="mr-2 h-4 w-4" />
@@ -148,12 +148,16 @@ export const MentorServices = ({
           <p>No services listed yet</p>
         </Card>
       ) : (
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="space-y-3">
           {services.map((service) => {
             const Icon = getServiceIcon(service.type);
             return (
-              <Card key={service.id} className="p-4 hover:shadow-md transition-shadow">
-                <div className="flex gap-3">
+              <Card 
+                key={service.id} 
+                className={`p-4 transition-all ${!isEditable ? 'hover:shadow-md hover:border-primary/30 cursor-pointer group' : ''}`}
+                onClick={() => !isEditable && onBookService?.(service)}
+              >
+                <div className="flex items-start gap-3">
                   <div className="flex-shrink-0">
                     <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                       <Icon className="h-5 w-5 text-primary" />
@@ -162,21 +166,32 @@ export const MentorServices = ({
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0 flex-1">
-                        <p className="text-xs text-muted-foreground mb-0.5">{getServiceLabel(service.type)}</p>
-                        <h4 className="font-semibold text-foreground text-sm line-clamp-1">{service.title}</h4>
+                        <p className="text-xs text-muted-foreground mb-0.5">{getServiceLabel(service.type)}{service.duration > 0 && ` • ${service.duration} mins`}</p>
+                        <h4 className="font-semibold text-foreground text-sm">{service.title}</h4>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-3 mt-2 text-sm">
-                      <span className="text-muted-foreground">{service.duration} min</span>
-                      <span className="font-semibold text-primary">{formatPrice(service.price)}</span>
+                      {/* Subtle arrow button for booking */}
+                      {!isEditable && (
+                        <button 
+                          className="w-8 h-8 rounded-full border border-border flex items-center justify-center flex-shrink-0 transition-all group-hover:bg-primary group-hover:border-primary group-hover:text-primary-foreground"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onBookService?.(service);
+                          }}
+                        >
+                          <ArrowRight className="h-4 w-4" />
+                        </button>
+                      )}
                     </div>
                     {service.description && (
-                      <p className="text-xs text-muted-foreground mt-2 line-clamp-2">{service.description}</p>
+                      <p className="text-xs text-muted-foreground mt-1.5 line-clamp-2">{service.description}</p>
                     )}
+                    <div className="flex items-center gap-2 mt-2">
+                      <span className="font-semibold text-foreground">{formatPrice(service.price)}</span>
+                    </div>
                   </div>
                 </div>
 
-                {isEditable ? (
+                {isEditable && (
                   <div className="flex gap-2 justify-end mt-3 pt-3 border-t">
                     <Button size="sm" variant="ghost" onClick={() => handleEdit(service)} className="h-8 text-xs">
                       <Edit2 className="h-3 w-3 md:mr-2" />
@@ -185,16 +200,6 @@ export const MentorServices = ({
                     <Button size="sm" variant="ghost" onClick={() => handleDelete(service.id)} className="h-8 text-xs text-destructive">
                       <Trash2 className="h-3 w-3 md:mr-2" />
                       <span className="hidden md:inline">Delete</span>
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="mt-3 pt-3 border-t">
-                    <Button 
-                      size="sm" 
-                      className="w-full" 
-                      onClick={() => onBookService?.(service)}
-                    >
-                      Book Now
                     </Button>
                   </div>
                 )}
