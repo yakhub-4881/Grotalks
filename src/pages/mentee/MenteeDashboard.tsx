@@ -52,6 +52,8 @@ const MenteeDashboard = () => {
       duration: 30,
       status: 'confirmed',
       meetLink: 'https://meet.google.com/xyz-abcd-efg',
+      serviceName: '1:1 Career Guidance Call',
+      pricePaid: 2000,
     },
   ];
 
@@ -160,6 +162,10 @@ const MenteeDashboard = () => {
                             <Clock className="h-4 w-4 text-primary" />
                             <span>{session.duration} min</span>
                           </div>
+                        </div>
+                        <div className="flex items-center gap-2 mt-2">
+                          <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">{session.serviceName}</span>
+                          <span className="text-sm font-semibold text-foreground">₹{session.pricePaid.toLocaleString()}</span>
                         </div>
                       </div>
                       
