@@ -16,6 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { MentorServices, MentorService } from '@/components/MentorServices';
 
 interface WorkExperience {
   id: number;
@@ -85,6 +86,14 @@ const MentorProfile = () => {
   const [showCertDialog, setShowCertDialog] = useState(false);
   const [editingCert, setEditingCert] = useState<Certification | null>(null);
   const [certForm, setCertForm] = useState<Partial<Certification>>({});
+
+  // Services State
+  const [services, setServices] = useState<MentorService[]>([
+    { id: 1, type: 'call', title: '1:1 Career Guidance Call', duration: 30, price: 2000 },
+    { id: 2, type: 'call', title: 'Mock Interview Session', duration: 45, price: 3500 },
+    { id: 3, type: 'dm', title: 'Resume Review', duration: 0, price: 1500, description: 'Get detailed feedback on your resume within 48 hours' },
+    { id: 4, type: 'product', title: 'LinkedIn Optimization', duration: 0, price: 2500, description: 'Complete profile revamp with keyword optimization' },
+  ]);
 
   const handleSave = async () => {
     if (editedProfile.bio.length < 10 || editedProfile.bio.length > 250) {
@@ -468,34 +477,13 @@ const MentorProfile = () => {
             </div>
           </Card>
 
-          {/* Pricing */}
+          {/* Services Section */}
           <Card className="p-4 md:p-6 mb-4 md:mb-6">
-            <h3 className="text-base md:text-lg font-semibold mb-4 md:mb-6">Pricing</h3>
-            
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="rate" className="text-xs md:text-sm">Hourly Rate (₹300-₹5000)</Label>
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 md:gap-4">
-                  <div className="relative flex-1">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-xs md:text-sm">₹</span>
-                    <Input
-                      id="rate"
-                      type="number"
-                      value={editedProfile.hourlyRate}
-                      onChange={(e) => setEditedProfile({ ...editedProfile, hourlyRate: parseInt(e.target.value) || 0 })}
-                      disabled={!isEditing}
-                      className="h-10 md:h-12 pl-7 md:pl-8 text-xs md:text-sm"
-                      min={300}
-                      max={5000}
-                    />
-                  </div>
-                  <div className="text-left sm:text-right sm:min-w-[140px] p-3 sm:p-0 bg-muted/50 sm:bg-transparent rounded-lg sm:rounded-none">
-                    <p className="text-xs md:text-sm text-muted-foreground">Per-minute rate:</p>
-                    <p className="text-base md:text-lg font-bold text-primary">₹{(editedProfile.hourlyRate / 60).toFixed(2)}/min</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <MentorServices
+              services={services}
+              onServicesChange={setServices}
+              isEditable={true}
+            />
           </Card>
 
           {/* Action Buttons */}

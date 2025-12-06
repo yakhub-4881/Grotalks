@@ -167,10 +167,10 @@ const MenteeDashboard = () => {
                       <div className="flex flex-col sm:flex-row gap-2 lg:flex-shrink-0">
                         <Button 
                           className="text-sm h-10"
-                          onClick={() => window.open(session.meetLink, '_blank')}
+                          disabled={true}
                         >
                           <Video className="mr-2 h-4 w-4" />
-                          Join Google Meet
+                          Join Call
                         </Button>
                         <Button 
                           variant="outline" 
@@ -205,26 +205,42 @@ const MenteeDashboard = () => {
           {/* Continue with Recent Mentors */}
           <div>
             <h2 className="text-xl font-semibold text-foreground mb-4">Continue with Recent Mentors</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {recentMentors.map((mentor) => (
                 <Card 
                   key={mentor.id} 
-                  className="p-6 hover:shadow-lg transition-shadow cursor-pointer"
-                  onClick={() => navigate(`/mentor/profile/${mentor.id}`)}
+                  className="p-4 md:p-6 hover:shadow-lg transition-shadow"
                 >
-                  <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="w-10 h-10 bg-primary/10 text-primary rounded-full flex items-center justify-center font-semibold text-sm flex-shrink-0">
+                      {mentor.name.split(' ').map(n => n[0]).join('')}
+                    </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-semibold text-foreground mb-1">{mentor.name}</h3>
-                      <p className="text-sm text-muted-foreground">{mentor.role}</p>
+                      <h3 className="text-base font-semibold text-foreground mb-0.5 truncate">{mentor.name}</h3>
+                      <p className="text-sm text-muted-foreground truncate">{mentor.role}</p>
                     </div>
                     <div className="flex items-center gap-1 flex-shrink-0">
                       <Star className="h-4 w-4 fill-bonus text-bonus" />
                       <span className="text-sm font-semibold">{mentor.rating}</span>
                     </div>
                   </div>
-                  <p className="text-sm text-foreground mb-4">{mentor.expertise}</p>
-                  <div className="flex items-center justify-end pt-4 border-t">
-                    <Button size="sm">Book Again</Button>
+                  <p className="text-sm text-muted-foreground mb-4">{mentor.expertise}</p>
+                  <div className="flex items-center gap-2 pt-3 border-t">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1"
+                      onClick={() => navigate(`/mentor/profile/${mentor.id}`)}
+                    >
+                      View Profile
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      className="flex-1"
+                      onClick={() => navigate(`/booking/schedule/${mentor.id}`)}
+                    >
+                      Book Again
+                    </Button>
                   </div>
                 </Card>
               ))}
