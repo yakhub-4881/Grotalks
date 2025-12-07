@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Calendar as CalendarIcon, Clock, User, ArrowLeft, Video, ChevronLeft, ChevronRight } from 'lucide-react';
-import { sessionPackages, calculateSessionPrice, formatPrice } from '@/lib/college-config';
+import { calculateSessionPrice, formatPrice } from '@/lib/college-config';
 import { format, addDays, startOfDay, isSameDay } from 'date-fns';
 
 const BookingSchedule = () => {
@@ -100,29 +100,6 @@ const BookingSchedule = () => {
                       <span className="text-bonus">★</span>
                       <span className="font-medium">{mentor.rating}</span>
                     </div>
-                  </div>
-                </div>
-
-                {/* Session Duration Selection */}
-                <div className="mb-4">
-                  <Label className="text-sm font-semibold mb-3 block">Session Duration</Label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {sessionPackages.map((pkg) => {
-                      const price = calculateSessionPrice(mentor.baseRate, pkg.duration);
-                      return (
-                        <Button
-                          key={pkg.duration}
-                          variant={selectedDuration === pkg.duration ? 'default' : 'outline'}
-                          className={`h-auto py-3 flex flex-col items-center ${selectedDuration === pkg.duration ? '' : 'hover:border-primary'}`}
-                          onClick={() => setSelectedDuration(pkg.duration)}
-                        >
-                          <span className="font-semibold">{pkg.label}</span>
-                          <span className={`text-xs ${selectedDuration === pkg.duration ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
-                            {formatPrice(price)}
-                          </span>
-                        </Button>
-                      );
-                    })}
                   </div>
                 </div>
 

@@ -197,48 +197,51 @@ const MentorDashboard = () => {
           {upcomingSessions.length > 0 && (
             <div className="mb-6 md:mb-8">
               <h2 className="text-lg md:text-xl font-semibold text-foreground mb-4">Upcoming Sessions</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-4">
                 {upcomingSessions.map((session) => {
                   const sessionTime = new Date(Date.now() + 2 * 60 * 60 * 1000);
                   const now = new Date();
                   const diff = sessionTime.getTime() - now.getTime();
                   const canStart = diff <= 5 * 60 * 1000;
-                  const hours = Math.floor(diff / (1000 * 60 * 60));
-                  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                   const sessionPrice = calculateSessionPrice(session.baseRate, session.duration);
                   
                   return (
                     <Card key={session.id} className="p-4 md:p-6">
-                      <div className="space-y-4">
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="space-y-2 flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
+                      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        {/* Left: Session Info */}
+                        <div className="flex items-start gap-4 flex-1 min-w-0">
+                          <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg flex-shrink-0">
+                            {session.mentee.split(' ').map(n => n[0]).join('')}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-2 mb-1">
                               <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
                               <span className="text-xs font-medium text-success uppercase">Confirmed</span>
                             </div>
-                            <h3 className="text-base md:text-lg font-semibold text-foreground truncate">{session.mentee}</h3>
-                            <p className="text-sm text-muted-foreground line-clamp-2">{session.topic}</p>
+                            <h3 className="font-semibold text-foreground truncate">{session.mentee}</h3>
+                            <p className="text-sm text-muted-foreground line-clamp-1">{session.topic}</p>
                           </div>
                         </div>
 
-                        <div className="space-y-2 py-3 border-y text-sm">
+                        {/* Center: Date/Time/Price */}
+                        <div className="flex flex-wrap items-center gap-4 text-sm">
                           <div className="flex items-center gap-2">
-                            <Calendar className="h-4 w-4 text-primary flex-shrink-0" />
-                            <span className="text-muted-foreground">{session.date} at {session.time}</span>
+                            <Calendar className="h-4 w-4 text-primary" />
+                            <span className="text-muted-foreground">{session.date}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Clock className="h-4 w-4 text-primary flex-shrink-0" />
-                            <span className="text-muted-foreground">{session.duration} minutes</span>
+                            <Clock className="h-4 w-4 text-primary" />
+                            <span className="text-muted-foreground">{session.time} · {session.duration}min</span>
                           </div>
-                          <div className="flex items-center gap-2">
-                            <IndianRupee className="h-4 w-4 text-success flex-shrink-0" />
-                            <span className="text-foreground font-medium">{formatPrice(sessionPrice)}</span>
+                          <div className="flex items-center gap-1">
+                            <span className="text-success font-medium">Earning {formatPrice(sessionPrice)}</span>
                           </div>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row gap-2">
+                        {/* Right: Action Buttons */}
+                        <div className="flex flex-col sm:flex-row gap-2 lg:flex-shrink-0">
                           <Button 
-                            className="flex-1 text-sm h-9"
+                            className="text-sm h-9"
                             disabled={!canStart}
                           >
                             <Video className="mr-2 h-4 w-4" />
@@ -246,7 +249,7 @@ const MentorDashboard = () => {
                           </Button>
                           <Button 
                             variant="outline" 
-                            className="flex-1 text-sm h-9"
+                            className="text-sm h-9"
                             onClick={() => handleRescheduleClick({ 
                               id: session.id.toString(), 
                               mentee: { name: session.mentee, college: 'iit-bombay' }, 
@@ -260,6 +263,12 @@ const MentorDashboard = () => {
                             <RotateCcw className="mr-2 h-4 w-4" />
                             Reschedule
                           </Button>
+                          <Button 
+                            variant="outline" 
+                            className="text-sm h-9 border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
+                          >
+                            Cancel
+                          </Button>
                         </div>
                       </div>
                     </Card>
@@ -270,104 +279,6 @@ const MentorDashboard = () => {
           )}
 
 
-          {/* Pending Requests - Separate row below */}
-          {pendingRequests.length > 0 && (
-            <div className="mb-6 md:mb-8">
-              <h2 className="text-lg md:text-xl font-semibold mb-4">
-                Pending Requests
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {pendingRequests.map((request) => {
-                    const sessionPrice = calculateSessionPrice(request.baseRate, request.duration);
-                    const estimatedEarning = sessionPrice;
-                    
-                    return (
-                      <Card key={request.id} className="p-4 md:p-6 border-primary/20 bg-card h-full">
-                        <div className="space-y-4">
-                          {/* Header */}
-                          <div className="flex flex-col gap-3">
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 bg-primary/10 text-primary rounded-full flex items-center justify-center font-semibold text-sm flex-shrink-0">
-                                {request.mentee.name.split(' ').map(n => n[0]).join('')}
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <div className="font-semibold text-base truncate">{request.mentee.name}</div>
-                                <CollegeDisplay collegeName={request.mentee.college} variant="desktop" />
-                              </div>
-                            </div>
-                            <Badge className="bg-yellow-500/10 text-yellow-600 border-yellow-500/20 text-xs w-fit">
-                              ⏳ PENDING
-                            </Badge>
-                          </div>
-
-                          {/* Session Details */}
-                          <div className="space-y-2 py-3 border-y text-xs">
-                            <div className="flex items-center gap-2">
-                              <Calendar className="h-3 w-3 text-primary flex-shrink-0" />
-                              <span className="text-muted-foreground truncate">{request.date}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Clock className="h-3 w-3 text-primary flex-shrink-0" />
-                              <span className="text-muted-foreground truncate">{request.time} · {request.duration}min</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <IndianRupee className="h-3 w-3 text-success flex-shrink-0" />
-                              <span className="text-muted-foreground truncate">{formatPrice(estimatedEarning)}</span>
-                            </div>
-                          </div>
-
-                          {/* Message */}
-                          {request.message && (
-                            <div className="bg-muted/50 rounded-lg p-3">
-                              <p className="text-xs text-muted-foreground line-clamp-3">{request.message}</p>
-                            </div>
-                          )}
-
-                          {/* Action Buttons */}
-                          <div className="flex flex-col gap-2">
-                            <Button 
-                              className="w-full text-sm h-9 bg-success hover:bg-success/90"
-                              onClick={() => handleAccept(request)}
-                              disabled={processingId === request.id}
-                            >
-                              {processingId === request.id ? (
-                                <>
-                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                  Processing
-                                </>
-                              ) : (
-                                <>
-                                  <CheckCircle2 className="mr-2 h-4 w-4" />
-                                  Accept
-                                </>
-                              )}
-                            </Button>
-                            <Button 
-                              variant="outline"
-                              className="w-full text-sm h-9"
-                              onClick={() => handleRescheduleClick(request)}
-                              disabled={processingId === request.id}
-                            >
-                              <RotateCcw className="mr-2 h-4 w-4" />
-                              Propose Time
-                            </Button>
-                            <Button 
-                              variant="destructive"
-                              className="w-full text-sm h-9"
-                              onClick={() => handleDeclineClick(request)}
-                              disabled={processingId === request.id}
-                            >
-                              <XCircle className="mr-2 h-4 w-4" />
-                              Decline
-                            </Button>
-                          </div>
-                        </div>
-                      </Card>
-                  );
-                })}
-              </div>
-            </div>
-          )}
 
           {/* Upcoming Sessions */}
           {acceptedRequests.length > 0 && (
