@@ -80,9 +80,9 @@ const Landing = () => {
             {/* Features Grid */}
             <div className="grid grid-cols-3 gap-4 max-w-md">
               <div className="text-center">
-                <div className="text-2xl mb-2">💰</div>
-                <p className="text-xs font-semibold mb-1">Per-Minute Billing</p>
-                <p className="text-xs text-muted-foreground">Pay only for time used</p>
+                <div className="text-2xl mb-2">✨</div>
+                <p className="text-xs font-semibold mb-1">Transparent Pricing</p>
+                <p className="text-xs text-muted-foreground">Book & pay upfront</p>
               </div>
               <div className="text-center">
                 <div className="text-2xl mb-2">⚡</div>
@@ -90,9 +90,9 @@ const Landing = () => {
                 <p className="text-xs text-muted-foreground">UPI instant transfer</p>
               </div>
               <div className="text-center">
-                <div className="text-2xl mb-2">🎁</div>
-                <p className="text-xs font-semibold mb-1">₹100 Free Bonus</p>
-                <p className="text-xs text-muted-foreground">Free credits</p>
+                <div className="text-2xl mb-2">🎯</div>
+                <p className="text-xs font-semibold mb-1">Verified Alumni</p>
+                <p className="text-xs text-muted-foreground">Trusted mentors only</p>
               </div>
             </div>
           </div>
