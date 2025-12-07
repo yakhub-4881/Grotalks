@@ -338,11 +338,10 @@ export const MentorBrowseSection = () => {
               </div>
 
               {/* Footer: CTA */}
-              <div className="mt-auto pt-4 border-t border-border/50 flex items-center justify-end">
+              <div className="mt-auto pt-4 border-t border-border/50">
                 <Button
                   onClick={() => navigate(`/mentor/profile/${mentor.id}`)}
-                  size="sm"
-                  className="group-hover:shadow-md transition-shadow"
+                  className="w-full group-hover:shadow-md transition-shadow"
                 >
                   View Profile
                 </Button>

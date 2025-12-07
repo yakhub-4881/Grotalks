@@ -165,7 +165,7 @@ const MenteeDashboard = () => {
                         </div>
                         <div className="flex items-center gap-2 mt-2">
                           <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">{session.serviceName}</span>
-                          <span className="text-sm font-semibold text-foreground">₹{session.pricePaid.toLocaleString()}</span>
+                          <span className="text-xs font-medium text-success bg-success/10 px-2 py-1 rounded-full">Paid ₹{session.pricePaid.toLocaleString()}</span>
                         </div>
                       </div>
                       
@@ -187,8 +187,8 @@ const MenteeDashboard = () => {
                           Reschedule
                         </Button>
                         <Button 
-                          variant="ghost" 
-                          className="text-sm h-10 text-destructive hover:text-destructive hover:bg-destructive/10"
+                          variant="outline" 
+                          className="text-sm h-10 border-destructive/30 text-destructive hover:text-destructive hover:bg-destructive/10"
                           onClick={() => handleDeclineClick(session)}
                         >
                           <XCircle className="mr-2 h-4 w-4" />
