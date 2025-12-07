@@ -1,62 +1,38 @@
 import { useState } from 'react';
-import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Calendar } from '@/components/ui/calendar';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { Calendar as CalendarIcon, Clock, User, ArrowLeft, Video, ChevronLeft, ChevronRight, MapPin, Star, Briefcase, GraduationCap, Linkedin } from 'lucide-react';
-import { formatPrice } from '@/lib/college-config';
+import { Calendar as CalendarIcon, Clock, User, ArrowLeft, Video, ChevronLeft, ChevronRight } from 'lucide-react';
+import { sessionPackages, calculateSessionPrice, formatPrice } from '@/lib/college-config';
 import { format, addDays, startOfDay, isSameDay } from 'date-fns';
 
 const BookingSchedule = () => {
   const { id } = useParams();
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const serviceId = searchParams.get('service');
-
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedSlot, setSelectedSlot] = useState('');
+  const [selectedDuration, setSelectedDuration] = useState(30);
   const [message, setMessage] = useState('');
   const [dateScrollIndex, setDateScrollIndex] = useState(0);
 
-  // Mock mentor data with full profile
+  // Mock mentor data
   const mentor = {
     id: Number(id) || 1,
     name: 'Arjun Singh',
     role: 'Product Manager @ Flipkart',
-    company: 'Flipkart',
-    location: 'Bangalore',
-    college: 'Vel Tech University',
-    batch: '2018',
+    baseRate: 500,
     rating: 4.9,
-    reviews: 28,
-    sessionsCompleted: 45,
-    languages: ['English', 'Hindi'],
-    expertise: ['Product Management', 'Career Guidance', 'Interview Prep'],
-    bio: 'Experienced Product Manager with 5+ years in building consumer products. Passionate about mentoring aspiring PMs and helping students navigate their career paths.',
-    linkedinUrl: 'https://linkedin.com/in/arjunsingh',
-    workExperience: [
-      { title: 'Senior Product Manager', company: 'Flipkart', duration: '2021 - Present' },
-      { title: 'Product Manager', company: 'Ola', duration: '2019 - 2021' },
-    ],
-    services: [
-      { id: '1', title: '1:1 Career Guidance Call', price: 2000, duration: 30 },
-      { id: '2', title: 'Resume Review', price: 1500, duration: 45 },
-      { id: '3', title: 'LinkedIn Profile Optimization', price: 1000, duration: 30 },
-      { id: '4', title: 'Mock Interview Session', price: 2500, duration: 60 },
-    ],
     availability: {
       slots: ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM', '06:00 PM']
     }
   };
-
-  // Get selected service from URL params or default to first
-  const selectedService = mentor.services.find(s => s.id === serviceId) || mentor.services[0];
 
   // Generate available dates (next 14 days excluding Sundays)
   const availableDates = Array.from({ length: 14 }, (_, i) => addDays(startOfDay(new Date()), i + 1))
@@ -74,28 +50,30 @@ const BookingSchedule = () => {
       return;
     }
 
+    // Navigate to payment/confirmation
     navigate('/booking/confirm', {
       state: {
         mentor: {
           id: mentor.id,
           name: mentor.name,
           role: mentor.role,
+          baseRate: mentor.baseRate
         },
-        service: selectedService,
         date: format(selectedDate, 'EEE, dd MMM yyyy'),
         time: selectedSlot,
-        duration: selectedService.duration,
+        duration: selectedDuration,
         message
       }
     });
   };
 
+  const sessionPrice = calculateSessionPrice(mentor.baseRate, selectedDuration);
   const isFormValid = selectedDate && selectedSlot;
 
   return (
     <Layout>
       <div className="min-h-[calc(100vh-4rem)] bg-muted">
-        <div className="container mx-auto px-4 py-4 md:py-8 max-w-6xl">
+        <div className="container mx-auto px-4 py-4 md:py-8 max-w-5xl">
           {/* Back Button */}
           <Button 
             variant="ghost" 
@@ -103,104 +81,74 @@ const BookingSchedule = () => {
             className="mb-4 -ml-2"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Profile
+            Back
           </Button>
 
-          <div className="grid lg:grid-cols-3 gap-6">
-            {/* Left: Mentor Profile Details */}
-            <div className="lg:col-span-2 space-y-4">
-              {/* Mentor Header Card */}
-              <Card className="p-4 md:p-6">
-                <div className="flex flex-col sm:flex-row gap-4">
-                  {/* Avatar */}
-                  <div className="w-20 h-20 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-2xl flex-shrink-0">
+          <div className="grid lg:grid-cols-5 gap-6">
+            {/* Left: Session Info */}
+            <div className="lg:col-span-2">
+              <Card className="p-4 md:p-6 sticky top-4">
+                {/* Mentor Info */}
+                <div className="flex items-start gap-3 mb-4 pb-4 border-b">
+                  <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg flex-shrink-0">
                     {mentor.name.split(' ').map(n => n[0]).join('')}
                   </div>
-                  
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2 mb-1">
-                      <h1 className="text-xl md:text-2xl font-bold text-foreground">{mentor.name}</h1>
-                      <div className="flex items-center gap-1 bg-muted px-2.5 py-1 rounded-full flex-shrink-0">
-                        <Star className="h-4 w-4 fill-bonus text-bonus" />
-                        <span className="font-semibold">{mentor.rating}</span>
-                        <span className="text-xs text-muted-foreground">({mentor.reviews})</span>
-                      </div>
-                    </div>
-                    
-                    <p className="text-muted-foreground mb-2">{mentor.role}</p>
-                    
-                    <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <MapPin className="h-3.5 w-3.5" />
-                        {mentor.location}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <GraduationCap className="h-3.5 w-3.5" />
-                        {mentor.college}, {mentor.batch}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Briefcase className="h-3.5 w-3.5" />
-                        {mentor.sessionsCompleted} sessions
-                      </span>
+                  <div className="min-w-0">
+                    <h2 className="font-semibold text-foreground truncate">{mentor.name}</h2>
+                    <p className="text-sm text-muted-foreground truncate">{mentor.role}</p>
+                    <div className="flex items-center gap-1 mt-1 text-sm">
+                      <span className="text-bonus">★</span>
+                      <span className="font-medium">{mentor.rating}</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Bio */}
-                <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-                  {mentor.bio}
-                </p>
-
-                {/* Expertise Tags */}
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {mentor.expertise.map((exp) => (
-                    <Badge key={exp} variant="secondary" className="text-xs">
-                      {exp}
-                    </Badge>
-                  ))}
+                {/* Session Duration Selection */}
+                <div className="mb-4">
+                  <Label className="text-sm font-semibold mb-3 block">Session Duration</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {sessionPackages.map((pkg) => {
+                      const price = calculateSessionPrice(mentor.baseRate, pkg.duration);
+                      return (
+                        <Button
+                          key={pkg.duration}
+                          variant={selectedDuration === pkg.duration ? 'default' : 'outline'}
+                          className={`h-auto py-3 flex flex-col items-center ${selectedDuration === pkg.duration ? '' : 'hover:border-primary'}`}
+                          onClick={() => setSelectedDuration(pkg.duration)}
+                        >
+                          <span className="font-semibold">{pkg.label}</span>
+                          <span className={`text-xs ${selectedDuration === pkg.duration ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
+                            {formatPrice(price)}
+                          </span>
+                        </Button>
+                      );
+                    })}
+                  </div>
                 </div>
 
-                {/* Languages */}
-                <div className="mt-4 flex items-center gap-2 text-sm">
-                  <span className="text-muted-foreground">Speaks:</span>
-                  <span className="font-medium">{mentor.languages.join(', ')}</span>
+                {/* Price Summary */}
+                <div className="bg-primary/5 rounded-lg p-4 border border-primary/20">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-muted-foreground">Session</span>
+                    <span className="font-medium">{selectedDuration} min video call</span>
+                  </div>
+                  <div className="flex items-center justify-between text-lg font-bold">
+                    <span>Total</span>
+                    <span className="text-primary">{formatPrice(sessionPrice)}</span>
+                  </div>
                 </div>
 
-                {/* LinkedIn */}
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="mt-4 gap-2"
-                  onClick={() => window.open(mentor.linkedinUrl, '_blank')}
-                >
-                  <Linkedin className="h-4 w-4" />
-                  View LinkedIn
-                </Button>
-              </Card>
-
-              {/* Work Experience */}
-              <Card className="p-4 md:p-6">
-                <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
-                  <Briefcase className="h-4 w-4 text-primary" />
-                  Work Experience
-                </h3>
-                <div className="space-y-3">
-                  {mentor.workExperience.map((exp, idx) => (
-                    <div key={idx} className="flex items-start gap-3 pb-3 last:pb-0 last:border-0 border-b border-border/50">
-                      <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center flex-shrink-0">
-                        <Briefcase className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                      <div>
-                        <p className="font-medium text-foreground">{exp.title}</p>
-                        <p className="text-sm text-muted-foreground">{exp.company}</p>
-                        <p className="text-xs text-muted-foreground">{exp.duration}</p>
-                      </div>
-                    </div>
-                  ))}
+                {/* Video Call Info */}
+                <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+                  <Video className="h-4 w-4" />
+                  <span>Video call via Google Meet</span>
                 </div>
               </Card>
+            </div>
 
-              {/* Date Selection */}
+            {/* Right: Booking Form */}
+            <div className="lg:col-span-3 space-y-4 md:space-y-6">
+              {/* Date Selection - Horizontal Scroll */}
               <Card className="p-4 md:p-6">
                 <Label className="flex items-center gap-2 mb-4 text-base font-semibold">
                   <CalendarIcon className="h-5 w-5 text-primary" />
@@ -300,92 +248,19 @@ const BookingSchedule = () => {
                   {message.length}/500
                 </p>
               </Card>
-            </div>
 
-            {/* Right: Order Summary (Sticky) */}
-            <div className="lg:col-span-1">
-              <div className="lg:sticky lg:top-4 space-y-4">
-                <Card className="p-4 md:p-6">
-                  <h3 className="font-semibold text-foreground mb-4">Booking Summary</h3>
-                  
-                  {/* Selected Service */}
-                  <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 mb-4">
-                    <p className="text-sm text-muted-foreground mb-1">Service</p>
-                    <p className="font-semibold text-foreground">{selectedService.title}</p>
-                    <div className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
-                      <Clock className="h-3.5 w-3.5" />
-                      <span>{selectedService.duration} minutes</span>
-                    </div>
-                  </div>
+              {/* Continue Button */}
+              <Button
+                className="w-full h-12 text-base font-semibold"
+                onClick={handleProceedToPayment}
+                disabled={!isFormValid}
+              >
+                Continue to Payment • {formatPrice(sessionPrice)}
+              </Button>
 
-                  {/* Session Details */}
-                  <div className="space-y-3 mb-4">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Mentor</span>
-                      <span className="font-medium text-foreground">{mentor.name}</span>
-                    </div>
-                    
-                    {selectedDate && (
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground">Date</span>
-                        <span className="font-medium text-foreground">{format(selectedDate, 'dd MMM yyyy')}</span>
-                      </div>
-                    )}
-                    
-                    {selectedSlot && (
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground">Time</span>
-                        <span className="font-medium text-foreground">{selectedSlot}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Video Call Info */}
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4 pb-4 border-b">
-                    <Video className="h-4 w-4" />
-                    <span>Video call via Google Meet</span>
-                  </div>
-
-                  {/* Total */}
-                  <div className="flex items-center justify-between text-lg font-bold mb-4">
-                    <span>Total</span>
-                    <span className="text-primary">{formatPrice(selectedService.price)}</span>
-                  </div>
-
-                  {/* Continue Button */}
-                  <Button
-                    className="w-full h-12 text-base font-semibold"
-                    onClick={handleProceedToPayment}
-                    disabled={!isFormValid}
-                  >
-                    Continue to Payment
-                  </Button>
-
-                  <p className="text-xs text-center text-muted-foreground mt-3">
-                    Secure payment • Instant confirmation
-                  </p>
-                </Card>
-
-                {/* Other Services */}
-                {mentor.services.length > 1 && (
-                  <Card className="p-4">
-                    <p className="text-xs text-muted-foreground mb-3">Other services by {mentor.name.split(' ')[0]}</p>
-                    <div className="space-y-2">
-                      {mentor.services.filter(s => s.id !== selectedService.id).slice(0, 2).map((service) => (
-                        <Button
-                          key={service.id}
-                          variant="ghost"
-                          className="w-full justify-between h-auto py-2 px-3 text-left"
-                          onClick={() => navigate(`/booking/schedule/${mentor.id}?service=${service.id}`)}
-                        >
-                          <span className="text-sm truncate">{service.title}</span>
-                          <span className="text-sm font-semibold text-primary ml-2">{formatPrice(service.price)}</span>
-                        </Button>
-                      ))}
-                    </div>
-                  </Card>
-                )}
-              </div>
+              <p className="text-xs text-center text-muted-foreground">
+                Secure payment • Instant confirmation • Full refund if declined
+              </p>
             </div>
           </div>
         </div>
