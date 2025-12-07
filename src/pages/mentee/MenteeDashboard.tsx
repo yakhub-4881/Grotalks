@@ -36,10 +36,10 @@ const MenteeDashboard = () => {
   }, [setIsAuthenticated]);
 
   const stats = [
-    { label: 'Sessions Booked', value: '2', icon: Calendar, color: 'text-primary' },
-    { label: 'Sessions Completed', value: '1', icon: Star, color: 'text-bonus' },
-    { label: 'Hours of Learning', value: '0.5', icon: TrendingUp, color: 'text-success' },
-    { label: 'Mentors Connected', value: '3', icon: Users, color: 'text-secondary' },
+    { label: 'Total Sessions', value: '3', icon: Calendar, color: 'text-primary' },
+    { label: 'Hours of Learning', value: '4.5', icon: Clock, color: 'text-bonus' },
+    { label: 'Mentors Connected', value: '5', icon: Users, color: 'text-success' },
+    { label: 'Avg Rating Given', value: '4.8', icon: Star, color: 'text-secondary' },
   ];
 
   const upcomingSessions = [
