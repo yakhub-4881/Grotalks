@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
-import { IndianRupee, Calendar, Clock, Star, TrendingUp, User, Video, CheckCircle2, XCircle, Loader2, RotateCcw, ExternalLink } from 'lucide-react';
+import { IndianRupee, Calendar, Clock, Star, TrendingUp, User, Video, XCircle, RotateCcw, Loader2 } from 'lucide-react';
 import { calculateSessionPrice, formatPrice } from '@/lib/college-config';
 import { CollegeDisplay } from '@/components/CollegeDisplay';
 import { RescheduleDialog } from '@/components/RescheduleDialog';
@@ -161,6 +161,7 @@ const MentorDashboard = () => {
       status: 'confirmed',
       baseRate: 3000,
       meetLink: 'https://meet.google.com/abc-defg-hij',
+      serviceName: '1:1 Career Guidance Call',
     },
   ];
 
@@ -207,41 +208,35 @@ const MentorDashboard = () => {
                   
                   return (
                     <Card key={session.id} className="p-4 md:p-6">
-                      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                        {/* Left: Session Info */}
-                        <div className="flex items-start gap-4 flex-1 min-w-0">
-                          <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg flex-shrink-0">
-                            {session.mentee.split(' ').map(n => n[0]).join('')}
+                      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                        {/* Session Info */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
+                            <span className="text-xs font-medium text-success uppercase">Confirmed</span>
                           </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
-                              <span className="text-xs font-medium text-success uppercase">Confirmed</span>
+                          <h3 className="text-base md:text-lg font-semibold text-foreground mb-1">{session.mentee}</h3>
+                          <p className="text-sm text-muted-foreground mb-3">{session.topic}</p>
+                          <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                            <div className="flex items-center gap-1.5">
+                              <Calendar className="h-4 w-4 text-primary" />
+                              <span>{session.date} at {session.time}</span>
                             </div>
-                            <h3 className="font-semibold text-foreground truncate">{session.mentee}</h3>
-                            <p className="text-sm text-muted-foreground line-clamp-1">{session.topic}</p>
+                            <div className="flex items-center gap-1.5">
+                              <Clock className="h-4 w-4 text-primary" />
+                              <span>{session.duration} min</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 mt-2">
+                            <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">{session.serviceName}</span>
+                            <span className="text-xs font-medium text-success bg-success/10 px-2 py-1 rounded-full">Earning {formatPrice(sessionPrice)}</span>
                           </div>
                         </div>
-
-                        {/* Center: Date/Time/Price */}
-                        <div className="flex flex-wrap items-center gap-4 text-sm">
-                          <div className="flex items-center gap-2">
-                            <Calendar className="h-4 w-4 text-primary" />
-                            <span className="text-muted-foreground">{session.date}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Clock className="h-4 w-4 text-primary" />
-                            <span className="text-muted-foreground">{session.time} · {session.duration}min</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <span className="text-success font-medium">Earning {formatPrice(sessionPrice)}</span>
-                          </div>
-                        </div>
-
-                        {/* Right: Action Buttons */}
+                        
+                        {/* Action Buttons */}
                         <div className="flex flex-col sm:flex-row gap-2 lg:flex-shrink-0">
                           <Button 
-                            className="text-sm h-9"
+                            className="text-sm h-10"
                             disabled={!canStart}
                           >
                             <Video className="mr-2 h-4 w-4" />
@@ -249,7 +244,7 @@ const MentorDashboard = () => {
                           </Button>
                           <Button 
                             variant="outline" 
-                            className="text-sm h-9"
+                            className="text-sm h-10"
                             onClick={() => handleRescheduleClick({ 
                               id: session.id.toString(), 
                               mentee: { name: session.mentee, college: 'iit-bombay' }, 
@@ -265,8 +260,9 @@ const MentorDashboard = () => {
                           </Button>
                           <Button 
                             variant="outline" 
-                            className="text-sm h-9 border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
+                            className="text-sm h-10 border-destructive/30 text-destructive hover:text-destructive hover:bg-destructive/10"
                           >
+                            <XCircle className="mr-2 h-4 w-4" />
                             Cancel
                           </Button>
                         </div>

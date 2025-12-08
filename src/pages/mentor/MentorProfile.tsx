@@ -17,6 +17,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { MentorServices, MentorService } from '@/components/MentorServices';
+import { MeetingPlatformConnect, MeetingPlatform } from '@/components/MeetingPlatformConnect';
 
 interface WorkExperience {
   id: number;
@@ -93,6 +94,12 @@ const MentorProfile = () => {
     { id: 2, type: 'call', title: 'Mock Interview Session', duration: 45, price: 3500 },
     { id: 3, type: 'dm', title: 'Resume Review', duration: 0, price: 1500, description: 'Get detailed feedback on your resume within 48 hours' },
     { id: 4, type: 'product', title: 'LinkedIn Optimization', duration: 0, price: 2500, description: 'Complete profile revamp with keyword optimization' },
+  ]);
+
+  // Meeting Platform State
+  const [meetingPlatforms, setMeetingPlatforms] = useState<MeetingPlatform[]>([
+    { id: 'google', name: 'Google Meet', icon: 'google', connected: true, meetLink: 'https://meet.google.com/abc-defg-hij' },
+    { id: 'zoom', name: 'Zoom', icon: 'zoom', connected: false },
   ]);
 
   const handleSave = async () => {
@@ -475,6 +482,15 @@ const MentorProfile = () => {
                 <p className="text-xs text-muted-foreground">Phone cannot be changed</p>
               </div>
             </div>
+          </Card>
+
+          {/* Meeting Platform Section */}
+          <Card className="p-4 md:p-6 mb-4 md:mb-6">
+            <MeetingPlatformConnect
+              platforms={meetingPlatforms}
+              onPlatformsChange={setMeetingPlatforms}
+              isEditable={true}
+            />
           </Card>
 
           {/* Services Section */}

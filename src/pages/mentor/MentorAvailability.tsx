@@ -119,7 +119,7 @@ const MentorAvailability = () => {
                 Back
               </Button>
               <Button
-                onClick={() => navigate('/mentor/payment')}
+                onClick={() => navigate('/mentor/meeting-setup')}
                 className="flex-1 h-12 font-medium"
                 disabled={!hasAnySelection}
               >
