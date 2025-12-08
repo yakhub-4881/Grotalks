@@ -26,6 +26,7 @@ import MentorLinkedIn from "./pages/mentor/MentorLinkedIn";
 import MentorBio from "./pages/mentor/MentorBio";
 import MentorExpertise from "./pages/mentor/MentorExpertise";
 import MentorAvailability from "./pages/mentor/MentorAvailability";
+import MentorMeetingSetup from "./pages/mentor/MentorMeetingSetup";
 import MentorManageAvailability from "./pages/mentor/MentorManageAvailability";
 import MentorPayment from "./pages/mentor/MentorPayment";
 import MentorDashboard from "./pages/mentor/MentorDashboard";
@@ -92,6 +93,7 @@ const App = () => (
             <Route path="/mentor/bio" element={<MentorBio />} />
             <Route path="/mentor/expertise" element={<MentorExpertise />} />
             <Route path="/mentor/availability" element={<MentorAvailability />} />
+            <Route path="/mentor/meeting-setup" element={<MentorMeetingSetup />} />
             <Route path="/mentor/manage-availability" element={<MentorManageAvailability />} />
             <Route path="/mentor/payment" element={<MentorPayment />} />
             <Route path="/mentor/dashboard" element={<MentorDashboard />} />

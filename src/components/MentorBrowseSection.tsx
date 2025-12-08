@@ -113,11 +113,11 @@ export const MentorBrowseSection = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [expertiseFilter, setExpertiseFilter] = useState('all');
-  const [collegeFilter, setCollegeFilter] = useState('all');
+  const [collegeFilter, setCollegeFilter] = useState('vel-tech'); // Default to student's college
   const [batchYearFilter, setBatchYearFilter] = useState('all');
   const [languageFilter, setLanguageFilter] = useState('all');
   const [sortBy, setSortBy] = useState('rating');
-  const [showAll, setShowAll] = useState(false);
+  const [displayCount, setDisplayCount] = useState(6);
 
   const filteredMentors = mentors
     .filter((mentor) => {
@@ -287,10 +287,10 @@ export const MentorBrowseSection = () => {
       {/* Results */}
       <div>
         <p className="text-sm text-muted-foreground mb-4">
-          Showing {showAll ? filteredMentors.length : Math.min(6, filteredMentors.length)} of {filteredMentors.length} mentor{filteredMentors.length !== 1 ? 's' : ''}
+          Showing {Math.min(displayCount, filteredMentors.length)} of {filteredMentors.length} mentor{filteredMentors.length !== 1 ? 's' : ''}
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredMentors.slice(0, showAll ? undefined : 6).map((mentor) => (
+          {filteredMentors.slice(0, displayCount).map((mentor) => (
             <Card key={mentor.id} className="group p-6 hover:shadow-xl hover:border-primary/20 transition-all duration-300 flex flex-col">
               {/* Header: Name + Rating */}
               <div className="flex items-start justify-between gap-3 mb-3">
@@ -350,26 +350,26 @@ export const MentorBrowseSection = () => {
           ))}
         </div>
 
-        {filteredMentors.length > 6 && !showAll && (
+        {displayCount < filteredMentors.length && (
           <div className="mt-6 text-center">
             <Button 
               variant="outline" 
               size="lg"
-              onClick={() => setShowAll(true)}
+              onClick={() => setDisplayCount(prev => Math.min(prev + 6, filteredMentors.length))}
               className="min-w-[200px]"
             >
-              View More Mentors ({filteredMentors.length - 6} more)
+              Load More ({filteredMentors.length - displayCount} more)
             </Button>
           </div>
         )}
 
-        {showAll && filteredMentors.length > 6 && (
+        {displayCount > 6 && displayCount >= filteredMentors.length && (
           <div className="mt-6 text-center">
             <Button 
               variant="outline" 
               size="lg"
               onClick={() => {
-                setShowAll(false);
+                setDisplayCount(6);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               className="min-w-[200px]"

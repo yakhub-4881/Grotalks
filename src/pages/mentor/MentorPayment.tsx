@@ -59,9 +59,9 @@ const MentorPayment = () => {
           {/* Progress Header */}
           <div className="mb-8">
             <h1 className="text-2xl font-bold text-foreground mb-2">Payment & Verification</h1>
-            <p className="text-sm text-muted-foreground">Step 7 of 8</p>
+            <p className="text-sm text-muted-foreground">Step 8 of 9</p>
             <div className="mt-3 h-2 bg-muted rounded-full overflow-hidden">
-              <div className="h-full bg-primary w-[87.5%] transition-all duration-300"></div>
+              <div className="h-full bg-primary w-[88%] transition-all duration-300"></div>
             </div>
           </div>
 
@@ -152,7 +152,7 @@ const MentorPayment = () => {
             <div className="flex gap-4">
               <Button 
                 variant="outline" 
-                onClick={() => navigate('/mentor/availability')} 
+                onClick={() => navigate('/mentor/meeting-setup')} 
                 className="flex-1 h-12"
               >
                 Back
