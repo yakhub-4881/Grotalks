@@ -43,8 +43,9 @@ const Landing = () => {
                 Connect with Alumni Mentors
               </h2>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Get guidance from experienced professionals who've walked your path. 
-                Book sessions, pay per minute, and grow your career with personalized mentorship.
+                Grotalks does not connect students to random experts. It connects them to alumni from their own college. 
+                People who once walked the same halls and now live the career students dream of. 
+                This turns passive alumni links into active mentorship.
               </p>
             </div>
 
