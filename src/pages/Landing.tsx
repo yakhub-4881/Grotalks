@@ -43,8 +43,8 @@ const Landing = () => {
                 Connect with Alumni Mentors
               </h2>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Get guidance from experienced professionals who've walked your path. 
-                Book sessions, pay per minute, and grow your career with personalized mentorship.
+                Connect with alumni from your own college—people who once walked the same halls and now live the career you dream of. 
+                Turn passive alumni connections into active mentorship with personalized guidance.
               </p>
             </div>
 
