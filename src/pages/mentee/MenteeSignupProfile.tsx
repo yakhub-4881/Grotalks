@@ -105,9 +105,9 @@ const MenteeSignupProfile = () => {
         <div className="w-full max-w-2xl bg-card rounded-lg shadow-lg p-6 md:p-8 animate-fade-in">
           <div className="mb-8">
             <h1 className="text-2xl font-bold text-foreground mb-2">Student Profile Setup</h1>
-            <p className="text-sm text-muted-foreground">Step 3 of 5 - Tell us about yourself</p>
+            <p className="text-sm text-muted-foreground">Step 3 of 4 - Tell us about yourself</p>
             <div className="mt-3 h-2 bg-muted rounded-full overflow-hidden">
-              <div className="h-full bg-primary w-[60%] transition-all duration-300"></div>
+              <div className="h-full bg-primary w-[75%] transition-all duration-300"></div>
             </div>
           </div>
 
@@ -288,7 +288,7 @@ const MenteeSignupProfile = () => {
             </div>
 
             <div className="flex gap-4">
-              <Button variant="outline" onClick={() => navigate('/mentee/otp')} className="flex-1 h-12">
+              <Button variant="outline" onClick={() => navigate('/signup')} className="flex-1 h-12">
                 Back
               </Button>
               <Button onClick={handleSubmit} className="flex-1 h-12 font-medium" disabled={!isFormValid}>

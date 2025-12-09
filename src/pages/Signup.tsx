@@ -123,7 +123,7 @@ const Signup = () => {
     if (otpVerified) {
       setUserType('mentee');
       sessionStorage.setItem('studentEmail', studentEmail);
-      navigate('/mentee/profile');
+      navigate('/mentee/signup/profile');
     }
   };
 
