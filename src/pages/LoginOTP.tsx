@@ -14,6 +14,19 @@ const LoginOTP = () => {
   const [canResend, setCanResend] = useState(false);
   const [error, setError] = useState('');
   const [verified, setVerified] = useState(false);
+  const loginData = (() => {
+    try {
+      return JSON.parse(sessionStorage.getItem('loginData') || 'null');
+    } catch {
+      return null;
+    }
+  })();
+
+  useEffect(() => {
+    if (!loginData) {
+      navigate('/login');
+    }
+  }, [loginData, navigate]);
 
   useEffect(() => {
     if (countdown > 0) {
@@ -39,9 +52,10 @@ const LoginOTP = () => {
     if (otpValue.length === 6) {
       setVerified(true);
       setTimeout(() => {
-        // Redirect based on user type from context
-        if (userType === 'mentor') {
-          navigate('/mentor/dashboard');
+        // Redirect based on user type
+        const targetType = loginData?.userType || userType;
+        if (targetType === 'alumni') {
+          navigate('/alumni/dashboard');
         } else {
           navigate('/mentee/dashboard');
         }
@@ -65,14 +79,21 @@ const LoginOTP = () => {
         <div className="w-full max-w-md bg-card rounded-lg shadow-lg p-6 md:p-8 animate-fade-in">
           {/* Header */}
           <div className="mb-6 text-center">
-            <h1 className="text-2xl font-bold text-foreground mb-2">Verify Your Phone</h1>
+            <h1 className="text-2xl font-bold text-foreground mb-2">
+              {loginData?.method === 'email' ? 'Verify Your Email' : 'Verify Your Mobile'}
+            </h1>
             <p className="text-base text-muted-foreground">Login to continue</p>
           </div>
 
           {/* OTP Form */}
           <div className="space-y-6">
             <p className="text-base text-foreground">
-              We've sent an OTP to <span className="font-semibold">+91-XXXXX3210</span>
+              We've sent an OTP to{' '}
+              <span className="font-semibold">
+                {loginData?.method === 'email'
+                  ? loginData?.contact || 'your email'
+                  : `${loginData?.countryCode || '+91'}-${loginData?.contact || 'your number'}`}
+              </span>
             </p>
 
             {/* OTP Input */}
@@ -130,7 +151,7 @@ const LoginOTP = () => {
               onClick={() => navigate('/login')}
               className="w-full"
             >
-              ← Back to Phone Entry
+              ← Back to login
             </Button>
           </div>
         </div>

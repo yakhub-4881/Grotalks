@@ -7,14 +7,14 @@ import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Star, MapPin, GraduationCap, Award, ArrowLeft, Building2, Linkedin, Globe } from 'lucide-react';
 import { getCollegeDisplay } from '@/lib/college-config';
-import { MentorServices, MentorService } from '@/components/MentorServices';
+import { AlumniServices, AlumniService } from '@/components/AlumniServices';
 
-const MentorProfile = () => {
+const AlumniProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // Mock mentor data with services
-  const mentor = {
+  // Mock alumni data with services
+  const alumni = {
     id: Number(id) || 1,
     name: 'Arjun Singh',
     role: 'Product Manager @ Flipkart',
@@ -26,7 +26,7 @@ const MentorProfile = () => {
     rating: 4.9,
     totalReviews: 28,
     sessionsCompleted: 45,
-    bio: 'Product manager with 6+ years of experience in e-commerce and fintech. Helped 40+ students land product roles at top companies. Passionate about mentoring and career growth.',
+    bio: 'Product manager with 6+ years of experience in e-commerce and fintech. Helped 40+ students land product roles at top companies. Passionate about alumniing and career growth.',
     languages: ['English', 'Hindi', 'Tamil'],
     linkedinUrl: 'https://linkedin.com/in/arjunsingh',
     services: [
@@ -71,8 +71,8 @@ const MentorProfile = () => {
     ]
   };
 
-  const handleBookService = (service: MentorService) => {
-    navigate(`/booking/schedule/${mentor.id}?service=${service.id}`);
+  const handleBookService = (service: AlumniService) => {
+    navigate(`/booking/schedule/${alumni.id}?service=${service.id}`);
   };
 
   return (
@@ -98,19 +98,19 @@ const MentorProfile = () => {
                 <Card className="p-4 md:p-6">
                   <div className="flex items-start gap-4 mb-4">
                     <Avatar className="h-20 w-20 md:h-24 md:w-24 bg-primary/10 flex items-center justify-center text-2xl md:text-3xl font-bold text-primary flex-shrink-0 border-4 border-primary/20">
-                      {mentor.name.split(' ').map(n => n[0]).join('')}
+                      {alumni.name.split(' ').map(n => n[0]).join('')}
                     </Avatar>
                     <div className="flex-1 min-w-0">
-                      <h1 className="text-xl md:text-2xl font-bold text-foreground mb-1">{mentor.name}</h1>
-                      <p className="text-sm md:text-base text-muted-foreground mb-2">{mentor.role}</p>
+                      <h1 className="text-xl md:text-2xl font-bold text-foreground mb-1">{alumni.name}</h1>
+                      <p className="text-sm md:text-base text-muted-foreground mb-2">{alumni.role}</p>
                       <div className="flex flex-wrap items-center gap-2 text-sm">
                         <Badge variant="secondary" className="gap-1">
                           <GraduationCap className="h-3 w-3" />
-                          {getCollegeDisplay(mentor.college, 'both')} • {mentor.batch}
+                          {getCollegeDisplay(alumni.college, 'both')} • {alumni.batch}
                         </Badge>
                         <Badge variant="outline" className="gap-1">
                           <MapPin className="h-3 w-3" />
-                          {mentor.location}
+                          {alumni.location}
                         </Badge>
                       </div>
                     </div>
@@ -120,25 +120,25 @@ const MentorProfile = () => {
                   <div className="flex items-center gap-4 mb-4 pb-4 border-b">
                     <div className="flex items-center gap-1">
                       <Star className="h-5 w-5 fill-bonus text-bonus" />
-                      <span className="font-semibold">{mentor.rating}</span>
-                      <span className="text-sm text-muted-foreground">({mentor.totalReviews} reviews)</span>
+                      <span className="font-semibold">{alumni.rating}</span>
+                      <span className="text-sm text-muted-foreground">({alumni.totalReviews} reviews)</span>
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      {mentor.sessionsCompleted} sessions
+                      {alumni.sessionsCompleted} sessions
                     </div>
                   </div>
 
                   {/* Bio */}
                   <div className="mb-4">
                     <h3 className="font-semibold text-foreground mb-2">About</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{mentor.bio}</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{alumni.bio}</p>
                   </div>
 
                   {/* Expertise */}
                   <div className="mb-4">
                     <h3 className="font-semibold text-foreground mb-2">Expertise</h3>
                     <div className="flex flex-wrap gap-2">
-                      {mentor.expertise.map((exp) => (
+                      {alumni.expertise.map((exp) => (
                         <Badge key={exp} variant="default" className="text-xs">{exp}</Badge>
                       ))}
                     </div>
@@ -148,7 +148,7 @@ const MentorProfile = () => {
                   <div className="mb-4">
                     <h3 className="font-semibold text-foreground mb-2">Languages</h3>
                     <div className="flex flex-wrap gap-2">
-                      {mentor.languages.map((lang) => (
+                      {alumni.languages.map((lang) => (
                         <Badge key={lang} variant="outline" className="text-xs">{lang}</Badge>
                       ))}
                     </div>
@@ -156,7 +156,7 @@ const MentorProfile = () => {
 
                   {/* LinkedIn */}
                   <a 
-                    href={mentor.linkedinUrl}
+                    href={alumni.linkedinUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
@@ -173,10 +173,10 @@ const MentorProfile = () => {
                     Work Experience
                   </h3>
                   <div className="space-y-4">
-                    {mentor.workExperience.map((exp, index) => (
+                    {alumni.workExperience.map((exp, index) => (
                       <div key={exp.id} className="relative pl-6 pb-4 last:pb-0">
                         {/* Timeline line */}
-                        {index < mentor.workExperience.length - 1 && (
+                        {index < alumni.workExperience.length - 1 && (
                           <div className="absolute left-[7px] top-3 bottom-0 w-0.5 bg-border" />
                         )}
                         {/* Timeline dot */}
@@ -199,7 +199,7 @@ const MentorProfile = () => {
                     Certifications
                   </h3>
                   <div className="space-y-3">
-                    {mentor.certifications.map((cert) => (
+                    {alumni.certifications.map((cert) => (
                       <div key={cert.id} className="flex items-start gap-3 p-3 rounded-lg bg-muted/50">
                         <div className="w-8 h-8 rounded-lg bg-bonus/10 flex items-center justify-center flex-shrink-0">
                           <Award className="h-4 w-4 text-bonus" />
@@ -217,10 +217,10 @@ const MentorProfile = () => {
                 <Card className="p-4 md:p-6">
                   <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
                     <Star className="h-5 w-5 text-bonus" />
-                    Reviews ({mentor.reviewsList.length})
+                    Reviews ({alumni.reviewsList.length})
                   </h3>
                   <div className="space-y-4">
-                    {mentor.reviewsList.map((review) => (
+                    {alumni.reviewsList.map((review) => (
                       <div key={review.id} className="pb-4 border-b last:border-0 last:pb-0">
                         <div className="flex items-start justify-between mb-2">
                           <div>
@@ -249,8 +249,8 @@ const MentorProfile = () => {
               <div className="lg:sticky lg:top-0 bg-muted pb-4 -mt-2 pt-2">
                 <h2 className="text-lg font-semibold text-foreground">Services Offered</h2>
               </div>
-              <MentorServices 
-                services={mentor.services} 
+              <AlumniServices 
+                services={alumni.services} 
                 onBookService={handleBookService}
               />
             </div>
@@ -261,4 +261,4 @@ const MentorProfile = () => {
   );
 };
 
-export default MentorProfile;
+export default AlumniProfile;

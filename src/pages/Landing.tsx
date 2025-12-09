@@ -14,9 +14,10 @@ const Landing = () => {
   const isDarkMode = document.documentElement.classList.contains('dark');
   const logo = isDarkMode ? logoLight : logoDark;
 
-  const handleMentorSignup = () => {
-    setUserType('mentor');
-    navigate('/signup?type=mentor');
+  const handleAlumniSignup = () => {
+    setUserType('alumni');
+    // Go to combined signup page with Student/Alumni tabs (alumni tab shows OTP flow)
+    navigate('/signup?type=alumni');
   };
 
   const handleSeekerSignup = () => {
@@ -40,10 +41,10 @@ const Landing = () => {
             {/* Value Proposition */}
             <div className="mb-8 max-w-lg">
               <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
-                Connect with Alumni Mentors
+                Connect with Alumni Alumni
               </h2>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Grotalks does not connect students to random experts. It connects them to alumni from their own college. People who once walked the same halls and now live the career students dream of. This turns passive alumni links into active mentorship.
+                Grotalks does not connect students to random experts. It connects them to alumni from their own college. People who once walked the same halls and now live the career students dream of. This turns passive alumni links into active alumnihip.
               </p>
             </div>
 
@@ -57,12 +58,12 @@ const Landing = () => {
                 Sign Up as Student
               </Button>
               <Button 
-                onClick={handleMentorSignup}
+                onClick={handleAlumniSignup}
                 variant="secondary"
                 className="w-full h-12 text-base font-medium"
                 size="lg"
               >
-                Sign Up as Mentor
+                Sign Up as Alumni
               </Button>
               <p className="text-center text-sm text-muted-foreground pt-2">
                 Already have an account?{' '}
@@ -91,7 +92,7 @@ const Landing = () => {
               <div className="text-center">
                 <div className="text-2xl mb-2">🎯</div>
                 <p className="text-xs font-semibold mb-1">Verified Alumni</p>
-                <p className="text-xs text-muted-foreground">Trusted mentors only</p>
+                <p className="text-xs text-muted-foreground">Trusted alumni only</p>
               </div>
             </div>
           </div>
@@ -100,7 +101,7 @@ const Landing = () => {
           <div className="hidden md:block relative overflow-hidden">
             <img 
               src={heroImage} 
-              alt="Mentorship Connection" 
+              alt="Alumnihip Connection" 
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-l from-transparent via-background/5 to-background"></div>

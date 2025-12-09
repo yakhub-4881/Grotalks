@@ -7,7 +7,7 @@ import { ArrowLeft, Calendar } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 
-const MentorManageAvailability = () => {
+const AlumniManageAvailability = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [availability, setAvailability] = useState<Record<string, string[]>>({
@@ -52,7 +52,7 @@ const MentorManageAvailability = () => {
     <Layout>
       <div className="min-h-[calc(100vh-4rem)] bg-muted py-4 md:py-8 px-4">
         <div className="w-full max-w-5xl mx-auto">
-          <Button variant="ghost" onClick={() => navigate('/mentor/dashboard')} className="mb-4 md:mb-6">
+          <Button variant="ghost" onClick={() => navigate('/alumni/dashboard')} className="mb-4 md:mb-6">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Dashboard
           </Button>
@@ -63,14 +63,14 @@ const MentorManageAvailability = () => {
                 <Calendar className="h-6 w-6 md:h-8 md:w-8 text-primary" />
                 <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-foreground">Manage Availability</h1>
               </div>
-              <p className="text-sm md:text-base text-muted-foreground">Set your weekly availability for mentoring sessions</p>
+              <p className="text-sm md:text-base text-muted-foreground">Set your weekly availability for alumniing sessions</p>
             </div>
 
             <div className="space-y-6">
               <div className="space-y-4">
                 <Label className="text-base font-semibold">Select Your Weekly Availability</Label>
                 <p className="text-sm text-muted-foreground">
-                  Click on time slots to mark when you're available for mentoring sessions
+                  Click on time slots to mark when you're available for alumniing sessions
                 </p>
 
                 {/* Availability Grid */}
@@ -140,7 +140,7 @@ const MentorManageAvailability = () => {
                 </Button>
                 <Button
                   variant="outline"
-                  onClick={() => navigate('/mentor/dashboard')}
+                  onClick={() => navigate('/alumni/dashboard')}
                   className="flex-1 h-11 md:h-12 text-sm md:text-base"
                 >
                   Cancel
@@ -154,4 +154,4 @@ const MentorManageAvailability = () => {
   );
 };
 
-export default MentorManageAvailability;
+export default AlumniManageAvailability;

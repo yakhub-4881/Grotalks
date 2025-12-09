@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Layout } from '@/components/Layout';
 import { Checkbox } from '@/components/ui/checkbox';
 
-const MentorAvailability = () => {
+const AlumniAvailability = () => {
   const navigate = useNavigate();
   const [availability, setAvailability] = useState<Record<string, string[]>>({});
 
@@ -52,7 +52,7 @@ const MentorAvailability = () => {
             <div className="space-y-4">
               <Label className="text-base font-semibold">Select Your Weekly Availability</Label>
               <p className="text-sm text-muted-foreground">
-                Click on time slots to mark when you're available for mentoring sessions
+                Click on time slots to mark when you're available for alumniing sessions
               </p>
 
               {/* Availability Grid */}
@@ -113,13 +113,13 @@ const MentorAvailability = () => {
             <div className="flex gap-4">
               <Button 
                 variant="outline" 
-                onClick={() => navigate('/mentor/expertise')} 
+                onClick={() => navigate('/alumni/expertise')} 
                 className="flex-1 h-12"
               >
                 Back
               </Button>
               <Button
-                onClick={() => navigate('/mentor/meeting-setup')}
+                onClick={() => navigate('/alumni/meeting-setup')}
                 className="flex-1 h-12 font-medium"
                 disabled={!hasAnySelection}
               >
@@ -133,4 +133,4 @@ const MentorAvailability = () => {
   );
 };
 
-export default MentorAvailability;
+export default AlumniAvailability;

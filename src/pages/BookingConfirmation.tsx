@@ -12,7 +12,7 @@ import { ArrowLeft, Calendar, Clock, Video, Shield, CheckCircle2, Loader2, User,
 import { calculateSessionPrice, formatPrice, PLATFORM_FEE_PERCENT } from '@/lib/college-config';
 
 interface LocationState {
-  mentor: {
+  alumni: {
     id: number;
     name: string;
     role: string;
@@ -44,8 +44,8 @@ const BookingConfirmation = () => {
     return null;
   }
 
-  const { mentor, date, time, duration, message, serviceName = '1:1 Call' } = state;
-  const sessionPrice = calculateSessionPrice(mentor.baseRate, duration);
+  const { alumni, date, time, duration, message, serviceName = '1:1 Call' } = state;
+  const sessionPrice = calculateSessionPrice(alumni.baseRate, duration);
   const platformFee = 0; // Free for students
   const totalAmount = sessionPrice;
 
@@ -84,13 +84,13 @@ const BookingConfirmation = () => {
         <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-b from-success/5 to-muted flex items-center justify-center py-8">
           <div className="container max-w-md px-4">
             <Card className="p-6 md:p-8 text-center">
-              {/* Mentor Header */}
+              {/* Alumni Header */}
               <div className="flex items-center justify-between mb-6 pb-4 border-b">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold flex-shrink-0">
-                    {mentor.name.split(' ').map(n => n[0]).join('')}
+                    {alumni.name.split(' ').map(n => n[0]).join('')}
                   </div>
-                  <span className="font-semibold text-foreground">{mentor.name}</span>
+                  <span className="font-semibold text-foreground">{alumni.name}</span>
                 </div>
                 <Button variant="ghost" size="icon" className="text-muted-foreground">
                   <Send className="h-4 w-4" />
@@ -173,14 +173,14 @@ const BookingConfirmation = () => {
             {/* Left: Order Summary */}
             <div className="md:col-span-2 order-2 md:order-1">
               <Card className="p-4 md:p-6 md:sticky md:top-4">
-                {/* Mentor Info */}
+                {/* Alumni Info */}
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold flex-shrink-0">
-                    {mentor.name.split(' ').map(n => n[0]).join('')}
+                    {alumni.name.split(' ').map(n => n[0]).join('')}
                   </div>
                   <div className="min-w-0">
-                    <h3 className="font-semibold truncate">{mentor.name}</h3>
-                    <p className="text-xs text-muted-foreground truncate">{mentor.role}</p>
+                    <h3 className="font-semibold truncate">{alumni.name}</h3>
+                    <p className="text-xs text-muted-foreground truncate">{alumni.role}</p>
                   </div>
                 </div>
 
@@ -294,7 +294,7 @@ const BookingConfirmation = () => {
                     className="mt-0.5"
                   />
                   <label htmlFor="terms" className="text-sm leading-relaxed cursor-pointer">
-                    I agree to the <a href="/universal/terms" className="text-primary underline">Terms & Conditions</a> and <a href="/universal/privacy" className="text-primary underline">Privacy Policy</a>. I understand the mentor may reschedule or decline, and I'll receive a full refund if that happens.
+                    I agree to the <a href="/universal/terms" className="text-primary underline">Terms & Conditions</a> and <a href="/universal/privacy" className="text-primary underline">Privacy Policy</a>. I understand the alumni may reschedule or decline, and I'll receive a full refund if that happens.
                   </label>
                 </div>
 
@@ -322,7 +322,7 @@ const BookingConfirmation = () => {
                   <p className="text-sm text-muted-foreground">
                     <strong>What happens next?</strong><br />
                     1. Complete payment to confirm your slot<br />
-                    2. Mentor will receive your booking request<br />
+                    2. Alumni will receive your booking request<br />
                     3. You'll get the meeting link via email<br />
                     4. Join the call at the scheduled time
                   </p>

@@ -36,7 +36,7 @@ interface BookingRequest {
   isPaid: boolean;
 }
 
-const MentorRequests = () => {
+const AlumniRequests = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   
@@ -364,4 +364,4 @@ const MentorRequests = () => {
   );
 };
 
-export default MentorRequests;
+export default AlumniRequests;

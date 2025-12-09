@@ -6,13 +6,19 @@ import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { Layout } from '@/components/Layout';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Mail, Upload, CheckCircle2, XCircle, Loader2, FileText, Image, X } from 'lucide-react';
+import { Mail, Upload, CheckCircle2, XCircle, Loader2, FileText, Image, X, ChevronDown } from 'lucide-react';
+import { collegeMap } from '@/lib/college-config';
 
 type VerificationMethod = 'email' | 'documents' | null;
 
-const MentorAlumniVerification = () => {
+const AlumniAlumniVerification = () => {
   const navigate = useNavigate();
   const [selectedMethod, setSelectedMethod] = useState<VerificationMethod>(null);
+  
+  // College dropdown states
+  const [college, setCollege] = useState('');
+  const [collegeDropdownOpen, setCollegeDropdownOpen] = useState(false);
+  const [collegeName, setCollegeName] = useState('');
   
   // Email verification states
   const [alumniEmail, setAlumniEmail] = useState('');
@@ -38,12 +44,64 @@ const MentorAlumniVerification = () => {
   const govtIdRef = useRef<HTMLInputElement>(null);
   const profilePhotoRef = useRef<HTMLInputElement>(null);
 
+  const colleges = Object.entries(collegeMap).map(([key, info]) => ({
+    key,
+    name: info.fullName
+  }));
+
+  // Load signup data from session storage
+  useEffect(() => {
+    const savedData = sessionStorage.getItem('alumniSignupData');
+    if (savedData) {
+      const data = JSON.parse(savedData);
+      if (data.college) {
+        setCollege(data.college);
+        const collegeInfo = collegeMap[data.college];
+        setCollegeName(collegeInfo?.fullName || '');
+      }
+    }
+  }, []);
+
   useEffect(() => {
     if (countdown > 0) {
       const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
       return () => clearTimeout(timer);
     }
   }, [countdown]);
+
+  // College dropdown handlers
+  const handleCollegeSelect = (collegeKey: string) => {
+    setCollege(collegeKey);
+    const collegeInfo = collegeMap[collegeKey];
+    setCollegeName(collegeInfo?.fullName || '');
+    setCollegeDropdownOpen(false);
+    
+    // Save to session storage
+    const savedData = sessionStorage.getItem('alumniSignupData');
+    if (savedData) {
+      const data = JSON.parse(savedData);
+      data.college = collegeKey;
+      sessionStorage.setItem('alumniSignupData', JSON.stringify(data));
+    }
+  };
+
+  const handleCollegeDropdownToggle = () => {
+    setCollegeDropdownOpen(!collegeDropdownOpen);
+  };
+
+  const handleCollegeClear = () => {
+    setCollege('');
+    setCollegeName('');
+    setCollegeDropdownOpen(false);
+    
+    // Save to session storage
+    const savedData = sessionStorage.getItem('alumniSignupData');
+    if (savedData) {
+      const data = JSON.parse(savedData);
+      delete data.college;
+      sessionStorage.setItem('alumniSignupData', JSON.stringify(data));
+    }
+  };
 
   const years = Array.from({ length: 30 }, (_, i) => (new Date().getFullYear() - i).toString());
   const branches = [
@@ -105,7 +163,7 @@ const MentorAlumniVerification = () => {
 
   const handleContinue = () => {
     if (canContinue) {
-      navigate('/mentor/bio');
+      navigate('/alumni/bio');
     }
   };
 
@@ -135,21 +193,62 @@ const MentorAlumniVerification = () => {
             </div>
             
             <div className="space-y-4">
+              {/* College Selection */}
               <div className="space-y-2">
-                <Label className="text-sm font-semibold">College Name</Label>
-                <Input
-                  value="Vel Tech Rangarajan Dr. Sagunthala R & D Institute of Science & Technology"
-                  disabled
-                  className="h-10 sm:h-12 text-sm sm:text-base"
-                />
+                <Label className="text-sm font-semibold">College Name*</Label>
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={handleCollegeDropdownToggle}
+                    className="w-full h-10 sm:h-12 px-3 py-2 text-left border rounded-md flex items-center justify-between bg-background hover:border-border focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-input"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <span className={`block text-sm truncate ${college ? 'text-foreground' : 'text-muted-foreground'}`}>
+                        {college ? collegeName : 'Select your college'}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {college && (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCollegeClear();
+                          }}
+                          className="text-muted-foreground hover:text-foreground"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      )}
+                      <ChevronDown className={`h-4 w-4 transition-transform ${collegeDropdownOpen ? 'rotate-180' : ''}`} />
+                    </div>
+                  </button>
+                  
+                  {collegeDropdownOpen && (
+                    <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-md shadow-lg max-h-60 overflow-y-auto">
+                      {colleges.map((c) => (
+                        <button
+                          key={c.key}
+                          type="button"
+                          onClick={() => handleCollegeSelect(c.key)}
+                          className="w-full px-3 py-2 text-left hover:bg-muted focus:bg-muted focus:outline-none"
+                        >
+                          <div className="text-sm font-medium text-foreground">{c.name}</div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label className="text-sm font-semibold">Batch Year*</Label>
+                  <Label className="text-sm font-semibold text-muted-foreground">Batch Year*</Label>
                   <Select value={batch} onValueChange={setBatch}>
-                    <SelectTrigger className="h-10 sm:h-12">
-                      <SelectValue placeholder="Select batch year" />
+                    <SelectTrigger className="h-10 sm:h-12 text-muted-foreground">
+                      <SelectValue
+                        placeholder="Select batch year"
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {years.map((year) => (
@@ -160,10 +259,12 @@ const MentorAlumniVerification = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-sm font-semibold">Branch*</Label>
+                  <Label className="text-sm font-semibold text-muted-foreground">Branch*</Label>
                   <Select value={branch} onValueChange={setBranch}>
-                    <SelectTrigger className="h-10 sm:h-12">
-                      <SelectValue placeholder="Select branch" />
+                    <SelectTrigger className="h-10 sm:h-12 text-muted-foreground">
+                      <SelectValue
+                        placeholder="Select branch"
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {branches.map((br) => (
@@ -516,7 +617,7 @@ const MentorAlumniVerification = () => {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4">
             <Button
               variant="outline"
-              onClick={() => navigate('/mentor/signup/otp')}
+              onClick={() => navigate('/alumni/signup/otp')}
               className="w-full sm:flex-1 h-10 sm:h-12"
             >
               Back
@@ -524,7 +625,7 @@ const MentorAlumniVerification = () => {
             <Button
               onClick={handleContinue}
               className="w-full sm:flex-1 h-10 sm:h-12 font-medium"
-              disabled={!canContinue || !batch || !branch}
+              disabled={!canContinue || !college || !batch || !branch}
             >
               Continue
             </Button>
@@ -535,4 +636,4 @@ const MentorAlumniVerification = () => {
   );
 };
 
-export default MentorAlumniVerification;
+export default AlumniAlumniVerification;

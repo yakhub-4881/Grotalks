@@ -10,7 +10,7 @@ import { Search, Star, MapPin, Video } from 'lucide-react';
 import { getCollegeDisplay } from '@/lib/college-config';
 import { PricingDisplay } from '@/components/PricingDisplay';
 
-const BrowseMentors = () => {
+const BrowseAlumni = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [expertiseFilter, setExpertiseFilter] = useState('all');
@@ -19,7 +19,7 @@ const BrowseMentors = () => {
   const [languageFilter, setLanguageFilter] = useState('all');
   const [sortBy, setSortBy] = useState('rating');
 
-  const mentors = [
+  const alumni = [
     {
       id: 1,
       name: 'Arjun Singh',
@@ -124,7 +124,7 @@ const BrowseMentors = () => {
         <div className="container mx-auto px-4 py-4 md:py-8">
           {/* Header */}
           <div className="mb-6 md:mb-8">
-            <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Browse Mentors</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Browse Alumni</h1>
             <p className="text-sm md:text-base text-muted-foreground">Book 1:1 video call sessions with industry experts</p>
           </div>
 
@@ -232,50 +232,50 @@ const BrowseMentors = () => {
           {/* Results Count */}
           <div className="mb-4 md:mb-6">
             <p className="text-sm text-muted-foreground">
-              Showing {mentors.length} mentors
+              Showing {alumni.length} alumni
             </p>
           </div>
 
-          {/* Mentors Grid */}
+          {/* Alumni Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {mentors.map((mentor) => (
+            {alumni.map((alumni) => (
               <Card
-                key={mentor.id}
+                key={alumni.id}
                 className="p-4 md:p-6 hover:shadow-xl transition-all cursor-pointer group"
-                onClick={() => navigate(`/mentor/profile/${mentor.id}`)}
+                onClick={() => navigate(`/alumni/profile/${alumni.id}`)}
               >
                 <div className="space-y-3 md:space-y-4">
                   {/* Header */}
                   <div className="flex items-start justify-between">
                     <div className="flex-1 min-w-0">
                       <h3 className="text-base md:text-lg font-semibold text-foreground group-hover:text-primary transition-colors truncate">
-                        {mentor.name}
+                        {alumni.name}
                       </h3>
-                      <p className="text-sm text-muted-foreground mb-1 truncate">{mentor.role}</p>
+                      <p className="text-sm text-muted-foreground mb-1 truncate">{alumni.role}</p>
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <div className="inline-flex items-center gap-2 text-xs">
                             <span className="px-2 py-1 bg-accent/50 text-accent-foreground rounded-md font-medium truncate max-w-[150px]">
-                              {getCollegeDisplay(mentor.college, 'abbr')}
+                              {getCollegeDisplay(alumni.college, 'abbr')}
                             </span>
-                            <span className="text-muted-foreground whitespace-nowrap">• {mentor.batch}</span>
+                            <span className="text-muted-foreground whitespace-nowrap">• {alumni.batch}</span>
                           </div>
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p className="text-xs">{getCollegeDisplay(mentor.college, 'full')}</p>
+                          <p className="text-xs">{getCollegeDisplay(alumni.college, 'full')}</p>
                         </TooltipContent>
                       </Tooltip>
                     </div>
                     <div className="flex items-center gap-1 flex-shrink-0 ml-2">
                       <Star className="h-4 w-4 fill-bonus text-bonus" />
-                      <span className="text-sm font-semibold">{mentor.rating}</span>
-                      <span className="text-xs text-muted-foreground">({mentor.reviews})</span>
+                      <span className="text-sm font-semibold">{alumni.rating}</span>
+                      <span className="text-xs text-muted-foreground">({alumni.reviews})</span>
                     </div>
                   </div>
 
                   {/* Expertise Tags */}
                   <div className="flex flex-wrap gap-1.5 md:gap-2">
-                    {mentor.expertise.slice(0, 3).map((exp) => (
+                    {alumni.expertise.slice(0, 3).map((exp) => (
                       <span
                         key={exp}
                         className="px-2 py-0.5 md:py-1 bg-primary/10 text-primary text-xs rounded-md font-medium"
@@ -289,22 +289,22 @@ const BrowseMentors = () => {
                   <div className="flex items-center gap-3 md:gap-4 text-xs md:text-sm text-muted-foreground pt-2 border-t">
                     <div className="flex items-center gap-1">
                       <MapPin className="h-3 w-3" />
-                      <span>{mentor.location}</span>
+                      <span>{alumni.location}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Video className="h-3 w-3" />
-                      <span>{mentor.sessionsCompleted} calls</span>
+                      <span>{alumni.sessionsCompleted} calls</span>
                     </div>
                   </div>
 
                   {/* Pricing */}
                   <div className="flex items-center justify-between pt-2 border-t">
                     <div>
-                      <PricingDisplay baseRate={mentor.baseRate} variant="detail" />
+                      <PricingDisplay baseRate={alumni.baseRate} variant="detail" />
                     </div>
                     <Button size="sm" onClick={(e) => {
                       e.stopPropagation();
-                      navigate(`/booking/schedule/${mentor.id}`);
+                      navigate(`/booking/schedule/${alumni.id}`);
                     }}>
                       Book Call
                     </Button>
@@ -319,4 +319,4 @@ const BrowseMentors = () => {
   );
 };
 
-export default BrowseMentors;
+export default BrowseAlumni;

@@ -12,6 +12,13 @@ const MenteeSignupOTP = () => {
   const [canResend, setCanResend] = useState(false);
   const [error, setError] = useState('');
   const [verified, setVerified] = useState(false);
+  const email = sessionStorage.getItem('studentSignupEmail');
+
+  useEffect(() => {
+    if (!email) {
+      navigate('/signup?type=student');
+    }
+  }, [email, navigate]);
 
   useEffect(() => {
     if (countdown > 0) {
@@ -56,7 +63,7 @@ const MenteeSignupOTP = () => {
       <div className="min-h-[calc(100vh-4rem)] bg-muted flex items-center justify-center p-4">
         <div className="w-full max-w-md bg-card rounded-lg shadow-lg p-6 md:p-8 animate-fade-in">
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-foreground mb-2">Verify Your Phone</h1>
+            <h1 className="text-2xl font-bold text-foreground mb-2">Verify Your Email</h1>
             <p className="text-sm text-muted-foreground">Step 2 of 5</p>
             <div className="mt-3 h-2 bg-muted rounded-full overflow-hidden">
               <div className="h-full bg-primary w-[40%] transition-all duration-300"></div>
@@ -65,7 +72,7 @@ const MenteeSignupOTP = () => {
 
           <div className="space-y-6">
             <p className="text-base text-foreground">
-              We've sent an OTP to <span className="font-semibold">+91-XXXXX3210</span>
+              We've sent an OTP to <span className="font-semibold">{email || 'your email'}</span>
             </p>
 
             <div className="space-y-2">
@@ -116,10 +123,10 @@ const MenteeSignupOTP = () => {
 
             <Button
               variant="ghost"
-              onClick={() => navigate('/mentee/signup')}
+              onClick={() => navigate('/signup?type=student')}
               className="w-full"
             >
-              ← Back to Phone Entry
+              ← Back to email entry
             </Button>
           </div>
         </div>

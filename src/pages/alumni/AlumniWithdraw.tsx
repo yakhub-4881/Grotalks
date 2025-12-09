@@ -16,13 +16,13 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-const MentorWithdraw = () => {
+const AlumniWithdraw = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   
   const [earnings, setEarnings] = useState(2450); // Mock earnings
   const [withdrawAmount, setWithdrawAmount] = useState('');
-  const [upiId, setUpiId] = useState('mentor@paytm');
+  const [upiId, setUpiId] = useState('alumni@paytm');
   const [isProcessing, setIsProcessing] = useState(false);
 
   const MIN_WITHDRAWAL = 500;
@@ -74,7 +74,7 @@ const MentorWithdraw = () => {
     <Layout>
       <div className="min-h-[calc(100vh-4rem)] bg-muted py-8">
         <div className="container max-w-5xl px-4">
-          <Button variant="ghost" onClick={() => navigate('/mentor/dashboard')} className="mb-6">
+          <Button variant="ghost" onClick={() => navigate('/alumni/dashboard')} className="mb-6">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Dashboard
           </Button>
@@ -220,4 +220,4 @@ const MentorWithdraw = () => {
   );
 };
 
-export default MentorWithdraw;
+export default AlumniWithdraw;

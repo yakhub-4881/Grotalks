@@ -15,7 +15,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-export interface MentorService {
+export interface AlumniService {
   id: number;
   type: 'call' | 'dm' | 'workshop' | 'product' | 'package';
   title: string;
@@ -32,33 +32,33 @@ const serviceTypes = [
   { id: 'package', label: 'Package', description: 'Bundle your offerings into one', icon: Package },
 ] as const;
 
-const getServiceIcon = (type: MentorService['type']) => {
+const getServiceIcon = (type: AlumniService['type']) => {
   const typeConfig = serviceTypes.find(t => t.id === type);
   return typeConfig?.icon || Video;
 };
 
-const getServiceLabel = (type: MentorService['type']) => {
+const getServiceLabel = (type: AlumniService['type']) => {
   const typeConfig = serviceTypes.find(t => t.id === type);
   return typeConfig?.label || '1:1 Call';
 };
 
-interface MentorServicesProps {
-  services: MentorService[];
-  onServicesChange?: (services: MentorService[]) => void;
+interface AlumniServicesProps {
+  services: AlumniService[];
+  onServicesChange?: (services: AlumniService[]) => void;
   isEditable?: boolean;
-  onBookService?: (service: MentorService) => void;
+  onBookService?: (service: AlumniService) => void;
 }
 
-export const MentorServices = ({ 
+export const AlumniServices = ({ 
   services, 
   onServicesChange, 
   isEditable = false,
   onBookService 
-}: MentorServicesProps) => {
+}: AlumniServicesProps) => {
   const { toast } = useToast();
   const [showDialog, setShowDialog] = useState(false);
-  const [editingService, setEditingService] = useState<MentorService | null>(null);
-  const [selectedType, setSelectedType] = useState<MentorService['type']>('call');
+  const [editingService, setEditingService] = useState<AlumniService | null>(null);
+  const [selectedType, setSelectedType] = useState<AlumniService['type']>('call');
   const [formData, setFormData] = useState({
     title: '',
     duration: 30,
@@ -73,7 +73,7 @@ export const MentorServices = ({
     setShowDialog(true);
   };
 
-  const handleEdit = (service: MentorService) => {
+  const handleEdit = (service: AlumniService) => {
     setEditingService(service);
     setSelectedType(service.type);
     setFormData({
@@ -113,7 +113,7 @@ export const MentorServices = ({
       onServicesChange?.(updated);
       toast({ title: 'Service updated successfully' });
     } else {
-      const newService: MentorService = {
+      const newService: AlumniService = {
         id: Date.now(),
         type: selectedType,
         ...formData
@@ -231,7 +231,7 @@ export const MentorServices = ({
                     <button
                       key={type.id}
                       type="button"
-                      onClick={() => setSelectedType(type.id as MentorService['type'])}
+                      onClick={() => setSelectedType(type.id as AlumniService['type'])}
                       className={`p-3 rounded-lg border text-left transition-all ${
                         isSelected 
                           ? 'border-primary bg-primary/5 ring-1 ring-primary' 

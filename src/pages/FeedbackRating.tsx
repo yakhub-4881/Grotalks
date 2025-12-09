@@ -13,7 +13,7 @@ const FeedbackRating = () => {
   const { toast } = useToast();
   const [searchParams] = useSearchParams();
   
-  const userType = searchParams.get('type') || 'student'; // student or mentor
+  const userType = searchParams.get('type') || 'student'; // student or alumni
   const sessionId = searchParams.get('sessionId') || '1';
   
   const [rating, setRating] = useState(0);
@@ -21,7 +21,7 @@ const FeedbackRating = () => {
   const [feedback, setFeedback] = useState('');
 
   const sessionDetails = {
-    mentorName: 'Arjun Singh',
+    alumniName: 'Arjun Singh',
     studentName: 'Ravi Kumar',
     duration: '45 minutes',
     topic: 'Product Management Career Guidance'
@@ -55,7 +55,7 @@ const FeedbackRating = () => {
     if (userType === 'student') {
       navigate('/mentee/dashboard');
     } else {
-      navigate('/mentor/dashboard');
+      navigate('/alumni/dashboard');
     }
   };
 
@@ -68,7 +68,7 @@ const FeedbackRating = () => {
             <h1 className="text-3xl font-bold text-foreground mb-2">Session Completed!</h1>
             <p className="text-muted-foreground">
               {userType === 'student' 
-                ? `How was your session with ${sessionDetails.mentorName}?`
+                ? `How was your session with ${sessionDetails.alumniName}?`
                 : `How was your session with ${sessionDetails.studentName}?`
               }
             </p>
@@ -78,10 +78,10 @@ const FeedbackRating = () => {
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-muted-foreground">
-                  {userType === 'student' ? 'Mentor' : 'Student'}
+                  {userType === 'student' ? 'Alumni' : 'Student'}
                 </p>
                 <p className="font-semibold">
-                  {userType === 'student' ? sessionDetails.mentorName : sessionDetails.studentName}
+                  {userType === 'student' ? sessionDetails.alumniName : sessionDetails.studentName}
                 </p>
               </div>
               <div>
@@ -138,7 +138,7 @@ const FeedbackRating = () => {
               id="feedback"
               placeholder={
                 userType === 'student'
-                  ? 'What did you like? What could be improved? Your feedback helps the mentor and other students...'
+                  ? 'What did you like? What could be improved? Your feedback helps the alumni and other students...'
                   : 'Share your thoughts about the session and the student (this feedback is for internal analytics only)...'
               }
               value={feedback}
@@ -154,7 +154,7 @@ const FeedbackRating = () => {
             </div>
           </div>
 
-          {userType === 'mentor' && (
+          {userType === 'alumni' && (
             <div className="bg-accent/20 rounded-lg p-4">
               <p className="text-xs text-muted-foreground">
                 <strong>Note:</strong> Your feedback about the student is used for internal analytics only and will not be shared with the student.
@@ -165,7 +165,7 @@ const FeedbackRating = () => {
           {userType === 'student' && (
             <div className="bg-primary/10 rounded-lg p-4">
               <p className="text-xs text-muted-foreground">
-                <strong>Note:</strong> Your feedback will be visible on the mentor's profile and helps other students make informed decisions.
+                <strong>Note:</strong> Your feedback will be visible on the alumni's profile and helps other students make informed decisions.
               </p>
             </div>
           )}
@@ -174,7 +174,7 @@ const FeedbackRating = () => {
             <Button
               variant="outline"
               className="flex-1"
-              onClick={() => navigate(userType === 'student' ? '/mentee/dashboard' : '/mentor/dashboard')}
+              onClick={() => navigate(userType === 'student' ? '/mentee/dashboard' : '/alumni/dashboard')}
             >
               Skip for Now
             </Button>

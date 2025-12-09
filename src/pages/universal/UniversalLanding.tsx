@@ -41,7 +41,7 @@ const UniversalLanding = () => {
         <div className="absolute inset-0">
           <img 
             src={heroImage} 
-            alt="Mentorship Platform" 
+            alt="Alumnihip Platform" 
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent"></div>
@@ -54,24 +54,24 @@ const UniversalLanding = () => {
               12+ Top Colleges Connected
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-foreground leading-tight">
-              Mentorship at Scale
+              Alumnihip at Scale
             </h1>
             <p className="text-xl text-muted-foreground mb-2">Guidance made easy</p>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              Connect with verified alumni mentors from India's top institutions. Get real-time guidance, pay per minute, and accelerate your career growth.
+              Connect with verified alumni alumni from India's top institutions. Get real-time guidance, pay per minute, and accelerate your career growth.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="text-base h-12" onClick={() => navigate('/signup')}>
-                Find Your Mentor <ArrowRight className="ml-2 h-5 w-5" />
+                Find Your Alumni <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button size="lg" variant="outline" className="text-base h-12" onClick={() => navigate('/signup?type=mentor')}>
-                Become a Mentor
+              <Button size="lg" variant="outline" className="text-base h-12" onClick={() => navigate('/signup?type=alumni')}>
+                Become a Alumni
               </Button>
             </div>
             <div className="grid grid-cols-3 gap-4 pt-4 max-w-md">
               <div className="text-center">
                 <div className="text-3xl font-bold text-primary">500+</div>
-                <div className="text-sm text-muted-foreground">Active Mentors</div>
+                <div className="text-sm text-muted-foreground">Active Alumni</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-primary">10K+</div>
@@ -95,7 +95,7 @@ const UniversalLanding = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">How It Works</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Simple steps to start your mentorship journey
+              Simple steps to start your alumnihip journey
             </p>
           </div>
           <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
@@ -105,7 +105,7 @@ const UniversalLanding = () => {
               <div className="space-y-6">
                 {[
                   { step: '1', title: 'Sign Up', desc: 'Create account with college email' },
-                  { step: '2', title: 'Browse Mentors', desc: 'Find mentors from your college' },
+                  { step: '2', title: 'Browse Alumni', desc: 'Find alumni from your college' },
                   { step: '3', title: 'Book Session', desc: 'Choose time slot (₹10-20/min)' },
                   { step: '4', title: 'Chat Live', desc: 'Get real-time guidance' },
                   { step: '5', title: 'Rate & Review', desc: 'Share your experience' }
@@ -125,9 +125,9 @@ const UniversalLanding = () => {
               </div>
             </div>
 
-            {/* For Mentors */}
+            {/* For Alumni */}
             <div>
-              <h3 className="text-2xl font-bold text-primary mb-8 text-center">For Mentors</h3>
+              <h3 className="text-2xl font-bold text-primary mb-8 text-center">For Alumni</h3>
               <div className="space-y-6">
                 {[
                   { step: '1', title: 'Sign Up', desc: 'Register with LinkedIn verification' },
@@ -160,24 +160,24 @@ const UniversalLanding = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Why Choose Grotalks?</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Everything you need for effective mentorship in one platform
+              Everything you need for effective alumnihip in one platform
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card className="p-6 hover:shadow-lg transition-shadow">
               <Users className="h-12 w-12 text-primary mb-4" />
               <h3 className="text-xl font-semibold mb-2">12+ Colleges</h3>
-              <p className="text-muted-foreground">Connect with mentors across India's top institutions including IITs, BITS, and NITs</p>
+              <p className="text-muted-foreground">Connect with alumni across India's top institutions including IITs, BITS, and NITs</p>
             </Card>
             <Card className="p-6 hover:shadow-lg transition-shadow">
               <Zap className="h-12 w-12 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Real-time Mentoring</h3>
+              <h3 className="text-xl font-semibold mb-2">Real-time Alumniing</h3>
               <p className="text-muted-foreground">Live chat sessions with instant UPI payments and transparent billing</p>
             </Card>
             <Card className="p-6 hover:shadow-lg transition-shadow">
               <Shield className="h-12 w-12 text-primary mb-4" />
               <h3 className="text-xl font-semibold mb-2">Verified Alumni</h3>
-              <p className="text-muted-foreground">All mentors verified with LinkedIn proof and KYC validation</p>
+              <p className="text-muted-foreground">All alumni verified with LinkedIn proof and KYC validation</p>
             </Card>
             <Card className="p-6 hover:shadow-lg transition-shadow">
               <Clock className="h-12 w-12 text-primary mb-4" />
@@ -187,12 +187,12 @@ const UniversalLanding = () => {
             <Card className="p-6 hover:shadow-lg transition-shadow">
               <Star className="h-12 w-12 text-primary mb-4" />
               <h3 className="text-xl font-semibold mb-2">Rated & Reviewed</h3>
-              <p className="text-muted-foreground">Community-driven ratings ensure quality mentorship experiences</p>
+              <p className="text-muted-foreground">Community-driven ratings ensure quality alumnihip experiences</p>
             </Card>
             <Card className="p-6 hover:shadow-lg transition-shadow">
               <TrendingUp className="h-12 w-12 text-primary mb-4" />
               <h3 className="text-xl font-semibold mb-2">Instant Payouts</h3>
-              <p className="text-muted-foreground">Mentors receive earnings instantly via UPI with zero delays</p>
+              <p className="text-muted-foreground">Alumni receive earnings instantly via UPI with zero delays</p>
             </Card>
           </div>
         </div>
@@ -202,13 +202,13 @@ const UniversalLanding = () => {
       <section className="py-12 md:py-16 bg-primary text-primary-foreground">
         <div className="container px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
-          <p className="text-xl mb-8 opacity-90">Join thousands of students and mentors on Grotalks</p>
+          <p className="text-xl mb-8 opacity-90">Join thousands of students and alumni on Grotalks</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" variant="secondary" className="text-base h-12" onClick={() => navigate('/signup')}>
-              Find a Mentor
+              Find a Alumni
             </Button>
-            <Button size="lg" variant="outline" className="text-base h-12 bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" onClick={() => navigate('/signup?type=mentor')}>
-              Become a Mentor
+            <Button size="lg" variant="outline" className="text-base h-12 bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" onClick={() => navigate('/signup?type=alumni')}>
+              Become a Alumni
             </Button>
           </div>
         </div>
@@ -223,7 +223,7 @@ const UniversalLanding = () => {
                 <img src={logo} alt="Grotalks" className="h-6 w-6" />
                 <span className="font-bold text-foreground">Grotalks</span>
               </div>
-              <p className="text-sm text-muted-foreground">Democratizing mentorship across India's top colleges</p>
+              <p className="text-sm text-muted-foreground">Democratizing alumnihip across India's top colleges</p>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Quick Links</h4>

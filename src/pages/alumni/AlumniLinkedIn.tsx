@@ -8,7 +8,7 @@ import { Layout } from '@/components/Layout';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Linkedin, CheckCircle2, XCircle, Loader2 } from 'lucide-react';
 
-const MentorLinkedIn = () => {
+const AlumniLinkedIn = () => {
   const navigate = useNavigate();
   const [linkedInConnected, setLinkedInConnected] = useState(false);
   const [profileData, setProfileData] = useState({
@@ -67,7 +67,7 @@ const MentorLinkedIn = () => {
   }, [alumniId]);
 
   const handleContinue = () => {
-    navigate('/mentor/bio');
+    navigate('/alumni/bio');
   };
 
   const years = Array.from({ length: 30 }, (_, i) => (new Date().getFullYear() - i).toString());
@@ -106,7 +106,7 @@ const MentorLinkedIn = () => {
                     <div className="flex-1">
                       <h3 className="text-lg font-semibold mb-1">Connect LinkedIn</h3>
                       <p className="text-sm text-muted-foreground">
-                        LinkedIn verification is required for all mentors to ensure authenticity. We never post without permission.
+                        LinkedIn verification is required for all alumni to ensure authenticity. We never post without permission.
                       </p>
                     </div>
                   </div>
@@ -212,7 +212,7 @@ const MentorLinkedIn = () => {
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold mb-1">College Verification</h3>
                   <p className="text-sm text-muted-foreground">
-                    Required for profile credibility. Helps students identify and trust alumni mentors.
+                    Required for profile credibility. Helps students identify and trust alumni alumni.
                   </p>
                 </div>
               </div>
@@ -308,7 +308,7 @@ const MentorLinkedIn = () => {
             <div className="flex gap-4 pt-4">
               <Button
                 variant="outline"
-                onClick={() => navigate('/mentor/signup/otp')}
+                onClick={() => navigate('/alumni/signup/otp')}
                 className="flex-1 h-12"
               >
                 Back
@@ -328,4 +328,4 @@ const MentorLinkedIn = () => {
   );
 };
 
-export default MentorLinkedIn;
+export default AlumniLinkedIn;

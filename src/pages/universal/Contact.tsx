@@ -35,7 +35,7 @@ const Contact = () => {
     'General Inquiry',
     'Report Issue',
     'Partnership Opportunity',
-    'Mentor Support',
+    'Alumni Support',
     'Student Support',
     'Technical Issue',
     'Other'
@@ -263,7 +263,7 @@ const Contact = () => {
                 <img src={logo} alt="Grotalks" className="h-6 w-6" />
                 <span className="font-bold text-foreground">Grotalks</span>
               </div>
-              <p className="text-sm text-muted-foreground">Democratizing mentorship across India's top colleges</p>
+              <p className="text-sm text-muted-foreground">Democratizing alumnihip across India's top colleges</p>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Quick Links</h4>

@@ -84,7 +84,7 @@ const MenteeSignupInterests = () => {
 
           <div className="space-y-6">
             <p className="text-muted-foreground">
-              Select one or more areas where you're looking for career guidance. This helps us match you with the right mentors.
+              Select one or more areas where you're looking for career guidance. This helps us match you with the right alumni.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -56,7 +56,7 @@ const MenteeWallet = () => {
                 You've received <span className="font-bold text-4xl md:text-5xl text-white drop-shadow-lg">₹100 FREE</span> to start!
               </p>
               <div className="space-y-2">
-                <p className="text-base font-medium text-white">✨ Use it for your first mentoring session</p>
+                <p className="text-base font-medium text-white">✨ Use it for your first alumniing session</p>
                 <p className="text-base font-medium text-white">💚 No payment needed - It's on us!</p>
               </div>
             </div>

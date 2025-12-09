@@ -10,8 +10,8 @@ const ChatSession = () => {
 
   // Mock session data - in real app this would come from the booking
   const session = {
-    mentorName: 'Arjun Singh',
-    mentorRole: 'Product Manager @ Flipkart',
+    alumniName: 'Arjun Singh',
+    alumniRole: 'Product Manager @ Flipkart',
     date: 'Dec 8, 2025',
     time: '2:00 PM',
     duration: 30,
@@ -29,7 +29,7 @@ const ChatSession = () => {
             </div>
             
             <h1 className="text-2xl font-bold mb-2">Session Confirmed!</h1>
-            <p className="text-muted-foreground mb-6">Your video call with {session.mentorName} is scheduled</p>
+            <p className="text-muted-foreground mb-6">Your video call with {session.alumniName} is scheduled</p>
 
             <div className="bg-muted rounded-lg p-4 mb-6 space-y-3">
               <div className="flex items-center justify-center gap-2">

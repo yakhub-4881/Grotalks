@@ -19,25 +19,20 @@ type WorkExperienceItem = {
   isCurrent?: boolean;
 };
 
-const MentorBio = () => {
+const AlumniBio = () => {
   const navigate = useNavigate();
   
-  // Mock LinkedIn data - in real app, this would come from LinkedIn API
-  const [bio, setBio] = useState('Experienced Product Manager with 8+ years in e-commerce and fintech. Passionate about building products that solve real user problems. Led multiple 0-1 product launches and scaled features to millions of users.');
-  const initialWorkExperience: WorkExperienceItem[] = [
-    { id: 1, company: 'Flipkart', role: 'Senior Product Manager', duration: '2021 - Present', isCurrent: true },
-    { id: 2, company: 'PayTM', role: 'Product Manager', duration: '2018 - 2021' },
-    { id: 3, company: 'Amazon', role: 'Associate Product Manager', duration: '2016 - 2018' }
-  ];
-
-  const [workExperience, setWorkExperience] = useState<WorkExperienceItem[]>(initialWorkExperience);
-  const [location, setLocation] = useState('');
-  const [experience, setExperience] = useState('5-10');
-  const [certifications, setCertifications] = useState([
-    { id: 1, title: 'Product Management Certification', issuer: 'Product School', date: '2020' },
-    { id: 2, title: 'AWS Solutions Architect', issuer: 'Amazon Web Services', date: '2019' }
+  const [bio, setBio] = useState('');
+  const [linkedinUrl, setLinkedinUrl] = useState('');
+  const [workExperience, setWorkExperience] = useState<WorkExperienceItem[]>([
+    { id: 1, company: '', role: '', duration: '', isCurrent: false },
   ]);
-  const [languages, setLanguages] = useState<string[]>(['English', 'Hindi']);
+  const [location, setLocation] = useState('');
+  const [experience, setExperience] = useState('');
+  const [certifications, setCertifications] = useState<
+    { id: number; title: string; issuer: string; date: string }[]
+  >([]);
+  const [languages, setLanguages] = useState<string[]>([]);
   const [newLanguage, setNewLanguage] = useState('');
   
   const MAX_BIO_LENGTH = 250;
@@ -117,17 +112,6 @@ const MentorBio = () => {
     );
   };
 
-  const ensureCurrentExperienceEntry = () => {
-    setWorkExperience(prev => {
-      if (prev.some(exp => exp.isCurrent)) return prev;
-      const nextId = prev.length > 0 ? Math.max(...prev.map(exp => exp.id)) + 1 : 1;
-      return [
-        ...prev,
-        { id: nextId, company: '', role: '', duration: '', isCurrent: true }
-      ];
-    });
-  };
-
   const addLanguage = () => {
     if (newLanguage.trim() && !languages.includes(newLanguage.trim())) {
       setLanguages([...languages, newLanguage.trim()]);
@@ -187,7 +171,7 @@ const MentorBio = () => {
                   className="min-h-32 text-base resize-none"
                   maxLength={MAX_BIO_LENGTH}
                 />
-                </div>
+              </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -217,23 +201,17 @@ const MentorBio = () => {
                 </div>
               </div>
 
-              {!hasCurrentExperience && (
-                <div className="flex items-start gap-3 pt-2">
-                  <Checkbox
-                    id="currently-working"
-                    checked={false}
-                    onCheckedChange={(checked) => {
-                      if (checked) {
-                        ensureCurrentExperienceEntry();
-                      }
-                    }}
-                  />
-                  <div>
-                    <Label htmlFor="currently-working" className="text-sm font-semibold">Are you working currently?</Label>
-                    <p className="text-xs text-muted-foreground">Add your current role by checking this box.</p>
-                  </div>
-                </div>
-              )}
+              <div className="space-y-2">
+                <Label htmlFor="linkedin" className="text-sm font-semibold">LinkedIn Profile</Label>
+                <Input
+                  id="linkedin"
+                  placeholder="https://www.linkedin.com/in/your-profile"
+                  value={linkedinUrl}
+                  onChange={(e) => setLinkedinUrl(e.target.value)}
+                  className="h-12 text-base"
+                />
+              </div>
+
             </Card>
 
             {/* Work Experience */}
@@ -293,22 +271,15 @@ const MentorBio = () => {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs font-medium text-muted-foreground uppercase">Current Role?</Label>
-                        <Select
-                          value={exp.isCurrent ? 'yes' : 'no'}
-                          onValueChange={(val) => {
-                            const isCurrent = val === 'yes';
-                            updateWorkExperience(exp.id, 'isCurrent', isCurrent);
-                          }}
-                        >
-                          <SelectTrigger className="h-11">
-                            <SelectValue placeholder="Select" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="yes">Yes</SelectItem>
-                            <SelectItem value="no">No</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <Label className="text-xs font-medium text-muted-foreground uppercase">Present company?</Label>
+                        <div className="flex items-center gap-2 h-11 px-3 border rounded-md">
+                          <Checkbox
+                            id={`current-${exp.id}`}
+                            checked={!!exp.isCurrent}
+                            onCheckedChange={(checked) => updateWorkExperience(exp.id, 'isCurrent', Boolean(checked))}
+                          />
+                          <Label htmlFor={`current-${exp.id}`} className="text-sm">Mark as current</Label>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -400,7 +371,7 @@ const MentorBio = () => {
             {/* Languages Spoken */}
             <Card className="p-4 sm:p-6 space-y-4">
               <h2 className="text-lg font-semibold text-foreground">Languages Spoken</h2>
-              <p className="text-sm text-muted-foreground">Add languages to help students find mentors in their preferred language</p>
+              <p className="text-sm text-muted-foreground">Add languages to help students find alumni in their preferred language</p>
               
               <div className="flex flex-wrap gap-2 mb-3">
                 {languages.map((language) => (
@@ -434,11 +405,11 @@ const MentorBio = () => {
             </Card>
 
             <div className="flex gap-4">
-              <Button variant="outline" onClick={() => navigate('/mentor/linkedin')} className="flex-1 h-12">
+              <Button variant="outline" onClick={() => navigate('/alumni/linkedin')} className="flex-1 h-12">
                 Back
               </Button>
               <Button
-                onClick={() => navigate('/mentor/expertise')}
+                onClick={() => navigate('/alumni/expertise')}
                 className="flex-1 h-12 font-medium"
                 disabled={!canProceed}
               >
@@ -452,4 +423,4 @@ const MentorBio = () => {
   );
 };
 
-export default MentorBio;
+export default AlumniBio;

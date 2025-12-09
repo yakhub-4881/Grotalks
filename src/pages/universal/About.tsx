@@ -17,10 +17,10 @@ const About = () => {
   ];
 
   const whyGrotalks = [
-    { icon: Users, text: 'No middleman - direct student ↔ mentor connection' },
+    { icon: Users, text: 'No middleman - direct student ↔ alumni connection' },
     { icon: Zap, text: 'Fair pricing - per-minute billing with no hidden fees' },
     { icon: Shield, text: 'Verified alumni - LinkedIn + KYC validation' },
-    { icon: CheckCircle, text: 'Instant payouts - UPI direct transfer for mentors' },
+    { icon: CheckCircle, text: 'Instant payouts - UPI direct transfer for alumni' },
     { icon: CheckCircle, text: 'Community-driven - ratings & reviews ensure quality' }
   ];
 
@@ -51,7 +51,7 @@ const About = () => {
         <div className="container px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">About Grotalks</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Democratizing mentorship across India's top colleges
+            Democratizing alumnihip across India's top colleges
           </p>
         </div>
       </section>
@@ -61,10 +61,10 @@ const About = () => {
         <div className="container px-4">
           <Card className="p-8 md:p-12 max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold text-foreground mb-6 text-center">Our Mission</h2>
-            <h3 className="text-2xl font-semibold text-primary mb-4 text-center">Democratizing Mentorship</h3>
+            <h3 className="text-2xl font-semibold text-primary mb-4 text-center">Democratizing Alumnihip</h3>
             <p className="text-lg text-muted-foreground leading-relaxed text-center">
-              Grotalks connects students with experienced alumni mentors across India's top colleges. 
-              We believe quality mentorship should be accessible, affordable, and transparent. By leveraging 
+              Grotalks connects students with experienced alumni alumni across India's top colleges. 
+              We believe quality alumnihip should be accessible, affordable, and transparent. By leveraging 
               technology and a per-minute billing model, we're breaking down barriers and making expert 
               guidance available to every student who needs it.
             </p>
@@ -105,7 +105,7 @@ const About = () => {
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <Card className="p-6 text-center">
               <div className="text-4xl font-bold text-primary mb-2">500+</div>
-              <p className="text-muted-foreground">Active Mentors</p>
+              <p className="text-muted-foreground">Active Alumni</p>
             </Card>
             <Card className="p-6 text-center">
               <div className="text-4xl font-bold text-primary mb-2">10,000+</div>
@@ -122,7 +122,7 @@ const About = () => {
       {/* CTA Section */}
       <section className="py-20 bg-primary text-primary-foreground">
         <div className="container px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to get mentorship?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to get alumnihip?</h2>
           <p className="text-xl mb-8 opacity-90">Join thousands of students growing their careers</p>
           <Button 
             size="lg" 
@@ -144,7 +144,7 @@ const About = () => {
                 <img src={logo} alt="Grotalks" className="h-6 w-6" />
                 <span className="font-bold text-foreground">Grotalks</span>
               </div>
-              <p className="text-sm text-muted-foreground">Democratizing mentorship across India's top colleges</p>
+              <p className="text-sm text-muted-foreground">Democratizing alumnihip across India's top colleges</p>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Quick Links</h4>

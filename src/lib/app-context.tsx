@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 export type VersionMode = 'mvp' | 'universal';
-export type UserType = 'mentor' | 'mentee' | null; // 'mentee' internally, displayed as 'Student'
+export type UserType = 'alumni' | 'mentee' | null; // 'mentee' internally, displayed as 'Student'
 
 interface AppState {
   versionMode: VersionMode;

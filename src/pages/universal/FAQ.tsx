@@ -15,16 +15,16 @@ const FAQ = () => {
       category: 'Pricing & Payments',
       questions: [
         {
-          q: 'How much does mentorship cost?',
-          a: 'Rates vary by mentor, typically ranging from ₹10-20 per minute (₹600-1200 per hour). You only pay for actual time used, rounded to the nearest minute.'
+          q: 'How much does alumnihip cost?',
+          a: 'Rates vary by alumni, typically ranging from ₹10-20 per minute (₹600-1200 per hour). You only pay for actual time used, rounded to the nearest minute.'
         },
         {
           q: 'How is payment processed?',
-          a: 'Sessions are charged to your Grotalks wallet in real-time during the chat. You can top up your wallet using UPI, debit/credit cards, or net banking. Mentors receive instant UPI payouts after sessions.'
+          a: 'Sessions are charged to your Grotalks wallet in real-time during the chat. You can top up your wallet using UPI, debit/credit cards, or net banking. Alumni receive instant UPI payouts after sessions.'
         },
         {
           q: 'Can I get a refund?',
-          a: 'Refund requests are considered case-by-case. If a mentor doesn\'t show up, you\'ll automatically receive a full refund plus ₹100 bonus credit. Contact support@grotalks.com for other refund requests.'
+          a: 'Refund requests are considered case-by-case. If a alumni doesn\'t show up, you\'ll automatically receive a full refund plus ₹100 bonus credit. Contact support@grotalks.com for other refund requests.'
         },
         {
           q: 'Are there any hidden fees?',
@@ -37,23 +37,23 @@ const FAQ = () => {
       ]
     },
     {
-      category: 'Mentors & Verification',
+      category: 'Alumni & Verification',
       questions: [
         {
-          q: 'How are mentors verified?',
-          a: 'All mentors go through a rigorous verification process including LinkedIn profile verification, alumni ID validation, and KYC (Know Your Customer) checks. We ensure every mentor is a verified alumnus of their claimed institution.'
+          q: 'How are alumni verified?',
+          a: 'All alumni go through a rigorous verification process including LinkedIn profile verification, alumni ID validation, and KYC (Know Your Customer) checks. We ensure every alumni is a verified alumnus of their claimed institution.'
         },
         {
-          q: 'Can I become a mentor?',
-          a: 'Yes! If you\'re an alumnus of one of our partner colleges and have professional experience, you can apply to become a mentor. The process includes LinkedIn verification, alumni ID validation, and setting up your profile with expertise areas and rates.'
+          q: 'Can I become a alumni?',
+          a: 'Yes! If you\'re an alumnus of one of our partner colleges and have professional experience, you can apply to become a alumni. The process includes LinkedIn verification, alumni ID validation, and setting up your profile with expertise areas and rates.'
         },
         {
-          q: 'How do mentors set their rates?',
-          a: 'Mentors set their own hourly rates (typically ₹600-1200/hour) based on their experience and expertise. The system automatically converts this to per-minute rates for transparent billing.'
+          q: 'How do alumni set their rates?',
+          a: 'Alumni set their own hourly rates (typically ₹600-1200/hour) based on their experience and expertise. The system automatically converts this to per-minute rates for transparent billing.'
         },
         {
-          q: 'What if a mentor doesn\'t show up?',
-          a: 'If a mentor is more than 15 minutes late, you can report a no-show. You\'ll receive a full refund plus ₹100 bonus credit. Repeated no-shows result in mentor account suspension.'
+          q: 'What if a alumni doesn\'t show up?',
+          a: 'If a alumni is more than 15 minutes late, you can report a no-show. You\'ll receive a full refund plus ₹100 bonus credit. Repeated no-shows result in alumni account suspension.'
         }
       ]
     },
@@ -62,15 +62,15 @@ const FAQ = () => {
       questions: [
         {
           q: 'How do I book a session?',
-          a: 'Browse mentors, select one that matches your needs, choose an available time slot, and confirm your booking. The mentor will then accept or decline your request within 1 hour.'
+          a: 'Browse alumni, select one that matches your needs, choose an available time slot, and confirm your booking. The alumni will then accept or decline your request within 1 hour.'
         },
         {
           q: 'What happens after I book a session?',
-          a: 'Your booking enters "pending" status until the mentor accepts. You\'ll receive a notification once accepted. The session will appear in your dashboard with a "Start Chat" button available at the scheduled time.'
+          a: 'Your booking enters "pending" status until the alumni accepts. You\'ll receive a notification once accepted. The session will appear in your dashboard with a "Start Chat" button available at the scheduled time.'
         },
         {
           q: 'Can I cancel a booking?',
-          a: 'Yes, you can cancel before the mentor accepts. Once accepted, contact the mentor directly or reach out to support@grotalks.com for cancellation assistance.'
+          a: 'Yes, you can cancel before the alumni accepts. Once accepted, contact the alumni directly or reach out to support@grotalks.com for cancellation assistance.'
         },
         {
           q: 'How long do sessions typically last?',
@@ -104,14 +104,14 @@ const FAQ = () => {
       questions: [
         {
           q: 'Do you offer corporate training?',
-          a: 'Yes! We offer enterprise solutions for companies, colleges, and institutions. Contact partnership@grotalks.com to discuss bulk mentoring programs, campus recruitment prep, or corporate training.'
+          a: 'Yes! We offer enterprise solutions for companies, colleges, and institutions. Contact partnership@grotalks.com to discuss bulk alumniing programs, campus recruitment prep, or corporate training.'
         },
         {
           q: 'Can my college join Grotalks?',
           a: 'Absolutely! We\'re always looking to partner with more institutions. Email partnership@grotalks.com with your college details to start the onboarding process.'
         },
         {
-          q: 'Do you offer group mentoring sessions?',
+          q: 'Do you offer group alumniing sessions?',
           a: 'Group sessions are coming soon! Currently, all sessions are one-on-one for personalized attention. Join our waitlist for group features.'
         }
       ]
@@ -204,7 +204,7 @@ const FAQ = () => {
                 <img src={logo} alt="Grotalks" className="h-6 w-6" />
                 <span className="font-bold text-foreground">Grotalks</span>
               </div>
-              <p className="text-sm text-muted-foreground">Democratizing mentorship across India's top colleges</p>
+              <p className="text-sm text-muted-foreground">Democratizing alumnihip across India's top colleges</p>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Quick Links</h4>

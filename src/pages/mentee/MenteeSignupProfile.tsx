@@ -19,7 +19,6 @@ const MenteeSignupProfile = () => {
     stream: '',
     year: '',
     college: '',
-    collegeId: '',
     city: '',
     state: '',
     languages: [] as string[],
@@ -54,9 +53,6 @@ const MenteeSignupProfile = () => {
     if (!formData.stream) newErrors.stream = 'Stream is required';
     if (!formData.year) newErrors.year = 'Year is required';
     if (!formData.college) newErrors.college = 'College is required';
-    if (!formData.collegeId || formData.collegeId.length !== 4 || !/^\d{4}$/.test(formData.collegeId)) {
-      newErrors.collegeId = 'College ID must be exactly 4 digits';
-    }
     if (!formData.city) newErrors.city = 'City is required';
     if (!formData.state) newErrors.state = 'State is required';
     if (formData.languages.length === 0) newErrors.languages = 'Select at least one language';
@@ -79,11 +75,6 @@ const MenteeSignupProfile = () => {
     }
   };
 
-  const handleCollegeIdChange = (value: string) => {
-    const numericValue = value.replace(/\D/g, '').slice(0, 4);
-    setFormData({ ...formData, collegeId: numericValue });
-  };
-
   const toggleLanguage = (lang: string) => {
     setFormData(prev => ({
       ...prev,
@@ -96,7 +87,7 @@ const MenteeSignupProfile = () => {
   const currentBranches = formData.stream ? branches[formData.stream as keyof typeof branches] || [] : [];
   const isFormValid = Object.keys(errors).length === 0 && 
     formData.about && formData.branch && formData.stream && formData.year && 
-    formData.college && formData.collegeId && formData.city && formData.state &&
+    formData.college && formData.city && formData.state &&
     formData.languages.length > 0;
 
   return (
@@ -180,26 +171,6 @@ const MenteeSignupProfile = () => {
                 {errors.year && <p className="text-sm text-destructive">{errors.year}</p>}
               </div>
 
-              {/* College ID */}
-              <div className="space-y-2">
-                <Label htmlFor="collegeId">College ID* (4 digits)</Label>
-                <Input
-                  id="collegeId"
-                  type="text"
-                  inputMode="numeric"
-                  placeholder="1234"
-                  value={formData.collegeId}
-                  onChange={(e) => handleCollegeIdChange(e.target.value)}
-                  className={`h-12 ${errors.collegeId ? 'border-destructive' : formData.collegeId.length === 4 ? 'border-success' : ''}`}
-                  maxLength={4}
-                />
-                {errors.collegeId && <p className="text-sm text-destructive">{errors.collegeId}</p>}
-                {formData.collegeId.length === 4 && !errors.collegeId && (
-                  <p className="text-sm text-success flex items-center gap-1">
-                    <span>✓</span> Valid ID
-                  </p>
-                )}
-              </div>
             </div>
 
             {/* College */}
@@ -283,7 +254,7 @@ const MenteeSignupProfile = () => {
             <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
               <p className="text-sm text-muted-foreground">
                 <strong>💡 Why we need this:</strong><br />
-                This information helps us connect you with the right mentors and ensure account security.
+                This information helps us connect you with the right alumni and ensure account security.
               </p>
             </div>
 

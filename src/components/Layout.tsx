@@ -28,8 +28,8 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
   const isDarkMode = document.documentElement.classList.contains('dark');
   const logo = isDarkMode ? logoLight : logoDark;
 
-  // Check if current path is mentor
-  const isMentorPage = location.pathname.startsWith('/mentor');
+  // Check if current path is alumni
+  const isAlumniPage = location.pathname.startsWith('/alumni');
   const isMenteePage = location.pathname.startsWith('/mentee');
 
   const handleLogout = () => {
@@ -40,14 +40,14 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
   const screens = [
     { name: '🏠 Landing', path: '/' },
     { name: '🌐 Universal Landing', path: '/universal' },
-    { name: '👨‍🏫 Mentor Signup - Phone', path: '/mentor/signup' },
-    { name: '👨‍🏫 Mentor Dashboard', path: '/mentor/dashboard' },
-    { name: '👨‍🏫 Mentor Requests', path: '/mentor/requests' },
-    { name: '👨‍🏫 Mentor Profile', path: '/mentor/profile' },
-    { name: '👨‍🏫 Mentor Withdraw', path: '/mentor/withdraw' },
+    { name: '👨‍🏫 Alumni Signup - Phone', path: '/signup?type=alumni' },
+    { name: '👨‍🏫 Alumni Dashboard', path: '/alumni/dashboard' },
+    { name: '👨‍🏫 Alumni Requests', path: '/alumni/requests' },
+    { name: '👨‍🏫 Alumni Profile', path: '/alumni/profile' },
+    { name: '👨‍🏫 Alumni Withdraw', path: '/alumni/withdraw' },
     { name: '👨‍🎓 Student Signup - Phone', path: '/mentee/signup' },
     { name: '👨‍🎓 Student Dashboard', path: '/mentee/dashboard' },
-    { name: '👨‍🎓 Browse Mentors', path: '/mentee/browse' },
+    { name: '👨‍🎓 Browse Alumni', path: '/mentee/browse' },
     { name: '👨‍🎓 Student Profile', path: '/mentee/profile' },
     { name: '👨‍🎓 Wallet Recharge', path: '/mentee/wallet/recharge' },
     { name: '📞 Booking Confirmation', path: '/booking/confirm' },
@@ -64,7 +64,7 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
             </Link>
 
             <div className="flex items-center gap-2 md:gap-4">
-              {isAuthenticated && isMentorPage && (
+              {isAuthenticated && isAlumniPage && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon" className="rounded-full">
@@ -72,9 +72,9 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56">
-                    <DropdownMenuLabel>Mentor Account</DropdownMenuLabel>
+                    <DropdownMenuLabel>Alumni Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => navigate('/mentor/profile/edit')}>
+                    <DropdownMenuItem onClick={() => navigate('/alumni/profile/edit')}>
                       <User className="mr-2 h-4 w-4" />
                       Edit Profile
                     </DropdownMenuItem>
@@ -110,9 +110,9 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
                       My Sessions
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => navigate('/mentee/become-mentor')}>
+                    <DropdownMenuItem onClick={() => navigate('/mentee/become-alumni')}>
                       <GraduationCap className="mr-2 h-4 w-4" />
-                      Become Mentor?
+                      Become Alumni?
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem className="text-destructive" onClick={handleLogout}>

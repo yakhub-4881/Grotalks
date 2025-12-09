@@ -27,8 +27,8 @@ const MenteeSessions = () => {
   const upcomingSessions = [
     {
       id: 1,
-      mentor: 'Arjun Singh',
-      mentorRole: 'Product Manager @ Flipkart',
+      alumni: 'Arjun Singh',
+      alumniRole: 'Product Manager @ Flipkart',
       topic: 'Product Management Career Path',
       date: 'Nov 5, 2024',
       time: '3:00 PM',
@@ -38,8 +38,8 @@ const MenteeSessions = () => {
     },
     {
       id: 2,
-      mentor: 'Priya Sharma',
-      mentorRole: 'Software Engineer @ Google',
+      alumni: 'Priya Sharma',
+      alumniRole: 'Software Engineer @ Google',
       topic: 'Interview Preparation Tips',
       date: 'Nov 10, 2024',
       time: '5:00 PM',
@@ -52,8 +52,8 @@ const MenteeSessions = () => {
   const completedSessions = [
     {
       id: 3,
-      mentor: 'Rahul Verma',
-      mentorRole: 'Startup Founder',
+      alumni: 'Rahul Verma',
+      alumniRole: 'Startup Founder',
       topic: 'Startup Funding Guidance',
       date: 'Oct 28, 2024',
       duration: 30,
@@ -64,14 +64,14 @@ const MenteeSessions = () => {
   const handleCancelSession = (session: any) => {
     toast({
       title: 'Session Cancelled',
-      description: `Your session with ${session.mentor} has been cancelled`,
+      description: `Your session with ${session.alumni} has been cancelled`,
     });
   };
 
   const handleReschedule = (date: string, time: string, reason: string) => {
     toast({
       title: 'Reschedule Request Sent',
-      description: 'The mentor will review your request',
+      description: 'The alumni will review your request',
     });
   };
 
@@ -89,7 +89,7 @@ const MenteeSessions = () => {
               Back to Dashboard
             </Button>
             <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">My Sessions</h1>
-            <p className="text-sm md:text-base text-muted-foreground">Manage your mentorship sessions</p>
+            <p className="text-sm md:text-base text-muted-foreground">Manage your alumnihip sessions</p>
           </div>
 
           <Tabs defaultValue="upcoming" className="mt-4 md:mt-6">
@@ -114,7 +114,7 @@ const MenteeSessions = () => {
                           {session.status}
                         </span>
                       </div>
-                      <h3 className="text-base md:text-lg font-semibold text-foreground mb-1">{session.mentor}</h3>
+                      <h3 className="text-base md:text-lg font-semibold text-foreground mb-1">{session.alumni}</h3>
                       <p className="text-xs md:text-sm text-muted-foreground mb-3">{session.topic}</p>
                       <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                         <div className="flex items-center gap-1.5">
@@ -169,9 +169,9 @@ const MenteeSessions = () => {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2">
                         <CheckCircle className="h-5 w-5 text-success flex-shrink-0" />
-                        <h3 className="text-base md:text-lg font-semibold">{session.mentor}</h3>
+                        <h3 className="text-base md:text-lg font-semibold">{session.alumni}</h3>
                       </div>
-                      <p className="text-xs md:text-sm text-muted-foreground mb-1">{session.mentorRole}</p>
+                      <p className="text-xs md:text-sm text-muted-foreground mb-1">{session.alumniRole}</p>
                       <p className="text-sm text-foreground mb-3">{session.topic}</p>
                       <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
                         <span>{session.date}</span>
@@ -217,7 +217,7 @@ const MenteeSessions = () => {
         open={rescheduleOpen}
         onOpenChange={setRescheduleOpen}
         onSubmit={handleReschedule}
-        isMentor={false}
+        isAlumni={false}
       />
     </Layout>
   );

@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Layout } from '@/components/Layout';
 import { useAppContext } from '@/lib/app-context';
 
-const MentorSignupOTP = () => {
+const AlumniSignupOTP = () => {
   const navigate = useNavigate();
   const { userType } = useAppContext();
   const [otp, setOtp] = useState('');
@@ -14,6 +14,23 @@ const MentorSignupOTP = () => {
   const [canResend, setCanResend] = useState(false);
   const [error, setError] = useState('');
   const [verified, setVerified] = useState(false);
+  const signupData = (() => {
+    try {
+      return JSON.parse(sessionStorage.getItem('alumniSignupData') || 'null');
+    } catch {
+      return null;
+    }
+  })();
+  const contactLabel =
+    signupData?.verifyMethod === 'email'
+      ? signupData?.email
+      : `${signupData?.countryCode || '+91'} ${signupData?.phone || ''}`;
+
+  useEffect(() => {
+    if (!signupData) {
+      navigate('/alumni/signup');
+    }
+  }, [signupData, navigate]);
 
   useEffect(() => {
     if (countdown > 0) {
@@ -42,9 +59,9 @@ const MentorSignupOTP = () => {
         // Route based on user type
         if (userType === 'mentee') {
           navigate('/mentee/wallet');
-      } else {
-        navigate('/mentor/alumni-verification');
-      }
+        } else {
+          navigate('/alumni/alumni-verification');
+        }
       }, 1000);
     } else {
       setError('Invalid OTP. Please try again.');
@@ -65,7 +82,9 @@ const MentorSignupOTP = () => {
         <div className="w-full max-w-md bg-card rounded-lg shadow-lg p-6 md:p-8 animate-fade-in">
           {/* Progress Header */}
           <div className="mb-6">
-            <h1 className="text-2xl font-bold text-foreground mb-2">Verify Your Phone</h1>
+            <h1 className="text-2xl font-bold text-foreground mb-2">
+              {signupData?.verifyMethod === 'email' ? 'Verify Your Email' : 'Verify Your Mobile'}
+            </h1>
             <p className="text-sm text-muted-foreground">Step 2 of 8</p>
             <div className="mt-3 h-2 bg-muted rounded-full overflow-hidden">
               <div className="h-full bg-primary w-[25%] transition-all duration-300"></div>
@@ -75,7 +94,7 @@ const MentorSignupOTP = () => {
           {/* OTP Form */}
           <div className="space-y-6">
             <p className="text-base text-foreground">
-              We've sent an OTP to <span className="font-semibold">+91-XXXXX3210</span>
+              We've sent an OTP to <span className="font-semibold">{contactLabel || 'your contact'}</span>
             </p>
 
             {/* OTP Input */}
@@ -130,10 +149,10 @@ const MentorSignupOTP = () => {
             {/* Back Link */}
             <Button
               variant="ghost"
-              onClick={() => navigate('/mentor/signup')}
+              onClick={() => navigate('/alumni/signup')}
               className="w-full"
             >
-              ← Back to Phone Entry
+              ← Back to contact entry
             </Button>
           </div>
         </div>
@@ -142,4 +161,4 @@ const MentorSignupOTP = () => {
   );
 };
 
-export default MentorSignupOTP;
+export default AlumniSignupOTP;

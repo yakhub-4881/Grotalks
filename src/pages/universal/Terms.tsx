@@ -43,14 +43,14 @@ const Terms = () => {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-foreground mb-4">2. Service Description</h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Grotalks is a mentorship platform connecting students with verified alumni mentors 
+                Grotalks is a alumnihip platform connecting students with verified alumni alumni 
                 from top educational institutions across India. Our services include:
               </p>
               <ul className="list-disc pl-6 text-muted-foreground space-y-2">
-                <li>Real-time chat sessions between students and mentors</li>
-                <li>Per-minute billing for mentorship sessions</li>
+                <li>Real-time chat sessions between students and alumni</li>
+                <li>Per-minute billing for alumnihip sessions</li>
                 <li>Wallet-based payment system</li>
-                <li>Mentor verification and rating system</li>
+                <li>Alumni verification and rating system</li>
               </ul>
             </section>
 
@@ -68,9 +68,9 @@ const Terms = () => {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-foreground mb-4">4. Mentor Verification</h2>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">4. Alumni Verification</h2>
               <p className="text-muted-foreground leading-relaxed">
-                All mentors undergo verification including LinkedIn profile validation, alumni ID verification, 
+                All alumni undergo verification including LinkedIn profile validation, alumni ID verification, 
                 and KYC checks. While we strive for accuracy, Grotalks is not responsible for false credentials 
                 that pass our verification process.
               </p>
@@ -79,11 +79,11 @@ const Terms = () => {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-foreground mb-4">5. Payments and Billing</h2>
               <ul className="list-disc pl-6 text-muted-foreground space-y-2">
-                <li>Sessions are billed per minute based on mentor-set rates</li>
+                <li>Sessions are billed per minute based on alumni-set rates</li>
                 <li>Payments are processed through your Grotalks wallet</li>
-                <li>All payments are final unless mentor fails to deliver service</li>
+                <li>All payments are final unless alumni fails to deliver service</li>
                 <li>Refunds are considered case-by-case</li>
-                <li>Mentors receive payouts via UPI after session completion</li>
+                <li>Alumni receive payouts via UPI after session completion</li>
               </ul>
             </section>
 
@@ -102,17 +102,17 @@ const Terms = () => {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-foreground mb-4">7. Cancellation and Refunds</h2>
               <p className="text-muted-foreground leading-relaxed">
-                Bookings can be cancelled before mentor acceptance without penalty. Post-acceptance cancellations 
+                Bookings can be cancelled before alumni acceptance without penalty. Post-acceptance cancellations 
                 require mutual agreement or support intervention. Full refunds plus ₹100 bonus are provided for 
-                verified mentor no-shows.
+                verified alumni no-shows.
               </p>
             </section>
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-foreground mb-4">8. Limitation of Liability</h2>
               <p className="text-muted-foreground leading-relaxed">
-                Grotalks provides a platform for connecting students and mentors. We are not responsible for the 
-                quality, accuracy, or outcomes of mentorship sessions. Our liability is limited to the amount 
+                Grotalks provides a platform for connecting students and alumni. We are not responsible for the 
+                quality, accuracy, or outcomes of alumnihip sessions. Our liability is limited to the amount 
                 paid for the specific session in question.
               </p>
             </section>
@@ -144,7 +144,7 @@ const Terms = () => {
                 <img src={logo} alt="Grotalks" className="h-6 w-6" />
                 <span className="font-bold text-foreground">Grotalks</span>
               </div>
-              <p className="text-sm text-muted-foreground">Democratizing mentorship across India's top colleges</p>
+              <p className="text-sm text-muted-foreground">Democratizing alumnihip across India's top colleges</p>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Quick Links</h4>

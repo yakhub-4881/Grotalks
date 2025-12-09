@@ -7,7 +7,7 @@ import { useAppContext } from '@/lib/app-context';
 import { Calendar, Clock, RotateCcw, Video, Star, TrendingUp, XCircle, Users } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { RescheduleDialog } from '@/components/RescheduleDialog';
-import { MentorBrowseSection } from '@/components/MentorBrowseSection';
+import { AlumniBrowseSection } from '@/components/AlumniBrowseSection';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -38,14 +38,14 @@ const MenteeDashboard = () => {
   const stats = [
     { label: 'Total Sessions', value: '3', icon: Calendar, color: 'text-primary' },
     { label: 'Hours of Learning', value: '4.5', icon: Clock, color: 'text-bonus' },
-    { label: 'Mentors Connected', value: '5', icon: Users, color: 'text-success' },
+    { label: 'Alumni Connected', value: '5', icon: Users, color: 'text-success' },
     { label: 'Avg Rating Given', value: '4.8', icon: Star, color: 'text-secondary' },
   ];
 
   const upcomingSessions = [
     {
       id: 1,
-      mentor: 'Arjun Singh',
+      alumni: 'Arjun Singh',
       topic: 'Product Management Career Path',
       date: 'Nov 5, 2024',
       time: '3:00 PM',
@@ -60,7 +60,7 @@ const MenteeDashboard = () => {
   const handleReschedule = (date: string, time: string, reason: string) => {
     toast({
       title: 'Reschedule Request Sent',
-      description: 'Your reschedule request has been sent to the mentor.',
+      description: 'Your reschedule request has been sent to the alumni.',
     });
     setShowRescheduleDialog(false);
   };
@@ -82,7 +82,7 @@ const MenteeDashboard = () => {
 
     toast({
       title: 'Session Declined',
-      description: 'Your cancellation reason has been sent to the mentor.',
+      description: 'Your cancellation reason has been sent to the alumni.',
       variant: 'destructive'
     });
     
@@ -91,7 +91,7 @@ const MenteeDashboard = () => {
     setSelectedSession(null);
   };
 
-  const recentMentors = [
+  const recentAlumni = [
     {
       id: 1,
       name: 'Priya Sharma',
@@ -119,7 +119,7 @@ const MenteeDashboard = () => {
             <h1 className="text-2xl md:text-3xl font-bold mb-1">
               Welcome back, {studentName}! 👋
             </h1>
-            <p className="text-sm md:text-base text-muted-foreground">Here's your mentorship overview</p>
+            <p className="text-sm md:text-base text-muted-foreground">Here's your alumnihip overview</p>
           </div>
 
           {/* Stats Grid */}
@@ -151,7 +151,7 @@ const MenteeDashboard = () => {
                           <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
                           <span className="text-xs font-medium text-success uppercase">Confirmed</span>
                         </div>
-                        <h3 className="text-base md:text-lg font-semibold text-foreground mb-1">{session.mentor}</h3>
+                        <h3 className="text-base md:text-lg font-semibold text-foreground mb-1">{session.alumni}</h3>
                         <p className="text-sm text-muted-foreground mb-3">{session.topic}</p>
                         <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                           <div className="flex items-center gap-1.5">
@@ -202,48 +202,48 @@ const MenteeDashboard = () => {
             </div>
           )}
 
-          {/* Browse Mentors Section */}
+          {/* Browse Alumni Section */}
           <div className="mb-8">
-            <h2 className="text-xl font-semibold text-foreground mb-4">Browse Mentors</h2>
-            <MentorBrowseSection />
+            <h2 className="text-xl font-semibold text-foreground mb-4">Browse Alumni</h2>
+            <AlumniBrowseSection />
           </div>
 
-          {/* Continue with Recent Mentors */}
+          {/* Continue with Recent Alumni */}
           <div>
-            <h2 className="text-xl font-semibold text-foreground mb-4">Continue with Recent Mentors</h2>
+            <h2 className="text-xl font-semibold text-foreground mb-4">Continue with Recent Alumni</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {recentMentors.map((mentor) => (
+              {recentAlumni.map((alumni) => (
                 <Card 
-                  key={mentor.id} 
+                  key={alumni.id} 
                   className="p-4 md:p-6 hover:shadow-lg transition-shadow"
                 >
                   <div className="flex items-start gap-3 mb-3">
                     <div className="w-10 h-10 bg-primary/10 text-primary rounded-full flex items-center justify-center font-semibold text-sm flex-shrink-0">
-                      {mentor.name.split(' ').map(n => n[0]).join('')}
+                      {alumni.name.split(' ').map(n => n[0]).join('')}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-base font-semibold text-foreground mb-0.5 truncate">{mentor.name}</h3>
-                      <p className="text-sm text-muted-foreground truncate">{mentor.role}</p>
+                      <h3 className="text-base font-semibold text-foreground mb-0.5 truncate">{alumni.name}</h3>
+                      <p className="text-sm text-muted-foreground truncate">{alumni.role}</p>
                     </div>
                     <div className="flex items-center gap-1 flex-shrink-0">
                       <Star className="h-4 w-4 fill-bonus text-bonus" />
-                      <span className="text-sm font-semibold">{mentor.rating}</span>
+                      <span className="text-sm font-semibold">{alumni.rating}</span>
                     </div>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-4">{mentor.expertise}</p>
+                  <p className="text-sm text-muted-foreground mb-4">{alumni.expertise}</p>
                   <div className="flex items-center gap-2 pt-3 border-t">
                     <Button 
                       variant="outline" 
                       size="sm" 
                       className="flex-1"
-                      onClick={() => navigate(`/mentor/profile/${mentor.id}`)}
+                      onClick={() => navigate(`/alumni/profile/${alumni.id}`)}
                     >
                       View Profile
                     </Button>
                     <Button 
                       size="sm" 
                       className="flex-1"
-                      onClick={() => navigate(`/booking/schedule/${mentor.id}`)}
+                      onClick={() => navigate(`/booking/schedule/${alumni.id}`)}
                     >
                       Book Again
                     </Button>
@@ -260,7 +260,7 @@ const MenteeDashboard = () => {
         open={showRescheduleDialog}
         onOpenChange={setShowRescheduleDialog}
         onSubmit={handleReschedule}
-        isMentor={false}
+        isAlumni={false}
       />
 
       {/* Decline Dialog */}
@@ -269,7 +269,7 @@ const MenteeDashboard = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Decline Session</AlertDialogTitle>
             <AlertDialogDescription>
-              Please let {selectedSession?.mentor} know why you want to decline this session. This helps mentors understand your needs better.
+              Please let {selectedSession?.alumni} know why you want to decline this session. This helps alumni understand your needs better.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="my-4 space-y-2">

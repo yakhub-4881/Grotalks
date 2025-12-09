@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { MentorServices, MentorService } from '@/components/MentorServices';
+import { AlumniServices, AlumniService } from '@/components/AlumniServices';
 import { MeetingPlatformConnect, MeetingPlatform } from '@/components/MeetingPlatformConnect';
 
 interface WorkExperience {
@@ -34,7 +34,7 @@ interface Certification {
   year: string;
 }
 
-const MentorProfile = () => {
+const AlumniProfile = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   
@@ -45,7 +45,7 @@ const MentorProfile = () => {
     name: 'Priya Sharma',
     email: 'priya.sharma@example.com',
     phone: '+91 98765 43210',
-    bio: 'Product Manager at Google with 7+ years in tech. Passionate about mentoring and helping students.',
+    bio: 'Product Manager at Google with 7+ years in tech. Passionate about alumniing and helping students.',
     jobTitle: 'Senior Product Manager',
     company: 'Google',
     location: 'Bangalore, India',
@@ -89,7 +89,7 @@ const MentorProfile = () => {
   const [certForm, setCertForm] = useState<Partial<Certification>>({});
 
   // Services State
-  const [services, setServices] = useState<MentorService[]>([
+  const [services, setServices] = useState<AlumniService[]>([
     { id: 1, type: 'call', title: '1:1 Career Guidance Call', duration: 30, price: 2000 },
     { id: 2, type: 'call', title: 'Mock Interview Session', duration: 45, price: 3500 },
     { id: 3, type: 'dm', title: 'Resume Review', duration: 0, price: 1500, description: 'Get detailed feedback on your resume within 48 hours' },
@@ -253,7 +253,7 @@ const MentorProfile = () => {
     <Layout>
       <div className="min-h-[calc(100vh-4rem)] bg-muted py-4 md:py-8">
         <div className="container max-w-4xl px-4">
-          <Button variant="ghost" onClick={() => navigate('/mentor/dashboard')} className="mb-4 md:mb-6 text-sm md:text-base">
+          <Button variant="ghost" onClick={() => navigate('/alumni/dashboard')} className="mb-4 md:mb-6 text-sm md:text-base">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Dashboard
           </Button>
@@ -261,7 +261,7 @@ const MentorProfile = () => {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div className="min-w-0">
               <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2 truncate">My Profile</h1>
-              <p className="text-sm md:text-base text-muted-foreground">Manage your mentor profile and settings</p>
+              <p className="text-sm md:text-base text-muted-foreground">Manage your alumni profile and settings</p>
             </div>
             {!isEditing && (
               <Button onClick={() => setIsEditing(true)} className="text-sm h-9 md:h-10 w-full sm:w-auto">
@@ -495,7 +495,7 @@ const MentorProfile = () => {
 
           {/* Services Section */}
           <Card className="p-4 md:p-6 mb-4 md:mb-6">
-            <MentorServices
+            <AlumniServices
               services={services}
               onServicesChange={setServices}
               isEditable={true}
@@ -636,4 +636,4 @@ const MentorProfile = () => {
   );
 };
 
-export default MentorProfile;
+export default AlumniProfile;

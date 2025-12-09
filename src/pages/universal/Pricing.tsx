@@ -20,10 +20,10 @@ const Pricing = () => {
   const features = [
     'Only pay for actual time used (rounded to nearest minute)',
     'No session booking fees or platform charges',
-    'No cancellation penalties if mentor cancels',
+    'No cancellation penalties if alumni cancels',
     'Free ₹100 credits for new students',
     'Transparent billing - see costs in real-time',
-    'Instant UPI payouts for mentors'
+    'Instant UPI payouts for alumni'
   ];
 
   return (
@@ -72,7 +72,7 @@ const Pricing = () => {
                 <p className="text-sm text-muted-foreground mb-2">Hourly Rate Range</p>
                 <p className="text-4xl font-bold text-foreground mb-1">₹600 - ₹1200</p>
                 <p className="text-sm text-muted-foreground">/hour</p>
-                <p className="text-xs text-muted-foreground mt-2">(varies by mentor experience)</p>
+                <p className="text-xs text-muted-foreground mt-2">(varies by alumni experience)</p>
               </div>
               <div className="text-center p-6 bg-primary/10 border-2 border-primary rounded-lg">
                 <p className="text-sm text-muted-foreground mb-2">Per-Minute Rate</p>
@@ -94,7 +94,7 @@ const Pricing = () => {
           {/* Pricing Examples */}
           <div className="max-w-4xl mx-auto mb-12">
             <h3 className="text-2xl font-bold text-foreground mb-6 text-center">Example Sessions</h3>
-            <p className="text-center text-muted-foreground mb-8">Based on a mentor rate of ₹600/hour (₹10/minute)</p>
+            <p className="text-center text-muted-foreground mb-8">Based on a alumni rate of ₹600/hour (₹10/minute)</p>
             
             <div className="grid md:grid-cols-2 gap-4">
               {examples.map((example, index) => (
@@ -165,7 +165,7 @@ const Pricing = () => {
                 <img src={logo} alt="Grotalks" className="h-6 w-6" />
                 <span className="font-bold text-foreground">Grotalks</span>
               </div>
-              <p className="text-sm text-muted-foreground">Democratizing mentorship across India's top colleges</p>
+              <p className="text-sm text-muted-foreground">Democratizing alumnihip across India's top colleges</p>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Quick Links</h4>

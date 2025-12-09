@@ -33,8 +33,8 @@ const BookingSchedule = () => {
   const [message, setMessage] = useState('');
   const [dateScrollIndex, setDateScrollIndex] = useState(0);
 
-  // Mock mentor data with services
-  const mentor = {
+  // Mock alumni data with services
+  const alumni = {
     id: Number(id) || 1,
     name: 'Arjun Singh',
     role: 'Product Manager @ Flipkart',
@@ -53,7 +53,7 @@ const BookingSchedule = () => {
   };
 
   // Get selected service
-  const selectedService = mentor.services.find(s => s.id === Number(serviceId)) || mentor.services[0];
+  const selectedService = alumni.services.find(s => s.id === Number(serviceId)) || alumni.services[0];
   const ServiceIcon = serviceIcons[selectedService.type] || Video;
 
   // Mock past ratings for this service
@@ -82,11 +82,11 @@ const BookingSchedule = () => {
     // Navigate to payment/confirmation
     navigate('/booking/confirm', {
       state: {
-        mentor: {
-          id: mentor.id,
-          name: mentor.name,
-          role: mentor.role,
-          baseRate: mentor.baseRate
+        alumni: {
+          id: alumni.id,
+          name: alumni.name,
+          role: alumni.role,
+          baseRate: alumni.baseRate
         },
         date: format(selectedDate, 'EEE, dd MMM yyyy'),
         time: selectedSlot,
@@ -118,17 +118,17 @@ const BookingSchedule = () => {
             {/* Left: Session Info */}
             <div className="lg:col-span-2">
               <Card className="p-4 md:p-6 sticky top-4">
-                {/* Mentor Info */}
+                {/* Alumni Info */}
                 <div className="flex items-start gap-3 mb-4 pb-4 border-b">
                   <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg flex-shrink-0">
-                    {mentor.name.split(' ').map(n => n[0]).join('')}
+                    {alumni.name.split(' ').map(n => n[0]).join('')}
                   </div>
                   <div className="min-w-0">
-                    <h2 className="font-semibold text-foreground truncate">{mentor.name}</h2>
-                    <p className="text-sm text-muted-foreground truncate">{mentor.role}</p>
+                    <h2 className="font-semibold text-foreground truncate">{alumni.name}</h2>
+                    <p className="text-sm text-muted-foreground truncate">{alumni.role}</p>
                     <div className="flex items-center gap-1 mt-1 text-sm">
                       <span className="text-bonus">★</span>
-                      <span className="font-medium">{mentor.rating}</span>
+                      <span className="font-medium">{alumni.rating}</span>
                     </div>
                   </div>
                 </div>
@@ -250,7 +250,7 @@ const BookingSchedule = () => {
                   Select Time
                 </Label>
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                  {mentor.availability.slots.map((slot) => (
+                  {alumni.availability.slots.map((slot) => (
                     <Button
                       key={slot}
                       variant={selectedSlot === slot ? 'default' : 'outline'}
@@ -276,7 +276,7 @@ const BookingSchedule = () => {
                 </Label>
                 <Textarea
                   id="message"
-                  placeholder="Tell the mentor what you'd like to cover in this session..."
+                  placeholder="Tell the alumni what you'd like to cover in this session..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   className="min-h-24 resize-none"

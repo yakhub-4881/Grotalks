@@ -17,10 +17,10 @@ interface RescheduleDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit: (date: string, time: string, reason: string) => void;
-  isMentor?: boolean;
+  isAlumni?: boolean;
 }
 
-export const RescheduleDialog = ({ open, onOpenChange, onSubmit, isMentor = false }: RescheduleDialogProps) => {
+export const RescheduleDialog = ({ open, onOpenChange, onSubmit, isAlumni = false }: RescheduleDialogProps) => {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [reason, setReason] = useState('');
@@ -43,9 +43,9 @@ export const RescheduleDialog = ({ open, onOpenChange, onSubmit, isMentor = fals
         <DialogHeader>
           <DialogTitle>Reschedule Session</DialogTitle>
           <DialogDescription>
-            {isMentor 
+            {isAlumni 
               ? 'Propose a new date and time for this session. The student will be notified.'
-              : 'Request a different time slot. The mentor will review your request.'}
+              : 'Request a different time slot. The alumni will review your request.'}
           </DialogDescription>
         </DialogHeader>
         

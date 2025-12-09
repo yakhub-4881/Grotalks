@@ -38,7 +38,7 @@ interface BookingRequest {
   meetLink?: string;
 }
 
-const MentorDashboard = () => {
+const AlumniDashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   
@@ -146,7 +146,7 @@ const MentorDashboard = () => {
   const stats = [
     { label: 'Total Earnings', value: '₹12,500', icon: IndianRupee, color: 'text-success' },
     { label: 'Sessions This Month', value: '8', icon: Calendar, color: 'text-primary' },
-    { label: 'Hours Mentored', value: '10.5', icon: Clock, color: 'text-secondary' },
+    { label: 'Hours Alumnied', value: '10.5', icon: Clock, color: 'text-secondary' },
     { label: 'Average Rating', value: '4.9', icon: Star, color: 'text-bonus' },
   ];
 
@@ -165,7 +165,7 @@ const MentorDashboard = () => {
     },
   ];
 
-  const mentorName = "Priya"; // Get from auth context in real app
+  const alumniName = "Priya"; // Get from auth context in real app
 
   return (
     <Layout>
@@ -174,9 +174,9 @@ const MentorDashboard = () => {
           {/* Header with Greeting */}
           <div className="mb-6 md:mb-8">
             <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-1">
-              Welcome back, {mentorName}! 👋
+              Welcome back, {alumniName}! 👋
             </h1>
-            <p className="text-sm md:text-base text-muted-foreground">Manage your mentorship sessions</p>
+            <p className="text-sm md:text-base text-muted-foreground">Manage your alumnihip sessions</p>
           </div>
 
           {/* Stats Grid */}
@@ -344,11 +344,11 @@ const MentorDashboard = () => {
 
           {/* Quick Actions */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-            <Button variant="outline" className="h-12 md:h-14 text-sm md:text-base font-medium" onClick={() => navigate('/mentor/withdraw')}>
+            <Button variant="outline" className="h-12 md:h-14 text-sm md:text-base font-medium" onClick={() => navigate('/alumni/withdraw')}>
               <TrendingUp className="mr-2 h-4 w-4 md:h-5 md:w-5" />
               <span className="truncate">View Earnings</span>
             </Button>
-            <Button variant="outline" className="h-12 md:h-14 text-sm md:text-base font-medium" onClick={() => navigate('/mentor/manage-availability')}>
+            <Button variant="outline" className="h-12 md:h-14 text-sm md:text-base font-medium" onClick={() => navigate('/alumni/manage-availability')}>
               <Calendar className="mr-2 h-4 w-4 md:h-5 md:w-5" />
               <span className="truncate">Manage Availability</span>
             </Button>
@@ -441,10 +441,10 @@ const MentorDashboard = () => {
         open={showRescheduleDialog}
         onOpenChange={setShowRescheduleDialog}
         onSubmit={handleRescheduleSubmit}
-        isMentor={true}
+        isAlumni={true}
       />
     </Layout>
   );
 };
 
-export default MentorDashboard;
+export default AlumniDashboard;

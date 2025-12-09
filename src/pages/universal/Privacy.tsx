@@ -52,10 +52,10 @@ const Privacy = () => {
                 We use collected information to:
               </p>
               <ul className="list-disc pl-6 text-muted-foreground space-y-2">
-                <li>Provide and improve our mentorship platform services</li>
+                <li>Provide and improve our alumnihip platform services</li>
                 <li>Process payments and maintain wallet balances</li>
-                <li>Verify mentor credentials and alumni status</li>
-                <li>Facilitate communication between students and mentors</li>
+                <li>Verify alumni credentials and alumni status</li>
+                <li>Facilitate communication between students and alumni</li>
                 <li>Send notifications about bookings, sessions, and platform updates</li>
                 <li>Analyze usage patterns to enhance user experience</li>
                 <li>Detect and prevent fraud or unauthorized access</li>
@@ -68,9 +68,9 @@ const Privacy = () => {
                 We share your information only in these circumstances:
               </p>
               <ul className="list-disc pl-6 text-muted-foreground space-y-2">
-                <li>With mentors/students you interact with (name, college, profile info)</li>
+                <li>With alumni/students you interact with (name, college, profile info)</li>
                 <li>With payment processors to facilitate transactions</li>
-                <li>With verification services for mentor credential checks</li>
+                <li>With verification services for alumni credential checks</li>
                 <li>When required by law or to protect rights and safety</li>
                 <li>With your explicit consent for any other purpose</li>
               </ul>
@@ -156,7 +156,7 @@ const Privacy = () => {
                 <img src={logo} alt="Grotalks" className="h-6 w-6" />
                 <span className="font-bold text-foreground">Grotalks</span>
               </div>
-              <p className="text-sm text-muted-foreground">Democratizing mentorship across India's top colleges</p>
+              <p className="text-sm text-muted-foreground">Democratizing alumnihip across India's top colleges</p>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Quick Links</h4>

@@ -10,7 +10,7 @@ import { Search, Star, MapPin, SlidersHorizontal } from 'lucide-react';
 import { collegeMap } from '@/lib/college-config';
 import { CollegeDisplay } from '@/components/CollegeDisplay';
 
-const mentors = [
+const alumni = [
   {
     id: 1,
     name: 'Arjun Singh',
@@ -430,7 +430,7 @@ const mentors = [
   },
 ];
 
-export const MentorBrowseSection = () => {
+export const AlumniBrowseSection = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [expertiseFilter, setExpertiseFilter] = useState('all');
@@ -440,22 +440,22 @@ export const MentorBrowseSection = () => {
   const [sortBy, setSortBy] = useState('rating');
   const [displayCount, setDisplayCount] = useState(6);
 
-  const filteredMentors = mentors
-    .filter((mentor) => {
+  const filteredAlumni = alumni
+    .filter((alumni) => {
       const searchLower = searchQuery.toLowerCase();
       const matchesSearch =
-        mentor.name.toLowerCase().includes(searchLower) ||
-        mentor.company.toLowerCase().includes(searchLower) ||
-        mentor.role.toLowerCase().includes(searchLower);
+        alumni.name.toLowerCase().includes(searchLower) ||
+        alumni.company.toLowerCase().includes(searchLower) ||
+        alumni.role.toLowerCase().includes(searchLower);
 
       const matchesExpertise =
         expertiseFilter === 'all' ||
-        mentor.expertise.some((exp) => exp.toLowerCase().includes(expertiseFilter));
+        alumni.expertise.some((exp) => exp.toLowerCase().includes(expertiseFilter));
 
-      const matchesCollege = collegeFilter === 'all' || mentor.college === collegeFilter;
-      const matchesBatch = batchYearFilter === 'all' || mentor.batch === batchYearFilter;
+      const matchesCollege = collegeFilter === 'all' || alumni.college === collegeFilter;
+      const matchesBatch = batchYearFilter === 'all' || alumni.batch === batchYearFilter;
       const matchesLanguage =
-        languageFilter === 'all' || mentor.language.toLowerCase().includes(languageFilter.toLowerCase());
+        languageFilter === 'all' || alumni.language.toLowerCase().includes(languageFilter.toLowerCase());
 
       return matchesSearch && matchesExpertise && matchesCollege && matchesBatch && matchesLanguage;
     })
@@ -478,7 +478,7 @@ export const MentorBrowseSection = () => {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search mentors by name, company, or role..."
+            placeholder="Search alumni by name, company, or role..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10 h-11"
@@ -510,7 +510,7 @@ export const MentorBrowseSection = () => {
             </SheetTrigger>
             <SheetContent>
               <SheetHeader>
-                <SheetTitle>Filter Mentors</SheetTitle>
+                <SheetTitle>Filter Alumni</SheetTitle>
               </SheetHeader>
               <div className="space-y-4 mt-6">
                 <div>
@@ -608,47 +608,47 @@ export const MentorBrowseSection = () => {
       {/* Results */}
       <div>
         <p className="text-sm text-muted-foreground mb-4">
-          Showing {Math.min(displayCount, filteredMentors.length)} of {filteredMentors.length} mentor{filteredMentors.length !== 1 ? 's' : ''}
+          Showing {Math.min(displayCount, filteredAlumni.length)} of {filteredAlumni.length} alumni{filteredAlumni.length !== 1 ? 's' : ''}
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredMentors.slice(0, displayCount).map((mentor) => (
-            <Card key={mentor.id} className="group p-6 hover:shadow-xl hover:border-primary/20 transition-all duration-300 flex flex-col">
+          {filteredAlumni.slice(0, displayCount).map((alumni) => (
+            <Card key={alumni.id} className="group p-6 hover:shadow-xl hover:border-primary/20 transition-all duration-300 flex flex-col">
               {/* Header: Name + Rating */}
               <div className="flex items-start justify-between gap-3 mb-3">
                 <h3 className="text-lg font-bold text-foreground leading-tight">
-                  {mentor.name}
+                  {alumni.name}
                 </h3>
                 <div className="flex items-center gap-1.5 bg-muted px-2.5 py-1 rounded-full flex-shrink-0">
                   <Star className="h-3.5 w-3.5 fill-bonus text-bonus" />
-                  <span className="text-sm font-semibold text-foreground">{mentor.rating}</span>
+                  <span className="text-sm font-semibold text-foreground">{alumni.rating}</span>
                 </div>
               </div>
 
               {/* Role */}
               <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                {mentor.role}
+                {alumni.role}
               </p>
 
               {/* College Badge + Metadata */}
               <div className="mb-4 pb-4 border-b border-border/50">
                 <div className="mb-2">
-                  <CollegeDisplay collegeName={collegeMap[mentor.college]?.fullName || mentor.college} />
+                  <CollegeDisplay collegeName={collegeMap[alumni.college]?.fullName || alumni.college} />
                 </div>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   <span className="flex items-center gap-1">
                     <MapPin className="h-3 w-3" />
-                    {mentor.location}
+                    {alumni.location}
                   </span>
                   <span>•</span>
-                  <span>Batch {mentor.batch}</span>
+                  <span>Batch {alumni.batch}</span>
                   <span>•</span>
-                  <span>{mentor.sessionsCompleted} sessions</span>
+                  <span>{alumni.sessionsCompleted} sessions</span>
                 </div>
               </div>
 
               {/* Expertise Tags */}
               <div className="flex flex-wrap gap-1.5 mb-6">
-                {mentor.expertise.slice(0, 3).map((exp) => (
+                {alumni.expertise.slice(0, 3).map((exp) => (
                   <span 
                     key={exp} 
                     className="text-xs px-2.5 py-1 bg-secondary/50 text-secondary-foreground rounded-md"
@@ -661,7 +661,7 @@ export const MentorBrowseSection = () => {
               {/* Footer: CTA */}
               <div className="mt-auto pt-4 border-t border-border/50">
                 <Button
-                  onClick={() => navigate(`/mentor/profile/${mentor.id}`)}
+                  onClick={() => navigate(`/alumni/profile/${alumni.id}`)}
                   className="w-full group-hover:shadow-md transition-shadow"
                 >
                   View Profile
@@ -671,20 +671,20 @@ export const MentorBrowseSection = () => {
           ))}
         </div>
 
-        {displayCount < filteredMentors.length && (
+        {displayCount < filteredAlumni.length && (
           <div className="mt-6 text-center">
             <Button 
               variant="outline" 
               size="lg"
-              onClick={() => setDisplayCount(prev => Math.min(prev + 6, filteredMentors.length))}
+              onClick={() => setDisplayCount(prev => Math.min(prev + 6, filteredAlumni.length))}
               className="min-w-[200px]"
             >
-              Load More ({filteredMentors.length - displayCount} more)
+              Load More ({filteredAlumni.length - displayCount} more)
             </Button>
           </div>
         )}
 
-        {displayCount > 6 && displayCount >= filteredMentors.length && (
+        {displayCount > 6 && displayCount >= filteredAlumni.length && (
           <div className="mt-6 text-center">
             <Button 
               variant="outline" 
@@ -700,10 +700,10 @@ export const MentorBrowseSection = () => {
           </div>
         )}
 
-        {filteredMentors.length === 0 && (
+        {filteredAlumni.length === 0 && (
           <Card className="p-8 text-center">
             <p className="text-muted-foreground">
-              No mentors found matching your criteria. Try adjusting your filters.
+              No alumni found matching your criteria. Try adjusting your filters.
             </p>
           </Card>
         )}

@@ -57,7 +57,7 @@ const WalletRecharge = () => {
 
           <div className="mb-6">
             <h1 className="text-3xl font-bold text-foreground mb-2">Recharge Wallet</h1>
-            <p className="text-muted-foreground">Add funds to book your next mentorship session</p>
+            <p className="text-muted-foreground">Add funds to book your next alumnihip session</p>
           </div>
 
           {/* Current Balance */}

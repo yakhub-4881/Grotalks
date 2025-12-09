@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/Layout';
 import { MeetingPlatformConnect, MeetingPlatform, defaultMeetingPlatforms } from '@/components/MeetingPlatformConnect';
 
-const MentorMeetingSetup = () => {
+const AlumniMeetingSetup = () => {
   const navigate = useNavigate();
   const [platforms, setPlatforms] = useState<MeetingPlatform[]>(defaultMeetingPlatforms);
 
@@ -34,13 +34,13 @@ const MentorMeetingSetup = () => {
             <div className="flex gap-4 pt-4">
               <Button 
                 variant="outline" 
-                onClick={() => navigate('/mentor/availability')} 
+                onClick={() => navigate('/alumni/availability')} 
                 className="flex-1 h-12"
               >
                 Back
               </Button>
               <Button
-                onClick={() => navigate('/mentor/payment')}
+                onClick={() => navigate('/alumni/payment')}
                 className="flex-1 h-12 font-medium"
                 disabled={!hasConnectedPlatform}
               >
@@ -54,4 +54,4 @@ const MentorMeetingSetup = () => {
   );
 };
 
-export default MentorMeetingSetup;
+export default AlumniMeetingSetup;
