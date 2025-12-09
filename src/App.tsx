@@ -23,6 +23,7 @@ import MentorRequests from "./pages/mentor/MentorRequests";
 import MentorSignupPhone from "./pages/mentor/MentorSignupPhone";
 import MentorSignupOTP from "./pages/mentor/MentorSignupOTP";
 import MentorLinkedIn from "./pages/mentor/MentorLinkedIn";
+import MentorAlumniVerification from "./pages/mentor/MentorAlumniVerification";
 import MentorBio from "./pages/mentor/MentorBio";
 import MentorExpertise from "./pages/mentor/MentorExpertise";
 import MentorAvailability from "./pages/mentor/MentorAvailability";
@@ -90,6 +91,7 @@ const App = () => (
             <Route path="/mentor/signup/phone" element={<MentorSignupPhone />} />
             <Route path="/mentor/otp" element={<MentorSignupOTP />} />
             <Route path="/mentor/linkedin" element={<MentorLinkedIn />} />
+            <Route path="/mentor/alumni-verification" element={<MentorAlumniVerification />} />
             <Route path="/mentor/bio" element={<MentorBio />} />
             <Route path="/mentor/expertise" element={<MentorExpertise />} />
             <Route path="/mentor/availability" element={<MentorAvailability />} />
