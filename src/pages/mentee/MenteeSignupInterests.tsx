@@ -55,9 +55,19 @@ const MenteeSignupInterests = () => {
       return;
     }
 
-    // Save interests
+    // Save interests and complete profile
     sessionStorage.setItem('menteeInterests', JSON.stringify(selectedInterests));
-    navigate('/mentee/linkedin');
+    
+    // Clear session storage
+    sessionStorage.removeItem('menteeProfile');
+    sessionStorage.removeItem('menteeInterests');
+
+    toast({
+      title: '🎉 Welcome to GroTalks!',
+      description: 'Your profile has been created successfully',
+    });
+
+    navigate('/mentee/dashboard');
   };
 
   return (
@@ -66,9 +76,9 @@ const MenteeSignupInterests = () => {
         <div className="w-full max-w-3xl bg-card rounded-lg shadow-lg p-6 md:p-8 animate-fade-in">
           <div className="mb-8">
             <h1 className="text-2xl font-bold text-foreground mb-2">Student Career Interests</h1>
-            <p className="text-sm text-muted-foreground">Step 4 of 5 - Choose areas where you need guidance</p>
+            <p className="text-sm text-muted-foreground">Step 4 of 4 - Choose areas where you need guidance</p>
             <div className="mt-3 h-2 bg-muted rounded-full overflow-hidden">
-              <div className="h-full bg-primary w-[80%] transition-all duration-300"></div>
+              <div className="h-full bg-primary w-[100%] transition-all duration-300"></div>
             </div>
           </div>
 
@@ -118,7 +128,7 @@ const MenteeSignupInterests = () => {
                 className="flex-1 h-12 font-medium"
                 disabled={selectedInterests.length === 0}
               >
-                Next: LinkedIn & UPI Setup
+                Complete Profile
               </Button>
             </div>
           </div>
