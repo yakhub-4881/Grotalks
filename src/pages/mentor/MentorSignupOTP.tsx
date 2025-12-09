@@ -42,9 +42,9 @@ const MentorSignupOTP = () => {
         // Route based on user type
         if (userType === 'mentee') {
           navigate('/mentee/wallet');
-        } else {
-          navigate('/mentor/linkedin');
-        }
+      } else {
+        navigate('/mentor/alumni-verification');
+      }
       }, 1000);
     } else {
       setError('Invalid OTP. Please try again.');

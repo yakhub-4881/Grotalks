@@ -8,6 +8,7 @@ import { Layout } from '@/components/Layout';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAppContext } from '@/lib/app-context';
+import { Loader2 } from 'lucide-react';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -16,11 +17,15 @@ const Signup = () => {
   const [signupType, setSignupType] = useState<'student' | 'mentor'>('student');
   
   // Student-specific states
-  const [studentPhone, setStudentPhone] = useState('');
   const [studentEmail, setStudentEmail] = useState('');
-  const [isPhoneValid, setIsPhoneValid] = useState(false);
   const [emailState, setEmailState] = useState<'idle' | 'validating' | 'valid' | 'invalid'>('idle');
   const [emailError, setEmailError] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpSending, setOtpSending] = useState(false);
+  const [studentOtp, setStudentOtp] = useState('');
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [otpVerifying, setOtpVerifying] = useState(false);
+  const [countdown, setCountdown] = useState(0);
   
   // Mentor-specific states
   const [mentorPhone, setMentorPhone] = useState('');
@@ -36,25 +41,30 @@ const Signup = () => {
     }
   }, [searchParams]);
 
-  // Student handlers
-  const handleStudentPhoneChange = (value: string) => {
-    const numericValue = value.replace(/\D/g, '');
-    setStudentPhone(numericValue);
-    setIsPhoneValid(numericValue.length === 10);
-  };
+  // Countdown timer
+  useEffect(() => {
+    if (countdown > 0) {
+      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [countdown]);
 
+  // Student handlers
   const handleStudentEmailChange = (value: string) => {
     setStudentEmail(value);
     setEmailState('idle');
     setEmailError('');
+    setOtpSent(false);
+    setStudentOtp('');
+    setOtpVerified(false);
   };
 
-  const validateStudentEmail = async () => {
+  const validateStudentEmail = () => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(studentEmail)) {
       setEmailState('invalid');
       setEmailError('Please enter a valid email address');
-      return;
+      return false;
     }
 
     const studentEmailDomains = ['edu', 'ac.in', 'edu.in'];
@@ -64,26 +74,56 @@ const Signup = () => {
     if (!isStudentEmail) {
       setEmailState('invalid');
       setEmailError('Please use your official college email address');
-      return;
+      return false;
     }
 
+    return true;
+  };
+
+  const handleSendOtp = async () => {
+    if (!validateStudentEmail()) return;
+    
+    setOtpSending(true);
     setEmailState('validating');
-    await new Promise(resolve => setTimeout(resolve, 4500));
+    
+    // Simulate email validation and OTP sending
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    // Mock validation - 90% success rate
     const isValid = Math.random() > 0.1;
     
     if (isValid) {
       setEmailState('valid');
+      setOtpSent(true);
+      setCountdown(60);
     } else {
       setEmailState('invalid');
       setEmailError('Email not found in college database. Please check and try again.');
     }
+    setOtpSending(false);
+  };
+
+  const handleVerifyOtp = async () => {
+    if (studentOtp.length !== 6) return;
+    
+    setOtpVerifying(true);
+    // Simulate OTP verification
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setOtpVerifying(false);
+    setOtpVerified(true);
+  };
+
+  const handleResendOtp = () => {
+    setStudentOtp('');
+    setOtpVerified(false);
+    handleSendOtp();
   };
 
   const handleStudentContinue = () => {
-    if (isPhoneValid && emailState === 'valid') {
+    if (otpVerified) {
       setUserType('mentee');
       sessionStorage.setItem('studentEmail', studentEmail);
-      navigate('/mentee/otp');
+      navigate('/mentee/profile');
     }
   };
 
@@ -117,89 +157,79 @@ const Signup = () => {
   return (
     <Layout>
       <div className="min-h-[calc(100vh-4rem)] bg-muted flex items-center justify-center p-4">
-        <div className="w-full max-w-md bg-card rounded-lg shadow-lg p-6 md:p-8 animate-fade-in">
+        <div className="w-full max-w-md bg-card rounded-lg shadow-lg p-4 sm:p-6 md:p-8 animate-fade-in">
           {/* Header */}
-          <div className="mb-8 text-center">
-            <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Create Your Account</h1>
-            <p className="text-base text-muted-foreground">Join Grotalks today</p>
+          <div className="mb-6 sm:mb-8 text-center">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">Create Your Account</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">Join Grotalks today</p>
           </div>
 
           {/* Signup Type Toggle */}
           <Tabs value={signupType} onValueChange={(v) => setSignupType(v as 'student' | 'mentor')} className="w-full mb-6">
-            <TabsList className="grid w-full grid-cols-2 h-12">
-              <TabsTrigger value="student">Student</TabsTrigger>
-              <TabsTrigger value="mentor">Mentor</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 h-10 sm:h-12">
+              <TabsTrigger value="student" className="text-sm sm:text-base">Student</TabsTrigger>
+              <TabsTrigger value="mentor" className="text-sm sm:text-base">Mentor</TabsTrigger>
             </TabsList>
           </Tabs>
 
           {/* Student Form */}
           {signupType === 'student' && (
-            <div className="space-y-6">
+            <div className="space-y-5 sm:space-y-6">
               <div className="mb-4">
-                <p className="text-sm text-muted-foreground">Step 1 of 5</p>
+                <p className="text-sm text-muted-foreground">Step 1 of 4</p>
                 <div className="mt-2 h-2 bg-muted rounded-full overflow-hidden">
-                  <div className="h-full bg-primary w-[20%] transition-all duration-300"></div>
+                  <div className="h-full bg-primary w-[25%] transition-all duration-300"></div>
                 </div>
-              </div>
-
-              {/* Phone Number */}
-              <div className="space-y-2">
-                <Label htmlFor="student-phone" className="text-sm font-semibold">Phone Number*</Label>
-                <div className="flex gap-2">
-                  <div className="flex items-center px-3 h-12 bg-muted border border-input rounded-md">
-                    <span className="text-sm font-medium">+91</span>
-                  </div>
-                  <Input
-                    id="student-phone"
-                    type="tel"
-                    inputMode="numeric"
-                    placeholder="Enter 10-digit mobile number"
-                    value={studentPhone}
-                    onChange={(e) => handleStudentPhoneChange(e.target.value)}
-                    className={`h-12 text-base flex-1 ${isPhoneValid ? 'border-success' : ''}`}
-                    maxLength={10}
-                  />
-                </div>
-                {studentPhone.length > 0 && !isPhoneValid && (
-                  <p className="text-sm text-destructive">Phone number must be 10 digits</p>
-                )}
-                {isPhoneValid && (
-                  <p className="text-sm text-success flex items-center gap-1">
-                    <span>✓</span> Valid phone number
-                  </p>
-                )}
               </div>
 
               {/* Student Email */}
               <div className="space-y-2">
                 <Label htmlFor="student-email" className="text-sm font-semibold">Student Email ID*</Label>
-                <Input
-                  id="student-email"
-                  type="email"
-                  placeholder="yourname@college.edu.in"
-                  value={studentEmail}
-                  onChange={(e) => handleStudentEmailChange(e.target.value)}
-                  onBlur={validateStudentEmail}
-                  className={`h-12 text-base ${
-                    emailState === 'valid' ? 'border-success' : 
-                    emailState === 'invalid' ? 'border-destructive' : ''
-                  }`}
-                  disabled={emailState === 'validating'}
-                />
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <Input
+                    id="student-email"
+                    type="email"
+                    placeholder="yourname@college.edu.in"
+                    value={studentEmail}
+                    onChange={(e) => handleStudentEmailChange(e.target.value)}
+                    className={`h-10 sm:h-12 text-sm sm:text-base flex-1 ${
+                      emailState === 'valid' ? 'border-success' : 
+                      emailState === 'invalid' ? 'border-destructive' : ''
+                    }`}
+                    disabled={otpSent && emailState === 'valid'}
+                  />
+                  <Button 
+                    onClick={handleSendOtp}
+                    disabled={!studentEmail || otpSending || (otpSent && emailState === 'valid')}
+                    className="h-10 sm:h-12 px-4 sm:px-6 whitespace-nowrap text-sm"
+                  >
+                    {otpSending ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                        Sending...
+                      </>
+                    ) : otpSent ? (
+                      'OTP Sent'
+                    ) : (
+                      'Get OTP'
+                    )}
+                  </Button>
+                </div>
+                
                 {emailState === 'validating' && (
                   <div className="flex items-center gap-2 text-sm text-primary">
-                    <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-                    <span>Checking with college database...</span>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Verifying with college database...</span>
                   </div>
                 )}
                 {emailState === 'invalid' && emailError && (
-                  <div className="bg-destructive/10 border border-destructive/30 rounded-md p-3">
-                    <p className="text-sm text-destructive font-medium flex items-center gap-2">
+                  <div className="bg-destructive/10 border border-destructive/30 rounded-md p-2 sm:p-3">
+                    <p className="text-xs sm:text-sm text-destructive font-medium flex items-center gap-2">
                       <span className="text-base">⚠</span> {emailError}
                     </p>
                   </div>
                 )}
-                {emailState === 'valid' && (
+                {emailState === 'valid' && !otpSent && (
                   <p className="text-sm text-success flex items-center gap-1">
                     <span>✓</span> Email verified with college database
                   </p>
@@ -209,19 +239,83 @@ const Signup = () => {
                 </p>
               </div>
 
+              {/* OTP Input - shown after OTP is sent */}
+              {otpSent && emailState === 'valid' && (
+                <div className="space-y-4 animate-fade-in">
+                  <div className="p-2 sm:p-3 bg-success/10 border border-success/20 rounded-lg">
+                    <p className="text-xs sm:text-sm text-success font-medium">
+                      OTP sent to {studentEmail}
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="student-otp" className="text-sm font-semibold">Enter 6-digit OTP*</Label>
+                    <Input
+                      id="student-otp"
+                      type="text"
+                      inputMode="numeric"
+                      placeholder="000000"
+                      value={studentOtp}
+                      onChange={(e) => setStudentOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                      className={`h-12 sm:h-14 text-center text-xl sm:text-2xl tracking-widest font-semibold ${
+                        otpVerified ? 'border-success' : ''
+                      }`}
+                      maxLength={6}
+                      disabled={otpVerified}
+                    />
+                  </div>
+
+                  {otpVerified ? (
+                    <p className="text-sm text-success font-medium flex items-center gap-2">
+                      <span>✓</span> OTP verified successfully!
+                    </p>
+                  ) : (
+                    <>
+                      <div className="text-center">
+                        {countdown > 0 ? (
+                          <p className="text-sm text-muted-foreground">
+                            Resend OTP in <span className="text-primary font-bold">{countdown}</span> sec
+                          </p>
+                        ) : (
+                          <Button variant="link" onClick={handleResendOtp} className="text-primary p-0 h-auto text-sm">
+                            Resend OTP
+                          </Button>
+                        )}
+                      </div>
+
+                      <Button
+                        onClick={handleVerifyOtp}
+                        disabled={studentOtp.length !== 6 || otpVerifying}
+                        variant="outline"
+                        className="w-full h-10 sm:h-12"
+                      >
+                        {otpVerifying ? (
+                          <>
+                            <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                            Verifying...
+                          </>
+                        ) : (
+                          'Verify OTP'
+                        )}
+                      </Button>
+                    </>
+                  )}
+                </div>
+              )}
+
               <Button
                 onClick={handleStudentContinue}
-                className="w-full h-12 text-base font-medium"
-                disabled={!isPhoneValid || emailState !== 'valid'}
+                className="w-full h-10 sm:h-12 text-sm sm:text-base font-medium"
+                disabled={!otpVerified}
               >
-                Continue with OTP
+                Continue
               </Button>
             </div>
           )}
 
           {/* Mentor Form */}
           {signupType === 'mentor' && (
-            <div className="space-y-6">
+            <div className="space-y-5 sm:space-y-6">
               <div className="mb-4">
                 <p className="text-sm text-muted-foreground">Step 1 of 8</p>
                 <div className="mt-2 h-2 bg-muted rounded-full overflow-hidden">
@@ -229,14 +323,14 @@ const Signup = () => {
                 </div>
               </div>
 
-              <p className="text-base text-foreground">Let's verify you're an alumnus</p>
+              <p className="text-sm sm:text-base text-foreground">Let's verify you're an alumnus</p>
 
               {/* Phone Number */}
               <div className="space-y-2">
                 <Label htmlFor="mentor-phone" className="text-sm font-semibold">Phone Number*</Label>
                 <div className="flex gap-2">
                   <Select value={countryCode} onValueChange={setCountryCode}>
-                    <SelectTrigger className="w-24 h-12">
+                    <SelectTrigger className="w-20 sm:w-24 h-10 sm:h-12 text-sm">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -251,10 +345,10 @@ const Signup = () => {
                     placeholder="9876543210"
                     value={mentorPhone}
                     onChange={(e) => setMentorPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                    className={`flex-1 h-12 text-base ${errors.phone ? 'border-destructive' : ''}`}
+                    className={`flex-1 h-10 sm:h-12 text-sm sm:text-base ${errors.phone ? 'border-destructive' : ''}`}
                   />
                 </div>
-                {errors.phone && <p className="text-sm text-destructive">{errors.phone}</p>}
+                {errors.phone && <p className="text-xs sm:text-sm text-destructive">{errors.phone}</p>}
               </div>
 
               {/* Email */}
@@ -266,9 +360,9 @@ const Signup = () => {
                   placeholder="your.email@example.com"
                   value={mentorEmail}
                   onChange={(e) => setMentorEmail(e.target.value)}
-                  className={`h-12 text-base ${errors.email ? 'border-destructive' : ''}`}
+                  className={`h-10 sm:h-12 text-sm sm:text-base ${errors.email ? 'border-destructive' : ''}`}
                 />
-                {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
+                {errors.email && <p className="text-xs sm:text-sm text-destructive">{errors.email}</p>}
               </div>
 
               {/* Terms Checkbox */}
@@ -279,18 +373,18 @@ const Signup = () => {
                   onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
                   className="mt-1"
                 />
-                <Label htmlFor="terms" className="text-sm leading-relaxed cursor-pointer">
+                <Label htmlFor="terms" className="text-xs sm:text-sm leading-relaxed cursor-pointer">
                   I agree to the{' '}
-                  <Button variant="link" className="p-0 h-auto text-primary font-medium">
+                  <Button variant="link" className="p-0 h-auto text-primary font-medium text-xs sm:text-sm">
                     Terms & Conditions
                   </Button>
                 </Label>
               </div>
-              {errors.terms && <p className="text-sm text-destructive">{errors.terms}</p>}
+              {errors.terms && <p className="text-xs sm:text-sm text-destructive">{errors.terms}</p>}
 
               <Button
                 onClick={handleMentorContinue}
-                className="w-full h-12 text-base font-medium"
+                className="w-full h-10 sm:h-12 text-sm sm:text-base font-medium"
                 disabled={!mentorPhone || !mentorEmail || !agreedToTerms}
               >
                 Continue
@@ -300,12 +394,12 @@ const Signup = () => {
 
           {/* Login Link */}
           <div className="text-center mt-6">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs sm:text-sm text-muted-foreground">
               Already have an account?{' '}
               <Button 
                 variant="link" 
                 onClick={() => navigate(`/login?type=${signupType === 'student' ? 'student' : 'mentor'}`)}
-                className="p-0 h-auto font-medium text-primary"
+                className="p-0 h-auto font-medium text-primary text-xs sm:text-sm"
               >
                 Login
               </Button>
