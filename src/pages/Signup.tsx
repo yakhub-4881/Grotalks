@@ -20,6 +20,7 @@ const Signup = () => {
   const [studentEmail, setStudentEmail] = useState('');
   const [emailState, setEmailState] = useState<'idle' | 'validating' | 'valid' | 'invalid'>('idle');
   const [emailError, setEmailError] = useState('');
+  const [agreedToTermsStudent, setAgreedToTermsStudent] = useState(false);
   
   // Alumni-specific states (contact capture)
   const [alumniPhone, setAlumniPhone] = useState('');
@@ -68,6 +69,10 @@ const Signup = () => {
 
   const handleStudentContinue = async () => {
     if (!validateStudentEmail()) return;
+    if (!agreedToTermsStudent) {
+      setEmailError('You must agree to Terms & Conditions');
+      return;
+    }
     setEmailState('validating');
     await new Promise(resolve => setTimeout(resolve, 750));
     setEmailState('valid');
@@ -145,34 +150,18 @@ const Signup = () => {
               {/* Student Email */}
               <div className="space-y-2">
                 <Label htmlFor="student-email" className="text-sm font-semibold">Student Email ID*</Label>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <Input
-                    id="student-email"
-                    type="email"
-                    placeholder="yourname@college.edu.in"
-                    value={studentEmail}
-                    onChange={(e) => handleStudentEmailChange(e.target.value)}
-                    className={`h-10 sm:h-12 text-sm sm:text-base flex-1 ${
-                      emailState === 'valid' ? 'border-success' : 
-                      emailState === 'invalid' ? 'border-destructive' : ''
-                    }`}
-                    disabled={emailState === 'validating'}
-                  />
-                  <Button 
-                    onClick={handleStudentContinue}
-                    disabled={!studentEmail || emailState === 'validating'}
-                    className="h-10 sm:h-12 px-4 sm:px-6 whitespace-nowrap text-sm"
-                  >
-                    {emailState === 'validating' ? (
-                      <>
-                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                        Sending...
-                      </>
-                    ) : (
-                      'Send OTP'
-                    )}
-                  </Button>
-                </div>
+                <Input
+                  id="student-email"
+                  type="email"
+                  placeholder="yourname@college.edu.in"
+                  value={studentEmail}
+                  onChange={(e) => handleStudentEmailChange(e.target.value)}
+                  className={`h-10 sm:h-12 text-sm sm:text-base ${
+                    emailState === 'valid' ? 'border-success' : 
+                    emailState === 'invalid' ? 'border-destructive' : ''
+                  }`}
+                  disabled={emailState === 'validating'}
+                />
                 
                 {emailState === 'validating' && (
                   <div className="flex items-center gap-2 text-sm text-primary">
@@ -191,6 +180,38 @@ const Signup = () => {
                   Use your official college email (e.g., @college.edu.in). OTP verification happens on the next screen.
                 </p>
               </div>
+
+              {/* Terms Checkbox */}
+              <div className="flex items-start space-x-3">
+                <Checkbox
+                  id="student-terms"
+                  checked={agreedToTermsStudent}
+                  onCheckedChange={(checked) => setAgreedToTermsStudent(checked as boolean)}
+                  className="mt-1"
+                />
+                <Label htmlFor="student-terms" className="text-xs sm:text-sm leading-relaxed cursor-pointer">
+                  I agree to the{' '}
+                  <Button variant="link" className="p-0 h-auto text-primary font-medium text-xs sm:text-sm">
+                    Terms & Conditions
+                  </Button>
+                </Label>
+              </div>
+
+              {/* Send OTP Button */}
+              <Button 
+                onClick={handleStudentContinue}
+                disabled={!studentEmail || emailState === 'validating' || !agreedToTermsStudent}
+                className="w-full h-10 sm:h-12 text-sm sm:text-base font-medium"
+              >
+                {emailState === 'validating' ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    Sending...
+                  </>
+                ) : (
+                  'Send OTP & Continue'
+                )}
+              </Button>
             </div>
           )}
 

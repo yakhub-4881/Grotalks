@@ -64,7 +64,7 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
             </Link>
 
             <div className="flex items-center gap-2 md:gap-4">
-              {isAuthenticated && isAlumniPage && (
+              {isAlumniPage && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon" className="rounded-full">
@@ -100,10 +100,6 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
                     <DropdownMenuItem onClick={() => navigate('/mentee/profile')}>
                       <User className="mr-2 h-4 w-4" />
                       Profile Settings
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => navigate('/mentee/wallet/recharge')}>
-                      <Wallet className="mr-2 h-4 w-4" />
-                      Wallet & Payments
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => navigate('/mentee/sessions')}>
                       <Calendar className="mr-2 h-4 w-4" />

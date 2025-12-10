@@ -41,10 +41,10 @@ const Landing = () => {
             {/* Value Proposition */}
             <div className="mb-8 max-w-lg">
               <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
-                Connect with Alumni Alumni
+                Alumni Living Your Dream
               </h2>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Grotalks does not connect students to random experts. It connects them to alumni from their own college. People who once walked the same halls and now live the career students dream of. This turns passive alumni links into active alumnihip.
+                Grotalks connects students to alumni from their own college. People who walked the same halls and now live the careers they dream of. This transforms passive alumni networks into active alumniship.
               </p>
             </div>
 

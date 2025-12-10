@@ -126,7 +126,7 @@ const Login = () => {
                     <p className="text-xs sm:text-sm text-destructive">{errors.studentEmail}</p>
                   )}
                   <p className="text-xs text-muted-foreground">
-                    We’ll send a one-time password to this college email on the next step.
+                    We'll send a one-time password to this email.
                   </p>
                 </div>
               </div>

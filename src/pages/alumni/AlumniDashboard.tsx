@@ -176,7 +176,7 @@ const AlumniDashboard = () => {
             <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-1">
               Welcome back, {alumniName}! 👋
             </h1>
-            <p className="text-sm md:text-base text-muted-foreground">Manage your alumnihip sessions</p>
+            <p className="text-sm md:text-base text-muted-foreground">Manage your alumniship sessions</p>
           </div>
 
           {/* Stats Grid */}

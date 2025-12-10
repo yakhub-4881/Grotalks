@@ -119,7 +119,7 @@ const MenteeDashboard = () => {
             <h1 className="text-2xl md:text-3xl font-bold mb-1">
               Welcome back, {studentName}! 👋
             </h1>
-            <p className="text-sm md:text-base text-muted-foreground">Here's your alumnihip overview</p>
+            <p className="text-sm md:text-base text-muted-foreground">Here's your alumniship overview</p>
           </div>
 
           {/* Stats Grid */}
