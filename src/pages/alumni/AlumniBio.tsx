@@ -15,7 +15,8 @@ type WorkExperienceItem = {
   id: number;
   company: string;
   role: string;
-  duration: string;
+  startYear: string;
+  endYear: string;
   isCurrent?: boolean;
 };
 
@@ -25,7 +26,7 @@ const AlumniBio = () => {
   const [bio, setBio] = useState('');
   const [linkedinUrl, setLinkedinUrl] = useState('');
   const [workExperience, setWorkExperience] = useState<WorkExperienceItem[]>([
-    { id: 1, company: '', role: '', duration: '', isCurrent: false },
+    { id: 1, company: '', role: '', startYear: '', endYear: '', isCurrent: false },
   ]);
   const [location, setLocation] = useState('');
   const [experience, setExperience] = useState('');
@@ -49,7 +50,7 @@ const AlumniBio = () => {
           exp.isCurrent &&
           exp.role.trim().length > 0 &&
           exp.company.trim().length > 0 &&
-          exp.duration.trim().length > 0
+          exp.startYear.trim().length > 0
       ),
     [workExperience]
   );
@@ -67,7 +68,8 @@ const AlumniBio = () => {
           id: nextId,
           company: '',
           role: '',
-          duration: '',
+          startYear: '',
+          endYear: '',
           isCurrent: false,
           ...overrides
         }
@@ -80,7 +82,7 @@ const AlumniBio = () => {
       prev.map(exp => {
         if (field === 'isCurrent') {
           if (value) {
-            return { ...exp, isCurrent: exp.id === id };
+            return { ...exp, isCurrent: exp.id === id, endYear: exp.id === id ? '' : exp.endYear };
           }
           if (exp.id === id) {
             return { ...exp, isCurrent: false };
@@ -129,9 +131,16 @@ const AlumniBio = () => {
       location.trim().length > 0 &&
       experience.trim().length > 0 &&
       languages.length > 0;
+    const hasValidExperiences = workExperience.every(
+      exp =>
+        exp.role.trim().length > 0 &&
+        exp.company.trim().length > 0 &&
+        exp.startYear.trim().length > 0 &&
+        (exp.isCurrent || exp.endYear.trim().length > 0)
+    );
     const currentRoleOk = !hasCurrentExperience || isCurrentExperienceValid;
-    return hasBasicInfo && currentRoleOk;
-  }, [bio, location, experience, languages.length, hasCurrentExperience, isCurrentExperienceValid]);
+    return hasBasicInfo && currentRoleOk && hasValidExperiences;
+  }, [bio, location, experience, languages.length, hasCurrentExperience, isCurrentExperienceValid, workExperience]);
 
   return (
     <Layout>
@@ -262,24 +271,45 @@ const AlumniBio = () => {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs font-medium text-muted-foreground uppercase">Duration</Label>
-                        <Input
-                          value={exp.duration}
-                          onChange={(e) => updateWorkExperience(exp.id, 'duration', e.target.value)}
-                          placeholder="2021 - Present"
-                          className="h-11"
-                        />
+                        <Label className="text-xs font-medium text-muted-foreground uppercase">Start Year</Label>
+                        <Select
+                          value={exp.startYear}
+                          onValueChange={(value) => updateWorkExperience(exp.id, 'startYear', value)}
+                        >
+                          <SelectTrigger className="h-11">
+                            <SelectValue placeholder="Select year" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {Array.from({ length: 30 }, (_, idx) => (new Date().getFullYear() - idx).toString()).map((year) => (
+                              <SelectItem key={year} value={year}>{year}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs font-medium text-muted-foreground uppercase">Present company?</Label>
-                        <div className="flex items-center gap-2 h-11 px-3 border rounded-md">
-                          <Checkbox
-                            id={`current-${exp.id}`}
-                            checked={!!exp.isCurrent}
-                            onCheckedChange={(checked) => updateWorkExperience(exp.id, 'isCurrent', Boolean(checked))}
-                          />
-                          <Label htmlFor={`current-${exp.id}`} className="text-sm">Mark as current</Label>
-                        </div>
+                        <Label className="text-xs font-medium text-muted-foreground uppercase">End Year</Label>
+                        <Select
+                          value={exp.isCurrent ? 'current' : exp.endYear}
+                          onValueChange={(value) => {
+                            if (value === 'current') {
+                              updateWorkExperience(exp.id, 'isCurrent', true);
+                            } else {
+                              updateWorkExperience(exp.id, 'endYear', value);
+                              updateWorkExperience(exp.id, 'isCurrent', false);
+                            }
+                          }}
+                          disabled={exp.isCurrent}
+                        >
+                          <SelectTrigger className="h-11">
+                            <SelectValue placeholder={exp.isCurrent ? 'Current' : 'Select year'} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="current">Mark as Current</SelectItem>
+                            {Array.from({ length: 30 }, (_, idx) => (new Date().getFullYear() - idx).toString()).map((year) => (
+                              <SelectItem key={year} value={year}>{year}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
                     </div>
                   </div>

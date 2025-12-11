@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
-import { IndianRupee, Calendar, Clock, Star, TrendingUp, User, Video, XCircle, RotateCcw, Loader2 } from 'lucide-react';
+import { IndianRupee, Calendar, Clock, Star, TrendingUp, User, Video, XCircle, RotateCcw, Loader2, CheckCircle } from 'lucide-react';
 import { calculateSessionPrice, formatPrice } from '@/lib/college-config';
 import { CollegeDisplay } from '@/components/CollegeDisplay';
 import { RescheduleDialog } from '@/components/RescheduleDialog';
@@ -150,7 +150,7 @@ const AlumniDashboard = () => {
     { label: 'Average Rating', value: '4.9', icon: Star, color: 'text-bonus' },
   ];
 
-  const upcomingSessions = [
+  const [upcomingSessions, setUpcomingSessions] = useState([
     {
       id: 1,
       mentee: 'Amit Sharma',
@@ -163,7 +163,19 @@ const AlumniDashboard = () => {
       meetLink: 'https://meet.google.com/abc-defg-hij',
       serviceName: '1:1 Career Guidance Call',
     },
-  ];
+  ]);
+
+  const [completedSessions] = useState([
+    {
+      id: 201,
+      mentee: 'Kavya Narayan',
+      topic: 'Career switch to product',
+      date: 'Oct 18, 2024',
+      duration: 45,
+      ratingGiven: null,
+      feedback: '',
+    },
+  ]);
 
   const alumniName = "Priya"; // Get from auth context in real app
 
@@ -261,6 +273,7 @@ const AlumniDashboard = () => {
                           <Button 
                             variant="outline" 
                             className="text-sm h-10 border-destructive/30 text-destructive hover:text-destructive hover:bg-destructive/10"
+                            onClick={() => handleCancelUpcoming(session.id)}
                           >
                             <XCircle className="mr-2 h-4 w-4" />
                             Cancel
@@ -331,6 +344,49 @@ const AlumniDashboard = () => {
             </div>
           )}
 
+          {/* Completed Sessions & Ratings */}
+          {completedSessions.length > 0 && (
+            <div className="mb-6 md:mb-8">
+              <h2 className="text-lg md:text-xl font-semibold text-foreground mb-4">Past Sessions & Feedback</h2>
+              <div className="space-y-4">
+                {completedSessions.map((session) => (
+                  <Card key={session.id} className="p-4 md:p-6">
+                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                      <div className="space-y-2 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <CheckCircle className="h-4 w-4 text-success" />
+                          <span className="text-xs font-medium text-success uppercase">Completed</span>
+                        </div>
+                        <h3 className="text-base md:text-lg font-semibold text-foreground truncate">{session.mentee}</h3>
+                        <p className="text-sm text-muted-foreground line-clamp-2">{session.topic}</p>
+                        <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm">
+                          <span className="text-foreground font-medium whitespace-nowrap">{session.date}</span>
+                          <span className="text-muted-foreground whitespace-nowrap">{session.duration} min</span>
+                        </div>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
+                        {session.ratingGiven ? (
+                          <div className="flex items-center gap-1 text-bonus font-semibold">
+                            {'⭐'.repeat(session.ratingGiven)} <span className="text-foreground text-sm">Rated</span>
+                          </div>
+                        ) : (
+                          <Button
+                            variant="outline"
+                            className="text-sm h-10 md:h-11"
+                            onClick={() => navigate(`/feedback?type=alumni&sessionId=${session.id}`)}
+                          >
+                            <Star className="mr-2 h-4 w-4" />
+                            Rate Student
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Empty State */}
           {pendingRequests.length === 0 && acceptedRequests.length === 0 && (
             <Card className="p-8 md:p-12 text-center mb-6 md:mb-8">
@@ -355,12 +411,7 @@ const AlumniDashboard = () => {
             <Button 
               variant="outline" 
               className="h-12 md:h-14 text-sm md:text-base font-medium" 
-              onClick={() => {
-                toast({
-                  title: "Reviews & Ratings",
-                  description: "Your average rating is 4.9 stars from 28 reviews",
-                });
-              }}
+              onClick={() => navigate('/alumni/reviews')}
             >
               <Star className="mr-2 h-4 w-4 md:h-5 md:w-5" />
               <span className="truncate">View Reviews</span>
@@ -446,5 +497,14 @@ const AlumniDashboard = () => {
     </Layout>
   );
 };
+
+  const handleCancelUpcoming = (sessionId: number) => {
+    setUpcomingSessions(prev => prev.filter(session => session.id !== sessionId));
+    toast({
+      title: 'Session Cancelled',
+      description: 'The student has been notified about the cancellation.',
+      variant: 'destructive'
+    });
+  };
 
 export default AlumniDashboard;

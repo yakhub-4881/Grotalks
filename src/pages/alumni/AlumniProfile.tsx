@@ -102,6 +102,15 @@ const AlumniProfile = () => {
     { id: 'zoom', name: 'Zoom', icon: 'zoom', connected: false },
   ]);
 
+  // Payout Details
+  const [payoutDetails, setPayoutDetails] = useState({
+    upiId: 'priya@upi',
+    accountName: 'Priya Sharma',
+    accountNumber: '1234567890',
+    ifsc: 'HDFC0001234',
+  });
+  const [payoutDraft, setPayoutDraft] = useState(payoutDetails);
+
   const handleSave = async () => {
     if (editedProfile.bio.length < 10 || editedProfile.bio.length > 250) {
       toast({
@@ -121,6 +130,15 @@ const AlumniProfile = () => {
       return;
     }
 
+    if (!payoutDraft.upiId.trim() && (!payoutDraft.accountNumber.trim() || !payoutDraft.ifsc.trim())) {
+      toast({
+        title: 'Payout Details Required',
+        description: 'Add a UPI ID or bank account with IFSC to receive payouts.',
+        variant: 'destructive'
+      });
+      return;
+    }
+
     setIsSaving(true);
     
     setTimeout(() => {
@@ -130,6 +148,7 @@ const AlumniProfile = () => {
         editedProfile.experience !== profile.experience;
 
       setProfile(editedProfile);
+      setPayoutDetails(payoutDraft);
       setIsEditing(false);
       setIsSaving(false);
       
@@ -264,7 +283,7 @@ const AlumniProfile = () => {
               <p className="text-sm md:text-base text-muted-foreground">Manage your alumni profile and settings</p>
             </div>
             {!isEditing && (
-              <Button onClick={() => setIsEditing(true)} className="text-sm h-9 md:h-10 w-full sm:w-auto">
+              <Button onClick={() => { setPayoutDraft(payoutDetails); setIsEditing(true); }} className="text-sm h-9 md:h-10 w-full sm:w-auto">
                 Edit Profile
               </Button>
             )}
@@ -482,6 +501,59 @@ const AlumniProfile = () => {
                 <p className="text-xs text-muted-foreground">Phone cannot be changed</p>
               </div>
             </div>
+          </Card>
+
+          {/* Payout Details */}
+          <Card className="p-4 md:p-6 mb-4 md:mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-base md:text-lg font-semibold">Payout Details</h3>
+              <p className="text-xs text-muted-foreground">Securely store your UPI or bank info</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+              <div className="space-y-2">
+                <Label className="text-xs md:text-sm">UPI ID</Label>
+                <Input
+                  value={payoutDraft.upiId}
+                  onChange={(e) => setPayoutDraft({ ...payoutDraft, upiId: e.target.value })}
+                  disabled={!isEditing}
+                  className="h-10 md:h-12 text-xs md:text-sm"
+                  placeholder="name@bank"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs md:text-sm">Account Holder Name</Label>
+                <Input
+                  value={payoutDraft.accountName}
+                  onChange={(e) => setPayoutDraft({ ...payoutDraft, accountName: e.target.value })}
+                  disabled={!isEditing}
+                  className="h-10 md:h-12 text-xs md:text-sm"
+                  placeholder="As per bank records"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs md:text-sm">Account Number</Label>
+                <Input
+                  value={payoutDraft.accountNumber}
+                  onChange={(e) => setPayoutDraft({ ...payoutDraft, accountNumber: e.target.value })}
+                  disabled={!isEditing}
+                  className="h-10 md:h-12 text-xs md:text-sm"
+                  placeholder="0000000000"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs md:text-sm">IFSC Code</Label>
+                <Input
+                  value={payoutDraft.ifsc}
+                  onChange={(e) => setPayoutDraft({ ...payoutDraft, ifsc: e.target.value.toUpperCase() })}
+                  disabled={!isEditing}
+                  className="h-10 md:h-12 text-xs md:text-sm uppercase"
+                  placeholder="HDFC0001234"
+                />
+              </div>
+            </div>
+            <p className="text-xs text-muted-foreground mt-3">
+              We use this information only for payouts. It stays encrypted and private.
+            </p>
           </Card>
 
           {/* Meeting Platform Section */}

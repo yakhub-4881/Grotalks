@@ -53,6 +53,7 @@ import FeedbackRating from "./pages/FeedbackRating";
 // Alumni Profile & Withdrawal
 import AlumniProfile from "./pages/AlumniProfile";
 import AlumniProfileEdit from "./pages/alumni/AlumniProfile";
+import AlumniReviews from "./pages/alumni/AlumniReviews";
 import AlumniWithdraw from "./pages/alumni/AlumniWithdraw";
 
 // Chat Session
@@ -101,6 +102,7 @@ const App = () => (
             <Route path="/alumni/dashboard" element={<AlumniDashboard />} />
             <Route path="/alumni/requests" element={<AlumniRequests />} />
             <Route path="/alumni/profile/edit" element={<AlumniProfileEdit />} />
+            <Route path="/alumni/reviews" element={<AlumniReviews />} />
             <Route path="/alumni/withdraw" element={<AlumniWithdraw />} />
             
             {/* Mentee Routes */}

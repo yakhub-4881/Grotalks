@@ -36,17 +36,6 @@ const MenteeSessions = () => {
       status: 'confirmed',
       meetLink: 'https://meet.google.com/xyz-abcd-efg',
     },
-    {
-      id: 2,
-      alumni: 'Priya Sharma',
-      alumniRole: 'Software Engineer @ Google',
-      topic: 'Interview Preparation Tips',
-      date: 'Nov 10, 2024',
-      time: '5:00 PM',
-      duration: 45,
-      status: 'pending',
-      meetLink: 'https://meet.google.com/abc-defg-hij',
-    },
   ];
 
   const completedSessions = [

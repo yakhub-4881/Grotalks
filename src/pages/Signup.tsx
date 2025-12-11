@@ -225,8 +225,6 @@ const Signup = () => {
                 </div>
               </div>
 
-              <p className="text-sm sm:text-base text-foreground">Verify your contact details</p>
-
               {/* Email Verification (default) */}
               {verifyMethod === 'email' && (
                 <div className="space-y-4 animate-fade-in">
