@@ -52,7 +52,7 @@ const ComingSoon = () => {
               onClick={() => navigate("/")}
               className="flex items-center gap-3 mb-6 lg:mb-6 group"
             >
-              <div className="w-9 h-9 sm:w-10 sm:h-10 p-1.5 rounded-lg bg-white/80 backdrop-blur-md border border-slate-200/50 shadow-lg group-hover:shadow-xl transition-shadow">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 p-2 rounded-lg bg-white/80 backdrop-blur-md border border-slate-200/50 shadow-lg group-hover:shadow-xl transition-shadow">
                 <img src={logo} alt="Grotalks" className="w-full h-full object-contain" />
               </div>
               <div className="text-left">
