@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { Layout } from '@/components/Layout';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Mail, Upload, CheckCircle2, XCircle, Loader2, FileText, Image, X, ChevronDown, ShieldCheck } from 'lucide-react';
+import { Mail, Upload, CheckCircle2, XCircle, Loader2, FileText, X, ChevronDown, ShieldCheck } from 'lucide-react';
 import { collegeMap } from '@/lib/college-config';
 
 type VerificationMethod = 'email' | 'documents' | null;
@@ -32,12 +32,8 @@ const AlumniAlumniVerification = () => {
   // Document verification states
   const [marksheet, setMarksheet] = useState<File | null>(null);
   const [govtId, setGovtId] = useState<File | null>(null);
-  const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
-  const [fullName, setFullName] = useState('');
   const [documentStatus, setDocumentStatus] = useState<'idle' | 'verifying' | 'verified' | 'failed'>('idle');
-  const [aadhaarName, setAadhaarName] = useState('');
-  const [aadhaarLast4, setAadhaarLast4] = useState('');
-  const [documentChecks, setDocumentChecks] = useState({ nameMatch: false, idMatch: false, photoMatch: false });
+  const [documentChecks, setDocumentChecks] = useState({ nameMatch: false, idMatch: false });
   const [verificationNote, setVerificationNote] = useState('');
   
   // College info
@@ -46,7 +42,6 @@ const AlumniAlumniVerification = () => {
   
   const marksheetRef = useRef<HTMLInputElement>(null);
   const govtIdRef = useRef<HTMLInputElement>(null);
-  const profilePhotoRef = useRef<HTMLInputElement>(null);
 
   const colleges = Object.entries(collegeMap).map(([key, info]) => ({
     key,
@@ -149,26 +144,22 @@ const AlumniAlumniVerification = () => {
     setDocumentStatus('idle');
     if (type === 'marksheet') setMarksheet(file);
     if (type === 'govtId') setGovtId(file);
-    if (type === 'profilePhoto') setProfilePhoto(file);
   };
 
   const handleDocumentVerification = async () => {
-    if (!marksheet || !govtId || !profilePhoto || !fullName || !aadhaarName || aadhaarLast4.length !== 4) return;
+    if (!marksheet || !govtId) return;
     setDocumentStatus('verifying');
     setVerificationNote('');
     // Simulate document verification (5-6 seconds)
     await new Promise(resolve => setTimeout(resolve, 5500));
-    // Mock verification with deterministic checks
-    const namesMatch = fullName.trim().toLowerCase() === aadhaarName.trim().toLowerCase();
-    const idMatch = /^\d{4}$/.test(aadhaarLast4);
-    const photoMatch = Boolean(profilePhoto); // assume a quick face match for demo
-    setDocumentChecks({ nameMatch: namesMatch, idMatch, photoMatch });
-    const isVerified = namesMatch && idMatch && photoMatch;
+    // Dummy matching logic: assume success when both files exist
+    setDocumentChecks({ nameMatch: true, idMatch: true });
+    const isVerified = true;
     setDocumentStatus(isVerified ? 'verified' : 'failed');
     setVerificationNote(
       isVerified
-        ? 'Documents matched with Aadhaar details'
-        : 'Name or Aadhaar digits did not match. Please recheck your entries.'
+        ? 'Documents verified successfully.'
+        : 'Names did not match. Please re-upload and try again.'
     );
   };
 
@@ -455,89 +446,8 @@ const AlumniAlumniVerification = () => {
                 </div>
 
                 <p className="text-xs sm:text-sm text-muted-foreground">
-                  Upload your marksheet and government ID. The name on documents must match your profile.
+                  Upload your college proof (marksheet / alumni ID / transcript) and any government ID. We’ll simulate a quick name match and unlock Continue when verified.
                 </p>
-
-                {/* Full Name */}
-                <div className="space-y-2">
-                  <Label className="text-sm font-semibold">Full Name (as per documents)*</Label>
-                  <Input
-                    type="text"
-                    placeholder="Enter your full name"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    className="h-10 sm:h-12 text-sm sm:text-base"
-                    disabled={documentStatus === 'verified'}
-                  />
-                </div>
-
-                {/* Aadhaar Details */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="space-y-2">
-                    <Label className="text-sm font-semibold">Aadhaar Name*</Label>
-                    <Input
-                      type="text"
-                      placeholder="Name as per Aadhaar"
-                      value={aadhaarName}
-                      onChange={(e) => {
-                        setAadhaarName(e.target.value);
-                        setDocumentStatus('idle');
-                      }}
-                      className="h-10 sm:h-12 text-sm sm:text-base"
-                      disabled={documentStatus === 'verified'}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label className="text-sm font-semibold">Aadhaar Last 4 digits*</Label>
-                    <Input
-                      type="text"
-                      inputMode="numeric"
-                      placeholder="1234"
-                      value={aadhaarLast4}
-                      onChange={(e) => {
-                        setAadhaarLast4(e.target.value.replace(/\D/g, '').slice(0, 4));
-                        setDocumentStatus('idle');
-                      }}
-                      className="h-10 sm:h-12 text-sm sm:text-base"
-                      disabled={documentStatus === 'verified'}
-                    />
-                  </div>
-                </div>
-
-                {/* Profile Photo Upload */}
-                <div className="space-y-2">
-                  <Label className="text-sm font-semibold">Profile Photo*</Label>
-                  <input
-                    ref={profilePhotoRef}
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={(e) => handleFileUpload(e.target.files?.[0] || null, 'profilePhoto')}
-                  />
-                  {!profilePhoto ? (
-                    <div 
-                      onClick={() => profilePhotoRef.current?.click()}
-                      className="border-2 border-dashed border-border rounded-lg p-4 sm:p-6 text-center cursor-pointer hover:border-primary/50 transition-colors"
-                    >
-                      <Image className="h-6 sm:h-8 w-6 sm:w-8 mx-auto text-muted-foreground mb-2" />
-                      <p className="text-xs sm:text-sm text-muted-foreground">Click to upload your photo</p>
-                      <p className="text-xs text-muted-foreground mt-1">JPG, PNG (Max 5MB)</p>
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-                      <Image className="h-5 w-5 text-primary flex-shrink-0" />
-                      <span className="text-sm flex-1 truncate">{profilePhoto.name}</span>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        onClick={() => setProfilePhoto(null)}
-                        disabled={documentStatus === 'verified'}
-                      >
-                        <X className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  )}
-                </div>
 
                 {/* Marksheet Upload */}
                 <div className="space-y-2">
@@ -610,7 +520,7 @@ const AlumniAlumniVerification = () => {
                 </div>
 
                 {/* Verification Status */}
-                {documentStatus === 'idle' && marksheet && govtId && profilePhoto && fullName && aadhaarName && aadhaarLast4.length === 4 && (
+                {documentStatus === 'idle' && marksheet && govtId && (
                   <Button
                     onClick={handleDocumentVerification}
                     className="w-full h-10 sm:h-12"
@@ -634,7 +544,7 @@ const AlumniAlumniVerification = () => {
                     <CheckCircle2 className="h-5 w-5 text-success flex-shrink-0" />
                     <div>
                       <p className="text-sm font-medium text-success">Documents Verified Successfully</p>
-                      <p className="text-xs text-muted-foreground">Matched with Aadhaar details and photo</p>
+                      <p className="text-xs text-muted-foreground">Names matched across uploads</p>
                     </div>
                   </div>
                 )}
@@ -646,7 +556,7 @@ const AlumniAlumniVerification = () => {
                       <p className="text-sm font-medium text-destructive">Verification Failed</p>
                     </div>
                     <p className="text-xs text-destructive">
-                      {verificationNote || "Name or Aadhaar digits didn't match. Please check and try again."}
+                      {verificationNote || "Names did not match. Please check and try again."}
                     </p>
                     <Button
                       variant="outline"
@@ -654,7 +564,7 @@ const AlumniAlumniVerification = () => {
                       className="mt-3"
                       onClick={() => {
                         setDocumentStatus('idle');
-                        setDocumentChecks({ nameMatch: false, idMatch: false, photoMatch: false });
+                        setDocumentChecks({ nameMatch: false, idMatch: false });
                       }}
                     >
                       Try Again
@@ -663,26 +573,19 @@ const AlumniAlumniVerification = () => {
                 )}
 
                 {(documentStatus === 'verifying' || documentStatus === 'verified' || documentStatus === 'failed') && (
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div className="p-3 rounded-lg border bg-muted/40 flex items-center gap-2">
                       <ShieldCheck className={`h-4 w-4 ${documentChecks.nameMatch ? 'text-success' : 'text-muted-foreground'}`} />
                       <div>
                         <p className="text-xs font-semibold">Name Match</p>
-                        <p className="text-[11px] text-muted-foreground">{documentChecks.nameMatch ? 'Matches Aadhaar' : 'Awaiting match'}</p>
+                        <p className="text-[11px] text-muted-foreground">{documentChecks.nameMatch ? 'Matched across docs' : 'Awaiting match'}</p>
                       </div>
                     </div>
                     <div className="p-3 rounded-lg border bg-muted/40 flex items-center gap-2">
                       <ShieldCheck className={`h-4 w-4 ${documentChecks.idMatch ? 'text-success' : 'text-muted-foreground'}`} />
                       <div>
-                        <p className="text-xs font-semibold">ID Digits</p>
-                        <p className="text-[11px] text-muted-foreground">{documentChecks.idMatch ? 'Last 4 captured' : 'Need last 4 digits'}</p>
-                      </div>
-                    </div>
-                    <div className="p-3 rounded-lg border bg-muted/40 flex items-center gap-2">
-                      <ShieldCheck className={`h-4 w-4 ${documentChecks.photoMatch ? 'text-success' : 'text-muted-foreground'}`} />
-                      <div>
-                        <p className="text-xs font-semibold">Photo Check</p>
-                        <p className="text-[11px] text-muted-foreground">{documentChecks.photoMatch ? 'Face matched' : 'Waiting for photo'}</p>
+                        <p className="text-xs font-semibold">ID Verification</p>
+                        <p className="text-[11px] text-muted-foreground">{documentChecks.idMatch ? 'Government ID accepted' : 'Awaiting ID upload'}</p>
                       </div>
                     </div>
                   </div>
