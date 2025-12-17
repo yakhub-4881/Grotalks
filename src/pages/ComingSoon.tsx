@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { BadgeCheck, Video, Target, CheckCircle2, Sparkles } from "lucide-react";
 import logoDark from "@/assets/logo-dark.png";
 import logoLight from "@/assets/logo-light.png";
-import heroImage from "@/assets/hero-abstract-frames.jpg";
+import heroImage from "@/assets/hero-grotalks-brand.jpg";
 
 const ComingSoon = () => {
   const navigate = useNavigate();
