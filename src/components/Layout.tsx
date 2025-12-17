@@ -40,6 +40,7 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
   const screens = [
     { name: '🏠 Landing', path: '/' },
     { name: '🌐 Universal Landing', path: '/universal' },
+    { name: '🚀 Coming Soon', path: '/coming-soon' },
     { name: '👨‍🏫 Alumni Signup - Phone', path: '/signup?type=alumni' },
     { name: '👨‍🏫 Alumni Dashboard', path: '/alumni/dashboard' },
     { name: '👨‍🏫 Alumni Requests', path: '/alumni/requests' },

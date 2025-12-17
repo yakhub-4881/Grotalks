@@ -55,6 +55,7 @@ import AlumniProfile from "./pages/AlumniProfile";
 import AlumniProfileEdit from "./pages/alumni/AlumniProfile";
 import AlumniReviews from "./pages/alumni/AlumniReviews";
 import AlumniWithdraw from "./pages/alumni/AlumniWithdraw";
+import ComingSoon from "./pages/ComingSoon";
 
 // Chat Session
 import ChatSession from "./pages/ChatSession";
@@ -74,6 +75,7 @@ const App = () => (
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/login/otp" element={<LoginOTP />} />
+            <Route path="/coming-soon" element={<ComingSoon />} />
             <Route path="/booking/confirm" element={<BookingConfirmation />} />
             <Route path="/booking/schedule/:id" element={<BookingSchedule />} />
             <Route path="/alumni/profile/:id" element={<AlumniProfile />} />
