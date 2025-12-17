@@ -179,6 +179,15 @@ const AlumniDashboard = () => {
 
   const alumniName = "Priya"; // Get from auth context in real app
 
+  const handleCancelUpcoming = (sessionId: number) => {
+    setUpcomingSessions(prev => prev.filter(session => session.id !== sessionId));
+    toast({
+      title: 'Session Cancelled',
+      description: 'The student has been notified about the cancellation.',
+      variant: 'destructive'
+    });
+  };
+
   return (
     <Layout>
       <div className="min-h-[calc(100vh-4rem)] bg-muted">
@@ -497,14 +506,5 @@ const AlumniDashboard = () => {
     </Layout>
   );
 };
-
-  const handleCancelUpcoming = (sessionId: number) => {
-    setUpcomingSessions(prev => prev.filter(session => session.id !== sessionId));
-    toast({
-      title: 'Session Cancelled',
-      description: 'The student has been notified about the cancellation.',
-      variant: 'destructive'
-    });
-  };
 
 export default AlumniDashboard;
