@@ -6,7 +6,7 @@ import { Layout } from '@/components/Layout';
 import { BadgeCheck, Video, Target } from 'lucide-react';
 import logoDark from '@/assets/logo-dark.png';
 import logoLight from '@/assets/logo-light.png';
-import heroImage from '@/assets/hero-modern.jpg';
+import heroImage from '@/assets/hero-perplexity-style.jpg';
 
 const Landing = () => {
   const navigate = useNavigate();
