@@ -47,6 +47,17 @@ const MenteeSessions = () => {
       date: 'Oct 28, 2024',
       duration: 30,
       rating: 5,
+      hasProvidedFeedback: true,
+    },
+    {
+      id: 4,
+      alumni: 'Priya Sharma',
+      alumniRole: 'Software Engineer @ Google',
+      topic: 'Tech Interview Preparation',
+      date: 'Oct 20, 2024',
+      duration: 45,
+      rating: null,
+      hasProvidedFeedback: false,
     },
   ];
 
@@ -152,6 +163,25 @@ const MenteeSessions = () => {
             </TabsContent>
 
             <TabsContent value="completed" className="mt-6 space-y-4">
+              {/* Internal Feedback CTA */}
+              <Card className="p-4 bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                  <div>
+                    <h3 className="font-semibold text-foreground text-sm">Share Platform Feedback</h3>
+                    <p className="text-xs text-muted-foreground">Help us improve your Grotalks experience</p>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="h-9"
+                    onClick={() => navigate('/feedback?type=student')}
+                  >
+                    <MessageSquare className="mr-2 h-4 w-4" />
+                    Leave Internal Feedback
+                  </Button>
+                </div>
+              </Card>
+
               {completedSessions.map((session) => (
                 <Card key={session.id} className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
@@ -168,19 +198,19 @@ const MenteeSessions = () => {
                         <span>{session.duration} min</span>
                       </div>
                     </div>
-                    <div className="flex-shrink-0">
+                    <div className="flex flex-col gap-2 flex-shrink-0">
                       {session.rating ? (
                         <div className="flex items-center gap-1 text-bonus">
                           {'⭐'.repeat(session.rating)}
+                          <span className="text-xs text-muted-foreground ml-1">Rated</span>
                         </div>
                       ) : (
                         <Button
-                          variant="outline"
-                          size="sm"
+                          className="h-10"
                           onClick={() => navigate(`/feedback?type=student&sessionId=${session.id}`)}
                         >
                           <MessageSquare className="mr-2 h-4 w-4" />
-                          Rate Session
+                          Rate & Review
                         </Button>
                       )}
                     </div>
