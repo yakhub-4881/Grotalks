@@ -2,12 +2,12 @@ import { useMemo, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { BadgeCheck, Video, Target, CheckCircle2, Sparkles, GraduationCap, Users } from "lucide-react";
+import { BadgeCheck, Video, Target, CheckCircle2, Sparkles } from "lucide-react";
 import logoDark from "@/assets/logo-dark.png";
 import logoLight from "@/assets/logo-light.png";
 import heroImage from "@/assets/hero-grotalks-brand.jpg";
 
-type UserType = 'student' | 'alumni';
+type UserType = 'student' | 'alumni' | null;
 
 const ComingSoon = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const ComingSoon = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [userType, setUserType] = useState<UserType>('student');
+  const [userType, setUserType] = useState<UserType>(null);
 
   const isDarkMode = useMemo(() => {
     if (typeof document === "undefined") return false;
@@ -24,12 +24,19 @@ const ComingSoon = () => {
 
   const logo = isDarkMode ? logoLight : logoDark;
 
+  const isValidEmail = email.includes("@") && email.includes(".");
+  const isFormValid = userType !== null && isValidEmail;
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage("");
 
-    if (!email || !email.includes("@")) {
-      setErrorMessage("Please enter a valid email address.");
+    if (!isFormValid) {
+      if (!userType) {
+        setErrorMessage("Please select an option first.");
+      } else if (!isValidEmail) {
+        setErrorMessage("Please enter a valid email address.");
+      }
       return;
     }
 
@@ -38,27 +45,11 @@ const ComingSoon = () => {
 
     setShowSuccess(true);
     setEmail("");
+    setUserType(null);
     setIsLoading(false);
 
     setTimeout(() => setShowSuccess(false), 4000);
   };
-
-  const userTypeContent = {
-    student: {
-      headline: "Get career guidance from alumni who made it",
-      subtext: "Connect with verified alumni from your college. Book 1:1 calls, get resume reviews, and accelerate your career journey.",
-      placeholder: "Enter your college email",
-      successText: "We'll notify you when we launch at your college.",
-    },
-    alumni: {
-      headline: "Share your journey, earn while you guide",
-      subtext: "Help students from your alma mater succeed. Set your rates, choose your schedule, and make an impact.",
-      placeholder: "Enter your email address",
-      successText: "We'll reach out when we're ready to onboard alumni.",
-    }
-  };
-
-  const content = userTypeContent[userType];
 
   return (
     <Layout showNav={false}>
@@ -88,44 +79,13 @@ const ComingSoon = () => {
               </span>
             </div>
 
-            {/* User Type Toggle */}
-            <div className="mb-4 lg:mb-5">
-              <p className="text-xs text-slate-500 mb-2">I am a</p>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => setUserType('student')}
-                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${
-                    userType === 'student'
-                      ? 'border-primary bg-primary/5 text-primary'
-                      : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-300'
-                  }`}
-                >
-                  <Users className="w-4 h-4" />
-                  <span className="text-sm font-semibold">Student</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setUserType('alumni')}
-                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${
-                    userType === 'alumni'
-                      ? 'border-primary bg-primary/5 text-primary'
-                      : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-300'
-                  }`}
-                >
-                  <GraduationCap className="w-4 h-4" />
-                  <span className="text-sm font-semibold">Alumni</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Headline - Dynamic based on user type */}
+            {/* Headline */}
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 leading-tight mb-2 lg:mb-3">
-              {content.headline}
+              Get career guidance from alumni who made it
             </h2>
 
             <p className="text-sm text-slate-600 mb-5 lg:mb-5 leading-relaxed">
-              {content.subtext}
+              Connect with verified alumni from your college. Book 1:1 calls, get resume reviews, and accelerate your career journey.
             </p>
 
             {/* Email Form */}
@@ -137,11 +97,37 @@ const ComingSoon = () => {
                   </div>
                   <div>
                     <p className="font-bold text-emerald-800 text-sm sm:text-base">You're on the list!</p>
-                    <p className="text-xs sm:text-sm text-emerald-600">{content.successText}</p>
+                    <p className="text-xs sm:text-sm text-emerald-600">We'll notify you when we launch.</p>
                   </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-3">
+                  {/* Radio Button Selection */}
+                  <div className="flex items-center gap-4 sm:gap-6">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="userType"
+                        value="student"
+                        checked={userType === 'student'}
+                        onChange={() => setUserType('student')}
+                        className="w-4 h-4 text-primary border-slate-300 focus:ring-primary focus:ring-offset-0"
+                      />
+                      <span className="text-sm font-medium text-slate-700">Join as Student</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="userType"
+                        value="alumni"
+                        checked={userType === 'alumni'}
+                        onChange={() => setUserType('alumni')}
+                        className="w-4 h-4 text-primary border-slate-300 focus:ring-primary focus:ring-offset-0"
+                      />
+                      <span className="text-sm font-medium text-slate-700">Join as Alumni</span>
+                    </label>
+                  </div>
+
                   <input
                     type="email"
                     value={email}
@@ -149,17 +135,21 @@ const ComingSoon = () => {
                       setEmail(e.target.value);
                       setErrorMessage("");
                     }}
-                    placeholder={content.placeholder}
-                    className="w-full h-12 sm:h-14 px-4 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all text-sm sm:text-base"
-                    disabled={isLoading}
+                    placeholder="Enter your email"
+                    className={`w-full h-12 sm:h-14 px-4 rounded-xl bg-slate-50 border-2 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all text-sm sm:text-base ${
+                      userType === null 
+                        ? 'border-slate-200 opacity-50 cursor-not-allowed' 
+                        : 'border-slate-200'
+                    }`}
+                    disabled={isLoading || userType === null}
                   />
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full h-12 sm:h-14 text-sm sm:text-base font-bold rounded-xl shadow-[0_10px_30px_rgba(37,99,235,0.35)] hover:shadow-[0_14px_40px_rgba(37,99,235,0.45)]"
-                    disabled={isLoading}
+                    className="w-full h-12 sm:h-14 text-sm sm:text-base font-bold rounded-xl shadow-[0_10px_30px_rgba(37,99,235,0.35)] hover:shadow-[0_14px_40px_rgba(37,99,235,0.45)] disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
+                    disabled={isLoading || !isFormValid}
                   >
-                    {isLoading ? "Joining..." : userType === 'student' ? "Get early access" : "Join as Alumni"}
+                    {isLoading ? "Joining..." : "Get early access"}
                   </Button>
                   {errorMessage && (
                     <p className="text-sm text-red-500 font-medium">{errorMessage}</p>
@@ -167,10 +157,7 @@ const ComingSoon = () => {
                 </form>
               )}
               <p className="text-xs text-slate-400 mt-2">
-                {userType === 'student' 
-                  ? 'Join hundreds of students waiting. No spam.'
-                  : 'Be among the first alumni on the platform.'
-                }
+                Join hundreds of users waiting. No spam.
               </p>
             </div>
 
