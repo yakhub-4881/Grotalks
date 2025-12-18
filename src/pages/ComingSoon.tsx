@@ -80,12 +80,14 @@ const ComingSoon = () => {
             </div>
 
             {/* Headline */}
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 leading-tight mb-2 lg:mb-3">
-              Get career guidance from alumni who made it
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold leading-tight mb-2 lg:mb-3">
+              <span className="text-slate-900">Your future starts with</span>
+              <br />
+              <span className="text-primary">alumni who made it</span>
             </h2>
 
             <p className="text-sm text-slate-600 mb-5 lg:mb-5 leading-relaxed">
-              Connect with verified alumni from your college. Book 1:1 calls, get resume reviews, and accelerate your career journey.
+              Connect with alumni from your college who now live the careers you dream of.
             </p>
 
             {/* Email Form */}
