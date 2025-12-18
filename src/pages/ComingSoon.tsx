@@ -2,7 +2,7 @@ import { useMemo, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { BadgeCheck, Video, Target, CheckCircle2, Sparkles } from "lucide-react";
+import { BadgeCheck, Video, Target, CheckCircle2, Sparkles, Users } from "lucide-react";
 import logoDark from "@/assets/logo-dark.png";
 import logoLight from "@/assets/logo-light.png";
 import heroImage from "@/assets/hero-grotalks-brand.jpg";
@@ -158,9 +158,14 @@ const ComingSoon = () => {
                   )}
                 </form>
               )}
-              <p className="text-xs text-slate-400 mt-2">
-                Join hundreds of users waiting. No spam.
-              </p>
+              <div className="flex items-center justify-center gap-3 mt-3">
+                <div className="flex items-center gap-1.5 text-slate-400">
+                  <Users className="w-3.5 h-3.5" />
+                  <span className="text-xs font-medium">2,847+ already joined</span>
+                </div>
+                <span className="text-slate-300">•</span>
+                <span className="text-xs text-slate-400">No spam, ever</span>
+              </div>
             </div>
 
             {/* Features - matching Landing page design */}
