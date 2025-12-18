@@ -100,42 +100,8 @@ const AlumniFirstTimeView = () => {
             ))}
           </div>
 
-          {/* How Grotalks Works */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold text-foreground mb-4">How Grotalks Works</h2>
-            <div className="grid md:grid-cols-3 gap-4">
-              {howItWorks.map((step, index) => (
-                <Card key={step.title} className="p-5 relative overflow-hidden">
-                  <div className="absolute top-4 right-4 text-4xl font-bold text-muted/30">
-                    {index + 1}
-                  </div>
-                  <div className={`w-12 h-12 rounded-xl ${step.bgColor} flex items-center justify-center mb-4`}>
-                    <step.icon className={`h-6 w-6 ${step.color}`} />
-                  </div>
-                  <h3 className="font-semibold text-foreground mb-1">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">{step.description}</p>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          {/* Benefits Section */}
-          <Card className="p-6 md:p-8 bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20">
-            <h2 className="text-xl font-semibold text-foreground mb-4">Why Alumni Love Grotalks</h2>
-            <div className="grid sm:grid-cols-2 gap-3">
-              {benefits.map((benefit, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-success flex-shrink-0" />
-                  <span className="text-sm text-foreground">{benefit}</span>
-                </div>
-              ))}
-            </div>
-          </Card>
-
           {/* Current Services */}
-          <Card className="p-6 md:p-8 mt-8">
+          <Card className="p-6 md:p-8 mb-8">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-xl font-semibold text-foreground">Your Services</h2>
               <Button 
@@ -168,6 +134,40 @@ const AlumniFirstTimeView = () => {
             <p className="text-xs text-muted-foreground mt-4 text-center">
               Add more services to increase your visibility and earnings
             </p>
+          </Card>
+
+          {/* How Grotalks Works */}
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-foreground mb-4">How Grotalks Works</h2>
+            <div className="grid md:grid-cols-3 gap-4">
+              {howItWorks.map((step, index) => (
+                <Card key={step.title} className="p-5 relative overflow-hidden">
+                  <div className="absolute top-4 right-4 text-4xl font-bold text-muted/30">
+                    {index + 1}
+                  </div>
+                  <div className={`w-12 h-12 rounded-xl ${step.bgColor} flex items-center justify-center mb-4`}>
+                    <step.icon className={`h-6 w-6 ${step.color}`} />
+                  </div>
+                  <h3 className="font-semibold text-foreground mb-1">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">{step.description}</p>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Benefits Section */}
+          <Card className="p-6 md:p-8 bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20">
+            <h2 className="text-xl font-semibold text-foreground mb-4">Why Alumni Love Grotalks</h2>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {benefits.map((benefit, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  <CheckCircle className="h-5 w-5 text-success flex-shrink-0" />
+                  <span className="text-sm text-foreground">{benefit}</span>
+                </div>
+              ))}
+            </div>
           </Card>
         </div>
       </div>
