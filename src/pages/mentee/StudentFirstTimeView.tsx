@@ -1,0 +1,158 @@
+import { Layout } from '@/components/Layout';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { useNavigate } from 'react-router-dom';
+import { 
+  Sparkles, 
+  Calendar, 
+  Clock, 
+  Users, 
+  Star, 
+  ArrowRight,
+  Search,
+  Target,
+  MessageSquare
+} from 'lucide-react';
+import { AlumniBrowseSection } from '@/components/AlumniBrowseSection';
+
+const StudentFirstTimeView = () => {
+  const navigate = useNavigate();
+  const studentName = "Ravi";
+
+  const quickActions = [
+    {
+      icon: Search,
+      title: 'Browse Alumni',
+      description: 'Discover verified alumni from your college',
+      action: () => navigate('/mentee/browse'),
+      color: 'text-primary',
+      bgColor: 'bg-primary/10'
+    },
+    {
+      icon: Target,
+      title: 'Update Interests',
+      description: 'Help us match you with the right mentors',
+      action: () => navigate('/mentee/profile'),
+      color: 'text-secondary',
+      bgColor: 'bg-secondary/10'
+    },
+    {
+      icon: MessageSquare,
+      title: 'Book Your First Session',
+      description: 'Start your career guidance journey',
+      action: () => navigate('/mentee/browse'),
+      color: 'text-success',
+      bgColor: 'bg-success/10'
+    },
+  ];
+
+  const howItWorks = [
+    { step: '1', title: 'Browse Alumni', description: 'Find mentors in your desired career path' },
+    { step: '2', title: 'Book a Session', description: 'Choose a service and pick a time slot' },
+    { step: '3', title: 'Connect & Learn', description: 'Join the video call and get personalized guidance' },
+  ];
+
+  return (
+    <Layout>
+      <div className="min-h-[calc(100vh-4rem)] bg-muted">
+        <div className="container mx-auto px-4 py-8 md:py-12">
+          {/* Welcome Hero */}
+          <div className="text-center mb-8 md:mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+              <Sparkles className="h-4 w-4" />
+              Welcome to Grotalks
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
+              Welcome, {studentName}! 🎓
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+              Your journey to career success starts here. Connect with alumni who've walked the path you aspire to.
+            </p>
+          </div>
+
+          {/* Stats Preview (Empty State) */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-8">
+            {[
+              { label: 'Sessions Booked', value: '0', icon: Calendar, color: 'text-primary' },
+              { label: 'Sessions Completed', value: '0', icon: Clock, color: 'text-success' },
+              { label: 'Hours of Learning', value: '0', icon: Target, color: 'text-secondary' },
+              { label: 'Alumni Connected', value: '0', icon: Users, color: 'text-bonus' },
+            ].map((stat) => (
+              <Card key={stat.label} className="p-4 md:p-6">
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <stat.icon className={`h-4 w-4 md:h-5 md:w-5 ${stat.color}`} />
+                    <p className="text-xs md:text-sm text-muted-foreground">{stat.label}</p>
+                  </div>
+                  <p className="text-xl md:text-2xl font-bold text-foreground">{stat.value}</p>
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          {/* Quick Actions */}
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-foreground mb-4">Get Started</h2>
+            <div className="grid md:grid-cols-3 gap-4">
+              {quickActions.map((action) => (
+                <Card 
+                  key={action.title}
+                  className="p-5 hover:shadow-lg transition-all cursor-pointer group"
+                  onClick={action.action}
+                >
+                  <div className={`w-12 h-12 rounded-xl ${action.bgColor} flex items-center justify-center mb-4`}>
+                    <action.icon className={`h-6 w-6 ${action.color}`} />
+                  </div>
+                  <h3 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
+                    {action.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">{action.description}</p>
+                  <ArrowRight className="h-4 w-4 text-muted-foreground mt-3 group-hover:translate-x-1 transition-transform" />
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* How It Works */}
+          <Card className="p-6 md:p-8 bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20 mb-8">
+            <h2 className="text-xl font-semibold text-foreground mb-6">How It Works</h2>
+            <div className="grid md:grid-cols-3 gap-6">
+              {howItWorks.map((item) => (
+                <div key={item.step} className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold flex-shrink-0">
+                    {item.step}
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">{item.title}</h3>
+                    <p className="text-sm text-muted-foreground">{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          {/* Browse Alumni Section */}
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-foreground mb-4">Discover Alumni</h2>
+            <AlumniBrowseSection />
+          </div>
+
+          {/* Empty Sessions State */}
+          <Card className="p-8 md:p-12 text-center">
+            <Calendar className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-xl font-semibold mb-2">No Sessions Yet</h3>
+            <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+              Book your first session with an alumni to kickstart your career guidance journey.
+            </p>
+            <Button onClick={() => navigate('/mentee/browse')}>
+              <Search className="mr-2 h-4 w-4" />
+              Find Alumni
+            </Button>
+          </Card>
+        </div>
+      </div>
+    </Layout>
+  );
+};
+
+export default StudentFirstTimeView;
