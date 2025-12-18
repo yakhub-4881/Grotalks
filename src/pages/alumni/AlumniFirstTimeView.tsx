@@ -10,39 +10,49 @@ import {
   Star, 
   ArrowRight,
   CheckCircle,
-  Video,
-  Clock
+  Clock,
+  UserCheck,
+  MessageSquare,
+  Wallet,
+  Phone,
+  FileText,
+  Linkedin,
+  Globe,
+  Pencil
 } from 'lucide-react';
 
 const AlumniFirstTimeView = () => {
   const navigate = useNavigate();
   const alumniName = "Priya";
 
-  const quickActions = [
+  const howItWorks = [
     {
-      icon: Calendar,
-      title: 'Set Your Availability',
-      description: 'Define when you\'re free for sessions',
-      action: () => navigate('/alumni/manage-availability'),
+      icon: UserCheck,
+      title: 'Students Discover You',
+      description: 'Your profile appears to students from your college searching for guidance in your field',
       color: 'text-primary',
       bgColor: 'bg-primary/10'
     },
     {
-      icon: IndianRupee,
-      title: 'Setup Payments',
-      description: 'Connect your bank account to receive earnings',
-      action: () => navigate('/alumni/payment'),
-      color: 'text-success',
-      bgColor: 'bg-success/10'
-    },
-    {
-      icon: Video,
-      title: 'Connect Meeting Platform',
-      description: 'Link Google Meet or Zoom for sessions',
-      action: () => navigate('/alumni/meeting-setup'),
+      icon: MessageSquare,
+      title: 'Accept Bookings',
+      description: 'Review session requests, accept the ones that fit your schedule, and connect via video call',
       color: 'text-secondary',
       bgColor: 'bg-secondary/10'
     },
+    {
+      icon: Wallet,
+      title: 'Get Paid Instantly',
+      description: 'Receive payments directly to your bank after completing each session',
+      color: 'text-success',
+      bgColor: 'bg-success/10'
+    },
+  ];
+
+  const currentServices = [
+    { icon: Phone, name: '1:1 Call', rate: '₹2,000', duration: '30 mins' },
+    { icon: FileText, name: 'Resume Review', rate: '₹1,500', duration: 'Async' },
+    { icon: Linkedin, name: 'LinkedIn Optimization', rate: '₹1,800', duration: 'Async' },
   ];
 
   const benefits = [
@@ -90,24 +100,22 @@ const AlumniFirstTimeView = () => {
             ))}
           </div>
 
-          {/* Quick Actions */}
+          {/* How Grotalks Works */}
           <div className="mb-8">
-            <h2 className="text-xl font-semibold text-foreground mb-4">Complete Your Setup</h2>
+            <h2 className="text-xl font-semibold text-foreground mb-4">How Grotalks Works</h2>
             <div className="grid md:grid-cols-3 gap-4">
-              {quickActions.map((action) => (
-                <Card 
-                  key={action.title}
-                  className="p-5 hover:shadow-lg transition-all cursor-pointer group"
-                  onClick={action.action}
-                >
-                  <div className={`w-12 h-12 rounded-xl ${action.bgColor} flex items-center justify-center mb-4`}>
-                    <action.icon className={`h-6 w-6 ${action.color}`} />
+              {howItWorks.map((step, index) => (
+                <Card key={step.title} className="p-5 relative overflow-hidden">
+                  <div className="absolute top-4 right-4 text-4xl font-bold text-muted/30">
+                    {index + 1}
                   </div>
-                  <h3 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
-                    {action.title}
+                  <div className={`w-12 h-12 rounded-xl ${step.bgColor} flex items-center justify-center mb-4`}>
+                    <step.icon className={`h-6 w-6 ${step.color}`} />
+                  </div>
+                  <h3 className="font-semibold text-foreground mb-1">
+                    {step.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground">{action.description}</p>
-                  <ArrowRight className="h-4 w-4 text-muted-foreground mt-3 group-hover:translate-x-1 transition-transform" />
+                  <p className="text-sm text-muted-foreground">{step.description}</p>
                 </Card>
               ))}
             </div>
@@ -126,16 +134,40 @@ const AlumniFirstTimeView = () => {
             </div>
           </Card>
 
-          {/* Empty Sessions State */}
-          <Card className="p-8 md:p-12 text-center mt-8">
-            <Users className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">No Session Requests Yet</h3>
-            <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-              Once students discover your profile and book sessions, their requests will appear here.
+          {/* Current Services */}
+          <Card className="p-6 md:p-8 mt-8">
+            <div className="flex items-center justify-between mb-5">
+              <h2 className="text-xl font-semibold text-foreground">Your Services</h2>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => navigate('/alumni/profile/edit')}
+                className="gap-2"
+              >
+                <Pencil className="h-4 w-4" />
+                Enhance Services
+              </Button>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {currentServices.map((service) => (
+                <div 
+                  key={service.name}
+                  className="flex items-center gap-4 p-4 rounded-xl bg-muted/50 border border-border/50"
+                >
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <service.icon className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-foreground truncate">{service.name}</p>
+                    <p className="text-xs text-muted-foreground">{service.duration}</p>
+                  </div>
+                  <p className="font-semibold text-success">{service.rate}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground mt-4 text-center">
+              Add more services to increase your visibility and earnings
             </p>
-            <Button onClick={() => navigate('/alumni/profile/edit')}>
-              Enhance Your Profile
-            </Button>
           </Card>
         </div>
       </div>
