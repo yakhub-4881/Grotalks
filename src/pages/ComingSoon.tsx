@@ -79,14 +79,15 @@ const ComingSoon = () => {
               </span>
             </div>
 
-            {/* Headline */}
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold leading-tight mb-2 lg:mb-3">
-              <span className="text-slate-900">Your future starts with</span>
-              <br />
-              <span className="text-primary">alumni who made it</span>
+            {/* Headline (mobile 24px/800, desktop 32px/800; keep colors/gradient) */}
+            <h2 className="text-[24px] sm:text-[32px] font-extrabold leading-tight text-slate-900 mb-4">
+              Your future starts with
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
+                alumni who made it
+              </span>
             </h2>
 
-            <p className="text-sm text-slate-600 mb-5 lg:mb-5 leading-relaxed">
+            <p className="text-[14px] sm:text-base font-normal text-[#475569] mb-5 leading-relaxed">
               Connect with alumni from your college who now live the careers you dream of.
             </p>
 
