@@ -1,5 +1,4 @@
 import { Layout } from '@/components/Layout';
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -7,44 +6,13 @@ import {
   Calendar, 
   Clock, 
   Users, 
-  Star, 
-  ArrowRight,
-  Search,
-  Target,
-  MessageSquare
+  Target
 } from 'lucide-react';
 import { AlumniBrowseSection } from '@/components/AlumniBrowseSection';
 
 const StudentFirstTimeView = () => {
   const navigate = useNavigate();
   const studentName = "Ravi";
-
-  const quickActions = [
-    {
-      icon: Search,
-      title: 'Browse Alumni',
-      description: 'Discover verified alumni from your college',
-      action: () => navigate('/mentee/browse'),
-      color: 'text-primary',
-      bgColor: 'bg-primary/10'
-    },
-    {
-      icon: Target,
-      title: 'Update Interests',
-      description: 'Help us match you with the right mentors',
-      action: () => navigate('/mentee/profile'),
-      color: 'text-secondary',
-      bgColor: 'bg-secondary/10'
-    },
-    {
-      icon: MessageSquare,
-      title: 'Book Your First Session',
-      description: 'Start your career guidance journey',
-      action: () => navigate('/mentee/browse'),
-      color: 'text-success',
-      bgColor: 'bg-success/10'
-    },
-  ];
 
   const howItWorks = [
     { step: '1', title: 'Browse Alumni', description: 'Find mentors in your desired career path' },
@@ -90,29 +58,6 @@ const StudentFirstTimeView = () => {
             ))}
           </div>
 
-          {/* Quick Actions */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold text-foreground mb-4">Get Started</h2>
-            <div className="grid md:grid-cols-3 gap-4">
-              {quickActions.map((action) => (
-                <Card 
-                  key={action.title}
-                  className="p-5 hover:shadow-lg transition-all cursor-pointer group"
-                  onClick={action.action}
-                >
-                  <div className={`w-12 h-12 rounded-xl ${action.bgColor} flex items-center justify-center mb-4`}>
-                    <action.icon className={`h-6 w-6 ${action.color}`} />
-                  </div>
-                  <h3 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
-                    {action.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">{action.description}</p>
-                  <ArrowRight className="h-4 w-4 text-muted-foreground mt-3 group-hover:translate-x-1 transition-transform" />
-                </Card>
-              ))}
-            </div>
-          </div>
-
           {/* How It Works */}
           <Card className="p-6 md:p-8 bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20 mb-8">
             <h2 className="text-xl font-semibold text-foreground mb-6">How It Works</h2>
@@ -136,19 +81,6 @@ const StudentFirstTimeView = () => {
             <h2 className="text-xl font-semibold text-foreground mb-4">Discover Alumni</h2>
             <AlumniBrowseSection />
           </div>
-
-          {/* Empty Sessions State */}
-          <Card className="p-8 md:p-12 text-center">
-            <Calendar className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">No Sessions Yet</h3>
-            <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-              Book your first session with an alumni to kickstart your career guidance journey.
-            </p>
-            <Button onClick={() => navigate('/mentee/browse')}>
-              <Search className="mr-2 h-4 w-4" />
-              Find Alumni
-            </Button>
-          </Card>
         </div>
       </div>
     </Layout>
