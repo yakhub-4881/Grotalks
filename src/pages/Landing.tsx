@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAppContext } from '@/lib/app-context';
 import { Layout } from '@/components/Layout';
-import { BadgeCheck, Video, Target } from 'lucide-react';
+import { BadgeCheck, Video, Target, Sparkles } from 'lucide-react';
 import logoDark from '@/assets/logo-dark.png';
 import logoLight from '@/assets/logo-light.png';
 import heroImage from '@/assets/hero-grotalks-brand.jpg';
@@ -46,17 +46,6 @@ const Landing = () => {
               </div>
             </div>
 
-            {/* Headline */}
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 leading-tight mb-3 lg:mb-3">
-              Your future starts with
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
-                alumni who made it
-              </span>
-            </h2>
-
-            <p className="text-sm sm:text-base text-slate-600 mb-6 lg:mb-6 leading-relaxed">
-              Connect with alumni from your college who now live the careers you dream of.
-            </p>
 
             {/* CTA Buttons */}
             <div className="space-y-3 mb-6 lg:mb-6">
@@ -93,32 +82,52 @@ const Landing = () => {
                 <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1.5 rounded-lg bg-primary/10 flex items-center justify-center">
                   <BadgeCheck className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                 </div>
-                <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Verified alumni</p>
+                <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Verified Alumni</p>
               </div>
               <div className="text-center p-3 sm:p-3 rounded-xl bg-slate-50 border border-slate-100">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1.5 rounded-lg bg-primary/10 flex items-center justify-center">
                   <Video className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                 </div>
-                <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Live calls</p>
+                <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Live Calls</p>
               </div>
               <div className="text-center p-3 sm:p-3 rounded-xl bg-slate-50 border border-slate-100">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1.5 rounded-lg bg-primary/10 flex items-center justify-center">
                   <Target className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                 </div>
-                <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Career goals</p>
+                <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Career Goals</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Right Side - Hero Image */}
+        {/* Right Side - Hero Image with Text Overlay */}
         <div className="hidden lg:block lg:flex-1 relative overflow-hidden">
           <img
             src={heroImage}
             alt="Mentorship Connection"
             className="absolute inset-0 w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white/30" />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-900/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
+          
+          {/* Text Content */}
+          <div className="absolute inset-0 flex flex-col justify-center px-12 xl:px-16">
+            <div className="max-w-lg">
+              <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center mb-6">
+                <Sparkles className="w-8 h-8 text-white/60" />
+              </div>
+              <h2 className="text-3xl xl:text-4xl font-extrabold leading-tight text-white mb-4">
+                Your future starts with
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">
+                  alumni who made it
+                </span>
+              </h2>
+              <p className="text-base xl:text-lg text-white/80 leading-relaxed">
+                Connect with alumni from your college who now live the careers you dream of.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Version Switcher Gear Icon - Bottom Right */}
