@@ -2,7 +2,7 @@ import { useMemo, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { BadgeCheck, Video, Target, CheckCircle2, Sparkles, Users } from "lucide-react";
+import { BadgeCheck, Video, Target, CheckCircle2, Wallet, Users, Sparkles } from "lucide-react";
 import logoDark from "@/assets/logo-dark.png";
 import logoLight from "@/assets/logo-light.png";
 import heroImage from "@/assets/hero-grotalks-brand.jpg";
@@ -196,20 +196,20 @@ const ComingSoon = () => {
                 ) : (
                   <>
                     <div className="text-center p-2 sm:p-3 rounded-xl bg-slate-50 border border-slate-100">
-                      <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1.5 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-                        <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" />
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1.5 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <Wallet className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                       </div>
                       <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Earn & impact</p>
                     </div>
                     <div className="text-center p-2 sm:p-3 rounded-xl bg-slate-50 border border-slate-100">
-                      <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1.5 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-                        <Users className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" />
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1.5 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <Users className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                       </div>
                       <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Guide students</p>
                     </div>
                     <div className="text-center p-2 sm:p-3 rounded-xl bg-slate-50 border border-slate-100">
-                      <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1.5 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-                        <BadgeCheck className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" />
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1.5 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <BadgeCheck className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                       </div>
                       <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Build reputation</p>
                     </div>
