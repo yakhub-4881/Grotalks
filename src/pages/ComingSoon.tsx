@@ -2,7 +2,7 @@ import { useMemo, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { BadgeCheck, Video, Target, CheckCircle2, Wallet, Users, Sparkles } from "lucide-react";
+import { BadgeCheck, Video, Target, CheckCircle2, Banknote, Users, Sparkles } from "lucide-react";
 import logoDark from "@/assets/logo-dark.png";
 import logoLight from "@/assets/logo-light.png";
 import heroImage from "@/assets/hero-grotalks-brand.jpg";
@@ -79,17 +79,34 @@ const ComingSoon = () => {
               </span>
             </div>
 
-            {/* Headline (mobile 24px/800, desktop 32px/800; keep colors/gradient) */}
-            <h2 className="text-[24px] sm:text-[32px] font-extrabold leading-tight text-slate-900 mb-4">
-              Your future starts with
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
-                alumni who made it
-              </span>
-            </h2>
-
-            <p className="text-[14px] sm:text-base font-normal text-[#475569] mb-5 leading-relaxed">
-              Connect with alumni from your college who now live the careers you dream of.
-            </p>
+            {/* Mobile Dynamic Hero Text - Only shown when user type is selected */}
+            {userType && (
+              <div className="lg:hidden mb-4 animate-fade-in">
+                <h2 className="text-xl sm:text-2xl font-extrabold leading-tight text-slate-900 mb-2">
+                  {userType === 'student' ? (
+                    <>
+                      Your future starts with
+                      <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
+                        alumni who made it
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      Your journey inspires
+                      <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
+                        the next generation
+                      </span>
+                    </>
+                  )}
+                </h2>
+                <p className="text-sm text-slate-500 leading-relaxed">
+                  {userType === 'student' 
+                    ? "Connect with alumni from your college who now live the careers you dream of."
+                    : "Share your real-world journey with students from your college who need it most."
+                  }
+                </p>
+              </div>
+            )}
 
             {/* Email Form */}
             <div className="relative mb-5 lg:mb-5">
@@ -178,40 +195,40 @@ const ComingSoon = () => {
                       <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1.5 rounded-lg bg-primary/10 flex items-center justify-center">
                         <BadgeCheck className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                       </div>
-                      <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Verified alumni</p>
+                      <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Verified Alumni</p>
                     </div>
                     <div className="text-center p-2 sm:p-3 rounded-xl bg-slate-50 border border-slate-100">
                       <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1.5 rounded-lg bg-primary/10 flex items-center justify-center">
                         <Video className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                       </div>
-                      <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Live calls</p>
+                      <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Live Calls</p>
                     </div>
                     <div className="text-center p-2 sm:p-3 rounded-xl bg-slate-50 border border-slate-100">
                       <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1.5 rounded-lg bg-primary/10 flex items-center justify-center">
                         <Target className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                       </div>
-                      <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Career goals</p>
+                      <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Career Goals</p>
                     </div>
                   </>
                 ) : (
                   <>
                     <div className="text-center p-2 sm:p-3 rounded-xl bg-slate-50 border border-slate-100">
                       <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1.5 rounded-lg bg-primary/10 flex items-center justify-center">
-                        <Wallet className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                        <Banknote className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                       </div>
-                      <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Earn & impact</p>
+                      <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Earn & Impact</p>
                     </div>
                     <div className="text-center p-2 sm:p-3 rounded-xl bg-slate-50 border border-slate-100">
                       <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1.5 rounded-lg bg-primary/10 flex items-center justify-center">
                         <Users className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                       </div>
-                      <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Guide students</p>
+                      <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Guide Students</p>
                     </div>
                     <div className="text-center p-2 sm:p-3 rounded-xl bg-slate-50 border border-slate-100">
                       <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1.5 rounded-lg bg-primary/10 flex items-center justify-center">
                         <BadgeCheck className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                       </div>
-                      <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Build reputation</p>
+                      <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Build Reputation</p>
                     </div>
                   </>
                 )}
@@ -220,14 +237,56 @@ const ComingSoon = () => {
           </div>
         </div>
 
-        {/* Right Side - Hero Image (use zero version landing hero) */}
+        {/* Right Side - Hero Image with Dynamic Text Overlay */}
         <div className="hidden lg:block lg:flex-1 relative overflow-hidden">
           <img
             src={heroImage}
-            alt="Alumnihip Connection"
+            alt="Mentorship Connection"
             className="absolute inset-0 w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white/30" />
+          {/* Perplexity-style gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-900/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
+          
+          {/* Dynamic Text Content */}
+          <div className="absolute inset-0 flex flex-col justify-center px-12 xl:px-16">
+            {userType ? (
+              <div className="max-w-lg animate-fade-in">
+                <h2 className="text-3xl xl:text-4xl font-extrabold leading-tight text-white mb-4">
+                  {userType === 'student' ? (
+                    <>
+                      Your future starts with
+                      <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">
+                        alumni who made it
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      Your journey inspires
+                      <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">
+                        the next generation
+                      </span>
+                    </>
+                  )}
+                </h2>
+                <p className="text-base xl:text-lg text-white/80 leading-relaxed">
+                  {userType === 'student' 
+                    ? "Connect with alumni from your college who now live the careers you dream of."
+                    : "Share your real-world journey with students from your college who need it most."
+                  }
+                </p>
+              </div>
+            ) : (
+              <div className="max-w-lg">
+                <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center mb-6">
+                  <Sparkles className="w-8 h-8 text-white/60" />
+                </div>
+                <p className="text-xl text-white/50 font-medium">
+                  Select your role to see what awaits you...
+                </p>
+              </div>
+            )}
+          </div>
         </div>
 
       </div>
