@@ -47,13 +47,17 @@ interface AlumniServicesProps {
   onServicesChange?: (services: AlumniService[]) => void;
   isEditable?: boolean;
   onBookService?: (service: AlumniService) => void;
+  showHeader?: boolean;
+  headerDescription?: string;
 }
 
 export const AlumniServices = ({ 
   services, 
   onServicesChange, 
   isEditable = false,
-  onBookService 
+  onBookService,
+  showHeader = false,
+  headerDescription
 }: AlumniServicesProps) => {
   const { toast } = useToast();
   const [showDialog, setShowDialog] = useState(false);
@@ -132,9 +136,22 @@ export const AlumniServices = ({
 
   return (
     <div className="space-y-3">
-      {isEditable && (
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold">Services Offered</h3>
+      {isEditable && showHeader && (
+        <div className="mb-4">
+          <div className="flex justify-between items-center">
+            <h3 className="text-base md:text-lg font-semibold">Services & Pricing</h3>
+            <Button size="sm" onClick={handleAdd}>
+              <Plus className="mr-2 h-4 w-4" />
+              Add Service
+            </Button>
+          </div>
+          {headerDescription && (
+            <p className="text-sm text-muted-foreground mt-1">{headerDescription}</p>
+          )}
+        </div>
+      )}
+      {isEditable && !showHeader && (
+        <div className="flex justify-end mb-2">
           <Button size="sm" onClick={handleAdd}>
             <Plus className="mr-2 h-4 w-4" />
             Add Service
