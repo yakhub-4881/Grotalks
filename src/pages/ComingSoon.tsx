@@ -55,7 +55,7 @@ const ComingSoon = () => {
     <Layout showNav={false}>
       <div className="h-screen w-full flex flex-col lg:flex-row overflow-hidden bg-slate-900">
         {/* Left Side - Content Area */}
-        <div className="flex-1 bg-white flex flex-col justify-center px-6 sm:px-10 lg:px-16 py-8 sm:py-8 lg:py-0 min-h-0 overflow-y-auto">
+        <div className="flex-1 lg:basis-1/2 bg-white flex flex-col justify-center px-6 sm:px-10 lg:px-16 py-8 sm:py-8 lg:py-0 min-h-0 overflow-y-auto">
           <div className="max-w-md mx-auto w-full flex flex-col justify-center">
             {/* Logo (clickable to zero landing) */}
             <button
@@ -78,35 +78,6 @@ const ComingSoon = () => {
                 <Sparkles className="w-3 h-3" /> Coming soon
               </span>
             </div>
-
-            {/* Mobile Dynamic Hero Text - Only shown when user type is selected */}
-            {userType && (
-              <div className="lg:hidden mb-4 animate-fade-in">
-                <h2 className="text-xl sm:text-2xl font-extrabold leading-tight text-slate-900 mb-2">
-                  {userType === 'student' ? (
-                    <>
-                      Your future starts with
-                      <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
-                        alumni who made it
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      Your journey inspires
-                      <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
-                        the next generation
-                      </span>
-                    </>
-                  )}
-                </h2>
-                <p className="text-sm text-slate-500 leading-relaxed">
-                  {userType === 'student' 
-                    ? "Connect with alumni from your college who now live the careers you dream of."
-                    : "Share your real-world journey with students from your college who need it most."
-                  }
-                </p>
-              </div>
-            )}
 
             {/* Email Form */}
             <div className="relative mb-5 lg:mb-5">
@@ -234,11 +205,38 @@ const ComingSoon = () => {
                 )}
               </div>
             )}
+
+            {/* Mobile Dynamic Hero Text - Fixed near bottom when user type is selected */}
+            {userType && (
+              <div className="lg:hidden fixed bottom-6 left-0 right-0 px-6 animate-fade-in pointer-events-none">
+                <div className="max-w-md mx-auto">
+                  <h2 className="text-base sm:text-lg font-extrabold leading-tight text-slate-900 text-left">
+                    {userType === 'student' ? (
+                      <>
+                        Your future starts with
+                        <span className="inline text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
+                          {' '}
+                          alumni who made it
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        Your journey inspires
+                        <span className="inline text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
+                          {' '}
+                          the next generation
+                        </span>
+                      </>
+                    )}
+                  </h2>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Right Side - Hero Image with Dynamic Text Overlay */}
-        <div className="hidden lg:block lg:flex-1 relative overflow-hidden">
+        <div className="hidden lg:flex lg:flex-1 lg:basis-1/2 relative overflow-hidden">
           <img
             src={heroImage}
             alt="Mentorship Connection"
@@ -250,7 +248,7 @@ const ComingSoon = () => {
           
           {/* Dynamic Text Content */}
           <div className="absolute inset-0 flex flex-col justify-center px-12 xl:px-16">
-            {userType ? (
+            {userType && (
               <div className="max-w-lg animate-fade-in">
                 <h2 className="text-3xl xl:text-4xl font-extrabold leading-tight text-white mb-4">
                   {userType === 'student' ? (
@@ -274,15 +272,6 @@ const ComingSoon = () => {
                     ? "Connect with alumni from your college who now live the careers you dream of."
                     : "Share your real-world journey with students from your college who need it most."
                   }
-                </p>
-              </div>
-            ) : (
-              <div className="max-w-lg">
-                <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center mb-6">
-                  <Sparkles className="w-8 h-8 text-white/60" />
-                </div>
-                <p className="text-xl text-white/50 font-medium">
-                  Select your role to see what awaits you...
                 </p>
               </div>
             )}
