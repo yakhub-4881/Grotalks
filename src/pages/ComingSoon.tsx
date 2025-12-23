@@ -242,10 +242,14 @@ const ComingSoon = () => {
             alt="Mentorship Connection"
             className="absolute inset-0 w-full h-full object-cover"
           />
-          {/* Perplexity-style gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-900/40" />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
-          
+          {/* Perplexity-style gradient overlay (only shows when user type is selected) */}
+          {userType && (
+            <>
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-900/40" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
+            </>
+          )}
+
           {/* Dynamic Text Content */}
           <div className="absolute inset-0 flex flex-col justify-center px-12 xl:px-16">
             {userType && (
@@ -268,7 +272,7 @@ const ComingSoon = () => {
                   )}
                 </h2>
                 <p className="text-base xl:text-lg text-white/80 leading-relaxed">
-                  {userType === 'student' 
+                  {userType === 'student'
                     ? "Connect with alumni from your college who now live the careers you dream of."
                     : "Share your real-world journey with students from your college who need it most."
                   }
@@ -277,6 +281,16 @@ const ComingSoon = () => {
             )}
           </div>
         </div>
+
+        {/* Version Switcher Gear Icon - Bottom Right (Desktop only) */}
+        <button
+          onClick={() => navigate('/universal')}
+          className="hidden lg:flex fixed bottom-6 right-6 w-10 h-10 rounded-full bg-primary/10 hover:bg-primary/20 border border-primary/20 items-center justify-center transition-all hover:scale-110 opacity-60 hover:opacity-100 z-50"
+          aria-label="Switch to Universal Version"
+          title="Switch to Universal Version"
+        >
+          <span className="text-xl">⚙️</span>
+        </button>
 
       </div>
     </Layout>

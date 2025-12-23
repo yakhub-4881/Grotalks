@@ -16,7 +16,7 @@ import heroImage from '@/assets/hero-grotalks-brand.jpg';
 const Landing = () => {
   const navigate = useNavigate();
   const { setUserType } = useAppContext();
-  
+
   // Shared signup state (mirrors Signup.tsx)
   const [signupType, setSignupType] = useState<'student' | 'alumni'>('student');
 
@@ -35,12 +35,12 @@ const Landing = () => {
 
   // How alumni prefers to verify contact details
   const [verifyMethod, setVerifyMethod] = useState<'email' | 'mobile'>('email');
-  
+
   const isDarkMode = useMemo(() => {
     if (typeof document === 'undefined') return false;
     return document.documentElement.classList.contains('dark');
   }, []);
-  
+
   const logo = isDarkMode ? logoLight : logoDark;
 
   // Handlers mirrored from Signup.tsx
@@ -139,7 +139,6 @@ const Landing = () => {
                 <p className="text-xs sm:text-sm text-slate-500">Guidance made easy</p>
               </div>
             </div>
-
 
             {/* Inline Signup Interaction (mirrors Signup.tsx) */}
             <div className="mb-6 lg:mb-6">
@@ -426,7 +425,7 @@ const Landing = () => {
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-900/40" />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
-          
+
           {/* Text Content */}
           <div className="absolute inset-0 flex flex-col justify-center px-12 xl:px-16">
             <div className="max-w-lg">
