@@ -149,7 +149,10 @@ const Signup = () => {
 
               {/* Student Email */}
               <div className="space-y-2">
-                <Label htmlFor="student-email" className="text-sm font-semibold">Student Email ID*</Label>
+                <div className="flex items-center gap-2">
+                  <Mail className="h-4 w-4 text-muted-foreground" />
+                  <Label htmlFor="student-email" className="text-sm font-semibold">College Email ID*</Label>
+                </div>
                 <Input
                   id="student-email"
                   type="email"
@@ -157,7 +160,7 @@ const Signup = () => {
                   value={studentEmail}
                   onChange={(e) => handleStudentEmailChange(e.target.value)}
                   className={`h-10 sm:h-12 text-sm sm:text-base ${
-                    emailState === 'valid' ? 'border-success' : 
+                    emailState === 'valid' ? 'border-success' :
                     emailState === 'invalid' ? 'border-destructive' : ''
                   }`}
                   disabled={emailState === 'validating'}
@@ -229,7 +232,10 @@ const Signup = () => {
               {verifyMethod === 'email' && (
                 <div className="space-y-4 animate-fade-in">
                   <div className="space-y-2">
-                    <Label htmlFor="alumni-email" className="text-sm font-semibold">Email Address*</Label>
+                    <div className="flex items-center gap-2">
+                      <Mail className="h-4 w-4 text-muted-foreground" />
+                      <Label htmlFor="alumni-email" className="text-sm font-semibold">Email Address*</Label>
+                    </div>
                     <div className="flex flex-col sm:flex-row gap-2">
                       <Input
                         id="alumni-email"
@@ -243,17 +249,17 @@ const Signup = () => {
                       />
                     </div>
                     {errors.email && <p className="text-xs sm:text-sm text-destructive">{errors.email}</p>}
+                    <p className="text-xs text-muted-foreground">
+                      Prefer using your phone instead?{' '}
+                      <button
+                        type="button"
+                        onClick={() => handleSwitchVerifyMethod('mobile')}
+                        className="text-primary font-medium hover:underline underline-offset-2"
+                      >
+                        Use mobile OTP
+                      </button>
+                    </p>
                   </div>
-                  <p className="text-xs sm:text-sm text-muted-foreground mt-2">
-                    Prefer using your phone instead?{' '}
-                    <button
-                      type="button"
-                      onClick={() => handleSwitchVerifyMethod('mobile')}
-                      className="text-primary font-medium hover:underline underline-offset-2"
-                    >
-                      Use mobile OTP
-                    </button>
-                  </p>
                 </div>
               )}
 
@@ -286,7 +292,7 @@ const Signup = () => {
                     </div>
                     {errors.phone && <p className="text-xs sm:text-sm text-destructive">{errors.phone}</p>}
                   </div>
-                  <p className="text-xs sm:text-sm text-muted-foreground mt-2">
+                  <p className="text-xs text-muted-foreground mt-2">
                     Prefer using your email instead?{' '}
                     <button
                       type="button"

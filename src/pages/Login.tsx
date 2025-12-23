@@ -109,9 +109,12 @@ const Login = () => {
             {loginType === 'student' ? (
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="student-email" className="text-sm font-semibold">
-                    College Email ID*
-                  </Label>
+                  <div className="flex items-center gap-2">
+                    <Mail className="h-4 w-4 text-muted-foreground" />
+                    <Label htmlFor="student-email" className="text-sm font-semibold">
+                      College Email ID*
+                    </Label>
+                  </div>
                   <Input
                     id="student-email"
                     type="email"
