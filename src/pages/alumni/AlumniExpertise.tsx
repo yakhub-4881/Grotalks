@@ -88,17 +88,12 @@ const AlumniExpertise = () => {
 
             {/* Services CRUD */}
             <div className="space-y-4 md:space-y-6">
-              <div>
-                <Label className="text-base md:text-lg font-semibold">Services & Pricing</Label>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Add the services you offer with duration and rate. This replaces pay-per-minute pricing.
-                </p>
-              </div>
-
               <AlumniServices
                 services={services}
                 onServicesChange={handleServicesChange}
                 isEditable
+                showHeader
+                headerDescription="Add the services you offer with duration and rate"
               />
             </div>
 
