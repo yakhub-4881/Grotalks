@@ -67,7 +67,7 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
             </Link>
 
             <div className="flex items-center gap-2 md:gap-4">
-              {isAlumniPage && (
+              {isAuthenticated && isAlumniPage && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon" className="rounded-full">

@@ -2,7 +2,9 @@ import { useMemo, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { BadgeCheck, Video, Target, CheckCircle2, Banknote, Users, Sparkles } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { BadgeCheck, Video, Target, CheckCircle2, Banknote, Users, Sparkles, Mail, User, Wallet } from "lucide-react";
 import logoDark from "@/assets/logo-dark.png";
 import logoLight from "@/assets/logo-light.png";
 import heroImage from "@/assets/hero-grotalks-brand.jpg";
@@ -12,6 +14,7 @@ type UserType = 'student' | 'alumni' | null;
 const ComingSoon = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [collegeId, setCollegeId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -25,7 +28,7 @@ const ComingSoon = () => {
   const logo = isDarkMode ? logoLight : logoDark;
 
   const isValidEmail = email.includes("@") && email.includes(".");
-  const isFormValid = userType !== null && isValidEmail;
+  const isFormValid = userType !== null && isValidEmail && collegeId.trim() !== "";
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,6 +39,8 @@ const ComingSoon = () => {
         setErrorMessage("Please select an option first.");
       } else if (!isValidEmail) {
         setErrorMessage("Please enter a valid email address.");
+      } else if (collegeId.trim() === "") {
+        setErrorMessage("Please enter your college ID.");
       }
       return;
     }
@@ -45,6 +50,7 @@ const ComingSoon = () => {
 
     setShowSuccess(true);
     setEmail("");
+    setCollegeId("");
     setUserType(null);
     setIsLoading(false);
 
@@ -73,7 +79,7 @@ const ComingSoon = () => {
             </button>
 
             {/* Coming Soon Badge */}
-            <div className="mb-3 lg:mb-4">
+            <div className="mb-4 lg:mb-6">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full bg-primary/10 text-primary border border-primary/20">
                 <Sparkles className="w-3 h-3" /> Coming soon
               </span>
@@ -92,9 +98,9 @@ const ComingSoon = () => {
                   </div>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-3">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   {/* Radio Button Selection */}
-                  <div className="flex items-center gap-4 sm:gap-6">
+                  <div className="flex items-center gap-4 sm:gap-6 mb-4">
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="radio"
@@ -119,21 +125,49 @@ const ComingSoon = () => {
                     </label>
                   </div>
 
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      setErrorMessage("");
-                    }}
-                    placeholder="Enter your email"
-                    className={`w-full h-12 sm:h-14 px-4 rounded-xl bg-slate-50 border-2 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all text-sm sm:text-base ${
-                      userType === null 
-                        ? 'border-slate-200 opacity-50 cursor-not-allowed' 
-                        : 'border-slate-200'
-                    }`}
-                    disabled={isLoading || userType === null}
-                  />
+                  {/* Additional Fields - Show when user type is selected */}
+                  {userType && (
+                    <div className="space-y-4 animate-fade-in">
+                      {/* College Email ID / Email ID */}
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <Mail className="h-4 w-4 text-muted-foreground" />
+                          <Label className="text-sm font-medium text-slate-700">
+                            {userType === 'student' ? 'College Email ID' : 'Email ID'}
+                          </Label>
+                        </div>
+                        <Input
+                          type="email"
+                          value={email}
+                          onChange={(e) => {
+                            setEmail(e.target.value);
+                            setErrorMessage("");
+                          }}
+                          placeholder="Enter here"
+                          className="h-12 sm:h-14 px-4 rounded-xl bg-slate-50 border-2 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-slate-300 transition-all text-sm sm:text-base"
+                          disabled={isLoading}
+                        />
+                      </div>
+
+                      {/* College ID No */}
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <User className="h-4 w-4 text-muted-foreground" />
+                          <Label className="text-sm font-medium text-slate-700">College ID No</Label>
+                        </div>
+                        <Input
+                          type="text"
+                          value={collegeId}
+                          onChange={(e) => setCollegeId(e.target.value)}
+                          placeholder="Enter here"
+                          className="h-12 sm:h-14 px-4 rounded-xl bg-slate-50 border-2 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-slate-300 transition-all text-sm sm:text-base"
+                          disabled={isLoading}
+                        />
+                        <p className="text-xs text-muted-foreground">eg: VTU1234</p>
+                      </div>
+                    </div>
+                  )}
+
                   <Button
                     type="submit"
                     size="lg"
@@ -185,7 +219,7 @@ const ComingSoon = () => {
                   <>
                     <div className="text-center p-2 sm:p-3 rounded-xl bg-slate-50 border border-slate-100">
                       <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1.5 rounded-lg bg-primary/10 flex items-center justify-center">
-                        <Banknote className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                        <Wallet className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                       </div>
                       <p className="text-[10px] sm:text-xs font-semibold text-slate-700">Earn & Impact</p>
                     </div>

@@ -67,7 +67,7 @@ const MenteeSignupInterests = () => {
       description: 'Your profile has been created successfully',
     });
 
-    navigate('/mentee/dashboard');
+    navigate('/mentee/first-time');
   };
 
   return (
@@ -104,7 +104,6 @@ const MenteeSignupInterests = () => {
                     className="pointer-events-none"
                   />
                   <div className="flex items-center gap-2 flex-1">
-                    <span className="text-2xl">{area.icon}</span>
                     <Label className="cursor-pointer text-sm font-medium">{area.label}</Label>
                   </div>
                 </div>

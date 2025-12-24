@@ -37,6 +37,7 @@ const AlumniAlumniVerification = () => {
   const [verificationNote, setVerificationNote] = useState('');
   
   // College info
+  const [collegeId, setCollegeId] = useState('');
   const [batch, setBatch] = useState('');
   const [branch, setBranch] = useState('');
   
@@ -102,7 +103,10 @@ const AlumniAlumniVerification = () => {
     }
   };
 
-  const years = Array.from({ length: 30 }, (_, i) => (new Date().getFullYear() - i).toString());
+  const years = Array.from({ length: 10 }, (_, i) => {
+    const startYear = new Date().getFullYear() - i * 4;
+    return `${startYear}-${startYear + 4}`;
+  });
   const branches = [
     'Computer Science & Engineering',
     'Electronics & Communication',
@@ -248,7 +252,18 @@ const AlumniAlumniVerification = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                <div className="space-y-2">
+                  <Label className="text-sm font-semibold text-muted-foreground">College ID No</Label>
+                  <Input
+                    type="text"
+                    placeholder="Enter here"
+                    value={collegeId}
+                    onChange={(e) => setCollegeId(e.target.value)}
+                    className="h-10 sm:h-12"
+                  />
+                </div>
+
                 <div className="space-y-2">
                   <Label className="text-sm font-semibold text-muted-foreground">Batch Year*</Label>
                   <Select value={batch} onValueChange={setBatch}>
@@ -265,7 +280,7 @@ const AlumniAlumniVerification = () => {
                   </Select>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-2 sm:col-span-2">
                   <Label className="text-sm font-semibold text-muted-foreground">Branch*</Label>
                   <Select value={branch} onValueChange={setBranch}>
                     <SelectTrigger className="h-10 sm:h-12 text-muted-foreground">
@@ -342,7 +357,7 @@ const AlumniAlumniVerification = () => {
                 {!emailOtpSent ? (
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <Label className="text-sm font-semibold">Alumni Email Address*</Label>
+                      <Label className="text-sm font-semibold">College Email ID</Label>
                       <div className="flex flex-col sm:flex-row gap-2">
                         <Input
                           type="email"
@@ -606,7 +621,7 @@ const AlumniAlumniVerification = () => {
             <Button
               onClick={handleContinue}
               className="w-full sm:flex-1 h-10 sm:h-12 font-medium"
-              disabled={!canContinue || !college || !batch || !branch}
+              disabled={!canContinue || !college || !collegeId || !batch || !branch}
             >
               Continue
             </Button>

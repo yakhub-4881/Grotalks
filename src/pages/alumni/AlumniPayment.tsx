@@ -41,7 +41,7 @@ const AlumniPayment = () => {
       description: 'Your alumni profile has been created successfully',
     });
     
-    navigate('/alumni/dashboard');
+    navigate('/alumni/first-time');
     
     // Show success notification after navigation
     setTimeout(() => {
@@ -53,10 +53,8 @@ const AlumniPayment = () => {
   };
 
   const bankValid = accountName.trim().length > 2 && accountNumber.trim().length >= 8 && ifsc.trim().length >= 8;
-  const isFormValid = 
-    termsAgreed &&
-    alumniRoleUnderstood &&
-    ((payoutMethod === 'upi' && upiId && upiVerified && upiAuthorized) ||
+  const isFormValid =
+    ((payoutMethod === 'upi' && upiId && upiVerified) ||
      (payoutMethod === 'bank' && bankValid));
 
   return (
@@ -101,30 +99,31 @@ const AlumniPayment = () => {
                 <div className="space-y-3">
                   <div className="space-y-2">
                     <Label htmlFor="upi" className="text-sm font-semibold">UPI ID*</Label>
-                    <Input
-                      id="upi"
-                      type="text"
-                      placeholder="username@bankname"
-                      value={upiId}
-                      onChange={(e) => {
-                        setUpiId(e.target.value);
-                        setUpiVerified(false);
-                      }}
-                      className="h-12 text-base"
-                    />
+                    <div className="flex gap-2">
+                      <Input
+                        id="upi"
+                        type="text"
+                        placeholder="username@bankname"
+                        value={upiId}
+                        onChange={(e) => {
+                          setUpiId(e.target.value);
+                          setUpiVerified(false);
+                        }}
+                        className="h-12 text-base flex-1"
+                      />
+                      <Button
+                        onClick={handleTestUPI}
+                        variant="secondary"
+                        className="h-12 px-4 whitespace-nowrap"
+                        disabled={!upiId.includes('@') || upiVerified || upiTesting}
+                      >
+                        {upiTesting ? 'Verifying...' : upiVerified ? '✓ Verified' : 'Verify'}
+                      </Button>
+                    </div>
                     <p className="text-xs text-muted-foreground">
                       Format: username@bankname OR 10-digit-phone@bank
                     </p>
                   </div>
-
-                  <Button
-                    onClick={handleTestUPI}
-                    variant="secondary"
-                    className="w-full h-12"
-                    disabled={!upiId || upiVerified || upiTesting}
-                  >
-                    {upiTesting ? 'Verifying...' : upiVerified ? '✓ UPI Verified Successfully' : 'Test UPI'}
-                  </Button>
 
                   {upiVerified && (
                     <div className="p-4 bg-success/10 border border-success rounded-lg">
@@ -174,50 +173,6 @@ const AlumniPayment = () => {
             </div>
 
 
-            {/* Agreements */}
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-foreground">Agreements</h2>
-              
-              <div className="space-y-3">
-                <div className="flex items-start space-x-3">
-                  <Checkbox
-                    id="terms"
-                    checked={termsAgreed}
-                    onCheckedChange={(checked) => setTermsAgreed(checked as boolean)}
-                    className="mt-1"
-                  />
-                  <Label htmlFor="terms" className="text-sm leading-relaxed cursor-pointer">
-                    I agree to the Terms & Conditions
-                  </Label>
-                </div>
-
-                {payoutMethod === 'upi' && (
-                  <div className="flex items-start space-x-3">
-                    <Checkbox
-                      id="upi-auth"
-                      checked={upiAuthorized}
-                      onCheckedChange={(checked) => setUpiAuthorized(checked as boolean)}
-                      className="mt-1"
-                    />
-                    <Label htmlFor="upi-auth" className="text-sm leading-relaxed cursor-pointer">
-                      I authorize instant UPI withdrawals
-                    </Label>
-                  </div>
-                )}
-
-                <div className="flex items-start space-x-3">
-                  <Checkbox
-                    id="role"
-                    checked={alumniRoleUnderstood}
-                    onCheckedChange={(checked) => setAlumniRoleUnderstood(checked as boolean)}
-                    className="mt-1"
-                  />
-                  <Label htmlFor="role" className="text-sm leading-relaxed cursor-pointer">
-                    I understand alumni role & responsibilities
-                  </Label>
-                </div>
-              </div>
-            </div>
 
             {/* Navigation */}
             <div className="flex gap-4">

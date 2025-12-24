@@ -34,7 +34,7 @@ const AlumniBio = () => {
     { id: number; title: string; issuer: string; date: string }[]
   >([]);
   const [languages, setLanguages] = useState<string[]>([]);
-  const [newLanguage, setNewLanguage] = useState('');
+  const availableLanguages = ['English', 'Hindi', 'Tamil', 'Telugu', 'Kannada', 'Malayalam', 'Bengali', 'Marathi', 'Gujarati', 'Punjabi'];
   
   const MAX_BIO_LENGTH = 250;
 
@@ -114,15 +114,10 @@ const AlumniBio = () => {
     );
   };
 
-  const addLanguage = () => {
-    if (newLanguage.trim() && !languages.includes(newLanguage.trim())) {
-      setLanguages([...languages, newLanguage.trim()]);
-      setNewLanguage('');
-    }
-  };
-
-  const removeLanguage = (language: string) => {
-    setLanguages(languages.filter(lang => lang !== language));
+  const toggleLanguage = (lang: string) => {
+    setLanguages(prev =>
+      prev.includes(lang) ? prev.filter(l => l !== lang) : [...prev, lang]
+    );
   };
 
   const canProceed = useMemo(() => {
@@ -400,38 +395,35 @@ const AlumniBio = () => {
 
             {/* Languages Spoken */}
             <Card className="p-4 sm:p-6 space-y-4">
-              <h2 className="text-lg font-semibold text-foreground">Languages Spoken</h2>
+              <h2 className="text-lg font-semibold text-foreground">Languages Spoken*</h2>
               <p className="text-sm text-muted-foreground">Add languages to help students find alumni in their preferred language</p>
-              
-              <div className="flex flex-wrap gap-2 mb-3">
-                {languages.map((language) => (
-                  <Badge key={language} variant="secondary" className="px-3 py-1.5 text-sm">
-                    {language}
-                    <button
-                      onClick={() => removeLanguage(language)}
-                      className="ml-2 hover:text-destructive transition-colors"
-                    >
-                      <X className="h-3 w-3" />
-                    </button>
-                  </Badge>
+
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {availableLanguages.map((lang) => (
+                  <div
+                    key={lang}
+                    onClick={() => toggleLanguage(lang)}
+                    className={`flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all ${
+                      languages.includes(lang)
+                        ? 'border-primary bg-primary/5'
+                        : 'border-border hover:border-primary/50'
+                    }`}
+                  >
+                    <Checkbox
+                      checked={languages.includes(lang)}
+                      onCheckedChange={() => toggleLanguage(lang)}
+                      className="pointer-events-none"
+                    />
+                    <Label className="cursor-pointer text-sm font-medium">{lang}</Label>
+                  </div>
                 ))}
-                {languages.length === 0 && (
-                  <p className="text-sm text-muted-foreground">No languages added yet</p>
-                )}
               </div>
 
-              <div className="flex gap-2">
-                <Input
-                  placeholder="Add a language (e.g., English, Hindi)"
-                  value={newLanguage}
-                  onChange={(e) => setNewLanguage(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && addLanguage()}
-                  className="flex-1"
-                />
-                <Button onClick={addLanguage} size="icon" variant="outline">
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </div>
+              {languages.length > 0 && (
+                <p className="text-sm text-success flex items-center gap-1">
+                  ✓ {languages.length} language{languages.length > 1 ? 's' : ''} selected
+                </p>
+              )}
             </Card>
 
             <div className="flex gap-4">

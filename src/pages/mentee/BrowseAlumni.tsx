@@ -6,8 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { Search, Star, MapPin, Video } from 'lucide-react';
-import { getCollegeDisplay } from '@/lib/college-config';
+import { Search, Star, MapPin, Video, ShieldCheck } from 'lucide-react';
+import { getCollegeDisplay, collegeMap } from '@/lib/college-config';
 import { PricingDisplay } from '@/components/PricingDisplay';
 
 const BrowseAlumni = () => {
@@ -27,7 +27,9 @@ const BrowseAlumni = () => {
       company: 'Flipkart',
       location: 'Bangalore',
       college: 'vel-tech',
-      batch: '2018',
+      collegeId: 'VTU4881',
+      batch: '2014-2018',
+      verified: true,
       language: 'English, Hindi',
       stream: 'Computer Science',
       expertise: ['Product Management', 'Career Guidance', 'Interview Prep'],
@@ -43,7 +45,9 @@ const BrowseAlumni = () => {
       company: 'Google',
       location: 'Hyderabad',
       college: 'iit-bombay',
-      batch: '2019',
+      collegeId: 'IITB1234',
+      batch: '2015-2019',
+      verified: true,
       language: 'English, Tamil',
       stream: 'Data Science',
       expertise: ['Masters Abroad', 'Interview Prep', 'Data Science'],
@@ -59,7 +63,9 @@ const BrowseAlumni = () => {
       company: 'TechVentures',
       location: 'Bangalore',
       college: 'bits-pilani',
-      batch: '2015',
+      collegeId: 'BITS5678',
+      batch: '2011-2015',
+      verified: true,
       language: 'English, Hindi',
       stream: 'Business',
       expertise: ['Entrepreneurship', 'Startup Funding', 'Career Guidance'],
@@ -75,7 +81,9 @@ const BrowseAlumni = () => {
       company: 'Amazon',
       location: 'Mumbai',
       college: 'iit-delhi',
-      batch: '2020',
+      collegeId: 'IITD9012',
+      batch: '2016-2020',
+      verified: true,
       language: 'English, Hindi',
       stream: 'Data Science',
       expertise: ['Data Science', 'ML/AI', 'Interview Prep'],
@@ -91,7 +99,9 @@ const BrowseAlumni = () => {
       company: 'Goldman Sachs',
       location: 'Mumbai',
       college: 'dtu',
-      batch: '2017',
+      collegeId: 'DTU3456',
+      batch: '2013-2017',
+      verified: true,
       language: 'English',
       stream: 'Finance',
       expertise: ['Finance & Investing', 'Career Guidance', 'MBA Abroad'],
@@ -107,7 +117,9 @@ const BrowseAlumni = () => {
       company: 'Netflix',
       location: 'Bangalore',
       college: 'nit-trichy',
-      batch: '2019',
+      collegeId: 'NIT7890',
+      batch: '2015-2019',
+      verified: true,
       language: 'English, Tamil',
       stream: 'Design',
       expertise: ['UX/UI Design', 'Career Guidance', 'Portfolio Review'],
@@ -148,14 +160,14 @@ const BrowseAlumni = () => {
                   <SelectTrigger className="h-10 md:h-12 text-sm md:text-base">
                     <SelectValue placeholder="College" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="min-w-[300px]">
                     <SelectItem value="all">All Colleges</SelectItem>
-                    <SelectItem value="iit-bombay">IIT Bombay</SelectItem>
-                    <SelectItem value="iit-delhi">IIT Delhi</SelectItem>
-                    <SelectItem value="bits-pilani">BITS Pilani</SelectItem>
-                    <SelectItem value="nit-trichy">NIT Trichy</SelectItem>
-                    <SelectItem value="dtu">DTU</SelectItem>
-                    <SelectItem value="vel-tech">Vel Tech</SelectItem>
+                    <SelectItem value="iit-bombay">Indian Institute of Technology Bombay</SelectItem>
+                    <SelectItem value="iit-delhi">Indian Institute of Technology Delhi</SelectItem>
+                    <SelectItem value="bits-pilani">Birla Institute of Technology and Science, Pilani</SelectItem>
+                    <SelectItem value="nit-trichy">National Institute of Technology, Tiruchirappalli</SelectItem>
+                    <SelectItem value="dtu">Delhi Technological University</SelectItem>
+                    <SelectItem value="vel-tech">Vel Tech Rangarajan Dr. Sagunthala R & D Institute of Science and Technology</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -248,23 +260,23 @@ const BrowseAlumni = () => {
                   {/* Header */}
                   <div className="flex items-start justify-between">
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-base md:text-lg font-semibold text-foreground group-hover:text-primary transition-colors truncate">
-                        {alumni.name}
-                      </h3>
+                      <div className="flex items-center gap-1 mb-1">
+                        <h3 className="text-base md:text-lg font-semibold text-foreground group-hover:text-primary transition-colors truncate">
+                          {alumni.name}
+                        </h3>
+                        {alumni.verified && (
+                          <ShieldCheck className="h-5 w-5 text-success flex-shrink-0" />
+                        )}
+                      </div>
                       <p className="text-sm text-muted-foreground mb-1 truncate">{alumni.role}</p>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <div className="inline-flex items-center gap-2 text-xs">
-                            <span className="px-2 py-1 bg-accent/50 text-accent-foreground rounded-md font-medium truncate max-w-[150px]">
-                              {getCollegeDisplay(alumni.college, 'abbr')}
-                            </span>
-                            <span className="text-muted-foreground whitespace-nowrap">• {alumni.batch}</span>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p className="text-xs">{getCollegeDisplay(alumni.college, 'full')}</p>
-                        </TooltipContent>
-                      </Tooltip>
+                      <div className="space-y-1 text-xs">
+                        <div className="font-medium text-muted-foreground truncate">
+                          {collegeMap[alumni.college]?.fullName || 'Unknown College'}
+                        </div>
+                        <div className="text-muted-foreground">
+                          College ID: {alumni.collegeId} • Batch: {alumni.batch}
+                        </div>
+                      </div>
                     </div>
                     <div className="flex items-center gap-1 flex-shrink-0 ml-2">
                       <Star className="h-4 w-4 fill-bonus text-bonus" />

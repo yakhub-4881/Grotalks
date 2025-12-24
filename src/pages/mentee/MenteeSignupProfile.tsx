@@ -15,8 +15,8 @@ const MenteeSignupProfile = () => {
   
   const [formData, setFormData] = useState({
     about: '',
+    collegeId: '',
     branch: '',
-    stream: '',
     year: '',
     college: '',
     city: '',
@@ -26,17 +26,16 @@ const MenteeSignupProfile = () => {
   
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const streams = ['Engineering', 'Medical', 'Commerce', 'Arts', 'Science', 'Management', 'Law'];
-  const branches = {
-    Engineering: ['Computer Science', 'Mechanical', 'Electrical', 'Civil', 'Electronics', 'IT', 'Chemical'],
-    Medical: ['MBBS', 'BDS', 'BAMS', 'BHMS', 'Nursing', 'Pharmacy'],
-    Commerce: ['B.Com', 'BBA', 'CA', 'CS'],
-    Arts: ['BA English', 'BA History', 'BA Psychology', 'BA Political Science'],
-    Science: ['BSc Physics', 'BSc Chemistry', 'BSc Mathematics', 'BSc Biology'],
-    Management: ['MBA', 'PGDM', 'BMS'],
-    Law: ['LLB', 'BA LLB', 'BBA LLB']
-  };
-  const years = ['1st Year', '2nd Year', '3rd Year', '4th Year', 'Final Year', 'Graduated/Alumni'];
+  const branches = [
+    'Computer Science & Engineering',
+    'Electronics & Communication',
+    'Mechanical Engineering',
+    'Civil Engineering',
+    'Electrical Engineering',
+    'Chemical Engineering',
+    'Biotechnology',
+  ];
+  const years = ['1st Year', '2nd Year', '3rd Year', '4th Year', 'Final Year', 'Graduated'];
   const colleges = Object.values(collegeMap).map(c => c.fullName);
   const availableLanguages = ['English', 'Hindi', 'Tamil', 'Telugu', 'Kannada', 'Malayalam', 'Bengali', 'Marathi', 'Gujarati', 'Punjabi'];
 
@@ -49,8 +48,8 @@ const MenteeSignupProfile = () => {
     if (formData.about.length > 500) {
       newErrors.about = 'About must not exceed 500 characters';
     }
+    if (!formData.collegeId) newErrors.collegeId = 'College ID is required';
     if (!formData.branch) newErrors.branch = 'Branch is required';
-    if (!formData.stream) newErrors.stream = 'Stream is required';
     if (!formData.year) newErrors.year = 'Year is required';
     if (!formData.college) newErrors.college = 'College is required';
     if (!formData.city) newErrors.city = 'City is required';
@@ -84,9 +83,8 @@ const MenteeSignupProfile = () => {
     }));
   };
 
-  const currentBranches = formData.stream ? branches[formData.stream as keyof typeof branches] || [] : [];
-  const isFormValid = Object.keys(errors).length === 0 && 
-    formData.about && formData.branch && formData.stream && formData.year && 
+  const isFormValid = Object.keys(errors).length === 0 &&
+    formData.about && formData.collegeId && formData.branch && formData.year &&
     formData.college && formData.city && formData.state &&
     formData.languages.length > 0;
 
@@ -122,57 +120,6 @@ const MenteeSignupProfile = () => {
               {errors.about && <p className="text-sm text-destructive">{errors.about}</p>}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Stream */}
-              <div className="space-y-2">
-                <Label htmlFor="stream">Stream*</Label>
-                <Select value={formData.stream} onValueChange={(value) => setFormData({ ...formData, stream: value, branch: '' })}>
-                  <SelectTrigger className={`h-12 ${errors.stream ? 'border-destructive' : ''}`}>
-                    <SelectValue placeholder="Select stream" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {streams.map(s => (
-                      <SelectItem key={s} value={s}>{s}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {errors.stream && <p className="text-sm text-destructive">{errors.stream}</p>}
-              </div>
-
-              {/* Branch */}
-              <div className="space-y-2">
-                <Label htmlFor="branch">Branch*</Label>
-                <Select value={formData.branch} onValueChange={(value) => setFormData({ ...formData, branch: value })} disabled={!formData.stream}>
-                  <SelectTrigger className={`h-12 ${errors.branch ? 'border-destructive' : ''}`}>
-                    <SelectValue placeholder="Select branch" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {currentBranches.map(b => (
-                      <SelectItem key={b} value={b}>{b}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {errors.branch && <p className="text-sm text-destructive">{errors.branch}</p>}
-              </div>
-
-              {/* Year */}
-              <div className="space-y-2">
-                <Label htmlFor="year">Which Year*</Label>
-                <Select value={formData.year} onValueChange={(value) => setFormData({ ...formData, year: value })}>
-                  <SelectTrigger className={`h-12 ${errors.year ? 'border-destructive' : ''}`}>
-                    <SelectValue placeholder="Select year" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {years.map(y => (
-                      <SelectItem key={y} value={y}>{y}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {errors.year && <p className="text-sm text-destructive">{errors.year}</p>}
-              </div>
-
-            </div>
-
             {/* College */}
             <div className="space-y-2">
               <Label htmlFor="college">College*</Label>
@@ -187,6 +134,53 @@ const MenteeSignupProfile = () => {
                 </SelectContent>
               </Select>
               {errors.college && <p className="text-sm text-destructive">{errors.college}</p>}
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+              {/* College ID No */}
+              <div className="space-y-2">
+                <Label htmlFor="collegeId">College ID No</Label>
+                <Input
+                  id="collegeId"
+                  placeholder="Enter here"
+                  value={formData.collegeId}
+                  onChange={(e) => setFormData({ ...formData, collegeId: e.target.value })}
+                  className={`h-10 sm:h-12 ${errors.collegeId ? 'border-destructive' : ''}`}
+                />
+                {errors.collegeId && <p className="text-sm text-destructive">{errors.collegeId}</p>}
+              </div>
+
+              {/* Branch Year */}
+              <div className="space-y-2">
+                <Label htmlFor="year">Branch Year*</Label>
+                <Select value={formData.year} onValueChange={(value) => setFormData({ ...formData, year: value })}>
+                  <SelectTrigger className={`h-10 sm:h-12 ${errors.year ? 'border-destructive' : ''}`}>
+                    <SelectValue placeholder="Select year" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {years.map(y => (
+                      <SelectItem key={y} value={y}>{y}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {errors.year && <p className="text-sm text-destructive">{errors.year}</p>}
+              </div>
+
+              {/* Branch */}
+              <div className="space-y-2 sm:col-span-2">
+                <Label htmlFor="branch">Branch*</Label>
+                <Select value={formData.branch} onValueChange={(value) => setFormData({ ...formData, branch: value })}>
+                  <SelectTrigger className={`h-10 sm:h-12 ${errors.branch ? 'border-destructive' : ''}`}>
+                    <SelectValue placeholder="Select branch" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {branches.map(b => (
+                      <SelectItem key={b} value={b}>{b}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {errors.branch && <p className="text-sm text-destructive">{errors.branch}</p>}
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

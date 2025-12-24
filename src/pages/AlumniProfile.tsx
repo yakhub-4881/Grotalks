@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Star, MapPin, GraduationCap, Award, ArrowLeft, Building2, Linkedin, Globe } from 'lucide-react';
-import { getCollegeDisplay } from '@/lib/college-config';
+import { Star, MapPin, GraduationCap, Award, ArrowLeft, Building2, Linkedin, Globe, ShieldCheck, IdCard, Calendar } from 'lucide-react';
+import { getCollegeDisplay, collegeMap } from '@/lib/college-config';
 import { AlumniServices, AlumniService } from '@/components/AlumniServices';
 
 const AlumniProfile = () => {
@@ -21,7 +21,9 @@ const AlumniProfile = () => {
     company: 'Flipkart',
     location: 'Bangalore',
     college: 'vel-tech',
-    batch: '2018',
+    collegeId: 'VTU4881',
+    batch: '2014-2018',
+    verified: true,
     expertise: ['Product Management', 'Career Guidance', 'Interview Prep', 'Agile Methodologies'],
     rating: 4.9,
     totalReviews: 28,
@@ -101,17 +103,30 @@ const AlumniProfile = () => {
                       {alumni.name.split(' ').map(n => n[0]).join('')}
                     </Avatar>
                     <div className="flex-1 min-w-0">
-                      <h1 className="text-xl md:text-2xl font-bold text-foreground mb-1">{alumni.name}</h1>
+                      <div className="flex items-center gap-2 mb-1">
+                        <h1 className="text-xl md:text-2xl font-bold text-foreground">{alumni.name}</h1>
+                        {alumni.verified && (
+                          <ShieldCheck className="h-5 w-5 text-success" />
+                        )}
+                      </div>
                       <p className="text-sm md:text-base text-muted-foreground mb-2">{alumni.role}</p>
-                      <div className="flex flex-wrap items-center gap-2 text-sm">
-                        <Badge variant="secondary" className="gap-1">
-                          <GraduationCap className="h-3 w-3" />
-                          {getCollegeDisplay(alumni.college, 'both')} • {alumni.batch}
-                        </Badge>
-                        <Badge variant="outline" className="gap-1">
-                          <MapPin className="h-3 w-3" />
-                          {alumni.location}
-                        </Badge>
+                      <div className="space-y-1 text-sm">
+                        <div className="flex items-start gap-2 text-muted-foreground">
+                          <GraduationCap className="h-4 w-4 flex-shrink-0 mt-0.5" />
+                          <span className="text-sm leading-relaxed max-w-[250px] truncate">{collegeMap[alumni.college]?.fullName || 'Unknown College'}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                          <IdCard className="h-4 w-4 flex-shrink-0" />
+                          <span>College ID: {alumni.collegeId}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                          <Calendar className="h-4 w-4 flex-shrink-0" />
+                          <span>Batch: {alumni.batch}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                          <MapPin className="h-4 w-4 flex-shrink-0" />
+                          <span>{alumni.location}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
