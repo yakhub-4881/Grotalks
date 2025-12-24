@@ -36,6 +36,7 @@ const BookingConfirmation = () => {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'upi' | 'card' | null>(null);
 
   const state = location.state as LocationState;
   
@@ -49,7 +50,7 @@ const BookingConfirmation = () => {
   const platformFee = 0; // Free for students
   const totalAmount = sessionPrice;
 
-  const handlePayment = async () => {
+  const handlePayment = async (method: 'upi' | 'card') => {
     if (!name || !email || !phone) {
       toast({
         title: "Missing Information",
@@ -68,12 +69,14 @@ const BookingConfirmation = () => {
       return;
     }
 
+    setSelectedPaymentMethod(method);
     setIsProcessing(true);
-    
+
     // Simulate payment processing
     setTimeout(() => {
       setIsProcessing(false);
       setIsConfirmed(true);
+      setSelectedPaymentMethod(null);
     }, 2500);
   };
 
@@ -270,14 +273,13 @@ const BookingConfirmation = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="phone" className="text-sm">Phone Number *</Label>
+                    <Label htmlFor="phone" className="text-sm">WhatsApp Number *</Label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="phone"
                         type="tel"
-                        placeholder="+91"
-                        value={phone}
+                        value={phone || "+91"}
                         onChange={(e) => setPhone(e.target.value)}
                         className="pl-10 h-11"
                       />
@@ -293,29 +295,57 @@ const BookingConfirmation = () => {
                     onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
                     className="mt-0.5"
                   />
-                  <label htmlFor="terms" className="text-sm leading-relaxed cursor-pointer">
-                    I agree to the <a href="/universal/terms" className="text-primary underline">Terms & Conditions</a> and <a href="/universal/privacy" className="text-primary underline">Privacy Policy</a>. I understand the alumni may reschedule or decline, and I'll receive a full refund if that happens.
+                  <label htmlFor="terms" className="text-xs leading-relaxed cursor-pointer">
+                    I agree to the <a href="/universal/terms" className="text-primary underline">Terms & Conditions</a> and <a href="/universal/privacy" className="text-primary underline">Privacy Policy</a>.
                   </label>
                 </div>
 
-                {/* Payment Button */}
-                <Button
-                  className="w-full h-12 text-base font-semibold"
-                  onClick={handlePayment}
-                  disabled={!name || !email || !phone || !agreedToTerms || isProcessing}
-                >
-                  {isProcessing ? (
-                    <>
-                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      Processing Payment...
-                    </>
-                  ) : (
-                    <>
-                      <CheckCircle2 className="mr-2 h-5 w-5" />
-                      Pay {formatPrice(totalAmount)}
-                    </>
-                  )}
-                </Button>
+                {/* Payment Methods */}
+                <div className="space-y-3">
+                  <Label className="text-sm font-semibold">Choose Payment Method</Label>
+                  <div className="grid grid-cols-1 gap-3">
+                    <Button
+                      variant="outline"
+                      className="h-11 text-sm justify-start hover:bg-primary/5"
+                      onClick={() => handlePayment('upi')}
+                      disabled={!name || !email || !phone || !agreedToTerms || isProcessing}
+                    >
+                      {isProcessing && selectedPaymentMethod === 'upi' ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Processing UPI Payment...
+                        </>
+                      ) : (
+                        <>
+                          <div className="w-6 h-6 bg-primary/10 rounded flex items-center justify-center mr-3">
+                            <span className="text-xs font-bold text-primary">₹</span>
+                          </div>
+                          Pay with UPI
+                        </>
+                      )}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="h-11 text-sm justify-start hover:bg-primary/5"
+                      onClick={() => handlePayment('card')}
+                      disabled={!name || !email || !phone || !agreedToTerms || isProcessing}
+                    >
+                      {isProcessing && selectedPaymentMethod === 'card' ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Processing Card Payment...
+                        </>
+                      ) : (
+                        <>
+                          <div className="w-6 h-6 bg-primary/10 rounded flex items-center justify-center mr-3">
+                            <span className="text-xs">💳</span>
+                          </div>
+                          Pay with Debit/Credit Card
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </div>
 
                 {/* Payment Info */}
                 <div className="mt-4 p-4 bg-primary/5 rounded-lg border border-primary/20">

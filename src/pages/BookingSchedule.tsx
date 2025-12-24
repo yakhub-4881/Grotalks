@@ -38,7 +38,7 @@ const BookingSchedule = () => {
     id: Number(id) || 1,
     name: 'Arjun Singh',
     role: 'Product Manager @ Flipkart',
-    baseRate: 500,
+    baseRate: 2000,
     rating: 4.9,
     availability: {
       slots: ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM', '06:00 PM']
@@ -272,7 +272,7 @@ const BookingSchedule = () => {
               <Card className="p-4 md:p-6">
                 <Label htmlFor="message" className="flex items-center gap-2 mb-4 text-base font-semibold">
                   <User className="h-5 w-5 text-primary" />
-                  What would you like to discuss? (Optional)
+                  What would you like to discuss?
                 </Label>
                 <Textarea
                   id="message"
