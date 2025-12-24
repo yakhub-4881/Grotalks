@@ -101,7 +101,7 @@ export const formatPrice = (price: number): string => {
 };
 
 // Platform fee percentage
-export const PLATFORM_FEE_PERCENT = 15;
+export const PLATFORM_FEE_PERCENT = 20;
 
 // Calculate alumni earnings after platform fee
 export const calculateAlumniEarnings = (sessionPrice: number): number => {

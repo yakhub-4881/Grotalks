@@ -50,10 +50,7 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
     { name: '👨‍🎓 Student Signup - Phone', path: '/mentee/signup' },
     { name: '👨‍🎓 Student Dashboard', path: '/mentee/dashboard' },
     { name: '👨‍🎓 Student First Time View', path: '/mentee/first-time' },
-    { name: '👨‍🎓 Browse Alumni', path: '/mentee/browse' },
     { name: '👨‍🎓 Student Profile', path: '/mentee/profile' },
-    { name: '👨‍🎓 Wallet Recharge', path: '/mentee/wallet/recharge' },
-    { name: '📞 Booking Confirmation', path: '/booking/confirm' },
   ];
 
   return (
@@ -67,7 +64,7 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
             </Link>
 
             <div className="flex items-center gap-2 md:gap-4">
-              {isAuthenticated && isAlumniPage && (
+              {isAlumniPage && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon" className="rounded-full">
@@ -121,7 +118,7 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}
-              
+
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon">
@@ -129,43 +126,6 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-72 max-h-96 overflow-y-auto">
-                  <DropdownMenuLabel>📱 Select Experience</DropdownMenuLabel>
-                  <DropdownMenuItem
-                    onClick={() => {
-                      setVersionMode('mvp');
-                      navigate('/');
-                    }}
-                    className={versionMode === 'mvp' ? 'bg-accent font-medium' : ''}
-                  >
-                    {versionMode === 'mvp' ? '●' : '○'} MVP Mode (Single College)
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => {
-                      setVersionMode('universal');
-                      navigate('/');
-                    }}
-                    className={versionMode === 'universal' ? 'bg-accent font-medium' : ''}
-                  >
-                    {versionMode === 'universal' ? '●' : '○'} Universal Mode (Multi-College)
-                  </DropdownMenuItem>
-                  
-                  {versionMode === 'universal' && (
-                    <>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuLabel>🎓 Select College</DropdownMenuLabel>
-                      <DropdownMenuItem onClick={() => setSelectedCollege('Vel Tech')}>
-                        Vel Tech Rangarajan
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setSelectedCollege('IIT Delhi')}>
-                        IIT Delhi
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setSelectedCollege('IIT Mumbai')}>
-                        IIT Mumbai
-                      </DropdownMenuItem>
-                    </>
-                  )}
-                  
-                  <DropdownMenuSeparator />
                   <DropdownMenuLabel>📋 Screen Navigator</DropdownMenuLabel>
                   {screens.map((screen) => (
                     <DropdownMenuItem
@@ -178,6 +138,7 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
+
             </div>
           </div>
         </nav>

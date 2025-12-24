@@ -32,6 +32,7 @@ import AlumniManageAvailability from "./pages/alumni/AlumniManageAvailability";
 import AlumniPayment from "./pages/alumni/AlumniPayment";
 import AlumniDashboard from "./pages/alumni/AlumniDashboard";
 import AlumniFirstTimeView from "./pages/alumni/AlumniFirstTimeView";
+import AlumniSessionDetails from "./pages/alumni/AlumniSessionDetails";
 
 // Mentee Signup Flow & Dashboard
 import MenteeSignupPhone from "./pages/mentee/MenteeSignupPhone";
@@ -104,6 +105,7 @@ const App = () => (
             <Route path="/alumni/manage-availability" element={<AlumniManageAvailability />} />
             <Route path="/alumni/payment" element={<AlumniPayment />} />
             <Route path="/alumni/dashboard" element={<AlumniDashboard />} />
+            <Route path="/alumni/session/:sessionId/details" element={<AlumniSessionDetails />} />
             <Route path="/alumni/first-time" element={<AlumniFirstTimeView />} />
             <Route path="/alumni/requests" element={<AlumniRequests />} />
             <Route path="/alumni/profile/edit" element={<AlumniProfileEdit />} />

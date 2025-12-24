@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, Star, MapPin, SlidersHorizontal } from 'lucide-react';
+import { Search, Star, MapPin, SlidersHorizontal, ShieldCheck, IdCard, Calendar, Users } from 'lucide-react';
 import { collegeMap } from '@/lib/college-config';
 import { CollegeDisplay } from '@/components/CollegeDisplay';
 
@@ -18,7 +18,9 @@ const alumni = [
     company: 'Flipkart',
     location: 'Bangalore',
     college: 'vel-tech',
-    batch: '2018',
+    collegeId: 'VTU4881',
+    batch: '2014-2018',
+    verified: true,
     language: 'English, Hindi',
     stream: 'Computer Science',
     expertise: ['Product Management', 'Career Guidance', 'Interview Prep'],
@@ -34,7 +36,9 @@ const alumni = [
     company: 'Google',
     location: 'Hyderabad',
     college: 'iit-bombay',
-    batch: '2019',
+    collegeId: 'IITB1234',
+    batch: '2015-2019',
+    verified: true,
     language: 'English, Tamil',
     stream: 'Data Science',
     expertise: ['Masters Abroad', 'Interview Prep', 'Data Science'],
@@ -50,7 +54,9 @@ const alumni = [
     company: 'TechVentures',
     location: 'Bangalore',
     college: 'bits-pilani',
-    batch: '2015',
+    collegeId: 'BITS5678',
+    batch: '2011-2015',
+    verified: true,
     language: 'English, Hindi',
     stream: 'Business',
     expertise: ['Entrepreneurship', 'Startup Funding', 'Career Guidance'],
@@ -115,7 +121,9 @@ const alumni = [
     company: 'Microsoft',
     location: 'Hyderabad',
     college: 'vel-tech',
-    batch: '2019',
+    collegeId: 'VTU1234',
+    batch: '2015-2019',
+    verified: true,
     language: 'English, Tamil',
     stream: 'Computer Science',
     expertise: ['Interview Prep', 'DSA', 'System Design'],
@@ -131,7 +139,9 @@ const alumni = [
     company: 'Deloitte',
     location: 'Chennai',
     college: 'vel-tech',
-    batch: '2020',
+    collegeId: 'VTU5678',
+    batch: '2016-2020',
+    verified: true,
     language: 'English, Tamil',
     stream: 'Data Science',
     expertise: ['Data Analytics', 'SQL', 'Career Guidance'],
@@ -538,14 +548,14 @@ export const AlumniBrowseSection = () => {
                     <SelectTrigger>
                       <SelectValue placeholder="Select college" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="min-w-[300px]">
                       <SelectItem value="all">All Colleges</SelectItem>
-                      <SelectItem value="iit-bombay">IIT Bombay</SelectItem>
-                      <SelectItem value="iit-delhi">IIT Delhi</SelectItem>
-                      <SelectItem value="bits-pilani">BITS Pilani</SelectItem>
-                      <SelectItem value="nit-trichy">NIT Trichy</SelectItem>
-                      <SelectItem value="dtu">DTU</SelectItem>
-                      <SelectItem value="vel-tech">Vel Tech</SelectItem>
+                      <SelectItem value="iit-bombay">Indian Institute of Technology Bombay</SelectItem>
+                      <SelectItem value="iit-delhi">Indian Institute of Technology Delhi</SelectItem>
+                      <SelectItem value="bits-pilani">Birla Institute of Technology and Science, Pilani</SelectItem>
+                      <SelectItem value="nit-trichy">National Institute of Technology, Tiruchirappalli</SelectItem>
+                      <SelectItem value="dtu">Delhi Technological University</SelectItem>
+                      <SelectItem value="vel-tech">Vel Tech Rangarajan Dr. Sagunthala R & D Institute of Science and Technology</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -615,9 +625,14 @@ export const AlumniBrowseSection = () => {
             <Card key={alumni.id} className="group p-6 hover:shadow-xl hover:border-primary/20 transition-all duration-300 flex flex-col">
               {/* Header: Name + Rating */}
               <div className="flex items-start justify-between gap-3 mb-3">
-                <h3 className="text-lg font-bold text-foreground leading-tight">
-                  {alumni.name}
-                </h3>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-lg font-bold text-foreground leading-tight">
+                    {alumni.name}
+                  </h3>
+                  {alumni.verified && (
+                    <ShieldCheck className="h-5 w-5 text-success flex-shrink-0" />
+                  )}
+                </div>
                 <div className="flex items-center gap-1.5 bg-muted px-2.5 py-1 rounded-full flex-shrink-0">
                   <Star className="h-3.5 w-3.5 fill-bonus text-bonus" />
                   <span className="text-sm font-semibold text-foreground">{alumni.rating}</span>
@@ -632,17 +647,31 @@ export const AlumniBrowseSection = () => {
               {/* College Badge + Metadata */}
               <div className="mb-4 pb-4 border-b border-border/50">
                 <div className="mb-2">
-                  <CollegeDisplay collegeName={collegeMap[alumni.college]?.fullName || alumni.college} />
-                </div>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <span className="flex items-center gap-1">
-                    <MapPin className="h-3 w-3" />
-                    {alumni.location}
+                  <span className="text-sm text-muted-foreground truncate block">
+                    {collegeMap[alumni.college]?.fullName || alumni.college}
                   </span>
-                  <span>•</span>
-                  <span>Batch {alumni.batch}</span>
-                  <span>•</span>
-                  <span>{alumni.sessionsCompleted} sessions</span>
+                </div>
+                <div className="space-y-1 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1">
+                      <IdCard className="h-3 w-3" />
+                      <span>College ID: {alumni.collegeId}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Calendar className="h-3 w-3" />
+                      <span>Batch: {alumni.batch}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1">
+                      <MapPin className="h-3 w-3" />
+                      <span>{alumni.location}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Users className="h-3 w-3" />
+                      <span>{alumni.sessionsCompleted} sessions</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
