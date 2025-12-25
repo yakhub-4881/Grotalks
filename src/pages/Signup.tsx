@@ -172,12 +172,12 @@ const Signup = () => {
               </div>
 
               {/* Terms Notice */}
-              <div className="text-center">
+              <div className="text-left">
                 <p className="text-xs text-muted-foreground">
-                  By proceeding, you confirm that you have read and agree to our{' '}
-                  <a href="/universal/terms" className="text-primary underline hover:text-primary/80">Terms and Conditions</a>{' '}
+                  By proceeding, you agree to our{' '}
+                  <a href="/universal/terms" className="text-primary underline hover:text-primary/80">Terms</a>{' '}
                   and{' '}
-                  <a href="/universal/privacy" className="text-primary underline hover:text-primary/80">Privacy Policy</a>.
+                  <a href="/universal/privacy" className="text-primary underline hover:text-primary/80">Policy</a>.
                 </p>
               </div>
 
@@ -277,12 +277,12 @@ const Signup = () => {
               )}
 
               {/* Terms Notice */}
-              <div className="text-center">
+              <div className="text-left">
                 <p className="text-xs text-muted-foreground">
-                  By proceeding, you confirm that you have read and agree to our{' '}
-                  <a href="/universal/terms" className="text-primary underline hover:text-primary/80">Terms and Conditions</a>{' '}
+                  By proceeding, you agree to our{' '}
+                  <a href="/universal/terms" className="text-primary underline hover:text-primary/80">Terms</a>{' '}
                   and{' '}
-                  <a href="/universal/privacy" className="text-primary underline hover:text-primary/80">Privacy Policy</a>.
+                  <a href="/universal/privacy" className="text-primary underline hover:text-primary/80">Policy</a>.
                 </p>
               </div>
 
