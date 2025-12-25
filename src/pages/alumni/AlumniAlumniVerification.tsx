@@ -257,7 +257,7 @@ const AlumniAlumniVerification = () => {
                   <Label className="text-sm font-semibold text-muted-foreground">College ID No</Label>
                   <Input
                     type="text"
-                    placeholder="Enter here"
+                    placeholder="Type here"
                     value={collegeId}
                     onChange={(e) => setCollegeId(e.target.value)}
                     className="h-10 sm:h-12"

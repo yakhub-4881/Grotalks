@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { ArrowLeft, Calendar, Clock, Video, Shield, CheckCircle2, Loader2, User, Mail, Phone, Send, ExternalLink } from 'lucide-react';
@@ -33,7 +32,7 @@ const BookingConfirmation = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  // Terms are now implied by proceeding
   const [isProcessing, setIsProcessing] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'upi' | 'card' | null>(null);
@@ -60,14 +59,6 @@ const BookingConfirmation = () => {
       return;
     }
 
-    if (!agreedToTerms) {
-      toast({
-        title: "Terms Required",
-        description: "Please agree to the terms to continue",
-        variant: "destructive"
-      });
-      return;
-    }
 
     setSelectedPaymentMethod(method);
     setIsProcessing(true);
@@ -287,17 +278,14 @@ const BookingConfirmation = () => {
                   </div>
                 </div>
 
-                {/* Terms */}
-                <div className="flex items-start gap-3 mb-6 p-4 bg-muted rounded-lg">
-                  <Checkbox 
-                    id="terms" 
-                    checked={agreedToTerms}
-                    onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
-                    className="mt-0.5"
-                  />
-                  <label htmlFor="terms" className="text-xs leading-relaxed cursor-pointer">
-                    I agree to the <a href="/universal/terms" className="text-primary underline">Terms & Conditions</a> and <a href="/universal/privacy" className="text-primary underline">Privacy Policy</a>.
-                  </label>
+                {/* Terms Notice */}
+                <div className="text-center mb-6">
+                  <p className="text-xs text-muted-foreground">
+                    By signing up, you confirm that you have read and agree to our{' '}
+                    <a href="/universal/terms" className="text-primary underline hover:text-primary/80">Terms and Conditions</a>{' '}
+                    and{' '}
+                    <a href="/universal/privacy" className="text-primary underline hover:text-primary/80">Privacy Policy</a>.
+                  </p>
                 </div>
 
                 {/* Payment Methods */}
@@ -308,7 +296,7 @@ const BookingConfirmation = () => {
                       variant="outline"
                       className="h-11 text-sm justify-start hover:bg-primary/5"
                       onClick={() => handlePayment('upi')}
-                      disabled={!name || !email || !phone || !agreedToTerms || isProcessing}
+                      disabled={!name || !email || !phone || isProcessing}
                     >
                       {isProcessing && selectedPaymentMethod === 'upi' ? (
                         <>
@@ -328,7 +316,7 @@ const BookingConfirmation = () => {
                       variant="outline"
                       className="h-11 text-sm justify-start hover:bg-primary/5"
                       onClick={() => handlePayment('card')}
-                      disabled={!name || !email || !phone || !agreedToTerms || isProcessing}
+                      disabled={!name || !email || !phone || isProcessing}
                     >
                       {isProcessing && selectedPaymentMethod === 'card' ? (
                         <>

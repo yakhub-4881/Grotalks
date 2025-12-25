@@ -118,7 +118,7 @@ const Login = () => {
                   <Input
                     id="student-email"
                     type="email"
-                    placeholder="yourname@college.edu.in"
+                    placeholder="Type here"
                     value={studentEmail}
                     onChange={(e) => setStudentEmail(e.target.value)}
                     className={`h-10 sm:h-12 flex-1 text-sm sm:text-base ${
@@ -128,9 +128,6 @@ const Login = () => {
                   {errors.studentEmail && (
                     <p className="text-xs sm:text-sm text-destructive">{errors.studentEmail}</p>
                   )}
-                  <p className="text-xs text-muted-foreground">
-                    We'll send a one-time password to this email.
-                  </p>
                 </div>
               </div>
             ) : (
@@ -145,25 +142,12 @@ const Login = () => {
                     <Input
                       id="email"
                       type="email"
-                      placeholder="your.email@example.com"
+                      placeholder="Type here"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       className={`h-12 text-base ${errors.email ? 'border-destructive' : ''}`}
                     />
                     {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
-                    <p className="text-xs text-muted-foreground">
-                      Prefer using your phone instead?{' '}
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setLoginMethod('mobile');
-                          setErrors({});
-                        }}
-                        className="text-primary font-medium hover:underline underline-offset-2"
-                      >
-                        Use mobile OTP
-                      </button>
-                    </p>
                   </div>
                 ) : (
                   <div className="space-y-2">
@@ -185,26 +169,13 @@ const Login = () => {
                       <Input
                         id="phone"
                         type="tel"
-                        placeholder="9876543210"
+                        placeholder="Enter here"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                         className={`flex-1 h-12 text-base ${errors.phone ? 'border-destructive' : ''}`}
                       />
                     </div>
                     {errors.phone && <p className="text-sm text-destructive">{errors.phone}</p>}
-                    <p className="text-xs text-muted-foreground">
-                      Prefer using your email instead?{' '}
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setLoginMethod('email');
-                          setErrors({});
-                        }}
-                        className="text-primary font-medium hover:underline underline-offset-2"
-                      >
-                        Use email OTP
-                      </button>
-                    </p>
                   </div>
                 )}
               </>

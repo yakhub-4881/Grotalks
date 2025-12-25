@@ -179,7 +179,7 @@ const ComingSoon = () => {
                           type="text"
                           value={collegeId}
                           onChange={(e) => setCollegeId(e.target.value)}
-                          placeholder="Enter here"
+                          placeholder="Type here"
                           className="h-12 sm:h-14 px-4 rounded-xl bg-slate-50 border-2 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-slate-300 transition-all text-sm sm:text-base"
                           disabled={isLoading}
                         />

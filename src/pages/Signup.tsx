@@ -3,7 +3,6 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Layout } from '@/components/Layout';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -20,13 +19,11 @@ const Signup = () => {
   const [studentEmail, setStudentEmail] = useState('');
   const [emailState, setEmailState] = useState<'idle' | 'validating' | 'valid' | 'invalid'>('idle');
   const [emailError, setEmailError] = useState('');
-  const [agreedToTermsStudent, setAgreedToTermsStudent] = useState(false);
-  
+
   // Alumni-specific states (contact capture)
   const [alumniPhone, setAlumniPhone] = useState('');
   const [alumniEmail, setAlumniEmail] = useState('');
   const [countryCode, setCountryCode] = useState('+91');
-  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   // How alumni prefers to verify contact details
@@ -69,10 +66,6 @@ const Signup = () => {
 
   const handleStudentContinue = async () => {
     if (!validateStudentEmail()) return;
-    if (!agreedToTermsStudent) {
-      setEmailError('You must agree to Terms & Conditions');
-      return;
-    }
     setEmailState('validating');
     await new Promise(resolve => setTimeout(resolve, 750));
     setEmailState('valid');
@@ -98,9 +91,6 @@ const Signup = () => {
       if (alumniPhone.length !== 10 || !/^\d{10}$/.test(alumniPhone)) {
         newErrors.phone = 'Phone number must be exactly 10 digits';
       }
-    }
-    if (!agreedToTerms) {
-      newErrors.terms = 'You must agree to Terms & Conditions';
     }
 
     setErrors(newErrors);
@@ -156,7 +146,7 @@ const Signup = () => {
                 <Input
                   id="student-email"
                   type="email"
-                  placeholder="yourname@college.edu.in"
+                  placeholder="Type here"
                   value={studentEmail}
                   onChange={(e) => handleStudentEmailChange(e.target.value)}
                   className={`h-10 sm:h-12 text-sm sm:text-base ${
@@ -179,31 +169,22 @@ const Signup = () => {
                     </p>
                   </div>
                 )}
+              </div>
+
+              {/* Terms Notice */}
+              <div className="text-center">
                 <p className="text-xs text-muted-foreground">
-                  Use your official college email (e.g., @college.edu.in). OTP verification happens on the next screen.
+                  By proceeding, you confirm that you have read and agree to our{' '}
+                  <a href="/universal/terms" className="text-primary underline hover:text-primary/80">Terms and Conditions</a>{' '}
+                  and{' '}
+                  <a href="/universal/privacy" className="text-primary underline hover:text-primary/80">Privacy Policy</a>.
                 </p>
               </div>
 
-              {/* Terms Checkbox */}
-              <div className="flex items-start space-x-3">
-                <Checkbox
-                  id="student-terms"
-                  checked={agreedToTermsStudent}
-                  onCheckedChange={(checked) => setAgreedToTermsStudent(checked as boolean)}
-                  className="mt-1"
-                />
-                <Label htmlFor="student-terms" className="text-xs sm:text-sm leading-relaxed cursor-pointer">
-                  I agree to the{' '}
-                  <Button variant="link" className="p-0 h-auto text-primary font-medium text-xs sm:text-sm">
-                    Terms & Conditions
-                  </Button>
-                </Label>
-              </div>
-
               {/* Send OTP Button */}
-              <Button 
+              <Button
                 onClick={handleStudentContinue}
-                disabled={!studentEmail || emailState === 'validating' || !agreedToTermsStudent}
+                disabled={!studentEmail || emailState === 'validating'}
                 className="w-full h-10 sm:h-12 text-sm sm:text-base font-medium"
               >
                 {emailState === 'validating' ? (
@@ -240,7 +221,7 @@ const Signup = () => {
                       <Input
                         id="alumni-email"
                         type="email"
-                        placeholder="your.email@example.com"
+                        placeholder="Type here"
                         value={alumniEmail}
                         onChange={(e) => setAlumniEmail(e.target.value)}
                         className={`h-10 sm:h-12 flex-1 text-sm sm:text-base ${
@@ -249,16 +230,6 @@ const Signup = () => {
                       />
                     </div>
                     {errors.email && <p className="text-xs sm:text-sm text-destructive">{errors.email}</p>}
-                    <p className="text-xs text-muted-foreground">
-                      Prefer using your phone instead?{' '}
-                      <button
-                        type="button"
-                        onClick={() => handleSwitchVerifyMethod('mobile')}
-                        className="text-primary font-medium hover:underline underline-offset-2"
-                      >
-                        Use mobile OTP
-                      </button>
-                    </p>
                   </div>
                 </div>
               )}
@@ -282,7 +253,7 @@ const Signup = () => {
                       <Input
                         id="alumni-phone"
                         type="tel"
-                        placeholder="9876543210"
+                        placeholder="Enter here"
                         value={alumniPhone}
                         onChange={(e) => setAlumniPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                         className={`flex-1 h-10 sm:h-12 text-sm sm:text-base ${
@@ -305,28 +276,20 @@ const Signup = () => {
                 </div>
               )}
 
-              {/* Terms Checkbox */}
-              <div className="flex items-start space-x-3">
-                <Checkbox
-                  id="alumni-terms"
-                  checked={agreedToTerms}
-                  onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
-                  className="mt-1"
-                />
-                <Label htmlFor="alumni-terms" className="text-xs sm:text-sm leading-relaxed cursor-pointer">
-                  I agree to the{' '}
-                  <Button variant="link" className="p-0 h-auto text-primary font-medium text-xs sm:text-sm">
-                    Terms & Conditions
-                  </Button>
-                </Label>
+              {/* Terms Notice */}
+              <div className="text-center">
+                <p className="text-xs text-muted-foreground">
+                  By proceeding, you confirm that you have read and agree to our{' '}
+                  <a href="/universal/terms" className="text-primary underline hover:text-primary/80">Terms and Conditions</a>{' '}
+                  and{' '}
+                  <a href="/universal/privacy" className="text-primary underline hover:text-primary/80">Privacy Policy</a>.
+                </p>
               </div>
-              {errors.terms && <p className="text-xs sm:text-sm text-destructive">{errors.terms}</p>}
 
               <Button
                 onClick={handleAlumniContinue}
                 className="w-full h-10 sm:h-12 text-sm sm:text-base font-medium"
                 disabled={
-                  !agreedToTerms ||
                   (verifyMethod === 'email' ? !alumniEmail : alumniPhone.length !== 10)
                 }
               >
@@ -339,8 +302,8 @@ const Signup = () => {
           <div className="text-center mt-6">
             <p className="text-xs sm:text-sm text-muted-foreground">
               Already have an account?{' '}
-              <Button 
-                variant="link" 
+              <Button
+                variant="link"
                 onClick={() => navigate(`/login?type=${signupType === 'student' ? 'student' : 'alumni'}`)}
                 className="p-0 h-auto font-medium text-primary text-xs sm:text-sm"
               >

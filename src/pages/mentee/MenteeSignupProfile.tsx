@@ -142,7 +142,7 @@ const MenteeSignupProfile = () => {
                 <Label htmlFor="collegeId">College ID No</Label>
                 <Input
                   id="collegeId"
-                  placeholder="Enter here"
+                  placeholder="Type here"
                   value={formData.collegeId}
                   onChange={(e) => setFormData({ ...formData, collegeId: e.target.value })}
                   className={`h-10 sm:h-12 ${errors.collegeId ? 'border-destructive' : ''}`}

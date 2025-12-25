@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Settings, Menu, User, LogOut, UserCircle, GraduationCap, Wallet, Calendar } from 'lucide-react';
+import { Settings, Menu, User, LogOut, UserCircle, GraduationCap, Wallet, Calendar, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -41,13 +41,10 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
     { name: '🏠 Landing', path: '/' },
     { name: '🌐 Universal Landing', path: '/universal' },
     { name: '🚀 Coming Soon', path: '/coming-soon' },
-    { name: '👨‍🏫 Alumni Signup - Phone', path: '/signup?type=alumni' },
     { name: '👨‍🏫 Alumni Dashboard', path: '/alumni/dashboard' },
     { name: '👨‍🏫 Alumni First Time View', path: '/alumni/first-time' },
-    { name: '👨‍🏫 Alumni Requests', path: '/alumni/requests' },
     { name: '👨‍🏫 Alumni Profile', path: '/alumni/profile' },
     { name: '👨‍🏫 Alumni Withdraw', path: '/alumni/withdraw' },
-    { name: '👨‍🎓 Student Signup - Phone', path: '/mentee/signup' },
     { name: '👨‍🎓 Student Dashboard', path: '/mentee/dashboard' },
     { name: '👨‍🎓 Student First Time View', path: '/mentee/first-time' },
     { name: '👨‍🎓 Student Profile', path: '/mentee/profile' },
@@ -118,6 +115,15 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}
+
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => window.open('mailto:support@grotalks.io', '_blank')}
+                title="Contact Support"
+              >
+                <HelpCircle className="h-5 w-5" />
+              </Button>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
