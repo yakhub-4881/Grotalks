@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Settings, Menu, User, LogOut, UserCircle, GraduationCap, Wallet, Calendar, HelpCircle, ShieldCheck } from 'lucide-react';
+import { Settings, Menu, User, LogOut, UserCircle, GraduationCap, Wallet, Calendar, HelpCircle, ShieldCheck, CreditCard, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -101,6 +101,14 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
                     <DropdownMenuItem onClick={() => navigate('/mentee/sessions')}>
                       <Calendar className="mr-2 h-4 w-4" />
                       My Sessions
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate('/mentee/virtual-card')}>
+                      <CreditCard className="mr-2 h-4 w-4" />
+                      Virtual Guidance Card
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate('/mentee/session-allocation')}>
+                      <BarChart3 className="mr-2 h-4 w-4" />
+                      Session Allocation
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => navigate('/mentee/become-alumni')}>
