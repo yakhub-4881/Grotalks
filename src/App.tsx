@@ -63,6 +63,10 @@ import ComingSoon from "./pages/ComingSoon";
 // Chat Session
 import ChatSession from "./pages/ChatSession";
 
+// Admin
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -129,6 +133,10 @@ const App = () => (
             
             {/* Chat Session */}
             <Route path="/session/:sessionId" element={<ChatSession />} />
+            
+            {/* Admin */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
