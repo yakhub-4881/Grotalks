@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Settings, Menu, User, LogOut, UserCircle, GraduationCap, Wallet, Calendar, HelpCircle } from 'lucide-react';
+import { Settings, Menu, User, LogOut, UserCircle, GraduationCap, Wallet, Calendar, HelpCircle, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -142,6 +142,11 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
                       {screen.name}
                     </DropdownMenuItem>
                   ))}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate('/admin/login')} className="text-sm">
+                    <ShieldCheck className="mr-2 h-4 w-4" />
+                    🏫 University Admin Dashboard
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
 
