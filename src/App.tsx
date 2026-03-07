@@ -48,6 +48,9 @@ import MenteeSessions from "./pages/mentee/MenteeSessions";
 import WalletRecharge from "./pages/mentee/WalletRecharge";
 import BecomeAlumni from "./pages/mentee/BecomeAlumni";
 import StudentFirstTimeView from "./pages/mentee/StudentFirstTimeView";
+import UniversityVerification from "./pages/mentee/UniversityVerification";
+import StudentVirtualCard from "./pages/mentee/StudentVirtualCard";
+import StudentSessionAllocation from "./pages/mentee/StudentSessionAllocation";
 
 // Booking & Feedback
 import BookingSchedule from "./pages/BookingSchedule";
@@ -130,6 +133,9 @@ const App = () => (
             <Route path="/mentee/sessions" element={<MenteeSessions />} />
             <Route path="/mentee/first-time" element={<StudentFirstTimeView />} />
             <Route path="/mentee/become-alumni" element={<BecomeAlumni />} />
+            <Route path="/mentee/verify-university" element={<UniversityVerification />} />
+            <Route path="/mentee/virtual-card" element={<StudentVirtualCard />} />
+            <Route path="/mentee/session-allocation" element={<StudentSessionAllocation />} />
             
             {/* Chat Session */}
             <Route path="/session/:sessionId" element={<ChatSession />} />

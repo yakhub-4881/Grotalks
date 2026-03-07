@@ -74,7 +74,7 @@ const AlumniProfile = () => {
   };
 
   const handleBookService = (service: AlumniService) => {
-    navigate(`/booking/schedule/${alumni.id}?service=${service.id}`);
+    navigate(`/mentee/verify-university?alumniId=${alumni.id}&serviceId=${service.id}`);
   };
 
   return (
