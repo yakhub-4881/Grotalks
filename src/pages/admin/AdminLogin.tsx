@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { ShieldCheck } from 'lucide-react';
+import velTechLogo from '@/assets/college-logos/vel-tech.png';
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -29,8 +29,8 @@ const AdminLogin = () => {
       <div className="min-h-screen flex items-center justify-center bg-muted/30 px-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center space-y-2">
-            <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-              <ShieldCheck className="h-6 w-6 text-primary" />
+            <div className="mx-auto w-14 h-14 rounded-full bg-primary/5 flex items-center justify-center border border-primary/10">
+              <img src={velTechLogo} alt="Vel Tech University" className="h-10 w-10 object-contain" />
             </div>
             <CardTitle className="text-xl">University Admin Login</CardTitle>
             <CardDescription>Sign in with your official university credentials</CardDescription>
