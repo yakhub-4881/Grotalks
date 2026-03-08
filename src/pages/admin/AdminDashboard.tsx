@@ -202,29 +202,31 @@ const AdminDashboard = () => {
 
   const handleSaveSettings = () => {
     setAlertThreshold(settingsThreshold);
-    toast({ title: 'Settings Saved', description: 'Admin settings have been updated.' });
+    toast({ title: 'Settings Saved', description: 'All settings have been updated successfully.' });
   };
 
   const handleSemesterReset = () => {
     setStudents(prev => prev.map(s => ({ ...s, used: 0, remaining: s.allocation })));
+    setConfirmResetDialog(false);
     toast({ title: 'Semester Reset', description: 'All student session counts have been reset.' });
   };
 
-  const handleAddStudentId = () => {
-    if (!newStudentId.trim()) return;
-    const id = newStudentId.trim().toUpperCase();
-    if (students.find(s => s.id === id)) {
-      toast({ title: 'Already Exists', description: 'This Student ID is already registered.', variant: 'destructive' });
-      return;
-    }
-    setStudents(prev => [...prev, { id, name: 'New Student', branch: 'CSE', year: '1st', allocation: monthlyAllocation, used: 0, remaining: monthlyAllocation }]);
-    toast({ title: 'Student Added', description: `${id} has been added to the university account.` });
-    setNewStudentId('');
+  const handleAddRule = () => {
+    setAllocationRules(prev => [...prev, { year: editRuleForm.year || '1st Year', branch: editRuleForm.branch || 'All Branches', sessions: editRuleForm.sessions }]);
+    setEditRuleDialog({ open: false, index: null });
+    toast({ title: 'Rule Added', description: 'New allocation rule has been created.' });
   };
 
-  const handleRemoveStudent = (id: string) => {
-    setStudents(prev => prev.filter(s => s.id !== id));
-    toast({ title: 'Student Removed', description: `${id} has been removed from the university account.` });
+  const handleUpdateRule = () => {
+    if (editRuleDialog.index === null) return;
+    setAllocationRules(prev => prev.map((r, i) => i === editRuleDialog.index ? { year: editRuleForm.year, branch: editRuleForm.branch, sessions: editRuleForm.sessions } : r));
+    setEditRuleDialog({ open: false, index: null });
+    toast({ title: 'Rule Updated', description: 'Allocation rule has been updated.' });
+  };
+
+  const handleDeleteRule = (index: number) => {
+    setAllocationRules(prev => prev.filter((_, i) => i !== index));
+    toast({ title: 'Rule Removed', description: 'Allocation rule has been deleted.' });
   };
 
   const branches = [...new Set(students.map(s => s.branch))];
