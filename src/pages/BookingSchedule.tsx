@@ -34,8 +34,7 @@ const BookingSchedule = () => {
   const [message, setMessage] = useState('');
   const [dateScrollIndex, setDateScrollIndex] = useState(0);
 
-  // University verification state
-  const [step, setStep] = useState<'schedule' | 'verify'>('schedule');
+  const [step, setStep] = useState<'schedule' | 'verify' | 'confirmed'>('schedule');
   const [cardNumber, setCardNumber] = useState('');
   const [collegeId, setCollegeId] = useState('');
   const [otp, setOtp] = useState('');
@@ -140,22 +139,89 @@ const BookingSchedule = () => {
         description: `${formatPrice(sessionPrice)} deducted from your university credits.`,
       });
       setTimeout(() => {
-        navigate('/booking/confirm', {
-          state: {
-            alumni: { id: alumni.id, name: alumni.name, role: alumni.role, baseRate: alumni.baseRate },
-            date: format(selectedDate!, 'EEE, dd MMM yyyy'),
-            time: selectedSlot,
-            duration: selectedDuration,
-            message,
-            serviceName: selectedService.title,
-          }
-        });
+        setStep('confirmed');
       }, 1200);
     }, 2000);
   };
 
   const canSendOtp = cardNumber.trim().length > 0 && collegeId.trim().length > 0;
   const canVerify = otpSent && otp.length === 6;
+
+  // Booking Confirmed Screen
+  if (step === 'confirmed') {
+    const confirmedDate = selectedDate ? format(selectedDate, 'EEE, dd MMM yyyy') : '';
+    return (
+      <Layout>
+        <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-b from-primary/5 to-muted flex items-center justify-center py-8">
+          <div className="container max-w-md px-4">
+            <Card className="p-6 md:p-8 text-center">
+              <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center mx-auto mb-5">
+                <CheckCircle2 className="h-10 w-10 text-primary-foreground" />
+              </div>
+
+              <h1 className="text-2xl font-bold text-foreground mb-1">Booking Confirmed!</h1>
+              <p className="text-sm text-muted-foreground mb-6">{selectedService.title} with {alumni.name}</p>
+
+              <Card className="p-4 text-left mb-4 bg-muted/50 border">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold flex-shrink-0 text-sm">
+                      {alumni.name.split(' ').map(n => n[0]).join('')}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-foreground text-sm">{alumni.name}</p>
+                      <p className="text-xs text-muted-foreground">{alumni.role}</p>
+                    </div>
+                  </div>
+
+                  <div className="border-t pt-3 space-y-2">
+                    <div className="flex items-center gap-2 text-sm">
+                      <ServiceIcon className="h-4 w-4 text-primary flex-shrink-0" />
+                      <span className="font-medium">{selectedService.title}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <CalendarIcon className="h-4 w-4 text-primary flex-shrink-0" />
+                      <span>{confirmedDate}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <Clock className="h-4 w-4 text-primary flex-shrink-0" />
+                      <span>{selectedSlot} • {selectedService.duration || selectedDuration} min</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <Video className="h-4 w-4 text-primary flex-shrink-0" />
+                      <span>Video Meeting</span>
+                    </div>
+                  </div>
+
+                  <div className="border-t pt-3 flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">Amount Paid</span>
+                    <span className="font-bold text-primary">{formatPrice(sessionPrice)}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">Payment Method</span>
+                    <span className="text-sm font-medium text-foreground">University Credits</span>
+                  </div>
+                </div>
+              </Card>
+
+              <p className="text-xs text-muted-foreground bg-muted rounded-lg py-3 px-4 mb-6">
+                Meeting details will be sent to your registered college email and WhatsApp number.
+              </p>
+
+              <div className="space-y-3">
+                <Button className="w-full h-12 text-base font-semibold" onClick={() => navigate('/mentee/dashboard')}>
+                  Go to Dashboard
+                </Button>
+                <Button variant="outline" className="w-full" onClick={() => navigate('/mentee/sessions')}>
+                  View My Sessions
+                </Button>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
