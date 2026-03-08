@@ -158,9 +158,17 @@ const AdminDashboard = () => {
           s.id === req.studentId ? { ...s, allocation: s.allocation + 2, remaining: s.remaining + 2 } : s
         ));
       }
+      setRequests(prev => prev.filter(r => r.id !== id));
+      toast({ title: 'Request Approved', description: '2 extra sessions added to the student\'s account.' });
     }
-    setRequests(prev => prev.filter(r => r.id !== id));
-    toast({ title: action === 'approve' ? 'Request Approved' : 'Request Rejected', description: action === 'approve' ? '2 extra sessions added to the student\'s account.' : 'The request has been rejected.' });
+  };
+
+  const handleRejectWithReason = () => {
+    if (!rejectDialog.requestId || !rejectionReason.trim()) return;
+    setRequests(prev => prev.filter(r => r.id !== rejectDialog.requestId));
+    toast({ title: 'Request Rejected', description: `Rejection reason sent to ${rejectDialog.studentName}.` });
+    setRejectDialog({ open: false, requestId: null, studentName: '' });
+    setRejectionReason('');
   };
 
   const handleReload = () => {
