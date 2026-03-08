@@ -4,7 +4,7 @@ import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useAppContext } from '@/lib/app-context';
-import { Calendar, Clock, RotateCcw, Video, Star, XCircle, Users, CreditCard, Hash, Briefcase } from 'lucide-react';
+import { Calendar, Clock, RotateCcw, Video, Star, XCircle, Users, CreditCard, Briefcase } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { RescheduleDialog } from '@/components/RescheduleDialog';
 import { AlumniBrowseSection } from '@/components/AlumniBrowseSection';
@@ -148,16 +148,10 @@ const MenteeDashboard = () => {
                 {upcomingSessions.map((session) => (
                   <Card key={session.id} className="p-4 md:p-6 border-l-4 border-l-success">
                     <div className="flex flex-col gap-4">
-                      {/* Top row: Status + Booking ID */}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
-                          <span className="text-xs font-medium text-success uppercase">Confirmed</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                          <Hash className="h-3 w-3" />
-                          <span>{session.bookingId}</span>
-                        </div>
+                      {/* Status */}
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
+                        <span className="text-xs font-medium text-success uppercase">Confirmed</span>
                       </div>
 
                       <div className="flex flex-col lg:flex-row lg:justify-between gap-4">
