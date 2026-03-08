@@ -136,7 +136,7 @@ const BookingSchedule = () => {
       setOtpVerified(true);
       toast({
         title: 'Booking Confirmed!',
-        description: `${formatPrice(sessionPrice)} deducted from your university credits.`,
+        description: '1 session deducted from your university allocation.',
       });
       setTimeout(() => {
         setStep('confirmed');
@@ -194,12 +194,12 @@ const BookingSchedule = () => {
                   </div>
 
                   <div className="border-t pt-3 flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Amount Paid</span>
+                    <span className="text-sm text-muted-foreground">Session Value</span>
                     <span className="font-bold text-primary">{formatPrice(sessionPrice)}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Payment Method</span>
-                    <span className="text-sm font-medium text-foreground">University Credits</span>
+                    <span className="text-sm text-muted-foreground">Booked Via</span>
+                    <span className="text-sm font-medium text-foreground">University Session Allocation</span>
                   </div>
                 </div>
               </Card>
@@ -272,9 +272,10 @@ const BookingSchedule = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between pt-3 border-t border-primary/20">
-                    <span className="text-muted-foreground text-sm">Credits Required</span>
+                    <span className="text-muted-foreground text-sm">Session Value</span>
                     <span className="font-bold text-primary">{formatPrice(selectedService.price)}</span>
                   </div>
+                  <p className="text-xs text-muted-foreground mt-2">This will use 1 of your allocated sessions</p>
                 </div>
 
                 {/* Selected Schedule Summary (shown during verify step) */}
@@ -429,11 +430,11 @@ const BookingSchedule = () => {
                     disabled={!isFormValid}
                   >
                     <ShieldCheck className="mr-2 h-5 w-5" />
-                    Continue — Verify & Use Credits • {formatPrice(sessionPrice)}
+                    Continue — Verify & Book Session
                   </Button>
 
                   <p className="text-xs text-center text-muted-foreground">
-                    Book using your university-issued guidance card credits
+                    This session will be deducted from your university-allocated quota
                   </p>
                 </>
               ) : (
@@ -447,16 +448,23 @@ const BookingSchedule = () => {
                       </div>
                       <h2 className="text-xl font-bold text-foreground mb-1">Verify University Access</h2>
                       <p className="text-sm text-muted-foreground">
-                        Use your university guidance card credits to book this session
+                        Confirm your identity to book using your allocated sessions
                       </p>
                     </div>
 
-                    {/* Credit Deduction Preview */}
-                    <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 mb-6">
+                    {/* Session Allocation Info */}
+                    <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 mb-6 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Credits to be deducted</span>
-                        <span className="text-lg font-bold text-primary">{formatPrice(sessionPrice)}</span>
+                        <span className="text-sm text-muted-foreground">Sessions Remaining</span>
+                        <span className="text-lg font-bold text-foreground">0 of 5</span>
                       </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-muted-foreground">Session Value</span>
+                        <span className="text-sm font-semibold text-primary">{formatPrice(sessionPrice)}</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground pt-1 border-t border-primary/10">
+                        1 session will be deducted from your allocation. Value is handled by your university.
+                      </p>
                     </div>
 
                     <div className="space-y-5">
@@ -556,7 +564,7 @@ const BookingSchedule = () => {
                             {verifying ? (
                               <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Verifying & Booking...</>
                             ) : (
-                              <>Verify & Book Session • {formatPrice(sessionPrice)}</>
+                              <>Verify & Book Session</>
                             )}
                           </Button>
 
@@ -574,7 +582,7 @@ const BookingSchedule = () => {
                         <div className="flex flex-col items-center gap-3 py-6 border-t">
                           <CheckCircle2 className="h-10 w-10 text-primary" />
                           <p className="text-sm font-medium text-foreground">Booking confirmed! Redirecting...</p>
-                          <p className="text-xs text-muted-foreground">{formatPrice(sessionPrice)} deducted from university credits</p>
+                          <p className="text-xs text-muted-foreground">1 session deducted from your university allocation</p>
                         </div>
                       )}
                     </div>
