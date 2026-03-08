@@ -430,7 +430,7 @@ const BookingSchedule = () => {
                     disabled={!isFormValid}
                   >
                     <ShieldCheck className="mr-2 h-5 w-5" />
-                    Continue — Verify & Use Credits • {formatPrice(sessionPrice)}
+                    Continue — Verify & Book Session
                   </Button>
 
                   <p className="text-xs text-center text-muted-foreground">
