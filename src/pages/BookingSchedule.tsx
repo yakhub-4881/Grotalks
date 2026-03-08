@@ -564,7 +564,7 @@ const BookingSchedule = () => {
                             {verifying ? (
                               <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Verifying & Booking...</>
                             ) : (
-                              <>Verify & Book Session • {formatPrice(sessionPrice)}</>
+                              <>Verify & Book Session</>
                             )}
                           </Button>
 
