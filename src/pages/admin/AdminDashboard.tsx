@@ -110,10 +110,27 @@ const AdminDashboard = () => {
   const [reloadAmount, setReloadAmount] = useState('');
 
   // Settings state
-  const [monthlyAllocation, setMonthlyAllocation] = useState(4);
   const [settingsThreshold, setSettingsThreshold] = useState(10000);
-  const [newStudentId, setNewStudentId] = useState('');
-
+  const [allocationRules, setAllocationRules] = useState([
+    { year: '1st Year', branch: 'All Branches', sessions: 2 },
+    { year: '2nd Year', branch: 'All Branches', sessions: 3 },
+    { year: '3rd Year', branch: 'All Branches', sessions: 4 },
+    { year: '4th Year', branch: 'All Branches', sessions: 5 },
+  ]);
+  const [editRuleDialog, setEditRuleDialog] = useState<{ open: boolean; index: number | null }>({ open: false, index: null });
+  const [editRuleForm, setEditRuleForm] = useState({ year: '', branch: '', sessions: 4 });
+  const [bookingWindow, setBookingWindow] = useState(7); // days in advance
+  const [cancellationHours, setCancellationHours] = useState(24);
+  const [maxSessionDuration, setMaxSessionDuration] = useState(60); // minutes
+  const [autoResetEnabled, setAutoResetEnabled] = useState(true);
+  const [semesterStartDate, setSemesterStartDate] = useState('2026-07-01');
+  const [notifyLowBalance, setNotifyLowBalance] = useState(true);
+  const [notifyNewRequest, setNotifyNewRequest] = useState(true);
+  const [notifySessionComplete, setNotifySessionComplete] = useState(false);
+  const [notifyStudentOnboard, setNotifyStudentOnboard] = useState(true);
+  const [adminEmail, setAdminEmail] = useState('admin@veltech.edu.in');
+  const [universityName, setUniversityName] = useState('Vel Tech University');
+  const [confirmResetDialog, setConfirmResetDialog] = useState(false);
   // Add sessions dialog
   const [addSessionDialog, setAddSessionDialog] = useState<{ open: boolean; student: typeof STUDENTS[0] | null }>({ open: false, student: null });
   const [extraSessions, setExtraSessions] = useState('');
