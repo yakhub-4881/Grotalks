@@ -653,41 +653,241 @@ const AdminDashboard = () => {
             <div className="space-y-6">
               <div>
                 <h1 className="text-2xl font-bold">Settings</h1>
-                <p className="text-muted-foreground text-sm mt-1">Configure admin preferences and student management</p>
+                <p className="text-muted-foreground text-sm mt-1">Configure allocation rules, notifications, policies & academic calendar</p>
               </div>
+
+              {/* ── Session Allocation Rules (Year/Branch wise) ── */}
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle className="text-base flex items-center gap-2"><Users className="h-4 w-4 text-primary" /> Session Allocation Rules</CardTitle>
+                    <CardDescription>Define session limits per year and branch — students get allocated based on matching rules</CardDescription>
+                  </div>
+                  <Button size="sm" onClick={() => { setEditRuleForm({ year: '1st Year', branch: 'All Branches', sessions: 4 }); setEditRuleDialog({ open: true, index: null }); }}>
+                    <Plus className="h-3.5 w-3.5 mr-1" /> Add Rule
+                  </Button>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Year</TableHead>
+                        <TableHead>Branch</TableHead>
+                        <TableHead className="text-center">Sessions / Semester</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {allocationRules.map((rule, i) => (
+                        <TableRow key={i}>
+                          <TableCell className="font-medium">{rule.year}</TableCell>
+                          <TableCell><Badge variant="secondary">{rule.branch}</Badge></TableCell>
+                          <TableCell className="text-center font-semibold">{rule.sessions}</TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex justify-end gap-1">
+                              <Button size="sm" variant="ghost" className="h-7 w-7 p-0" onClick={() => { setEditRuleForm({ year: rule.year, branch: rule.branch, sessions: rule.sessions }); setEditRuleDialog({ open: true, index: i }); }}>
+                                <Edit2 className="h-3.5 w-3.5" />
+                              </Button>
+                              <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-destructive" onClick={() => handleDeleteRule(i)}>
+                                <Trash2 className="h-3.5 w-3.5" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                      {allocationRules.length === 0 && (
+                        <TableRow><TableCell colSpan={4} className="text-center text-muted-foreground py-8">No allocation rules configured. Add a rule to get started.</TableCell></TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+
               <div className="grid md:grid-cols-2 gap-6">
+                {/* ── Booking & Session Policies ── */}
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-base">Session Allocation</CardTitle>
-                    <CardDescription>Set the monthly session limit per student</CardDescription>
+                    <CardTitle className="text-base flex items-center gap-2"><CalendarCheck className="h-4 w-4 text-primary" /> Booking & Session Policies</CardTitle>
+                    <CardDescription>Control how students book and cancel mentorship sessions</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
-                      <Label>Monthly Sessions Per Student</Label>
-                      <Input type="number" min={1} max={20} value={monthlyAllocation} onChange={e => setMonthlyAllocation(Number(e.target.value))} />
+                      <Label>Advance Booking Window (days)</Label>
+                      <p className="text-xs text-muted-foreground">How many days in advance students can book sessions</p>
+                      <Select value={String(bookingWindow)} onValueChange={v => setBookingWindow(Number(v))}>
+                        <SelectTrigger><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                          {[3, 5, 7, 14, 21, 30].map(d => <SelectItem key={d} value={String(d)}>{d} days</SelectItem>)}
+                        </SelectContent>
+                      </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label>Low Balance Alert Threshold (₹)</Label>
-                      <Input type="number" min={1000} step={1000} value={settingsThreshold} onChange={e => setSettingsThreshold(Number(e.target.value))} />
+                      <Label>Cancellation Policy (hours before)</Label>
+                      <p className="text-xs text-muted-foreground">Minimum hours before session start for free cancellation</p>
+                      <Select value={String(cancellationHours)} onValueChange={v => setCancellationHours(Number(v))}>
+                        <SelectTrigger><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                          {[6, 12, 24, 48].map(h => <SelectItem key={h} value={String(h)}>{h} hours</SelectItem>)}
+                        </SelectContent>
+                      </Select>
                     </div>
-                    <Button onClick={handleSaveSettings} className="w-full">Save Settings</Button>
+                    <div className="space-y-2">
+                      <Label>Max Session Duration</Label>
+                      <Select value={String(maxSessionDuration)} onValueChange={v => setMaxSessionDuration(Number(v))}>
+                        <SelectTrigger><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                          {[30, 45, 60, 90].map(m => <SelectItem key={m} value={String(m)}>{m} minutes</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </CardContent>
                 </Card>
 
+                {/* ── Notification Preferences ── */}
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-base">Semester Management</CardTitle>
-                    <CardDescription>Reset session counts for a new semester</CardDescription>
+                    <CardTitle className="text-base flex items-center gap-2"><Bell className="h-4 w-4 text-primary" /> Notification Preferences</CardTitle>
+                    <CardDescription>Choose which events trigger admin notifications</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <p className="text-sm text-muted-foreground">This will reset all student session usage to 0 and restore their allocation to the current monthly limit.</p>
-                    <Button variant="destructive" onClick={handleSemesterReset} className="w-full">Reset All Session Counts</Button>
+                    <div className="flex items-center justify-between">
+                      <div><p className="text-sm font-medium">Low Balance Alert</p><p className="text-xs text-muted-foreground">When virtual card credits fall below threshold</p></div>
+                      <Switch checked={notifyLowBalance} onCheckedChange={setNotifyLowBalance} />
+                    </div>
+                    {notifyLowBalance && (
+                      <div className="space-y-1 pl-1 border-l-2 border-primary/20 ml-1">
+                        <Label className="text-xs">Alert Threshold (₹)</Label>
+                        <Input type="number" min={1000} step={1000} value={settingsThreshold} onChange={e => setSettingsThreshold(Number(e.target.value))} className="h-8 text-sm" />
+                      </div>
+                    )}
+                    <div className="flex items-center justify-between">
+                      <div><p className="text-sm font-medium">New Extra Session Request</p><p className="text-xs text-muted-foreground">When a student submits an extra session request</p></div>
+                      <Switch checked={notifyNewRequest} onCheckedChange={setNotifyNewRequest} />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div><p className="text-sm font-medium">Session Completed</p><p className="text-xs text-muted-foreground">After each mentorship session is completed</p></div>
+                      <Switch checked={notifySessionComplete} onCheckedChange={setNotifySessionComplete} />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div><p className="text-sm font-medium">Student Onboarded</p><p className="text-xs text-muted-foreground">When a new student registers via the platform</p></div>
+                      <Switch checked={notifyStudentOnboard} onCheckedChange={setNotifyStudentOnboard} />
+                    </div>
                   </CardContent>
                 </Card>
 
+                {/* ── Academic Calendar ── */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-base flex items-center gap-2"><Calendar className="h-4 w-4 text-primary" /> Academic Calendar</CardTitle>
+                    <CardDescription>Manage semester cycles and automatic resets</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Next Semester Start Date</Label>
+                      <Input type="date" value={semesterStartDate} onChange={e => setSemesterStartDate(e.target.value)} />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div><p className="text-sm font-medium">Auto-Reset at Semester Start</p><p className="text-xs text-muted-foreground">Automatically reset session counts when new semester begins</p></div>
+                      <Switch checked={autoResetEnabled} onCheckedChange={setAutoResetEnabled} />
+                    </div>
+                    <div className="border-t pt-4">
+                      <p className="text-sm font-medium mb-1">Manual Reset</p>
+                      <p className="text-xs text-muted-foreground mb-3">Reset all session counts immediately. This action cannot be undone.</p>
+                      <Button variant="destructive" size="sm" onClick={() => setConfirmResetDialog(true)} className="w-full">
+                        <AlertTriangle className="h-3.5 w-3.5 mr-1" /> Reset All Session Counts
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* ── University Profile & Admin ── */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-base flex items-center gap-2"><Building className="h-4 w-4 text-primary" /> University Profile</CardTitle>
+                    <CardDescription>University details and admin contact information</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>University Name</Label>
+                      <Input value={universityName} onChange={e => setUniversityName(e.target.value)} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Admin Email</Label>
+                      <Input type="email" value={adminEmail} onChange={e => setAdminEmail(e.target.value)} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>University Logo</Label>
+                      <div className="flex items-center gap-3">
+                        <img src={velTechLogo} alt="University Logo" className="h-10 w-10 rounded-lg object-contain border" />
+                        <Button variant="outline" size="sm">Change Logo</Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Save All */}
+              <div className="flex justify-end">
+                <Button size="lg" onClick={handleSaveSettings} className="px-8">
+                  <Check className="h-4 w-4 mr-2" /> Save All Settings
+                </Button>
               </div>
             </div>
           )}
+
+          {/* Confirm Reset Dialog */}
+          <Dialog open={confirmResetDialog} onOpenChange={setConfirmResetDialog}>
+            <DialogContent className="max-w-sm">
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-2"><AlertTriangle className="h-5 w-5 text-destructive" /> Confirm Semester Reset</DialogTitle>
+                <DialogDescription>This will reset all student session usage to 0. This action cannot be undone.</DialogDescription>
+              </DialogHeader>
+              <DialogFooter className="gap-2">
+                <Button variant="outline" onClick={() => setConfirmResetDialog(false)}>Cancel</Button>
+                <Button variant="destructive" onClick={handleSemesterReset}>Yes, Reset All</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          {/* Add/Edit Rule Dialog */}
+          <Dialog open={editRuleDialog.open} onOpenChange={(open) => { if (!open) setEditRuleDialog({ open: false, index: null }); }}>
+            <DialogContent className="max-w-sm">
+              <DialogHeader>
+                <DialogTitle>{editRuleDialog.index !== null ? 'Edit' : 'Add'} Allocation Rule</DialogTitle>
+                <DialogDescription>Define session limits for a specific year and branch combination</DialogDescription>
+              </DialogHeader>
+              <div className="space-y-3 py-2">
+                <div className="space-y-2">
+                  <Label>Year</Label>
+                  <Select value={editRuleForm.year} onValueChange={v => setEditRuleForm(f => ({ ...f, year: v }))}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {['1st Year', '2nd Year', '3rd Year', '4th Year', '5th Year'].map(y => <SelectItem key={y} value={y}>{y}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label>Branch</Label>
+                  <Select value={editRuleForm.branch} onValueChange={v => setEditRuleForm(f => ({ ...f, branch: v }))}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {['All Branches', 'CSE', 'ECE', 'EEE', 'ME', 'IT', 'Civil', 'Chemical'].map(b => <SelectItem key={b} value={b}>{b}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label>Sessions Per Semester</Label>
+                  <Input type="number" min={1} max={20} value={editRuleForm.sessions} onChange={e => setEditRuleForm(f => ({ ...f, sessions: Number(e.target.value) }))} />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setEditRuleDialog({ open: false, index: null })}>Cancel</Button>
+                <Button onClick={editRuleDialog.index !== null ? handleUpdateRule : handleAddRule}>
+                  {editRuleDialog.index !== null ? 'Update' : 'Add'} Rule
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </main>
       </div>
 
