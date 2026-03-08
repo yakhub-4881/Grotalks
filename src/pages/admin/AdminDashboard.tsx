@@ -665,17 +665,6 @@ const AdminDashboard = () => {
                   </CardContent>
                 </Card>
 
-                <Card className="md:col-span-2">
-                  <CardHeader>
-                    <CardTitle className="text-base">Student Records</CardTitle>
-                    <CardDescription>Manage all student records from the Import Records section</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Button variant="outline" onClick={() => setActiveTab('import')} className="w-full">
-                      <FileSpreadsheet className="h-4 w-4 mr-2" /> Go to Import Records
-                    </Button>
-                  </CardContent>
-                </Card>
               </div>
             </div>
           )}
