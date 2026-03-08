@@ -12,10 +12,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import StudentImport from '@/components/admin/StudentImport';
 import {
   CreditCard, Users, CalendarCheck, UserCheck, Clock, GraduationCap,
   Search, Plus, Check, X, AlertTriangle, Settings, Banknote, Star,
-  Building, LogOut, LayoutDashboard, BookOpen, MessageSquare, Wallet, UserCog
+  Building, LogOut, LayoutDashboard, BookOpen, MessageSquare, Wallet, UserCog,
+  FileSpreadsheet
 } from 'lucide-react';
 
 // ─── Dummy Data ───────────────────────────────────────────────
@@ -214,6 +216,7 @@ const AdminDashboard = () => {
   const sideNavItems = [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard },
     { id: 'students', label: 'Students', icon: Users },
+    { id: 'import', label: 'Import Records', icon: FileSpreadsheet },
     { id: 'sessions', label: 'Sessions', icon: CalendarCheck },
     { id: 'requests', label: 'Requests', icon: MessageSquare },
     { id: 'virtual-card', label: 'Virtual Card', icon: CreditCard },
@@ -365,6 +368,9 @@ const AdminDashboard = () => {
               </Card>
             </div>
           )}
+
+          {/* ── Import Records ── */}
+          {activeTab === 'import' && <StudentImport />}
 
           {/* ── Session Tracking ── */}
           {activeTab === 'sessions' && (
