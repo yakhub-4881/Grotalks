@@ -272,9 +272,10 @@ const BookingSchedule = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between pt-3 border-t border-primary/20">
-                    <span className="text-muted-foreground text-sm">Credits Required</span>
+                    <span className="text-muted-foreground text-sm">Session Value</span>
                     <span className="font-bold text-primary">{formatPrice(selectedService.price)}</span>
                   </div>
+                  <p className="text-xs text-muted-foreground mt-2">This will use 1 of your allocated sessions</p>
                 </div>
 
                 {/* Selected Schedule Summary (shown during verify step) */}
