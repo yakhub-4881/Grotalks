@@ -667,24 +667,13 @@ const AdminDashboard = () => {
 
                 <Card className="md:col-span-2">
                   <CardHeader>
-                    <CardTitle className="text-base">Manage Student IDs</CardTitle>
-                    <CardDescription>Add or remove students from the university account</CardDescription>
+                    <CardTitle className="text-base">Student Records</CardTitle>
+                    <CardDescription>Manage all student records from the Import Records section</CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex gap-2">
-                      <Input placeholder="Enter Student ID (e.g., VT2024010)" value={newStudentId} onChange={e => setNewStudentId(e.target.value)} />
-                      <Button onClick={handleAddStudentId}><Plus className="h-4 w-4 mr-1" /> Add</Button>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 max-h-48 overflow-y-auto">
-                      {students.map(s => (
-                        <div key={s.id} className="flex items-center justify-between bg-muted/50 px-3 py-2 rounded-lg">
-                          <span className="font-mono text-xs">{s.id}</span>
-                          <Button size="sm" variant="ghost" className="text-destructive h-7 w-7 p-0" onClick={() => handleRemoveStudent(s.id)}>
-                            <X className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
+                  <CardContent>
+                    <Button variant="outline" onClick={() => setActiveTab('import')} className="w-full">
+                      <FileSpreadsheet className="h-4 w-4 mr-2" /> Go to Import Records
+                    </Button>
                   </CardContent>
                 </Card>
               </div>
