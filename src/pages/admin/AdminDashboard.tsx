@@ -115,6 +115,10 @@ const AdminDashboard = () => {
   const [addSessionDialog, setAddSessionDialog] = useState<{ open: boolean; student: typeof STUDENTS[0] | null }>({ open: false, student: null });
   const [extraSessions, setExtraSessions] = useState('');
 
+  // Rejection dialog state
+  const [rejectDialog, setRejectDialog] = useState<{ open: boolean; requestId: number | null; studentName: string }>({ open: false, requestId: null, studentName: '' });
+  const [rejectionReason, setRejectionReason] = useState('');
+
   // Filtered students
   const filteredStudents = students.filter(s => {
     const matchesSearch = s.name.toLowerCase().includes(studentSearch.toLowerCase()) || s.id.toLowerCase().includes(studentSearch.toLowerCase());
