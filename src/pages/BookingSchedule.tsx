@@ -582,7 +582,7 @@ const BookingSchedule = () => {
                         <div className="flex flex-col items-center gap-3 py-6 border-t">
                           <CheckCircle2 className="h-10 w-10 text-primary" />
                           <p className="text-sm font-medium text-foreground">Booking confirmed! Redirecting...</p>
-                          <p className="text-xs text-muted-foreground">{formatPrice(sessionPrice)} deducted from university credits</p>
+                          <p className="text-xs text-muted-foreground">1 session deducted from your university allocation</p>
                         </div>
                       )}
                     </div>
