@@ -80,7 +80,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<ComingSoon />} />
+            <Route path="/" element={<Login />} />
             <Route path="/universal" element={<UniversalLanding />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
