@@ -433,11 +433,13 @@ const AdminDashboard = () => {
                               <span className="font-semibold">{req.name}</span>
                               <Badge variant="secondary">{req.used} sessions used</Badge>
                             </div>
-                            <div>
-                              <p className="text-sm"><span className="font-medium">Reason:</span> {req.reason}</p>
+                            <div className="bg-muted/50 rounded-lg p-3">
+                              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">Reason for Additional Sessions</p>
+                              <p className="text-sm leading-relaxed">{req.reason}</p>
                             </div>
-                            <div>
-                              <p className="text-sm"><span className="font-medium">Career Importance:</span> {req.importance}</p>
+                            <div className="bg-muted/50 rounded-lg p-3">
+                              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">Career Importance</p>
+                              <p className="text-sm leading-relaxed">{req.importance}</p>
                             </div>
                           </div>
                           <div className="flex gap-2 sm:flex-col">
