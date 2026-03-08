@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import velTechLogo from '@/assets/college-logos/vel-tech.png';
 import { useNavigate } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
