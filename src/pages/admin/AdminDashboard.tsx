@@ -474,35 +474,56 @@ const AdminDashboard = () => {
                   <Button size="sm" onClick={() => setReloadDialogOpen(true)}>Reload Now</Button>
                 </div>
               )}
-              {/* Card visual – compact credit-card style */}
-              <Card className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground overflow-hidden relative">
-                <div className="absolute top-0 right-0 w-28 h-28 bg-primary-foreground/5 rounded-full -mr-8 -mt-8" />
-                <div className="absolute bottom-0 left-0 w-20 h-20 bg-primary-foreground/5 rounded-full -ml-6 -mb-6" />
-                <CardContent className="p-5 relative z-10">
-                  <div className="flex items-center justify-between mb-3">
-                    <p className="text-sm opacity-80 font-medium">Student Alumni Guidance Card</p>
-                    <CreditCard className="h-5 w-5 opacity-60" />
-                  </div>
-                  <p className="font-mono text-lg tracking-widest mb-3">4520 •••• •••• 8834</p>
-                  <div className="flex items-center gap-6 text-sm mb-3">
+              {/* Card visual – debit card style */}
+              <div className="w-full max-w-md mx-auto" style={{ aspectRatio: '1.586' }}>
+                <div className="relative w-full h-full rounded-2xl bg-gradient-to-br from-[hsl(var(--primary))] via-[hsl(var(--primary)/0.85)] to-[hsl(var(--primary)/0.6)] text-primary-foreground p-6 flex flex-col justify-between shadow-xl overflow-hidden">
+                  {/* Decorative circles */}
+                  <div className="absolute top-0 right-0 w-40 h-40 bg-primary-foreground/[0.06] rounded-full -mr-12 -mt-12" />
+                  <div className="absolute bottom-0 left-0 w-32 h-32 bg-primary-foreground/[0.04] rounded-full -ml-10 -mb-10" />
+                  <div className="absolute top-1/2 right-8 w-20 h-20 bg-primary-foreground/[0.03] rounded-full" />
+
+                  {/* Top row */}
+                  <div className="relative z-10 flex items-start justify-between">
                     <div>
-                      <p className="text-[10px] uppercase opacity-60">Total Loaded</p>
-                      <p className="font-semibold">₹{totalCredits.toLocaleString()}</p>
+                      <p className="text-[10px] uppercase tracking-[0.2em] opacity-60 mb-0.5">University Card</p>
+                      <p className="text-sm font-semibold">Student Alumni Guidance</p>
                     </div>
-                    <div>
-                      <p className="text-[10px] uppercase opacity-60">Used</p>
-                      <p className="font-semibold">₹{creditsUsed.toLocaleString()}</p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] uppercase opacity-60">Remaining</p>
-                      <p className="font-semibold">₹{creditsRemaining.toLocaleString()}</p>
+                    <div className="flex items-center gap-1 opacity-70">
+                      <div className="w-7 h-7 rounded-full bg-primary-foreground/20" />
+                      <div className="w-7 h-7 rounded-full bg-primary-foreground/10 -ml-3" />
                     </div>
                   </div>
-                  <Button variant="secondary" size="sm" onClick={() => setReloadDialogOpen(true)} className="w-full">
-                    <Plus className="h-4 w-4 mr-1" /> Reload Credits
-                  </Button>
-                </CardContent>
-              </Card>
+
+                  {/* Card number */}
+                  <div className="relative z-10">
+                    <p className="font-mono text-xl tracking-[0.25em] font-bold">4520 •••• •••• 8834</p>
+                  </div>
+
+                  {/* Bottom row */}
+                  <div className="relative z-10 flex items-end justify-between">
+                    <div className="flex items-center gap-5">
+                      <div>
+                        <p className="text-[9px] uppercase tracking-wider opacity-50">Total Loaded</p>
+                        <p className="text-sm font-bold">₹{totalCredits.toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <p className="text-[9px] uppercase tracking-wider opacity-50">Used</p>
+                        <p className="text-sm font-bold">₹{creditsUsed.toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <p className="text-[9px] uppercase tracking-wider opacity-50">Remaining</p>
+                        <p className="text-sm font-bold">₹{creditsRemaining.toLocaleString()}</p>
+                      </div>
+                    </div>
+                    <CreditCard className="h-6 w-6 opacity-40" />
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-center mt-3">
+                <Button size="sm" onClick={() => setReloadDialogOpen(true)}>
+                  <Plus className="h-4 w-4 mr-1" /> Reload Credits
+                </Button>
+              </div>
 
               {/* Transaction History */}
               <Card>
