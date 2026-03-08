@@ -30,7 +30,7 @@ const AdminLogin = () => {
         <Card className="w-full max-w-md">
           <CardHeader className="text-center space-y-2">
             <div className="mx-auto w-14 h-14 rounded-full bg-primary/5 flex items-center justify-center border border-primary/10">
-              <img src={velTechLogo} alt="Vel Tech University" className="h-10 w-10 object-contain" />
+              <img src={velTechLogo} alt="Vel Tech University" className="h-10 w-10 object-contain rounded-full" />
             </div>
             <CardTitle className="text-xl">University Admin Login</CardTitle>
             <CardDescription>Sign in with your official university credentials</CardDescription>
