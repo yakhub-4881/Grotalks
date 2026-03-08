@@ -12,10 +12,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import StudentImport from '@/components/admin/StudentImport';
 import {
   CreditCard, Users, CalendarCheck, UserCheck, Clock, GraduationCap,
   Search, Plus, Check, X, AlertTriangle, Settings, Banknote, Star,
-  Building, LogOut, LayoutDashboard, BookOpen, MessageSquare, Wallet, UserCog
+  Building, LogOut, LayoutDashboard, BookOpen, MessageSquare, Wallet, UserCog,
+  FileSpreadsheet
 } from 'lucide-react';
 
 // ─── Dummy Data ───────────────────────────────────────────────
