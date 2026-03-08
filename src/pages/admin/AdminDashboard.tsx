@@ -115,6 +115,10 @@ const AdminDashboard = () => {
   const [addSessionDialog, setAddSessionDialog] = useState<{ open: boolean; student: typeof STUDENTS[0] | null }>({ open: false, student: null });
   const [extraSessions, setExtraSessions] = useState('');
 
+  // Rejection dialog state
+  const [rejectDialog, setRejectDialog] = useState<{ open: boolean; requestId: number | null; studentName: string }>({ open: false, requestId: null, studentName: '' });
+  const [rejectionReason, setRejectionReason] = useState('');
+
   // Filtered students
   const filteredStudents = students.filter(s => {
     const matchesSearch = s.name.toLowerCase().includes(studentSearch.toLowerCase()) || s.id.toLowerCase().includes(studentSearch.toLowerCase());
@@ -154,9 +158,17 @@ const AdminDashboard = () => {
           s.id === req.studentId ? { ...s, allocation: s.allocation + 2, remaining: s.remaining + 2 } : s
         ));
       }
+      setRequests(prev => prev.filter(r => r.id !== id));
+      toast({ title: 'Request Approved', description: '2 extra sessions added to the student\'s account.' });
     }
-    setRequests(prev => prev.filter(r => r.id !== id));
-    toast({ title: action === 'approve' ? 'Request Approved' : 'Request Rejected', description: action === 'approve' ? '2 extra sessions added to the student\'s account.' : 'The request has been rejected.' });
+  };
+
+  const handleRejectWithReason = () => {
+    if (!rejectDialog.requestId || !rejectionReason.trim()) return;
+    setRequests(prev => prev.filter(r => r.id !== rejectDialog.requestId));
+    toast({ title: 'Request Rejected', description: `Rejection reason sent to ${rejectDialog.studentName}.` });
+    setRejectDialog({ open: false, requestId: null, studentName: '' });
+    setRejectionReason('');
   };
 
   const handleReload = () => {
@@ -214,7 +226,9 @@ const AdminDashboard = () => {
         {/* Sidebar */}
         <aside className="hidden md:flex w-64 flex-col border-r bg-background p-4 gap-1">
           <div className="flex items-center gap-2 px-3 py-4 mb-4">
-            <ShieldIcon className="h-6 w-6 text-primary" />
+            <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+              <GraduationCap className="h-5 w-5 text-primary" />
+            </div>
             <div>
               <p className="font-semibold text-sm">University Admin</p>
               <p className="text-xs text-muted-foreground">Vel Tech University</p>
@@ -448,7 +462,7 @@ const AdminDashboard = () => {
                             <Button size="sm" onClick={() => handleRequestAction(req.id, 'approve')} className="gap-1">
                               <Check className="h-3 w-3" /> Approve
                             </Button>
-                            <Button size="sm" variant="outline" onClick={() => handleRequestAction(req.id, 'reject')} className="gap-1 text-destructive hover:text-destructive">
+                            <Button size="sm" variant="outline" onClick={() => { setRejectDialog({ open: true, requestId: req.id, studentName: req.name }); setRejectionReason(''); }} className="gap-1 text-destructive hover:text-destructive">
                               <X className="h-3 w-3" /> Reject
                             </Button>
                           </div>
@@ -714,19 +728,60 @@ const AdminDashboard = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Rejection Reason Dialog */}
+      <Dialog open={rejectDialog.open} onOpenChange={(open) => { if (!open) { setRejectDialog({ open: false, requestId: null, studentName: '' }); setRejectionReason(''); } }}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-full bg-destructive/10 flex items-center justify-center">
+                <X className="h-4 w-4 text-destructive" />
+              </div>
+              Reject Request
+            </DialogTitle>
+            <DialogDescription>
+              Provide a reason for rejecting <span className="font-medium text-foreground">{rejectDialog.studentName}</span>'s extra session request. The student will be notified with this reason.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3 py-2">
+            <Label>Reason for Rejection <span className="text-destructive">*</span></Label>
+            <textarea
+              className="flex min-h-[120px] w-full rounded-lg border border-input bg-muted/30 px-3 py-3 text-sm leading-relaxed ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+              placeholder="e.g., You have already used all allocated sessions this semester. Please wait for the next cycle or contact the department coordinator for special consideration."
+              value={rejectionReason}
+              onChange={e => setRejectionReason(e.target.value)}
+            />
+            <div className="flex flex-wrap gap-2">
+              {[
+                'Sessions quota exhausted for this semester',
+                'Reason not aligned with program objectives',
+                'Insufficient academic standing',
+                'Duplicate request already processed',
+              ].map(reason => (
+                <button
+                  key={reason}
+                  onClick={() => setRejectionReason(reason)}
+                  className="text-xs px-2.5 py-1.5 rounded-md border border-border bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                >
+                  {reason}
+                </button>
+              ))}
+            </div>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => { setRejectDialog({ open: false, requestId: null, studentName: '' }); setRejectionReason(''); }}>Cancel</Button>
+            <Button variant="destructive" onClick={handleRejectWithReason} disabled={!rejectionReason.trim()}>
+              <X className="h-3.5 w-3.5 mr-1" /> Reject Request
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 };
 
 // ─── Sub-components ───────────────────────────────────────────
 
-const ShieldIcon = ({ className }: { className?: string }) => (
-  <div className={`rounded-full bg-primary/10 p-1.5 ${className}`}>
-    <svg className="h-4 w-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-    </svg>
-  </div>
-);
 
 const SummaryCard = ({ icon: Icon, label, value, alert, highlight }: { icon: any; label: string; value: string; alert?: boolean; highlight?: boolean }) => (
   <Card className={alert ? 'border-warning' : ''}>
