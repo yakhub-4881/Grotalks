@@ -462,7 +462,7 @@ const AdminDashboard = () => {
                             <Button size="sm" onClick={() => handleRequestAction(req.id, 'approve')} className="gap-1">
                               <Check className="h-3 w-3" /> Approve
                             </Button>
-                            <Button size="sm" variant="outline" onClick={() => handleRequestAction(req.id, 'reject')} className="gap-1 text-destructive hover:text-destructive">
+                            <Button size="sm" variant="outline" onClick={() => { setRejectDialog({ open: true, requestId: req.id, studentName: req.name }); setRejectionReason(''); }} className="gap-1 text-destructive hover:text-destructive">
                               <X className="h-3 w-3" /> Reject
                             </Button>
                           </div>
