@@ -448,7 +448,7 @@ const BookingSchedule = () => {
                       </div>
                       <h2 className="text-xl font-bold text-foreground mb-1">Verify University Access</h2>
                       <p className="text-sm text-muted-foreground">
-                        Use your university guidance card credits to book this session
+                        Confirm your identity to book using your allocated sessions
                       </p>
                     </div>
 
