@@ -56,12 +56,14 @@ const MENTORS = [
 ];
 
 const TRANSACTIONS = [
-  { date: '2026-03-08', studentId: 'VT2024002', mentor: 'Anita Desai', amount: 499 },
+  { date: '2026-03-08', studentId: 'VT2024002', mentor: 'Anita Desai', amount: 2500 },
   { date: '2026-03-07', studentId: 'VT2024003', mentor: 'Suresh Kumar', amount: 299 },
-  { date: '2026-03-05', studentId: 'VT2024001', mentor: 'Ritu Kapoor', amount: 399 },
-  { date: '2026-03-04', studentId: 'VT2024007', mentor: 'Suresh Kumar', amount: 299 },
+  { date: '2026-03-05', studentId: 'VT2024001', mentor: 'Ritu Kapoor', amount: 1499 },
+  { date: '2026-03-04', studentId: 'VT2024007', mentor: 'Suresh Kumar', amount: 799 },
   { date: '2026-03-02', studentId: 'VT2024004', mentor: 'Vikram Rao', amount: 299 },
-  { date: '2026-03-01', studentId: 'VT2024006', mentor: 'Anita Desai', amount: 499 },
+  { date: '2026-03-01', studentId: 'VT2024006', mentor: 'Anita Desai', amount: 2500 },
+  { date: '2026-02-28', studentId: 'VT2024005', mentor: 'Ritu Kapoor', amount: 1299 },
+  { date: '2026-02-26', studentId: 'VT2024001', mentor: 'Vikram Rao', amount: 599 },
 ];
 
 // ─── Component ────────────────────────────────────────────────
