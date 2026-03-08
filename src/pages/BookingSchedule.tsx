@@ -3,13 +3,14 @@ import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Calendar } from '@/components/ui/calendar';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { Calendar as CalendarIcon, Clock, User, ArrowLeft, Video, ChevronLeft, ChevronRight, Star, MessageSquare, Users, Package, GraduationCap } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, User, ArrowLeft, Video, ChevronLeft, ChevronRight, Star, MessageSquare, Users, Package, GraduationCap, ShieldCheck, CreditCard, IdCard, Mail, Loader2, CheckCircle2 } from 'lucide-react';
 import { calculateSessionPrice, formatPrice } from '@/lib/college-config';
 import { format, addDays, startOfDay, isSameDay } from 'date-fns';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 
 // Service type icons mapping
 const serviceIcons = {
@@ -32,6 +33,22 @@ const BookingSchedule = () => {
   const [selectedDuration, setSelectedDuration] = useState(30);
   const [message, setMessage] = useState('');
   const [dateScrollIndex, setDateScrollIndex] = useState(0);
+
+  // University verification state
+  const [step, setStep] = useState<'schedule' | 'verify'>('schedule');
+  const [cardNumber, setCardNumber] = useState('');
+  const [collegeId, setCollegeId] = useState('');
+  const [otp, setOtp] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [sendingOtp, setSendingOtp] = useState(false);
+  const [verifying, setVerifying] = useState(false);
+  const [verifyErrors, setVerifyErrors] = useState<{ card?: string; college?: string; otp?: string }>({});
+
+  // Dummy valid data
+  const VALID_CARD = 'VTGU-2024-8834-1234';
+  const VALID_COLLEGE_ID = 'VTU4881';
+  const VALID_OTP = '123456';
 
   // Mock alumni data with services
   const alumni = {
@@ -69,7 +86,10 @@ const BookingSchedule = () => {
 
   const visibleDates = availableDates.slice(dateScrollIndex, dateScrollIndex + 5);
 
-  const handleProceedToPayment = () => {
+  const sessionPrice = selectedService.price;
+  const isFormValid = selectedDate && selectedSlot;
+
+  const handleProceedToVerify = () => {
     if (!selectedDate || !selectedSlot) {
       toast({
         title: 'Missing Information',
@@ -78,26 +98,64 @@ const BookingSchedule = () => {
       });
       return;
     }
-
-    // Navigate to payment/confirmation
-    navigate('/booking/confirm', {
-      state: {
-        alumni: {
-          id: alumni.id,
-          name: alumni.name,
-          role: alumni.role,
-          baseRate: alumni.baseRate
-        },
-        date: format(selectedDate, 'EEE, dd MMM yyyy'),
-        time: selectedSlot,
-        duration: selectedDuration,
-        message
-      }
-    });
+    setStep('verify');
   };
 
-  const sessionPrice = selectedService.price;
-  const isFormValid = selectedDate && selectedSlot;
+  const handleSendOtp = () => {
+    const newErrors: typeof verifyErrors = {};
+    if (!cardNumber.trim()) newErrors.card = 'Please enter your virtual card number';
+    if (!collegeId.trim()) newErrors.college = 'Please enter your college ID';
+    if (Object.keys(newErrors).length > 0) {
+      setVerifyErrors(newErrors);
+      return;
+    }
+    setVerifyErrors({});
+    setSendingOtp(true);
+    setTimeout(() => {
+      setSendingOtp(false);
+      setOtpSent(true);
+      toast({
+        title: 'OTP Sent',
+        description: 'A verification code has been sent to your registered college email.',
+      });
+    }, 1500);
+  };
+
+  const handleVerifyAndBook = () => {
+    const newErrors: typeof verifyErrors = {};
+    if (cardNumber !== VALID_CARD) newErrors.card = 'Invalid virtual card number. Check with your university alumni admin.';
+    if (collegeId !== VALID_COLLEGE_ID) newErrors.college = 'College ID not found. Verify the ID sent to your college email.';
+    if (otp !== VALID_OTP) newErrors.otp = 'Incorrect OTP. Please check and try again.';
+    if (Object.keys(newErrors).length > 0) {
+      setVerifyErrors(newErrors);
+      return;
+    }
+    setVerifyErrors({});
+    setVerifying(true);
+    setTimeout(() => {
+      setVerifying(false);
+      setOtpVerified(true);
+      toast({
+        title: 'Booking Confirmed!',
+        description: `${formatPrice(sessionPrice)} deducted from your university credits.`,
+      });
+      setTimeout(() => {
+        navigate('/booking/confirm', {
+          state: {
+            alumni: { id: alumni.id, name: alumni.name, role: alumni.role, baseRate: alumni.baseRate },
+            date: format(selectedDate!, 'EEE, dd MMM yyyy'),
+            time: selectedSlot,
+            duration: selectedDuration,
+            message,
+            serviceName: selectedService.title,
+          }
+        });
+      }, 1200);
+    }, 2000);
+  };
+
+  const canSendOtp = cardNumber.trim().length > 0 && collegeId.trim().length > 0;
+  const canVerify = otpSent && otp.length === 6;
 
   return (
     <Layout>
@@ -107,11 +165,11 @@ const BookingSchedule = () => {
           <Button 
             type="button"
             variant="ghost" 
-            onClick={() => navigate(-1)}
+            onClick={() => step === 'verify' ? setStep('schedule') : navigate(-1)}
             className="mb-4 -ml-2"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back
+            {step === 'verify' ? 'Back to Schedule' : 'Back'}
           </Button>
 
           <div className="grid lg:grid-cols-5 gap-6">
@@ -148,10 +206,19 @@ const BookingSchedule = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between pt-3 border-t border-primary/20">
-                    <span className="text-muted-foreground text-sm">Amount</span>
+                    <span className="text-muted-foreground text-sm">Credits Required</span>
                     <span className="font-bold text-primary">{formatPrice(selectedService.price)}</span>
                   </div>
                 </div>
+
+                {/* Selected Schedule Summary (shown during verify step) */}
+                {step === 'verify' && selectedDate && selectedSlot && (
+                  <div className="bg-muted rounded-lg p-3 mb-4 space-y-1">
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Scheduled For</p>
+                    <p className="text-sm font-semibold text-foreground">{format(selectedDate, 'EEEE, MMMM d, yyyy')}</p>
+                    <p className="text-sm text-foreground">{selectedSlot} (IST)</p>
+                  </div>
+                )}
 
                 {/* Video Call Info */}
                 <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
@@ -184,121 +251,274 @@ const BookingSchedule = () => {
               </Card>
             </div>
 
-            {/* Right: Booking Form */}
+            {/* Right: Booking Form or Verification */}
             <div className="lg:col-span-3 space-y-4 md:space-y-6">
-              {/* Date Selection - Horizontal Scroll */}
-              <Card className="p-4 md:p-6">
-                <Label className="flex items-center gap-2 mb-4 text-base font-semibold">
-                  <CalendarIcon className="h-5 w-5 text-primary" />
-                  Select Date
-                </Label>
-                
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setDateScrollIndex(Math.max(0, dateScrollIndex - 1))}
-                    disabled={dateScrollIndex === 0}
-                    className="flex-shrink-0"
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  
-                  <div className="flex gap-2 overflow-hidden flex-1 justify-center">
-                    {visibleDates.map((date) => (
+              {step === 'schedule' ? (
+                <>
+                  {/* Date Selection */}
+                  <Card className="p-4 md:p-6">
+                    <Label className="flex items-center gap-2 mb-4 text-base font-semibold">
+                      <CalendarIcon className="h-5 w-5 text-primary" />
+                      Select Date
+                    </Label>
+                    
+                    <div className="flex items-center gap-2">
                       <Button
-                        key={date.toISOString()}
-                        variant={selectedDate && isSameDay(selectedDate, date) ? 'default' : 'outline'}
-                        className={`flex flex-col h-auto py-2 px-3 md:px-4 min-w-[60px] md:min-w-[70px] ${
-                          selectedDate && isSameDay(selectedDate, date) ? '' : 'hover:border-primary'
-                        }`}
-                        onClick={() => setSelectedDate(date)}
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setDateScrollIndex(Math.max(0, dateScrollIndex - 1))}
+                        disabled={dateScrollIndex === 0}
+                        className="flex-shrink-0"
                       >
-                        <span className={`text-[10px] md:text-xs ${selectedDate && isSameDay(selectedDate, date) ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
-                          {format(date, 'EEE')}
-                        </span>
-                        <span className="font-bold text-sm md:text-base">{format(date, 'd')}</span>
-                        <span className={`text-[10px] md:text-xs ${selectedDate && isSameDay(selectedDate, date) ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
-                          {format(date, 'MMM')}
-                        </span>
+                        <ChevronLeft className="h-4 w-4" />
                       </Button>
-                    ))}
-                  </div>
-                  
+                      
+                      <div className="flex gap-2 overflow-hidden flex-1 justify-center">
+                        {visibleDates.map((date) => (
+                          <Button
+                            key={date.toISOString()}
+                            variant={selectedDate && isSameDay(selectedDate, date) ? 'default' : 'outline'}
+                            className={`flex flex-col h-auto py-2 px-3 md:px-4 min-w-[60px] md:min-w-[70px] ${
+                              selectedDate && isSameDay(selectedDate, date) ? '' : 'hover:border-primary'
+                            }`}
+                            onClick={() => setSelectedDate(date)}
+                          >
+                            <span className={`text-[10px] md:text-xs ${selectedDate && isSameDay(selectedDate, date) ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
+                              {format(date, 'EEE')}
+                            </span>
+                            <span className="font-bold text-sm md:text-base">{format(date, 'd')}</span>
+                            <span className={`text-[10px] md:text-xs ${selectedDate && isSameDay(selectedDate, date) ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
+                              {format(date, 'MMM')}
+                            </span>
+                          </Button>
+                        ))}
+                      </div>
+                      
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setDateScrollIndex(Math.min(availableDates.length - 5, dateScrollIndex + 1))}
+                        disabled={dateScrollIndex >= availableDates.length - 5}
+                        className="flex-shrink-0"
+                      >
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                    </div>
+
+                    {selectedDate && (
+                      <p className="mt-3 text-sm text-success flex items-center gap-1">
+                        <span>✓</span> {format(selectedDate, 'EEEE, MMMM d, yyyy')}
+                      </p>
+                    )}
+                  </Card>
+
+                  {/* Time Selection */}
+                  <Card className="p-4 md:p-6">
+                    <Label className="flex items-center gap-2 mb-4 text-base font-semibold">
+                      <Clock className="h-5 w-5 text-primary" />
+                      Select Time
+                    </Label>
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                      {alumni.availability.slots.map((slot) => (
+                        <Button
+                          key={slot}
+                          variant={selectedSlot === slot ? 'default' : 'outline'}
+                          className={`h-10 text-sm ${selectedSlot === slot ? '' : 'hover:border-primary'}`}
+                          onClick={() => setSelectedSlot(slot)}
+                        >
+                          {slot}
+                        </Button>
+                      ))}
+                    </div>
+                    {selectedSlot && (
+                      <p className="mt-3 text-sm text-success flex items-center gap-1">
+                        <span>✓</span> {selectedSlot} (IST)
+                      </p>
+                    )}
+                  </Card>
+
+                  {/* Message */}
+                  <Card className="p-4 md:p-6">
+                    <Label htmlFor="message" className="flex items-center gap-2 mb-4 text-base font-semibold">
+                      <User className="h-5 w-5 text-primary" />
+                      What would you like to discuss?
+                    </Label>
+                    <Textarea
+                      id="message"
+                      placeholder="Tell the alumni what you'd like to cover in this session..."
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      className="min-h-24 resize-none"
+                      maxLength={500}
+                    />
+                    <p className="text-xs text-muted-foreground mt-2 text-right">
+                      {message.length}/500
+                    </p>
+                  </Card>
+
+                  {/* Continue Button */}
                   <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setDateScrollIndex(Math.min(availableDates.length - 5, dateScrollIndex + 1))}
-                    disabled={dateScrollIndex >= availableDates.length - 5}
-                    className="flex-shrink-0"
+                    className="w-full h-12 text-base font-semibold"
+                    onClick={handleProceedToVerify}
+                    disabled={!isFormValid}
                   >
-                    <ChevronRight className="h-4 w-4" />
+                    <ShieldCheck className="mr-2 h-5 w-5" />
+                    Continue — Verify & Use Credits • {formatPrice(sessionPrice)}
                   </Button>
-                </div>
 
-                {selectedDate && (
-                  <p className="mt-3 text-sm text-success flex items-center gap-1">
-                    <span>✓</span> {format(selectedDate, 'EEEE, MMMM d, yyyy')}
+                  <p className="text-xs text-center text-muted-foreground">
+                    Book using your university-issued guidance card credits
                   </p>
-                )}
-              </Card>
+                </>
+              ) : (
+                /* ===== VERIFICATION STEP ===== */
+                <>
+                  <Card className="p-5 md:p-7">
+                    {/* Verification Header */}
+                    <div className="text-center mb-6">
+                      <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                        <ShieldCheck className="h-7 w-7 text-primary" />
+                      </div>
+                      <h2 className="text-xl font-bold text-foreground mb-1">Verify University Access</h2>
+                      <p className="text-sm text-muted-foreground">
+                        Use your university guidance card credits to book this session
+                      </p>
+                    </div>
 
-              {/* Time Selection */}
-              <Card className="p-4 md:p-6">
-                <Label className="flex items-center gap-2 mb-4 text-base font-semibold">
-                  <Clock className="h-5 w-5 text-primary" />
-                  Select Time
-                </Label>
-                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                  {alumni.availability.slots.map((slot) => (
-                    <Button
-                      key={slot}
-                      variant={selectedSlot === slot ? 'default' : 'outline'}
-                      className={`h-10 text-sm ${selectedSlot === slot ? '' : 'hover:border-primary'}`}
-                      onClick={() => setSelectedSlot(slot)}
-                    >
-                      {slot}
-                    </Button>
-                  ))}
-                </div>
-                {selectedSlot && (
-                  <p className="mt-3 text-sm text-success flex items-center gap-1">
-                    <span>✓</span> {selectedSlot} (IST)
-                  </p>
-                )}
-              </Card>
+                    {/* Credit Deduction Preview */}
+                    <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 mb-6">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-muted-foreground">Credits to be deducted</span>
+                        <span className="text-lg font-bold text-primary">{formatPrice(sessionPrice)}</span>
+                      </div>
+                    </div>
 
-              {/* Message */}
-              <Card className="p-4 md:p-6">
-                <Label htmlFor="message" className="flex items-center gap-2 mb-4 text-base font-semibold">
-                  <User className="h-5 w-5 text-primary" />
-                  What would you like to discuss?
-                </Label>
-                <Textarea
-                  id="message"
-                  placeholder="Tell the alumni what you'd like to cover in this session..."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  className="min-h-24 resize-none"
-                  maxLength={500}
-                />
-                <p className="text-xs text-muted-foreground mt-2 text-right">
-                  {message.length}/500
-                </p>
-              </Card>
+                    <div className="space-y-5">
+                      {/* Virtual Card Number */}
+                      <div className="space-y-2">
+                        <Label htmlFor="cardNumber" className="flex items-center gap-2 text-sm font-medium">
+                          <CreditCard className="h-4 w-4 text-primary" />
+                          Virtual Guidance Card Number
+                        </Label>
+                        <Input
+                          id="cardNumber"
+                          placeholder="e.g., VTGU-2024-8834-1234"
+                          value={cardNumber}
+                          onChange={(e) => {
+                            setCardNumber(e.target.value);
+                            setVerifyErrors(prev => ({ ...prev, card: undefined }));
+                          }}
+                          disabled={otpVerified}
+                          className={verifyErrors.card ? 'border-destructive' : ''}
+                        />
+                        <p className="text-xs text-muted-foreground">Enter your university-issued virtual card number</p>
+                        {verifyErrors.card && <p className="text-xs text-destructive font-medium">{verifyErrors.card}</p>}
+                      </div>
 
-              {/* Continue Button */}
-              <Button
-                className="w-full h-12 text-base font-semibold"
-                onClick={handleProceedToPayment}
-                disabled={!isFormValid}
-              >
-                Continue to Payment • {formatPrice(sessionPrice)}
-              </Button>
+                      {/* College ID */}
+                      <div className="space-y-2">
+                        <Label htmlFor="collegeId" className="flex items-center gap-2 text-sm font-medium">
+                          <IdCard className="h-4 w-4 text-primary" />
+                          College ID Number
+                        </Label>
+                        <Input
+                          id="collegeId"
+                          placeholder="e.g., VTU4881"
+                          value={collegeId}
+                          onChange={(e) => {
+                            setCollegeId(e.target.value);
+                            setVerifyErrors(prev => ({ ...prev, college: undefined }));
+                          }}
+                          disabled={otpVerified}
+                          className={verifyErrors.college ? 'border-destructive' : ''}
+                        />
+                        <p className="text-xs text-muted-foreground">Enter your College ID — sent to your official college email</p>
+                        {verifyErrors.college && <p className="text-xs text-destructive font-medium">{verifyErrors.college}</p>}
+                      </div>
 
-              <p className="text-xs text-center text-muted-foreground">
-                Secure payment • Instant confirmation • Full refund if declined
-              </p>
+                      {/* Send OTP Button */}
+                      {!otpSent && (
+                        <Button
+                          className="w-full"
+                          onClick={handleSendOtp}
+                          disabled={!canSendOtp || sendingOtp}
+                        >
+                          {sendingOtp ? (
+                            <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Sending OTP...</>
+                          ) : (
+                            <><Mail className="mr-2 h-4 w-4" />Send OTP to College Email</>
+                          )}
+                        </Button>
+                      )}
+
+                      {/* OTP Entry */}
+                      {otpSent && !otpVerified && (
+                        <div className="space-y-3 pt-4 border-t">
+                          <Label className="flex items-center gap-2 text-sm font-medium">
+                            <Mail className="h-4 w-4 text-primary" />
+                            Enter OTP
+                          </Label>
+                          <p className="text-xs text-muted-foreground">
+                            A 6-digit code has been sent to your registered college email
+                          </p>
+                          <div className="flex justify-center">
+                            <InputOTP
+                              maxLength={6}
+                              value={otp}
+                              onChange={(value) => {
+                                setOtp(value);
+                                setVerifyErrors(prev => ({ ...prev, otp: undefined }));
+                              }}
+                            >
+                              <InputOTPGroup>
+                                <InputOTPSlot index={0} />
+                                <InputOTPSlot index={1} />
+                                <InputOTPSlot index={2} />
+                                <InputOTPSlot index={3} />
+                                <InputOTPSlot index={4} />
+                                <InputOTPSlot index={5} />
+                              </InputOTPGroup>
+                            </InputOTP>
+                          </div>
+                          {verifyErrors.otp && <p className="text-xs text-destructive font-medium text-center">{verifyErrors.otp}</p>}
+
+                          <Button
+                            className="w-full h-12 text-base font-semibold"
+                            onClick={handleVerifyAndBook}
+                            disabled={!canVerify || verifying}
+                          >
+                            {verifying ? (
+                              <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Verifying & Booking...</>
+                            ) : (
+                              <>Verify & Book Session • {formatPrice(sessionPrice)}</>
+                            )}
+                          </Button>
+
+                          <button
+                            className="w-full text-xs text-primary hover:underline text-center"
+                            onClick={handleSendOtp}
+                          >
+                            Didn't receive the OTP? Resend
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Success State */}
+                      {otpVerified && (
+                        <div className="flex flex-col items-center gap-3 py-6 border-t">
+                          <CheckCircle2 className="h-10 w-10 text-primary" />
+                          <p className="text-sm font-medium text-foreground">Booking confirmed! Redirecting...</p>
+                          <p className="text-xs text-muted-foreground">{formatPrice(sessionPrice)} deducted from university credits</p>
+                        </div>
+                      )}
+                    </div>
+
+                    <p className="text-[11px] text-muted-foreground text-center mt-6">
+                      Having trouble? Contact your university alumni admin for assistance.
+                    </p>
+                  </Card>
+                </>
+              )}
             </div>
           </div>
         </div>
