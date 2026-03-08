@@ -226,10 +226,8 @@ const AdminDashboard = () => {
       <div className="min-h-screen flex bg-muted/30">
         {/* Sidebar */}
         <aside className="hidden md:flex w-64 flex-col border-r bg-background p-4 gap-1">
-          <div className="flex items-center gap-2 px-3 py-4 mb-4">
-            <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-              <GraduationCap className="h-5 w-5 text-primary" />
-            </div>
+          <div className="flex items-center gap-2.5 px-3 py-4 mb-4">
+            <img src={velTechLogo} alt="Vel Tech University" className="h-9 w-9 rounded-lg object-contain" />
             <div>
               <p className="font-semibold text-sm">University Admin</p>
               <p className="text-xs text-muted-foreground">Vel Tech University</p>
