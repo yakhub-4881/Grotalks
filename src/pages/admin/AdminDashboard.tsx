@@ -41,9 +41,9 @@ const SESSIONS = [
 ];
 
 const EXTRA_REQUESTS = [
-  { id: 1, studentId: 'VT2024003', name: 'Rahul Verma', used: 4, reason: 'Need guidance on placement preparation for upcoming campus drive', importance: 'Securing a placement is critical for my family\'s financial situation', status: 'pending' as const },
+  { id: 1, studentId: 'VT2024003', name: 'Rahul Verma', used: 4, reason: 'I need guidance on placement preparation for the upcoming campus drive happening next month. I have interviews lined up with 3 companies but I am not confident about system design rounds and need a mentor who has been through the same process recently. My mock interviews have not gone well and I feel I need at least 2 more structured sessions to improve.', importance: 'Securing a placement is critical for my family\'s financial situation. I am the first person in my family to attend a university and getting placed in a good company would change everything for us. I cannot afford to miss this opportunity.', status: 'pending' as const },
   { id: 2, studentId: 'VT2024006', name: 'Divya Nair', used: 4, reason: 'Want to explore career options in AI/ML before choosing electives', importance: 'This decision will define my specialization and future career path', status: 'pending' as const },
-  { id: 3, studentId: 'VT2024001', name: 'Arjun Mehta', used: 3, reason: 'Working on a startup idea and need mentor advice on tech stack', importance: 'I want to launch before graduation and need experienced guidance', status: 'pending' as const },
+  { id: 3, studentId: 'VT2024001', name: 'Arjun Mehta', used: 3, reason: 'I am working on a startup idea in the ed-tech space and need mentor advice on choosing the right tech stack, understanding cloud deployment costs, and validating the product idea with someone who has industry experience. I have already built a basic prototype but need guidance on scaling it and whether to use microservices or a monolithic architecture. Additionally I want to understand how to pitch this to investors and what metrics they look for in early stage startups.', importance: 'I want to launch before graduation and need experienced guidance. This startup is not just a college project for me, it is my career plan.', status: 'pending' as const },
 ];
 
 const MENTORS = [
@@ -433,11 +433,13 @@ const AdminDashboard = () => {
                               <span className="font-semibold">{req.name}</span>
                               <Badge variant="secondary">{req.used} sessions used</Badge>
                             </div>
-                            <div>
-                              <p className="text-sm"><span className="font-medium">Reason:</span> {req.reason}</p>
+                            <div className="bg-muted/50 rounded-lg p-3">
+                              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">Reason for Additional Sessions</p>
+                              <p className="text-sm leading-relaxed">{req.reason}</p>
                             </div>
-                            <div>
-                              <p className="text-sm"><span className="font-medium">Career Importance:</span> {req.importance}</p>
+                            <div className="bg-muted/50 rounded-lg p-3">
+                              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">Career Importance</p>
+                              <p className="text-sm leading-relaxed">{req.importance}</p>
                             </div>
                           </div>
                           <div className="flex gap-2 sm:flex-col">
