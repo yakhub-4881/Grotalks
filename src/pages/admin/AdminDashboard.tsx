@@ -17,8 +17,9 @@ import {
   CreditCard, Users, CalendarCheck, UserCheck, Clock, GraduationCap,
   Search, Plus, Check, X, AlertTriangle, Settings, Banknote, Star,
   Building, LogOut, LayoutDashboard, BookOpen, MessageSquare, Wallet, UserCog,
-  FileSpreadsheet
+  FileSpreadsheet, Bell, Shield, Calendar, Edit2, Trash2, Mail
 } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
 
 // ─── Dummy Data ───────────────────────────────────────────────
 
