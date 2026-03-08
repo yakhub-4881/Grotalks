@@ -434,7 +434,7 @@ const BookingSchedule = () => {
                   </Button>
 
                   <p className="text-xs text-center text-muted-foreground">
-                    Book using your university-issued guidance card credits
+                    This session will be deducted from your university-allocated quota
                   </p>
                 </>
               ) : (
