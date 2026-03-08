@@ -194,12 +194,12 @@ const BookingSchedule = () => {
                   </div>
 
                   <div className="border-t pt-3 flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Amount Paid</span>
+                    <span className="text-sm text-muted-foreground">Session Value</span>
                     <span className="font-bold text-primary">{formatPrice(sessionPrice)}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Payment Method</span>
-                    <span className="text-sm font-medium text-foreground">University Credits</span>
+                    <span className="text-sm text-muted-foreground">Booked Via</span>
+                    <span className="text-sm font-medium text-foreground">University Session Allocation</span>
                   </div>
                 </div>
               </Card>
