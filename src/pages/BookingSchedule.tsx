@@ -139,16 +139,7 @@ const BookingSchedule = () => {
         description: `${formatPrice(sessionPrice)} deducted from your university credits.`,
       });
       setTimeout(() => {
-        navigate('/booking/confirm', {
-          state: {
-            alumni: { id: alumni.id, name: alumni.name, role: alumni.role, baseRate: alumni.baseRate },
-            date: format(selectedDate!, 'EEE, dd MMM yyyy'),
-            time: selectedSlot,
-            duration: selectedDuration,
-            message,
-            serviceName: selectedService.title,
-          }
-        });
+        setStep('confirmed');
       }, 1200);
     }, 2000);
   };
