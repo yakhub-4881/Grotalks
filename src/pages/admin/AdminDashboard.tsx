@@ -369,6 +369,9 @@ const AdminDashboard = () => {
             </div>
           )}
 
+          {/* ── Import Records ── */}
+          {activeTab === 'import' && <StudentImport />}
+
           {/* ── Session Tracking ── */}
           {activeTab === 'sessions' && (
             <div className="space-y-4">
