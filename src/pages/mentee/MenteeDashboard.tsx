@@ -146,57 +146,82 @@ const MenteeDashboard = () => {
               <h2 className="text-xl font-semibold text-foreground mb-4">Upcoming Sessions</h2>
               <div className="space-y-4">
                 {upcomingSessions.map((session) => (
-                  <Card key={session.id} className="p-4 md:p-6">
-                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                      {/* Session Info */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-2">
+                  <Card key={session.id} className="p-4 md:p-6 border-l-4 border-l-success">
+                    <div className="flex flex-col gap-4">
+                      {/* Top row: Status + Booking ID */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
                           <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
                           <span className="text-xs font-medium text-success uppercase">Confirmed</span>
                         </div>
-                        <h3 className="text-base md:text-lg font-semibold text-foreground mb-1">{session.alumni}</h3>
-                        <p className="text-sm text-muted-foreground mb-3">{session.topic}</p>
-                        <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                          <div className="flex items-center gap-1.5">
-                            <Calendar className="h-4 w-4 text-primary" />
-                            <span>{session.date} at {session.time}</span>
-                          </div>
-                          <div className="flex items-center gap-1.5">
-                            <Clock className="h-4 w-4 text-primary" />
-                            <span>{session.duration} min</span>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2 mt-2">
-                          <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">{session.serviceName}</span>
-                          <span className="text-xs font-medium text-success bg-success/10 px-2 py-1 rounded-full">Paid ₹{session.pricePaid.toLocaleString()}</span>
+                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                          <Hash className="h-3 w-3" />
+                          <span>{session.bookingId}</span>
                         </div>
                       </div>
-                      
-                      {/* Action Buttons */}
-                      <div className="flex flex-col sm:flex-row gap-2 lg:flex-shrink-0">
-                        <Button 
-                          className="text-sm h-10"
-                          disabled={true}
-                        >
-                          <Video className="mr-2 h-4 w-4" />
-                          Join Call
-                        </Button>
-                        <Button 
-                          variant="outline" 
-                          className="text-sm h-10"
-                          onClick={() => setShowRescheduleDialog(true)}
-                        >
-                          <RotateCcw className="mr-2 h-4 w-4" />
-                          Reschedule
-                        </Button>
-                        <Button 
-                          variant="outline" 
-                          className="text-sm h-10 border-destructive/30 text-destructive hover:text-destructive hover:bg-destructive/10"
-                          onClick={() => handleDeclineClick(session)}
-                        >
-                          <XCircle className="mr-2 h-4 w-4" />
-                          Cancel
-                        </Button>
+
+                      <div className="flex flex-col lg:flex-row lg:justify-between gap-4">
+                        {/* Session Details */}
+                        <div className="flex-1 min-w-0 space-y-3">
+                          {/* Alumni Info */}
+                          <div>
+                            <h3 className="text-base md:text-lg font-semibold text-foreground">{session.alumni}</h3>
+                            <p className="text-xs text-muted-foreground">{session.alumniRole}</p>
+                          </div>
+
+                          {/* Service & Topic */}
+                          <div className="bg-muted/50 rounded-lg p-3 space-y-1.5">
+                            <div className="flex items-center gap-2">
+                              <Briefcase className="h-4 w-4 text-primary flex-shrink-0" />
+                              <span className="text-sm font-medium text-foreground">{session.serviceName}</span>
+                            </div>
+                            <p className="text-sm text-foreground font-medium">{session.topic}</p>
+                            <p className="text-xs text-muted-foreground">{session.description}</p>
+                          </div>
+
+                          {/* Date, Time, Duration, Credits */}
+                          <div className="flex flex-wrap items-center gap-3">
+                            <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                              <Calendar className="h-4 w-4 text-primary" />
+                              <span>{session.date} at {session.time}</span>
+                            </div>
+                            <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                              <Clock className="h-4 w-4 text-primary" />
+                              <span>{session.duration} min</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <CreditCard className="h-4 w-4 text-success" />
+                              <span className="text-sm font-semibold text-success">₹{session.creditsPaid.toLocaleString()} Credits Used</span>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Action Buttons */}
+                        <div className="flex flex-col sm:flex-row lg:flex-col gap-2 lg:flex-shrink-0 lg:justify-start">
+                          <Button 
+                            className="text-sm h-10"
+                            disabled={true}
+                          >
+                            <Video className="mr-2 h-4 w-4" />
+                            Join Call
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            className="text-sm h-10"
+                            onClick={() => setShowRescheduleDialog(true)}
+                          >
+                            <RotateCcw className="mr-2 h-4 w-4" />
+                            Reschedule
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            className="text-sm h-10 border-destructive/30 text-destructive hover:text-destructive hover:bg-destructive/10"
+                            onClick={() => handleDeclineClick(session)}
+                          >
+                            <XCircle className="mr-2 h-4 w-4" />
+                            Cancel
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </Card>
