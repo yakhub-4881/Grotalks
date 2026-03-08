@@ -452,12 +452,19 @@ const BookingSchedule = () => {
                       </p>
                     </div>
 
-                    {/* Credit Deduction Preview */}
-                    <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 mb-6">
+                    {/* Session Allocation Info */}
+                    <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 mb-6 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Credits to be deducted</span>
-                        <span className="text-lg font-bold text-primary">{formatPrice(sessionPrice)}</span>
+                        <span className="text-sm text-muted-foreground">Sessions Remaining</span>
+                        <span className="text-lg font-bold text-foreground">0 of 5</span>
                       </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-muted-foreground">Session Value</span>
+                        <span className="text-sm font-semibold text-primary">{formatPrice(sessionPrice)}</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground pt-1 border-t border-primary/10">
+                        1 session will be deducted from your allocation. Value is handled by your university.
+                      </p>
                     </div>
 
                     <div className="space-y-5">
