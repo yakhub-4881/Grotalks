@@ -46,14 +46,17 @@ const MenteeDashboard = () => {
     {
       id: 1,
       alumni: 'Arjun Singh',
+      alumniRole: 'Product Manager @ Flipkart',
       topic: 'Product Management Career Path',
+      description: 'Discuss PM career transition, skills needed, and how to break into product roles at top companies.',
       date: 'Nov 5, 2024',
       time: '3:00 PM',
       duration: 30,
       status: 'confirmed',
       meetLink: 'https://meet.google.com/xyz-abcd-efg',
       serviceName: '1:1 Career Guidance Call',
-      pricePaid: 2000,
+      creditsPaid: 2000,
+      bookingId: 'GRO-BK-20241105',
     },
   ];
 
