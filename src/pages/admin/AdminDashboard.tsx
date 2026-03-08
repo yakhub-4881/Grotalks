@@ -56,12 +56,14 @@ const MENTORS = [
 ];
 
 const TRANSACTIONS = [
-  { date: '2026-03-08', studentId: 'VT2024002', mentor: 'Anita Desai', amount: 499 },
+  { date: '2026-03-08', studentId: 'VT2024002', mentor: 'Anita Desai', amount: 2500 },
   { date: '2026-03-07', studentId: 'VT2024003', mentor: 'Suresh Kumar', amount: 299 },
-  { date: '2026-03-05', studentId: 'VT2024001', mentor: 'Ritu Kapoor', amount: 399 },
-  { date: '2026-03-04', studentId: 'VT2024007', mentor: 'Suresh Kumar', amount: 299 },
+  { date: '2026-03-05', studentId: 'VT2024001', mentor: 'Ritu Kapoor', amount: 1499 },
+  { date: '2026-03-04', studentId: 'VT2024007', mentor: 'Suresh Kumar', amount: 799 },
   { date: '2026-03-02', studentId: 'VT2024004', mentor: 'Vikram Rao', amount: 299 },
-  { date: '2026-03-01', studentId: 'VT2024006', mentor: 'Anita Desai', amount: 499 },
+  { date: '2026-03-01', studentId: 'VT2024006', mentor: 'Anita Desai', amount: 2500 },
+  { date: '2026-02-28', studentId: 'VT2024005', mentor: 'Ritu Kapoor', amount: 1299 },
+  { date: '2026-02-26', studentId: 'VT2024001', mentor: 'Vikram Rao', amount: 599 },
 ];
 
 // ─── Component ────────────────────────────────────────────────
@@ -472,38 +474,43 @@ const AdminDashboard = () => {
                   <Button size="sm" onClick={() => setReloadDialogOpen(true)}>Reload Now</Button>
                 </div>
               )}
-              <div className="grid md:grid-cols-2 gap-4">
-                <Card className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground">
-                  <CardContent className="p-6 space-y-4">
-                    <div className="flex items-center justify-between">
-                      <p className="text-sm opacity-80">Student Alumni Guidance Card</p>
-                      <CreditCard className="h-6 w-6 opacity-60" />
+              {/* Card visual – compact credit-card style */}
+              <Card className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground overflow-hidden relative">
+                <div className="absolute top-0 right-0 w-28 h-28 bg-primary-foreground/5 rounded-full -mr-8 -mt-8" />
+                <div className="absolute bottom-0 left-0 w-20 h-20 bg-primary-foreground/5 rounded-full -ml-6 -mb-6" />
+                <CardContent className="p-5 relative z-10">
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-sm opacity-80 font-medium">Student Alumni Guidance Card</p>
+                    <CreditCard className="h-5 w-5 opacity-60" />
+                  </div>
+                  <p className="font-mono text-lg tracking-widest mb-3">4520 •••• •••• 8834</p>
+                  <div className="flex items-center gap-6 text-sm mb-3">
+                    <div>
+                      <p className="text-[10px] uppercase opacity-60">Total Loaded</p>
+                      <p className="font-semibold">₹{totalCredits.toLocaleString()}</p>
                     </div>
-                    <p className="font-mono text-lg tracking-widest">4520 •••• •••• 8834</p>
-                    <div className="grid grid-cols-3 gap-2 text-sm">
-                      <div>
-                        <p className="text-xs opacity-60">Total Loaded</p>
-                        <p className="font-semibold">₹{totalCredits.toLocaleString()}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs opacity-60">Used</p>
-                        <p className="font-semibold">₹{creditsUsed.toLocaleString()}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs opacity-60">Remaining</p>
-                        <p className="font-semibold">₹{creditsRemaining.toLocaleString()}</p>
-                      </div>
+                    <div>
+                      <p className="text-[10px] uppercase opacity-60">Used</p>
+                      <p className="font-semibold">₹{creditsUsed.toLocaleString()}</p>
                     </div>
-                    <Button variant="secondary" size="sm" onClick={() => setReloadDialogOpen(true)} className="w-full">
-                      <Plus className="h-4 w-4 mr-1" /> Reload Credits
-                    </Button>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-base">Transaction History</CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-0">
+                    <div>
+                      <p className="text-[10px] uppercase opacity-60">Remaining</p>
+                      <p className="font-semibold">₹{creditsRemaining.toLocaleString()}</p>
+                    </div>
+                  </div>
+                  <Button variant="secondary" size="sm" onClick={() => setReloadDialogOpen(true)} className="w-full">
+                    <Plus className="h-4 w-4 mr-1" /> Reload Credits
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* Transaction History */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base">Transaction History</CardTitle>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <div className="max-h-72 overflow-y-auto">
                     <Table>
                       <TableHeader>
                         <TableRow>
@@ -524,9 +531,9 @@ const AdminDashboard = () => {
                         ))}
                       </TableBody>
                     </Table>
-                  </CardContent>
-                </Card>
-              </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           )}
 
