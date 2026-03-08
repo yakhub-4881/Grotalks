@@ -728,6 +728,54 @@ const AdminDashboard = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Rejection Reason Dialog */}
+      <Dialog open={rejectDialog.open} onOpenChange={(open) => { if (!open) { setRejectDialog({ open: false, requestId: null, studentName: '' }); setRejectionReason(''); } }}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-full bg-destructive/10 flex items-center justify-center">
+                <X className="h-4 w-4 text-destructive" />
+              </div>
+              Reject Request
+            </DialogTitle>
+            <DialogDescription>
+              Provide a reason for rejecting <span className="font-medium text-foreground">{rejectDialog.studentName}</span>'s extra session request. The student will be notified with this reason.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3 py-2">
+            <Label>Reason for Rejection <span className="text-destructive">*</span></Label>
+            <textarea
+              className="flex min-h-[120px] w-full rounded-lg border border-input bg-muted/30 px-3 py-3 text-sm leading-relaxed ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+              placeholder="e.g., You have already used all allocated sessions this semester. Please wait for the next cycle or contact the department coordinator for special consideration."
+              value={rejectionReason}
+              onChange={e => setRejectionReason(e.target.value)}
+            />
+            <div className="flex flex-wrap gap-2">
+              {[
+                'Sessions quota exhausted for this semester',
+                'Reason not aligned with program objectives',
+                'Insufficient academic standing',
+                'Duplicate request already processed',
+              ].map(reason => (
+                <button
+                  key={reason}
+                  onClick={() => setRejectionReason(reason)}
+                  className="text-xs px-2.5 py-1.5 rounded-md border border-border bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                >
+                  {reason}
+                </button>
+              ))}
+            </div>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => { setRejectDialog({ open: false, requestId: null, studentName: '' }); setRejectionReason(''); }}>Cancel</Button>
+            <Button variant="destructive" onClick={handleRejectWithReason} disabled={!rejectionReason.trim()}>
+              <X className="h-3.5 w-3.5 mr-1" /> Reject Request
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 };
