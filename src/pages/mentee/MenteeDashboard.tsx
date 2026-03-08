@@ -4,7 +4,7 @@ import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useAppContext } from '@/lib/app-context';
-import { Calendar, Clock, RotateCcw, Video, Star, XCircle, Users, CreditCard, Hash, Briefcase } from 'lucide-react';
+import { Calendar, Clock, RotateCcw, Video, Star, XCircle, Users, CreditCard, Briefcase } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { RescheduleDialog } from '@/components/RescheduleDialog';
 import { AlumniBrowseSection } from '@/components/AlumniBrowseSection';
