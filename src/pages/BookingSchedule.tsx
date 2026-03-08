@@ -136,7 +136,7 @@ const BookingSchedule = () => {
       setOtpVerified(true);
       toast({
         title: 'Booking Confirmed!',
-        description: `${formatPrice(sessionPrice)} deducted from your university credits.`,
+        description: '1 session deducted from your university allocation.',
       });
       setTimeout(() => {
         setStep('confirmed');
