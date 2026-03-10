@@ -184,8 +184,8 @@ const MenteeDashboard = () => {
                               <span>{session.duration} min</span>
                             </div>
                             <div className="flex items-center gap-1.5">
-                              <CreditCard className="h-4 w-4 text-primary" />
-                              <span className="text-sm font-medium text-muted-foreground">Session Value: ₹{session.creditsPaid.toLocaleString()}</span>
+                              <CheckCircle className="h-4 w-4 text-success" />
+                              <span className="text-sm font-medium text-success">Covered by University</span>
                             </div>
                           </div>
                         </div>
