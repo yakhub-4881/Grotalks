@@ -116,7 +116,7 @@ const AlumniSignupPhone = () => {
             {verifyMethod === 'email' && (
               <div className="space-y-4 animate-fade-in">
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-semibold">Email Address*</Label>
+                  <Label htmlFor="email" className="text-sm font-semibold">Email Address</Label>
                   <div className="flex flex-col sm:flex-row gap-2">
                     <Input
                       id="email"
