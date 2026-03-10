@@ -186,7 +186,7 @@ const MenteeSignupProfile = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* City */}
               <div className="space-y-2">
-                <Label htmlFor="city">City*</Label>
+                <Label htmlFor="city">City</Label>
                 <Input
                   id="city"
                   placeholder="Mumbai"
