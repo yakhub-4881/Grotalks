@@ -141,7 +141,7 @@ const Signup = () => {
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <Mail className="h-4 w-4 text-muted-foreground" />
-                  <Label htmlFor="student-email" className="text-sm font-semibold">College Email ID*</Label>
+                  <Label htmlFor="student-email" className="text-sm font-semibold">College Email ID</Label>
                 </div>
                 <Input
                   id="student-email"
