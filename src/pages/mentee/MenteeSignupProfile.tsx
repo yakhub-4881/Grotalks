@@ -122,7 +122,7 @@ const MenteeSignupProfile = () => {
 
             {/* College */}
             <div className="space-y-2">
-              <Label htmlFor="college">College*</Label>
+              <Label htmlFor="college">College</Label>
               <Select value={formData.college} onValueChange={(value) => setFormData({ ...formData, college: value })}>
                 <SelectTrigger className={`h-12 ${errors.college ? 'border-destructive' : ''}`}>
                   <SelectValue placeholder="Select your college" />
