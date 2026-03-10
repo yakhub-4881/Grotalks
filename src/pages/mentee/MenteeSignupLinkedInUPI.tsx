@@ -218,7 +218,7 @@ const MenteeSignupLinkedInUPI = () => {
 
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="upi">UPI ID*</Label>
+                    <Label htmlFor="upi">UPI ID</Label>
                     <div className="flex gap-2">
                       <Input
                         id="upi"

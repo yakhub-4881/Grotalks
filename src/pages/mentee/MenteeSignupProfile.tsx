@@ -122,7 +122,7 @@ const MenteeSignupProfile = () => {
 
             {/* College */}
             <div className="space-y-2">
-              <Label htmlFor="college">College*</Label>
+              <Label htmlFor="college">College</Label>
               <Select value={formData.college} onValueChange={(value) => setFormData({ ...formData, college: value })}>
                 <SelectTrigger className={`h-12 ${errors.college ? 'border-destructive' : ''}`}>
                   <SelectValue placeholder="Select your college" />
@@ -152,7 +152,7 @@ const MenteeSignupProfile = () => {
 
               {/* Branch Year */}
               <div className="space-y-2">
-                <Label htmlFor="year">Branch Year*</Label>
+                <Label htmlFor="year">Branch Year</Label>
                 <Select value={formData.year} onValueChange={(value) => setFormData({ ...formData, year: value })}>
                   <SelectTrigger className={`h-10 sm:h-12 ${errors.year ? 'border-destructive' : ''}`}>
                     <SelectValue placeholder="Select year" />
@@ -168,7 +168,7 @@ const MenteeSignupProfile = () => {
 
               {/* Branch */}
               <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="branch">Branch*</Label>
+                <Label htmlFor="branch">Branch</Label>
                 <Select value={formData.branch} onValueChange={(value) => setFormData({ ...formData, branch: value })}>
                   <SelectTrigger className={`h-10 sm:h-12 ${errors.branch ? 'border-destructive' : ''}`}>
                     <SelectValue placeholder="Select branch" />
@@ -186,7 +186,7 @@ const MenteeSignupProfile = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* City */}
               <div className="space-y-2">
-                <Label htmlFor="city">City*</Label>
+                <Label htmlFor="city">City</Label>
                 <Input
                   id="city"
                   placeholder="Mumbai"
@@ -199,7 +199,7 @@ const MenteeSignupProfile = () => {
 
               {/* State */}
               <div className="space-y-2">
-                <Label htmlFor="state">State*</Label>
+                <Label htmlFor="state">State</Label>
                 <Input
                   id="state"
                   placeholder="Maharashtra"

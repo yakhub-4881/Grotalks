@@ -116,7 +116,7 @@ const AlumniSignupPhone = () => {
             {verifyMethod === 'email' && (
               <div className="space-y-4 animate-fade-in">
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-semibold">Email Address*</Label>
+                  <Label htmlFor="email" className="text-sm font-semibold">Email Address</Label>
                   <div className="flex flex-col sm:flex-row gap-2">
                     <Input
                       id="email"
@@ -136,7 +136,7 @@ const AlumniSignupPhone = () => {
             {verifyMethod === 'mobile' && (
               <div className="space-y-4 animate-fade-in">
                 <div className="space-y-2">
-                  <Label htmlFor="phone" className="text-sm font-semibold">Mobile Number*</Label>
+                  <Label htmlFor="phone" className="text-sm font-semibold">Mobile Number</Label>
                   <div className="flex gap-2">
                     <Select value={countryCode} onValueChange={setCountryCode}>
                       <SelectTrigger className="w-20 sm:w-24 h-10 sm:h-12 text-sm">

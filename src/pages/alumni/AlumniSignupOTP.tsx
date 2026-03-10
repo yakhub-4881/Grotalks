@@ -99,7 +99,7 @@ const AlumniSignupOTP = () => {
 
             {/* OTP Input */}
             <div className="space-y-2">
-              <Label htmlFor="otp" className="text-sm font-semibold">Enter 6-digit OTP*</Label>
+              <Label htmlFor="otp" className="text-sm font-semibold">Enter 6-digit OTP</Label>
               <Input
                 id="otp"
                 type="text"

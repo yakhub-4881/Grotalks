@@ -87,7 +87,7 @@ const MenteeSignupPhone = () => {
           <div className="space-y-6">
             {/* Phone Number */}
             <div className="space-y-2">
-              <Label htmlFor="phone" className="text-sm font-semibold">Phone Number*</Label>
+              <Label htmlFor="phone" className="text-sm font-semibold">Phone Number</Label>
               <div className="flex gap-2">
                 <div className="flex items-center px-3 h-12 bg-muted border border-input rounded-md">
                   <span className="text-sm font-medium">+91</span>
@@ -115,7 +115,7 @@ const MenteeSignupPhone = () => {
 
             {/* Student Email */}
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-semibold">Student Email ID*</Label>
+              <Label htmlFor="email" className="text-sm font-semibold">Student Email ID</Label>
               <Input
                 id="email"
                 type="email"
