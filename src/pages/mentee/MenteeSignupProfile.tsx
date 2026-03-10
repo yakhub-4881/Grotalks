@@ -152,7 +152,7 @@ const MenteeSignupProfile = () => {
 
               {/* Branch Year */}
               <div className="space-y-2">
-                <Label htmlFor="year">Branch Year*</Label>
+                <Label htmlFor="year">Branch Year</Label>
                 <Select value={formData.year} onValueChange={(value) => setFormData({ ...formData, year: value })}>
                   <SelectTrigger className={`h-10 sm:h-12 ${errors.year ? 'border-destructive' : ''}`}>
                     <SelectValue placeholder="Select year" />
