@@ -115,7 +115,7 @@ const MenteeSignupPhone = () => {
 
             {/* Student Email */}
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-semibold">Student Email ID*</Label>
+              <Label htmlFor="email" className="text-sm font-semibold">Student Email ID</Label>
               <Input
                 id="email"
                 type="email"

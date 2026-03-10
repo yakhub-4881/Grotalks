@@ -153,7 +153,7 @@ const Login = () => {
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
                       <Phone className="h-4 w-4 text-muted-foreground" />
-                      <Label htmlFor="phone" className="text-sm font-semibold">Mobile Number*</Label>
+                      <Label htmlFor="phone" className="text-sm font-semibold">Mobile Number</Label>
                     </div>
                     <div className="flex gap-2">
                       <Select value={countryCode} onValueChange={setCountryCode}>

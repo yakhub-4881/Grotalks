@@ -199,7 +199,7 @@ const MenteeSignupProfile = () => {
 
               {/* State */}
               <div className="space-y-2">
-                <Label htmlFor="state">State*</Label>
+                <Label htmlFor="state">State</Label>
                 <Input
                   id="state"
                   placeholder="Maharashtra"
