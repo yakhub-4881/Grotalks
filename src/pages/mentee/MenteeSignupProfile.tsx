@@ -168,7 +168,7 @@ const MenteeSignupProfile = () => {
 
               {/* Branch */}
               <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="branch">Branch*</Label>
+                <Label htmlFor="branch">Branch</Label>
                 <Select value={formData.branch} onValueChange={(value) => setFormData({ ...formData, branch: value })}>
                   <SelectTrigger className={`h-10 sm:h-12 ${errors.branch ? 'border-destructive' : ''}`}>
                     <SelectValue placeholder="Select branch" />
