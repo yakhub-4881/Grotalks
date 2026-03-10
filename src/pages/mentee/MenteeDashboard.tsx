@@ -4,7 +4,7 @@ import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useAppContext } from '@/lib/app-context';
-import { Calendar, Clock, RotateCcw, Video, Star, XCircle, Users, CreditCard, Briefcase } from 'lucide-react';
+import { Calendar, Clock, RotateCcw, Video, Star, XCircle, Users, CheckCircle, Briefcase } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { RescheduleDialog } from '@/components/RescheduleDialog';
 import { AlumniBrowseSection } from '@/components/AlumniBrowseSection';
@@ -184,8 +184,8 @@ const MenteeDashboard = () => {
                               <span>{session.duration} min</span>
                             </div>
                             <div className="flex items-center gap-1.5">
-                              <CreditCard className="h-4 w-4 text-primary" />
-                              <span className="text-sm font-medium text-muted-foreground">Session Value: ₹{session.creditsPaid.toLocaleString()}</span>
+                              <CheckCircle className="h-4 w-4 text-success" />
+                              <span className="text-sm font-medium text-success">Covered by University</span>
                             </div>
                           </div>
                         </div>
