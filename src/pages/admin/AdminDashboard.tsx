@@ -13,6 +13,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import StudentImport from '@/components/admin/StudentImport';
+import StudentJourneyTracker from '@/components/admin/StudentJourneyTracker';
+import BatchAnalytics from '@/components/admin/BatchAnalytics';
+import CareerMilestones from '@/components/admin/CareerMilestones';
+import SemesterReport from '@/components/admin/SemesterReport';
+import NonEngagedAlerts from '@/components/admin/NonEngagedAlerts';
 import {
   CreditCard, Users, CalendarCheck, UserCheck, Clock, GraduationCap,
   Search, Plus, Check, X, AlertTriangle, Settings, Banknote, Star,
