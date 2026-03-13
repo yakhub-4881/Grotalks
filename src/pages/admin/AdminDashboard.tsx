@@ -458,6 +458,21 @@ const AdminDashboard = () => {
             </div>
           )}
 
+          {/* ── Student Journey Tracker ── */}
+          {activeTab === 'journey' && <StudentJourneyTracker />}
+
+          {/* ── Batch Analytics ── */}
+          {activeTab === 'batch-analytics' && <BatchAnalytics />}
+
+          {/* ── Career Milestones ── */}
+          {activeTab === 'milestones' && <CareerMilestones />}
+
+          {/* ── Semester Report ── */}
+          {activeTab === 'semester-report' && <SemesterReport />}
+
+          {/* ── Non-Engaged Alerts ── */}
+          {activeTab === 'non-engaged' && <NonEngagedAlerts />}
+
           {/* ── Extra Session Requests ── */}
           {activeTab === 'requests' && (
             <div className="space-y-4">
