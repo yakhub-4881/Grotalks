@@ -13,6 +13,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import StudentImport from '@/components/admin/StudentImport';
+import StudentJourneyTracker from '@/components/admin/StudentJourneyTracker';
+import BatchAnalytics from '@/components/admin/BatchAnalytics';
+import CareerMilestones from '@/components/admin/CareerMilestones';
+import SemesterReport from '@/components/admin/SemesterReport';
+import NonEngagedAlerts from '@/components/admin/NonEngagedAlerts';
 import {
   CreditCard, Users, CalendarCheck, UserCheck, Clock, GraduationCap,
   Search, Plus, Check, X, AlertTriangle, Settings, Banknote, Star,
@@ -238,6 +243,11 @@ const AdminDashboard = () => {
     { id: 'students', label: 'Students', icon: Users },
     { id: 'import', label: 'Import Records', icon: FileSpreadsheet },
     { id: 'sessions', label: 'Sessions', icon: CalendarCheck },
+    { id: 'journey', label: 'Student Journey', icon: BookOpen },
+    { id: 'batch-analytics', label: 'Batch Analytics', icon: Star },
+    { id: 'milestones', label: 'Career Milestones', icon: Shield },
+    { id: 'semester-report', label: 'Semester Report', icon: FileSpreadsheet },
+    { id: 'non-engaged', label: 'Non-Engaged', icon: Bell },
     { id: 'requests', label: 'Requests', icon: MessageSquare },
     { id: 'virtual-card', label: 'Virtual Card', icon: CreditCard },
     { id: 'mentors', label: 'Mentors', icon: GraduationCap },
@@ -447,6 +457,21 @@ const AdminDashboard = () => {
               </Card>
             </div>
           )}
+
+          {/* ── Student Journey Tracker ── */}
+          {activeTab === 'journey' && <StudentJourneyTracker />}
+
+          {/* ── Batch Analytics ── */}
+          {activeTab === 'batch-analytics' && <BatchAnalytics />}
+
+          {/* ── Career Milestones ── */}
+          {activeTab === 'milestones' && <CareerMilestones />}
+
+          {/* ── Semester Report ── */}
+          {activeTab === 'semester-report' && <SemesterReport />}
+
+          {/* ── Non-Engaged Alerts ── */}
+          {activeTab === 'non-engaged' && <NonEngagedAlerts />}
 
           {/* ── Extra Session Requests ── */}
           {activeTab === 'requests' && (
