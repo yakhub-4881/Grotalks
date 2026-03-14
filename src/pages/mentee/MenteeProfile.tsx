@@ -240,6 +240,16 @@ const MenteeProfile = () => {
               </Button>
             </div>
           )}
+
+          {/* Career Milestone Tracker */}
+          <div className="mt-6">
+            <CareerMilestoneTracker />
+          </div>
+
+          {/* Session Journey */}
+          <div className="mt-6">
+            <SessionJourney />
+          </div>
         </div>
       </div>
     </Layout>

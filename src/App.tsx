@@ -139,6 +139,9 @@ const App = () => (
             <Route path="/mentee/verify-university" element={<UniversityVerification />} />
             <Route path="/mentee/virtual-card" element={<StudentVirtualCard />} />
             <Route path="/mentee/session-allocation" element={<StudentSessionAllocation />} />
+            <Route path="/mentee/pre-session-goal" element={<PreSessionGoal />} />
+            <Route path="/mentee/post-session-action-plan" element={<PostSessionActionPlan />} />
+            <Route path="/mentee/follow-up" element={<FollowUpCheck />} />
             
             {/* Chat Session */}
             <Route path="/session/:sessionId" element={<ChatSession />} />
