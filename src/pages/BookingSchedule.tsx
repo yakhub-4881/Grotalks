@@ -246,7 +246,6 @@ const BookingSchedule = () => {
             <ArrowLeft className="mr-2 h-4 w-4" />
             {step === 'verify' ? 'Back to Goal' : step === 'goal' ? 'Back to Schedule' : 'Back'}
           </Button>
-          </Button>
 
           <div className="grid lg:grid-cols-5 gap-6">
             {/* Left: Session Info */}
