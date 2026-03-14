@@ -236,11 +236,16 @@ const BookingSchedule = () => {
           <Button 
             type="button"
             variant="ghost" 
-            onClick={() => step === 'verify' ? setStep('schedule') : navigate(-1)}
+            onClick={() => {
+              if (step === 'verify') setStep('goal');
+              else if (step === 'goal') setStep('schedule');
+              else navigate(-1);
+            }}
             className="mb-4 -ml-2"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            {step === 'verify' ? 'Back to Schedule' : 'Back'}
+            {step === 'verify' ? 'Back to Goal' : step === 'goal' ? 'Back to Schedule' : 'Back'}
+          </Button>
           </Button>
 
           <div className="grid lg:grid-cols-5 gap-6">
