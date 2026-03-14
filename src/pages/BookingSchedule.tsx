@@ -446,6 +446,57 @@ const BookingSchedule = () => {
                     This session will be deducted from your university-allocated quota
                   </p>
                 </>
+              ) : step === 'goal' ? (
+                /* ===== PRE-SESSION GOAL STEP ===== */
+                <>
+                  <Card className="p-5 md:p-7">
+                    <div className="text-center mb-6">
+                      <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                        <CalendarIcon className="h-7 w-7 text-primary" />
+                      </div>
+                      <h2 className="text-xl font-bold text-foreground mb-1">Get the Most Out of Your Session</h2>
+                      <p className="text-sm text-muted-foreground">The more specific you are, the more your mentor can help you</p>
+                    </div>
+
+                    <div className="bg-primary/5 border border-primary/15 rounded-lg p-4 mb-5">
+                      <p className="text-xs text-muted-foreground">
+                        Your mentor will see this before the session so they can prepare tailored advice for you.
+                      </p>
+                    </div>
+
+                    <div className="space-y-3 mb-5">
+                      <Label className="text-sm font-medium">What is the one thing you want to walk away with from this session?</Label>
+                      <Textarea
+                        placeholder="e.g. I want to understand how to transition from engineering to product management..."
+                        value={preSessionGoal}
+                        onChange={(e) => setPreSessionGoal(e.target.value)}
+                        className="min-h-28 resize-none"
+                        maxLength={500}
+                      />
+                      <div className="flex justify-between">
+                        <p className="text-xs text-muted-foreground">{preSessionGoal.length}/500</p>
+                        {preSessionGoal.length >= 10 && <p className="text-xs text-success">✓ Great!</p>}
+                      </div>
+                    </div>
+
+                    <div className="mb-5">
+                      <p className="text-xs text-muted-foreground mb-2">Need inspiration?</p>
+                      <div className="flex flex-wrap gap-2">
+                        {['How to prepare for campus placements', 'Is an MBA worth it?', 'Building a strong LinkedIn profile'].map((ex) => (
+                          <button key={ex} onClick={() => setPreSessionGoal(ex)} className="text-xs px-3 py-1.5 rounded-full border border-border bg-background hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
+                            {ex}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <Button className="w-full h-12 text-base font-semibold" onClick={handleProceedToVerify} disabled={preSessionGoal.trim().length < 10}>
+                      <ShieldCheck className="mr-2 h-5 w-5" />
+                      Continue — Verify & Book
+                    </Button>
+                    <p className="text-xs text-center text-muted-foreground mt-3">You can update this before the session</p>
+                  </Card>
+                </>
               ) : (
                 /* ===== VERIFICATION STEP ===== */
                 <>
