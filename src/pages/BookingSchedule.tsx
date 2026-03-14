@@ -34,7 +34,8 @@ const BookingSchedule = () => {
   const [message, setMessage] = useState('');
   const [dateScrollIndex, setDateScrollIndex] = useState(0);
 
-  const [step, setStep] = useState<'schedule' | 'verify' | 'confirmed'>('schedule');
+  const [step, setStep] = useState<'schedule' | 'goal' | 'verify' | 'confirmed'>('schedule');
+  const [preSessionGoal, setPreSessionGoal] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [collegeId, setCollegeId] = useState('');
   const [otp, setOtp] = useState('');
