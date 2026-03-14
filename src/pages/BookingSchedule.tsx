@@ -89,7 +89,7 @@ const BookingSchedule = () => {
   const sessionPrice = selectedService.price;
   const isFormValid = selectedDate && selectedSlot;
 
-  const handleProceedToVerify = () => {
+  const handleProceedToGoal = () => {
     if (!selectedDate || !selectedSlot) {
       toast({
         title: 'Missing Information',
@@ -98,6 +98,10 @@ const BookingSchedule = () => {
       });
       return;
     }
+    setStep('goal');
+  };
+
+  const handleProceedToVerify = () => {
     setStep('verify');
   };
 
