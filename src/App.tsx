@@ -51,6 +51,9 @@ import StudentFirstTimeView from "./pages/mentee/StudentFirstTimeView";
 import UniversityVerification from "./pages/mentee/UniversityVerification";
 import StudentVirtualCard from "./pages/mentee/StudentVirtualCard";
 import StudentSessionAllocation from "./pages/mentee/StudentSessionAllocation";
+import PreSessionGoal from "./pages/mentee/PreSessionGoal";
+import PostSessionActionPlan from "./pages/mentee/PostSessionActionPlan";
+import FollowUpCheck from "./pages/mentee/FollowUpCheck";
 
 // Booking & Feedback
 import BookingSchedule from "./pages/BookingSchedule";
