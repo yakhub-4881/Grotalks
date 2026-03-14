@@ -287,8 +287,8 @@ const BookingSchedule = () => {
                   <p className="text-xs text-muted-foreground mt-2">This will use 1 of your allocated sessions</p>
                 </div>
 
-                {/* Selected Schedule Summary (shown during verify step) */}
-                {step === 'verify' && selectedDate && selectedSlot && (
+                {/* Selected Schedule Summary (shown during verify/goal step) */}
+                {(step === 'verify' || step === 'goal') && selectedDate && selectedSlot && (
                   <div className="bg-muted rounded-lg p-3 mb-4 space-y-1">
                     <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Scheduled For</p>
                     <p className="text-sm font-semibold text-foreground">{format(selectedDate, 'EEEE, MMMM d, yyyy')}</p>
