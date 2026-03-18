@@ -184,9 +184,9 @@ const MenteeDashboard = () => {
                               <Clock className="h-4 w-4 text-primary" />
                               <span>{session.duration} min</span>
                             </div>
-                            <div className="flex items-center gap-1.5">
-                              <CheckCircle className="h-4 w-4 text-success" />
-                              <span className="text-sm font-medium text-success">Covered by University</span>
+                            <div className="flex items-center gap-1.5 bg-success/10 rounded-full px-2.5 py-0.5">
+                              <CheckCircle className="h-3.5 w-3.5 text-success" />
+                              <span className="text-xs font-medium text-success">Covered by your college</span>
                             </div>
                           </div>
                         </div>

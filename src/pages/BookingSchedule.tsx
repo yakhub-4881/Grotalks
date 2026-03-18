@@ -413,23 +413,15 @@ const BookingSchedule = () => {
                     )}
                   </Card>
 
-                  {/* Message */}
-                  <Card className="p-4 md:p-6">
-                    <Label htmlFor="message" className="flex items-center gap-2 mb-4 text-base font-semibold">
-                      <User className="h-5 w-5 text-primary" />
-                      What would you like to discuss?
-                    </Label>
-                    <Textarea
-                      id="message"
-                      placeholder="Tell the alumni what you'd like to cover in this session..."
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      className="min-h-24 resize-none"
-                      maxLength={500}
-                    />
-                    <p className="text-xs text-muted-foreground mt-2 text-right">
-                      {message.length}/500
-                    </p>
+                  {/* Note about goal — removed duplicate textarea */}
+                  <Card className="p-4 md:p-6 bg-primary/5 border-primary/20">
+                    <div className="flex items-start gap-3">
+                      <User className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium text-foreground">You'll set your session goal in the next step</p>
+                        <p className="text-xs text-muted-foreground mt-1">Share what you want to achieve — your mentor will see it before the session to prepare tailored advice.</p>
+                      </div>
+                    </div>
                   </Card>
 
                   {/* Continue Button */}
