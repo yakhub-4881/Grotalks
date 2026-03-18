@@ -20,7 +20,7 @@ const ActionPlanFollowUp = () => {
   const progressPercent = Math.round((completedActions / totalActions) * 100);
   const pendingSessions = 2;
 
-  if (totalActions === 0) return null;
+  if (totalActions <= 0) return null;
 
   return (
     <Card
