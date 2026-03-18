@@ -8,6 +8,7 @@ import { Calendar, Clock, RotateCcw, Video, Star, XCircle, Users, CheckCircle, B
 import { useToast } from '@/hooks/use-toast';
 import { RescheduleDialog } from '@/components/RescheduleDialog';
 import { AlumniBrowseSection } from '@/components/AlumniBrowseSection';
+import ActionPlanFollowUp from '@/components/mentee/ActionPlanFollowUp';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -223,6 +224,11 @@ const MenteeDashboard = () => {
               </div>
             </div>
           )}
+
+          {/* Action Plan Follow-Up */}
+          <div className="mb-8">
+            <ActionPlanFollowUp />
+          </div>
 
           {/* Browse Alumni Section */}
           <div className="mb-8">
