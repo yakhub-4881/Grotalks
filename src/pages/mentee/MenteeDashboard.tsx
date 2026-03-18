@@ -225,6 +225,11 @@ const MenteeDashboard = () => {
             </div>
           )}
 
+          {/* Action Plan Follow-Up */}
+          <div className="mb-8">
+            <ActionPlanFollowUp />
+          </div>
+
           {/* Browse Alumni Section */}
           <div className="mb-8">
             <h2 className="text-xl font-semibold text-foreground mb-4">Browse Alumni</h2>

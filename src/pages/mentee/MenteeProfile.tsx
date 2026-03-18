@@ -246,9 +246,9 @@ const MenteeProfile = () => {
             <CareerMilestoneTracker />
           </div>
 
-          {/* Session Journey */}
+          {/* Journey Preview */}
           <div className="mt-6">
-            <SessionJourney />
+            <JourneyPreview />
           </div>
         </div>
       </div>

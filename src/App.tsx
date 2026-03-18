@@ -143,6 +143,7 @@ const App = () => (
             <Route path="/mentee/pre-session-goal" element={<PreSessionGoal />} />
             <Route path="/mentee/post-session-action-plan" element={<PostSessionActionPlan />} />
             <Route path="/mentee/follow-up" element={<FollowUpCheck />} />
+            <Route path="/mentee/journey" element={<MyJourney />} />
             
             {/* Chat Session */}
             <Route path="/session/:sessionId" element={<ChatSession />} />
