@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { ArrowLeft, Upload, Loader2, Save } from 'lucide-react';
 import CareerMilestoneTracker from '@/components/mentee/CareerMilestoneTracker';
-import SessionJourney from '@/components/mentee/SessionJourney';
+import JourneyPreview from '@/components/mentee/JourneyPreview';
 
 const MenteeProfile = () => {
   const navigate = useNavigate();
