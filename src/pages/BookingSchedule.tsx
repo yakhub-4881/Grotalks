@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { Calendar as CalendarIcon, Clock, User, ArrowLeft, Video, ChevronLeft, ChevronRight, Star, MessageSquare, Users, Package, GraduationCap, ShieldCheck, CreditCard, IdCard, Mail, Loader2, CheckCircle2 } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, User, ArrowLeft, Video, ChevronLeft, ChevronRight, Star, MessageSquare, Users, Package, GraduationCap, ShieldCheck, CreditCard, IdCard, Mail, Loader2, CheckCircle2, Shield } from 'lucide-react';
 import { calculateSessionPrice, formatPrice } from '@/lib/college-config';
 import { format, addDays, startOfDay, isSameDay } from 'date-fns';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
@@ -280,11 +280,20 @@ const BookingSchedule = () => {
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center justify-between pt-3 border-t border-primary/20">
-                    <span className="text-muted-foreground text-sm">Session Value</span>
-                    <span className="font-bold text-primary">{formatPrice(selectedService.price)}</span>
+                  <div className="pt-3 border-t border-primary/20 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-muted-foreground text-sm">Session Value</span>
+                      <span className="font-bold text-foreground line-through opacity-50">{formatPrice(selectedService.price)}</span>
+                    </div>
+                    <div className="flex items-center justify-between bg-success/10 rounded-md px-3 py-2">
+                      <div className="flex items-center gap-1.5">
+                        <Shield className="h-3.5 w-3.5 text-success" />
+                        <span className="text-xs font-medium text-success">Covered by your college</span>
+                      </div>
+                      <span className="font-bold text-success text-sm">₹0 for you</span>
+                    </div>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-2">This will use 1 of your allocated sessions</p>
+                  <p className="text-xs text-muted-foreground mt-2">This session is part of your college-sponsored guidance program</p>
                 </div>
 
                 {/* Selected Schedule Summary (shown during verify/goal step) */}
