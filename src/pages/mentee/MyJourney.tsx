@@ -9,7 +9,6 @@ import { useToast } from '@/hooks/use-toast';
 import {
   ArrowLeft,
   Target,
-  Sparkles,
   CheckCircle2,
   Clock,
   AlertCircle,
@@ -21,7 +20,11 @@ import {
   GraduationCap,
   Star,
   ChevronRight,
+  Eye,
+  FileText,
+  File,
   X,
+  Image as ImageIcon,
 } from 'lucide-react';
 import {
   Dialog,
@@ -70,11 +73,48 @@ const benefits = [
   { icon: Star, label: 'Extra session allocation for best outcomes', color: 'text-success' },
 ];
 
+// Helper to determine file type from filename
+const getFileType = (filename: string): 'image' | 'pdf' | 'document' | 'text' | 'spreadsheet' | 'other' => {
+  const ext = filename.split('.').pop()?.toLowerCase() || '';
+  if (['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'].includes(ext)) return 'image';
+  if (ext === 'pdf') return 'pdf';
+  if (['doc', 'docx'].includes(ext)) return 'document';
+  if (['txt', 'md'].includes(ext)) return 'text';
+  if (['xls', 'xlsx', 'csv'].includes(ext)) return 'spreadsheet';
+  return 'other';
+};
+
+const getFileIcon = (filename: string) => {
+  const type = getFileType(filename);
+  switch (type) {
+    case 'image': return ImageIcon;
+    case 'pdf': return FileText;
+    case 'document': return FileText;
+    case 'spreadsheet': return File;
+    case 'text': return FileText;
+    default: return File;
+  }
+};
+
+const getFileLabel = (filename: string) => {
+  const type = getFileType(filename);
+  switch (type) {
+    case 'image': return 'Image';
+    case 'pdf': return 'PDF Document';
+    case 'document': return 'Word Document';
+    case 'spreadsheet': return 'Spreadsheet';
+    case 'text': return 'Text File';
+    default: return 'File';
+  }
+};
+
 const MyJourney = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const [showEvidenceDialog, setShowEvidenceDialog] = useState(false);
+  const [showEvidenceViewer, setShowEvidenceViewer] = useState(false);
+  const [viewingEvidence, setViewingEvidence] = useState<{ filename: string; actionTitle: string } | null>(null);
   const [activeAction, setActiveAction] = useState<{ sessionId: number; actionId: string } | null>(null);
   const [expandedSession, setExpandedSession] = useState<number | null>(1);
 
@@ -113,7 +153,7 @@ const MyJourney = () => {
       preSessionGoal: 'Understand startup fundraising basics',
       actions: [
         { id: '3a', title: 'Draft a 1-page pitch', description: 'Summarize your idea for investors', status: 'done', evidence: 'pitch-deck.pdf' },
-        { id: '3b', title: 'Research 5 VCs', description: 'Find VCs investing in your sector', status: 'done', evidence: 'vc-list.pdf' },
+        { id: '3b', title: 'Research 5 VCs', description: 'Find VCs investing in your sector', status: 'done', evidence: 'vc-research.xlsx' },
         { id: '3c', title: 'Build an MVP prototype', description: 'Create a basic clickable demo', status: 'done', evidence: 'mvp-demo-link.txt' },
       ],
       sessionStatus: 'Outcome Achieved',
@@ -158,6 +198,11 @@ const MyJourney = () => {
     });
     setShowEvidenceDialog(false);
     setActiveAction(null);
+  };
+
+  const handleViewEvidence = (filename: string, actionTitle: string) => {
+    setViewingEvidence({ filename, actionTitle });
+    setShowEvidenceViewer(true);
   };
 
   return (
@@ -285,34 +330,43 @@ const MyJourney = () => {
                                       <p className="text-sm font-medium text-foreground">{action.title}</p>
                                       <p className="text-xs text-muted-foreground mt-0.5">{action.description}</p>
 
-                                      {/* Evidence badge */}
+                                      {/* Evidence badge — clickable to view */}
                                       {action.evidence && action.status === 'done' && (
-                                        <div className="flex items-center gap-1 mt-1.5">
-                                          <FileImage className="h-3 w-3 text-success" />
-                                          <span className="text-[11px] text-success font-medium">Evidence attached</span>
-                                        </div>
+                                        <button
+                                          onClick={() => handleViewEvidence(action.evidence!, action.title)}
+                                          className="flex items-center gap-1.5 mt-2 group cursor-pointer"
+                                        >
+                                          {(() => {
+                                            const EvidenceIcon = getFileIcon(action.evidence!);
+                                            return <EvidenceIcon className="h-3.5 w-3.5 text-success" />;
+                                          })()}
+                                          <span className="text-[11px] text-success font-medium group-hover:underline">
+                                            {action.evidence}
+                                          </span>
+                                          <Eye className="h-3 w-3 text-success/60 group-hover:text-success transition-colors" />
+                                        </button>
                                       )}
 
                                       {/* Action buttons for non-done items */}
                                       {action.status !== 'done' && (
                                         <div className="flex items-center gap-1.5 mt-2">
-                                          <Button
-                                            size="sm"
-                                            className="h-7 text-[11px] px-2.5 bg-success hover:bg-success/90 text-success-foreground"
+                                          <button
                                             onClick={() => handleMarkDone(session.id, action.id)}
+                                            className="inline-flex items-center gap-1 text-[11px] font-medium text-success hover:text-success/80 transition-colors"
                                           >
-                                            <Upload className="h-3 w-3 mr-1" />
-                                            Upload Evidence & Complete
-                                          </Button>
+                                            <Upload className="h-3 w-3" />
+                                            Attach evidence
+                                          </button>
                                           {action.status !== 'in_progress' && (
-                                            <Button
-                                              size="sm"
-                                              variant="outline"
-                                              className="h-7 text-[11px] px-2.5 border-warning/40 text-warning hover:bg-warning/10"
-                                              onClick={() => handleStatusChange(session.id, action.id, 'in_progress')}
-                                            >
-                                              In Progress
-                                            </Button>
+                                            <>
+                                              <span className="text-border">·</span>
+                                              <button
+                                                onClick={() => handleStatusChange(session.id, action.id, 'in_progress')}
+                                                className="text-[11px] font-medium text-warning hover:text-warning/80 transition-colors"
+                                              >
+                                                Mark in progress
+                                              </button>
+                                            </>
                                           )}
                                         </div>
                                       )}
@@ -356,7 +410,7 @@ const MyJourney = () => {
             <div className="border-2 border-dashed border-primary/30 rounded-lg p-6 text-center hover:border-primary/50 transition-colors cursor-pointer bg-primary/5">
               <Upload className="h-8 w-8 text-primary/60 mx-auto mb-2" />
               <p className="text-sm font-medium text-foreground">Drop files here or tap to browse</p>
-              <p className="text-xs text-muted-foreground mt-1">Screenshots, PDFs, certificates — max 5MB</p>
+              <p className="text-xs text-muted-foreground mt-1">Images, PDFs, Word docs, spreadsheets, text files — max 5MB</p>
             </div>
 
             {/* What counts */}
@@ -383,6 +437,90 @@ const MyJourney = () => {
               Upload & Complete
             </Button>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Evidence Viewer Dialog */}
+      <Dialog open={showEvidenceViewer} onOpenChange={setShowEvidenceViewer}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-base flex items-center gap-2">
+              {viewingEvidence && (() => {
+                const Icon = getFileIcon(viewingEvidence.filename);
+                return <Icon className="h-4 w-4 text-primary" />;
+              })()}
+              Evidence — {viewingEvidence?.actionTitle}
+            </DialogTitle>
+            <DialogDescription className="text-sm">
+              Attached evidence for this action item
+            </DialogDescription>
+          </DialogHeader>
+
+          {viewingEvidence && (
+            <div className="mt-2 space-y-3">
+              {/* File info card */}
+              <div className="bg-muted/50 rounded-lg p-4 flex items-center gap-3">
+                {(() => {
+                  const Icon = getFileIcon(viewingEvidence.filename);
+                  const fileType = getFileType(viewingEvidence.filename);
+                  return (
+                    <>
+                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                        fileType === 'image' ? 'bg-primary/10' :
+                        fileType === 'pdf' ? 'bg-destructive/10' :
+                        fileType === 'spreadsheet' ? 'bg-success/10' :
+                        'bg-muted'
+                      }`}>
+                        <Icon className={`h-6 w-6 ${
+                          fileType === 'image' ? 'text-primary' :
+                          fileType === 'pdf' ? 'text-destructive' :
+                          fileType === 'spreadsheet' ? 'text-success' :
+                          'text-muted-foreground'
+                        }`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">{viewingEvidence.filename}</p>
+                        <p className="text-xs text-muted-foreground">{getFileLabel(viewingEvidence.filename)}</p>
+                      </div>
+                    </>
+                  );
+                })()}
+              </div>
+
+              {/* Preview area */}
+              {getFileType(viewingEvidence.filename) === 'image' ? (
+                <div className="rounded-lg border bg-muted/30 p-2 flex items-center justify-center min-h-[200px]">
+                  <div className="text-center">
+                    <ImageIcon className="h-16 w-16 text-muted-foreground/30 mx-auto mb-2" />
+                    <p className="text-xs text-muted-foreground">Image preview</p>
+                    <p className="text-[11px] text-muted-foreground mt-0.5">{viewingEvidence.filename}</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="rounded-lg border bg-muted/30 p-6 flex items-center justify-center min-h-[120px]">
+                  <div className="text-center">
+                    {(() => {
+                      const Icon = getFileIcon(viewingEvidence.filename);
+                      return <Icon className="h-12 w-12 text-muted-foreground/30 mx-auto mb-2" />;
+                    })()}
+                    <p className="text-xs text-muted-foreground">File preview not available</p>
+                    <p className="text-[11px] text-muted-foreground mt-0.5">{viewingEvidence.filename}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Actions */}
+              <div className="flex gap-2">
+                <Button variant="outline" className="flex-1 h-9 text-sm" onClick={() => setShowEvidenceViewer(false)}>
+                  Close
+                </Button>
+                <Button className="flex-1 h-9 text-sm">
+                  <Eye className="h-3.5 w-3.5 mr-1.5" />
+                  Open File
+                </Button>
+              </div>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </Layout>
