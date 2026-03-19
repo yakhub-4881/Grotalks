@@ -36,7 +36,7 @@ const BookingSchedule = () => {
 
   const [step, setStep] = useState<'schedule' | 'goal' | 'verify' | 'confirmed'>('schedule');
   const [preSessionGoal, setPreSessionGoal] = useState('');
-  const [cardNumber, setCardNumber] = useState('');
+  const [cardNumber, setCardNumber] = useState('VTGU-2024-8834-1234');
   const [collegeId, setCollegeId] = useState('');
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
