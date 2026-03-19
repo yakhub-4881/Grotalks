@@ -537,16 +537,12 @@ const BookingSchedule = () => {
                         </Label>
                         <Input
                           id="cardNumber"
-                          placeholder="e.g., VTGU-2024-8834-1234"
                           value={cardNumber}
-                          onChange={(e) => {
-                            setCardNumber(e.target.value);
-                            setVerifyErrors(prev => ({ ...prev, card: undefined }));
-                          }}
+                          readOnly
                           disabled={otpVerified}
-                          className={verifyErrors.card ? 'border-destructive' : ''}
+                          className="bg-muted/50 font-mono tracking-wider"
                         />
-                        <p className="text-xs text-muted-foreground">Enter your university-issued virtual card number</p>
+                        <p className="text-xs text-muted-foreground">Auto-filled from your Virtual Guidance Card</p>
                         {verifyErrors.card && <p className="text-xs text-destructive font-medium">{verifyErrors.card}</p>}
                       </div>
 
