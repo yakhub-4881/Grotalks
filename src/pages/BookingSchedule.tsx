@@ -517,7 +517,7 @@ const BookingSchedule = () => {
                     <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 mb-6 space-y-2">
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-muted-foreground">Sessions Remaining</span>
-                        <span className="text-lg font-bold text-foreground">0 of 5</span>
+                        <span className="text-lg font-bold text-foreground">1 of 5</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-muted-foreground">Session Value</span>
