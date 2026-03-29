@@ -238,16 +238,16 @@ const AdminDashboard = () => {
   const branches = [...new Set(students.map(s => s.branch))];
   const years = [...new Set(students.map(s => s.year))];
 
+  // Sub-tab states
+  const [studentSubTab, setStudentSubTab] = useState('records');
+  const [analyticsSubTab, setAnalyticsSubTab] = useState('batch');
+  const [mentorSubTab, setMentorSubTab] = useState('directory');
+
   const sideNavItems = [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard },
     { id: 'students', label: 'Students', icon: Users },
-    { id: 'import', label: 'Import Records', icon: FileSpreadsheet },
     { id: 'sessions', label: 'Sessions', icon: CalendarCheck },
-    { id: 'journey', label: 'Student Journey', icon: BookOpen },
-    { id: 'batch-analytics', label: 'Batch Analytics', icon: Star },
-    { id: 'milestones', label: 'Career Milestones', icon: Shield },
-    { id: 'semester-report', label: 'Semester Report', icon: FileSpreadsheet },
-    { id: 'non-engaged', label: 'Non-Engaged', icon: Bell },
+    { id: 'analytics', label: 'Analytics', icon: Star },
     { id: 'requests', label: 'Requests', icon: MessageSquare },
     { id: 'virtual-card', label: 'Virtual Card', icon: CreditCard },
     { id: 'mentors', label: 'Mentors', icon: GraduationCap },
@@ -331,76 +331,94 @@ const AdminDashboard = () => {
             </div>
           )}
 
-          {/* ── Student Management ── */}
+          {/* ── Student Management (Tabbed) ── */}
           {activeTab === 'students' && (
             <div className="space-y-4">
               <div>
                 <h1 className="text-2xl font-bold">Student Management</h1>
-                <p className="text-muted-foreground text-sm mt-1">Manage student session allocations</p>
+                <p className="text-muted-foreground text-sm mt-1">Manage records, imports, journey tracking & engagement</p>
               </div>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder="Search by name or ID..." className="pl-9" value={studentSearch} onChange={e => setStudentSearch(e.target.value)} />
-                </div>
-                <Select value={branchFilter} onValueChange={setBranchFilter}>
-                  <SelectTrigger className="w-full sm:w-36"><SelectValue placeholder="Branch" /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Branches</SelectItem>
-                    {branches.map(b => <SelectItem key={b} value={b}>{b}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-                <Select value={yearFilter} onValueChange={setYearFilter}>
-                  <SelectTrigger className="w-full sm:w-32"><SelectValue placeholder="Year" /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Years</SelectItem>
-                    {years.map(y => <SelectItem key={y} value={y}>{y}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-              </div>
-              <Card>
-                <CardContent className="p-0">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>College ID</TableHead>
-                        <TableHead>Name</TableHead>
-                        <TableHead className="hidden sm:table-cell">Branch</TableHead>
-                        <TableHead className="hidden sm:table-cell">Year</TableHead>
-                        <TableHead className="text-center">Allocation</TableHead>
-                        <TableHead className="text-center">Used</TableHead>
-                        <TableHead className="text-center">Remaining</TableHead>
-                        <TableHead className="text-right">Action</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {filteredStudents.map(s => (
-                        <TableRow key={s.id}>
-                          <TableCell className="font-mono text-xs">{s.id}</TableCell>
-                          <TableCell className="font-medium">{s.name}</TableCell>
-                          <TableCell className="hidden sm:table-cell">{s.branch}</TableCell>
-                          <TableCell className="hidden sm:table-cell">{s.year}</TableCell>
-                          <TableCell className="text-center">{s.allocation}</TableCell>
-                          <TableCell className="text-center">{s.used}</TableCell>
-                          <TableCell className="text-center">
-                            <Badge variant={s.remaining === 0 ? 'destructive' : 'secondary'}>{s.remaining}</Badge>
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <Button size="sm" variant="outline" onClick={() => { setAddSessionDialog({ open: true, student: s }); setExtraSessions(''); }}>
-                              <Plus className="h-3 w-3 mr-1" /> Add
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
+              <Tabs value={studentSubTab} onValueChange={setStudentSubTab}>
+                <TabsList className="w-full justify-start">
+                  <TabsTrigger value="records" className="gap-1.5"><Users className="h-3.5 w-3.5" /> Records</TabsTrigger>
+                  <TabsTrigger value="import" className="gap-1.5"><FileSpreadsheet className="h-3.5 w-3.5" /> Import</TabsTrigger>
+                  <TabsTrigger value="journey" className="gap-1.5"><BookOpen className="h-3.5 w-3.5" /> Journey</TabsTrigger>
+                  <TabsTrigger value="non-engaged" className="gap-1.5"><Bell className="h-3.5 w-3.5" /> Non-Engaged</TabsTrigger>
+                </TabsList>
+                <TabsContent value="records">
+                  <div className="space-y-4 mt-2">
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <div className="relative flex-1">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input placeholder="Search by name or ID..." className="pl-9" value={studentSearch} onChange={e => setStudentSearch(e.target.value)} />
+                      </div>
+                      <Select value={branchFilter} onValueChange={setBranchFilter}>
+                        <SelectTrigger className="w-full sm:w-36"><SelectValue placeholder="Branch" /></SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Branches</SelectItem>
+                          {branches.map(b => <SelectItem key={b} value={b}>{b}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                      <Select value={yearFilter} onValueChange={setYearFilter}>
+                        <SelectTrigger className="w-full sm:w-32"><SelectValue placeholder="Year" /></SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Years</SelectItem>
+                          {years.map(y => <SelectItem key={y} value={y}>{y}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <Card>
+                      <CardContent className="p-0">
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>College ID</TableHead>
+                              <TableHead>Name</TableHead>
+                              <TableHead className="hidden sm:table-cell">Branch</TableHead>
+                              <TableHead className="hidden sm:table-cell">Year</TableHead>
+                              <TableHead className="text-center">Allocation</TableHead>
+                              <TableHead className="text-center">Used</TableHead>
+                              <TableHead className="text-center">Remaining</TableHead>
+                              <TableHead className="text-right">Action</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {filteredStudents.map(s => (
+                              <TableRow key={s.id}>
+                                <TableCell className="font-mono text-xs">{s.id}</TableCell>
+                                <TableCell className="font-medium">{s.name}</TableCell>
+                                <TableCell className="hidden sm:table-cell">{s.branch}</TableCell>
+                                <TableCell className="hidden sm:table-cell">{s.year}</TableCell>
+                                <TableCell className="text-center">{s.allocation}</TableCell>
+                                <TableCell className="text-center">{s.used}</TableCell>
+                                <TableCell className="text-center">
+                                  <Badge variant={s.remaining === 0 ? 'destructive' : 'secondary'}>{s.remaining}</Badge>
+                                </TableCell>
+                                <TableCell className="text-right">
+                                  <Button size="sm" variant="outline" onClick={() => { setAddSessionDialog({ open: true, student: s }); setExtraSessions(''); }}>
+                                    <Plus className="h-3 w-3 mr-1" /> Add
+                                  </Button>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </TabsContent>
+                <TabsContent value="import">
+                  <StudentImport />
+                </TabsContent>
+                <TabsContent value="journey">
+                  <StudentJourneyTracker />
+                </TabsContent>
+                <TabsContent value="non-engaged">
+                  <NonEngagedAlerts />
+                </TabsContent>
+              </Tabs>
             </div>
           )}
-
-          {/* ── Import Records ── */}
-          {activeTab === 'import' && <StudentImport />}
 
           {/* ── Session Tracking ── */}
           {activeTab === 'sessions' && (
@@ -458,20 +476,31 @@ const AdminDashboard = () => {
             </div>
           )}
 
-          {/* ── Student Journey Tracker ── */}
-          {activeTab === 'journey' && <StudentJourneyTracker />}
-
-          {/* ── Batch Analytics ── */}
-          {activeTab === 'batch-analytics' && <BatchAnalytics />}
-
-          {/* ── Career Milestones ── */}
-          {activeTab === 'milestones' && <CareerMilestones />}
-
-          {/* ── Semester Report ── */}
-          {activeTab === 'semester-report' && <SemesterReport />}
-
-          {/* ── Non-Engaged Alerts ── */}
-          {activeTab === 'non-engaged' && <NonEngagedAlerts />}
+          {/* ── Analytics (Tabbed) ── */}
+          {activeTab === 'analytics' && (
+            <div className="space-y-4">
+              <div>
+                <h1 className="text-2xl font-bold">Analytics & Reports</h1>
+                <p className="text-muted-foreground text-sm mt-1">Batch insights, career milestones & semester reports</p>
+              </div>
+              <Tabs value={analyticsSubTab} onValueChange={setAnalyticsSubTab}>
+                <TabsList className="w-full justify-start">
+                  <TabsTrigger value="batch" className="gap-1.5"><Star className="h-3.5 w-3.5" /> Batch Analytics</TabsTrigger>
+                  <TabsTrigger value="milestones" className="gap-1.5"><Shield className="h-3.5 w-3.5" /> Career Milestones</TabsTrigger>
+                  <TabsTrigger value="semester" className="gap-1.5"><FileSpreadsheet className="h-3.5 w-3.5" /> Semester Report</TabsTrigger>
+                </TabsList>
+                <TabsContent value="batch">
+                  <BatchAnalytics />
+                </TabsContent>
+                <TabsContent value="milestones">
+                  <CareerMilestones />
+                </TabsContent>
+                <TabsContent value="semester">
+                  <SemesterReport />
+                </TabsContent>
+              </Tabs>
+            </div>
+          )}
 
           {/* ── Extra Session Requests ── */}
           {activeTab === 'requests' && (
@@ -626,50 +655,89 @@ const AdminDashboard = () => {
             </div>
           )}
 
-          {/* ── Mentor Directory ── */}
+          {/* ── Mentor / Alumni Management (Tabbed) ── */}
           {activeTab === 'mentors' && (
             <div className="space-y-4">
               <div>
-                <h1 className="text-2xl font-bold">Mentor Directory</h1>
-                <p className="text-muted-foreground text-sm mt-1">All active mentors available for university students</p>
+                <h1 className="text-2xl font-bold">Alumni & Mentor Management</h1>
+                <p className="text-muted-foreground text-sm mt-1">Directory, performance & session activity of mentors</p>
               </div>
-              <Card>
-                <CardContent className="p-0">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead className="hidden sm:table-cell">Alumni Year</TableHead>
-                        <TableHead className="hidden sm:table-cell">Branch</TableHead>
-                        <TableHead>Company</TableHead>
-                        <TableHead className="hidden md:table-cell">Role</TableHead>
-                        <TableHead className="text-center">Price</TableHead>
-                        <TableHead className="text-center hidden sm:table-cell">Sessions</TableHead>
-                        <TableHead className="text-center">Rating</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {MENTORS.map((m, i) => (
-                        <TableRow key={i}>
-                          <TableCell className="font-medium">{m.name}</TableCell>
-                          <TableCell className="hidden sm:table-cell">{m.alumniYear}</TableCell>
-                          <TableCell className="hidden sm:table-cell">{m.branch}</TableCell>
-                          <TableCell>{m.company}</TableCell>
-                          <TableCell className="hidden md:table-cell">{m.role}</TableCell>
-                          <TableCell className="text-center">₹{m.price}</TableCell>
-                          <TableCell className="text-center hidden sm:table-cell">{m.sessions}</TableCell>
-                          <TableCell className="text-center">
-                            <span className="inline-flex items-center gap-1">
-                              <Star className="h-3 w-3 fill-warning text-warning" />
-                              {m.rating}
-                            </span>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
+              <Tabs value={mentorSubTab} onValueChange={setMentorSubTab}>
+                <TabsList className="w-full justify-start">
+                  <TabsTrigger value="directory" className="gap-1.5"><GraduationCap className="h-3.5 w-3.5" /> Directory</TabsTrigger>
+                  <TabsTrigger value="performance" className="gap-1.5"><Star className="h-3.5 w-3.5" /> Performance</TabsTrigger>
+                </TabsList>
+                <TabsContent value="directory">
+                  <Card className="mt-2">
+                    <CardContent className="p-0">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Name</TableHead>
+                            <TableHead className="hidden sm:table-cell">Alumni Year</TableHead>
+                            <TableHead className="hidden sm:table-cell">Branch</TableHead>
+                            <TableHead>Company</TableHead>
+                            <TableHead className="hidden md:table-cell">Role</TableHead>
+                            <TableHead className="text-center">Price</TableHead>
+                            <TableHead className="text-center hidden sm:table-cell">Sessions</TableHead>
+                            <TableHead className="text-center">Rating</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {MENTORS.map((m, i) => (
+                            <TableRow key={i}>
+                              <TableCell className="font-medium">{m.name}</TableCell>
+                              <TableCell className="hidden sm:table-cell">{m.alumniYear}</TableCell>
+                              <TableCell className="hidden sm:table-cell">{m.branch}</TableCell>
+                              <TableCell>{m.company}</TableCell>
+                              <TableCell className="hidden md:table-cell">{m.role}</TableCell>
+                              <TableCell className="text-center">₹{m.price}</TableCell>
+                              <TableCell className="text-center hidden sm:table-cell">{m.sessions}</TableCell>
+                              <TableCell className="text-center">
+                                <span className="inline-flex items-center gap-1">
+                                  <Star className="h-3 w-3 fill-warning text-warning" />
+                                  {m.rating}
+                                </span>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+                <TabsContent value="performance">
+                  <div className="mt-2 grid gap-4">
+                    {MENTORS.map((m, i) => (
+                      <Card key={i}>
+                        <CardContent className="p-4 flex items-center gap-4">
+                          <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                            <GraduationCap className="h-5 w-5 text-primary" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-sm">{m.name}</p>
+                            <p className="text-xs text-muted-foreground">{m.company} · {m.role}</p>
+                          </div>
+                          <div className="flex items-center gap-4 text-center">
+                            <div>
+                              <p className="text-lg font-bold">{m.sessions}</p>
+                              <p className="text-[10px] text-muted-foreground">Sessions</p>
+                            </div>
+                            <div>
+                              <p className="text-lg font-bold flex items-center gap-1"><Star className="h-3.5 w-3.5 fill-warning text-warning" />{m.rating}</p>
+                              <p className="text-[10px] text-muted-foreground">Rating</p>
+                            </div>
+                            <div>
+                              <p className="text-lg font-bold">₹{m.price}</p>
+                              <p className="text-[10px] text-muted-foreground">Per Session</p>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </TabsContent>
+              </Tabs>
             </div>
           )}
 
