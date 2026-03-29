@@ -655,50 +655,89 @@ const AdminDashboard = () => {
             </div>
           )}
 
-          {/* ── Mentor Directory ── */}
+          {/* ── Mentor / Alumni Management (Tabbed) ── */}
           {activeTab === 'mentors' && (
             <div className="space-y-4">
               <div>
-                <h1 className="text-2xl font-bold">Mentor Directory</h1>
-                <p className="text-muted-foreground text-sm mt-1">All active mentors available for university students</p>
+                <h1 className="text-2xl font-bold">Alumni & Mentor Management</h1>
+                <p className="text-muted-foreground text-sm mt-1">Directory, performance & session activity of mentors</p>
               </div>
-              <Card>
-                <CardContent className="p-0">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead className="hidden sm:table-cell">Alumni Year</TableHead>
-                        <TableHead className="hidden sm:table-cell">Branch</TableHead>
-                        <TableHead>Company</TableHead>
-                        <TableHead className="hidden md:table-cell">Role</TableHead>
-                        <TableHead className="text-center">Price</TableHead>
-                        <TableHead className="text-center hidden sm:table-cell">Sessions</TableHead>
-                        <TableHead className="text-center">Rating</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {MENTORS.map((m, i) => (
-                        <TableRow key={i}>
-                          <TableCell className="font-medium">{m.name}</TableCell>
-                          <TableCell className="hidden sm:table-cell">{m.alumniYear}</TableCell>
-                          <TableCell className="hidden sm:table-cell">{m.branch}</TableCell>
-                          <TableCell>{m.company}</TableCell>
-                          <TableCell className="hidden md:table-cell">{m.role}</TableCell>
-                          <TableCell className="text-center">₹{m.price}</TableCell>
-                          <TableCell className="text-center hidden sm:table-cell">{m.sessions}</TableCell>
-                          <TableCell className="text-center">
-                            <span className="inline-flex items-center gap-1">
-                              <Star className="h-3 w-3 fill-warning text-warning" />
-                              {m.rating}
-                            </span>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
+              <Tabs value={mentorSubTab} onValueChange={setMentorSubTab}>
+                <TabsList className="w-full justify-start">
+                  <TabsTrigger value="directory" className="gap-1.5"><GraduationCap className="h-3.5 w-3.5" /> Directory</TabsTrigger>
+                  <TabsTrigger value="performance" className="gap-1.5"><Star className="h-3.5 w-3.5" /> Performance</TabsTrigger>
+                </TabsList>
+                <TabsContent value="directory">
+                  <Card className="mt-2">
+                    <CardContent className="p-0">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Name</TableHead>
+                            <TableHead className="hidden sm:table-cell">Alumni Year</TableHead>
+                            <TableHead className="hidden sm:table-cell">Branch</TableHead>
+                            <TableHead>Company</TableHead>
+                            <TableHead className="hidden md:table-cell">Role</TableHead>
+                            <TableHead className="text-center">Price</TableHead>
+                            <TableHead className="text-center hidden sm:table-cell">Sessions</TableHead>
+                            <TableHead className="text-center">Rating</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {MENTORS.map((m, i) => (
+                            <TableRow key={i}>
+                              <TableCell className="font-medium">{m.name}</TableCell>
+                              <TableCell className="hidden sm:table-cell">{m.alumniYear}</TableCell>
+                              <TableCell className="hidden sm:table-cell">{m.branch}</TableCell>
+                              <TableCell>{m.company}</TableCell>
+                              <TableCell className="hidden md:table-cell">{m.role}</TableCell>
+                              <TableCell className="text-center">₹{m.price}</TableCell>
+                              <TableCell className="text-center hidden sm:table-cell">{m.sessions}</TableCell>
+                              <TableCell className="text-center">
+                                <span className="inline-flex items-center gap-1">
+                                  <Star className="h-3 w-3 fill-warning text-warning" />
+                                  {m.rating}
+                                </span>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+                <TabsContent value="performance">
+                  <div className="mt-2 grid gap-4">
+                    {MENTORS.map((m, i) => (
+                      <Card key={i}>
+                        <CardContent className="p-4 flex items-center gap-4">
+                          <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                            <GraduationCap className="h-5 w-5 text-primary" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-sm">{m.name}</p>
+                            <p className="text-xs text-muted-foreground">{m.company} · {m.role}</p>
+                          </div>
+                          <div className="flex items-center gap-4 text-center">
+                            <div>
+                              <p className="text-lg font-bold">{m.sessions}</p>
+                              <p className="text-[10px] text-muted-foreground">Sessions</p>
+                            </div>
+                            <div>
+                              <p className="text-lg font-bold flex items-center gap-1"><Star className="h-3.5 w-3.5 fill-warning text-warning" />{m.rating}</p>
+                              <p className="text-[10px] text-muted-foreground">Rating</p>
+                            </div>
+                            <div>
+                              <p className="text-lg font-bold">₹{m.price}</p>
+                              <p className="text-[10px] text-muted-foreground">Per Session</p>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </TabsContent>
+              </Tabs>
             </div>
           )}
 
