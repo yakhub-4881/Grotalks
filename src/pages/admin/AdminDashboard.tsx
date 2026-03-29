@@ -238,16 +238,16 @@ const AdminDashboard = () => {
   const branches = [...new Set(students.map(s => s.branch))];
   const years = [...new Set(students.map(s => s.year))];
 
+  // Sub-tab states
+  const [studentSubTab, setStudentSubTab] = useState('records');
+  const [analyticsSubTab, setAnalyticsSubTab] = useState('batch');
+  const [mentorSubTab, setMentorSubTab] = useState('directory');
+
   const sideNavItems = [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard },
     { id: 'students', label: 'Students', icon: Users },
-    { id: 'import', label: 'Import Records', icon: FileSpreadsheet },
     { id: 'sessions', label: 'Sessions', icon: CalendarCheck },
-    { id: 'journey', label: 'Student Journey', icon: BookOpen },
-    { id: 'batch-analytics', label: 'Batch Analytics', icon: Star },
-    { id: 'milestones', label: 'Career Milestones', icon: Shield },
-    { id: 'semester-report', label: 'Semester Report', icon: FileSpreadsheet },
-    { id: 'non-engaged', label: 'Non-Engaged', icon: Bell },
+    { id: 'analytics', label: 'Analytics', icon: Star },
     { id: 'requests', label: 'Requests', icon: MessageSquare },
     { id: 'virtual-card', label: 'Virtual Card', icon: CreditCard },
     { id: 'mentors', label: 'Mentors', icon: GraduationCap },
