@@ -27,7 +27,7 @@ const FollowUpCheck = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Mock data — in production, fetched from session record
-  const mentorName = 'Arjun Singh';
+  const alumniName = 'Arjun Singh';
   const sessionDate = 'Oct 28, 2024';
 
   const [items, setItems] = useState<ActionItem[]>([
@@ -74,7 +74,7 @@ const FollowUpCheck = () => {
               </div>
               <h1 className="text-xl md:text-2xl font-bold text-foreground mb-1">How Did Your Action Plan Go?</h1>
               <p className="text-sm text-muted-foreground">
-                Two weeks ago you had a session with <span className="font-semibold text-foreground">{mentorName}</span> on {sessionDate}
+                Two weeks ago you had a session with <span className="font-semibold text-foreground">{alumniName}</span> on {sessionDate}
               </p>
             </div>
 

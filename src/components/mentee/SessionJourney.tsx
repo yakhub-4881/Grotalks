@@ -17,7 +17,7 @@ interface ActionFollowUp {
 
 interface JourneySession {
   id: number;
-  mentorName: string;
+  alumniName: string;
   mentorInitials: string;
   date: string;
   preSessionGoal: string;
@@ -44,7 +44,7 @@ const SessionJourney = () => {
   const sessions: JourneySession[] = [
     {
       id: 1,
-      mentorName: 'Arjun Singh',
+      alumniName: 'Arjun Singh',
       mentorInitials: 'AS',
       date: 'Oct 28, 2024',
       preSessionGoal: 'Understand how to transition from engineering to product management',
@@ -63,7 +63,7 @@ const SessionJourney = () => {
     },
     {
       id: 2,
-      mentorName: 'Priya Sharma',
+      alumniName: 'Priya Sharma',
       mentorInitials: 'PS',
       date: 'Oct 20, 2024',
       preSessionGoal: 'Prepare for Google SDE interview rounds',
@@ -79,7 +79,7 @@ const SessionJourney = () => {
     },
     {
       id: 3,
-      mentorName: 'Rahul Verma',
+      alumniName: 'Rahul Verma',
       mentorInitials: 'RV',
       date: 'Sep 15, 2024',
       preSessionGoal: 'Understand startup fundraising basics',
@@ -124,7 +124,7 @@ const SessionJourney = () => {
                       {session.mentorInitials}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-semibold text-foreground">{session.mentorName}</p>
+                      <p className="text-sm font-semibold text-foreground">{session.alumniName}</p>
                       <p className="text-xs text-muted-foreground">{session.date}</p>
                     </div>
                     <Badge variant={badge.variant} className={badge.className + ' ml-auto text-xs'}>

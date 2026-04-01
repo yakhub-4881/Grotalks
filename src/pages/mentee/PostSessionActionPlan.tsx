@@ -21,7 +21,7 @@ const PostSessionActionPlan = () => {
   const { toast } = useToast();
 
   const state = (location.state as any) || {};
-  const mentorName = state.mentorName || 'Arjun Singh';
+  const alumniName = state.alumniName || 'Arjun Singh';
   const preSessionGoal = state.preSessionGoal || 'Career guidance in product management';
 
   const [actionItems, setActionItems] = useState<ActionItem[]>([
@@ -64,7 +64,7 @@ const PostSessionActionPlan = () => {
 
   const handleSubmit = () => {
     if (rating === 0) {
-      toast({ title: 'Please rate your session', description: 'Tap a star to rate your mentor', variant: 'destructive' });
+      toast({ title: 'Please rate your session', description: 'Tap a star to rate your alumni', variant: 'destructive' });
       return;
     }
 
@@ -88,7 +88,7 @@ const PostSessionActionPlan = () => {
               </div>
               <h1 className="text-xl md:text-2xl font-bold text-foreground mb-1">Your Session Action Plan</h1>
               <p className="text-sm text-muted-foreground">
-                AI-generated based on your goal with <span className="font-semibold text-foreground">{mentorName}</span>
+                AI-generated based on your goal with <span className="font-semibold text-foreground">{alumniName}</span>
               </p>
             </div>
 
@@ -136,7 +136,7 @@ const PostSessionActionPlan = () => {
 
             {/* Rating Section */}
             <div className="border-t pt-6 mb-6">
-              <h2 className="text-base font-semibold text-foreground mb-3 text-center">Rate your session with {mentorName}</h2>
+              <h2 className="text-base font-semibold text-foreground mb-3 text-center">Rate your session with {alumniName}</h2>
               <div className="flex justify-center gap-2 mb-3">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button

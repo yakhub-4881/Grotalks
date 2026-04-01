@@ -217,7 +217,7 @@ const AlumniSessionDetails = () => {
                       <Label htmlFor="feedback" className="text-sm font-medium">Share your feedback (optional)</Label>
                       <Textarea
                         id="feedback"
-                        placeholder="How was your experience mentoring this student?"
+                        placeholder="How was your experience guiding this student?"
                         value={feedback}
                         onChange={(e) => setFeedback(e.target.value)}
                         className="mt-2 min-h-24"

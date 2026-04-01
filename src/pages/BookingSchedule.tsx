@@ -428,7 +428,7 @@ const BookingSchedule = () => {
                       <User className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                       <div>
                         <p className="text-sm font-medium text-foreground">You'll set your session goal in the next step</p>
-                        <p className="text-xs text-muted-foreground mt-1">Share what you want to achieve — your mentor will see it before the session to prepare tailored advice.</p>
+                        <p className="text-xs text-muted-foreground mt-1">Share what you want to achieve — your alumni will see it before the session to prepare tailored advice.</p>
                       </div>
                     </div>
                   </Card>
@@ -456,12 +456,12 @@ const BookingSchedule = () => {
                         <CalendarIcon className="h-7 w-7 text-primary" />
                       </div>
                       <h2 className="text-xl font-bold text-foreground mb-1">Get the Most Out of Your Session</h2>
-                      <p className="text-sm text-muted-foreground">The more specific you are, the more your mentor can help you</p>
+                      <p className="text-sm text-muted-foreground">The more specific you are, the more your alumni can help you</p>
                     </div>
 
                     <div className="bg-primary/5 border border-primary/15 rounded-lg p-4 mb-5">
                       <p className="text-xs text-muted-foreground">
-                        Your mentor will see this before the session so they can prepare tailored advice for you.
+                        Your alumni will see this before the session so they can prepare tailored advice for you.
                       </p>
                     </div>
 

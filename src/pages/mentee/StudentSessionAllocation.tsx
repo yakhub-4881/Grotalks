@@ -115,10 +115,10 @@ const StudentSessionAllocation = () => {
           <Card className="p-4">
             <h3 className="text-sm font-semibold text-foreground mb-3">Mentors Consulted This Month</h3>
             <div className="space-y-2">
-              {sessionData.mentorsConsulted.map((mentor, i) => (
+              {sessionData.mentorsConsulted.map((alumni, i) => (
                 <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
                   <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
-                  {mentor}
+                  {alumni}
                 </div>
               ))}
             </div>

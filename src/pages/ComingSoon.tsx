@@ -295,7 +295,7 @@ const ComingSoon = () => {
         <div className="hidden lg:flex lg:flex-1 lg:basis-1/2 relative overflow-hidden">
           <img
             src={heroImage}
-            alt="Mentorship Connection"
+            alt="Alumni Guidance Connection"
             className="absolute inset-0 w-full h-full object-cover"
           />
           {/* Perplexity-style gradient overlay (only shows when user type is selected) */}
