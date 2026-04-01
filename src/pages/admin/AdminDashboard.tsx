@@ -430,7 +430,7 @@ const AdminDashboard = () => {
               <div className="flex flex-col sm:flex-row gap-3">
                 <Input type="date" className="w-full sm:w-44" value={sessionDateFilter} onChange={e => setSessionDateFilter(e.target.value)} />
                 <Input placeholder="Student name..." className="w-full sm:w-44" value={sessionStudentFilter} onChange={e => setSessionStudentFilter(e.target.value)} />
-                <Input placeholder="Mentor name..." className="w-full sm:w-44" value={sessionMentorFilter} onChange={e => setSessionMentorFilter(e.target.value)} />
+                <Input placeholder="Alumni name..." className="w-full sm:w-44" value={sessionAlumniFilter} onChange={e => setSessionAlumniFilter(e.target.value)} />
                 <Select value={sessionStatusFilter} onValueChange={setSessionStatusFilter}>
                   <SelectTrigger className="w-full sm:w-36"><SelectValue placeholder="Status" /></SelectTrigger>
                   <SelectContent>
