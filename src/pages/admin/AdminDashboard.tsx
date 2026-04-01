@@ -105,7 +105,7 @@ const AdminDashboard = () => {
   const [sessionDateFilter, setSessionDateFilter] = useState('');
   const [sessionStatusFilter, setSessionStatusFilter] = useState('all');
   const [sessionStudentFilter, setSessionStudentFilter] = useState('');
-  const [sessionMentorFilter, setSessionMentorFilter] = useState('');
+  const [sessionAlumniFilter, setSessionAlumniFilter] = useState('');
 
   // Virtual card state
   const [totalCredits, setTotalCredits] = useState(50000);
