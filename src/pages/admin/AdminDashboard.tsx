@@ -459,7 +459,7 @@ const AdminDashboard = () => {
                         <TableRow key={i}>
                           <TableCell className="font-mono text-xs">{s.studentId}</TableCell>
                           <TableCell className="font-medium">{s.studentName}</TableCell>
-                          <TableCell>{s.mentorName}</TableCell>
+                          <TableCell>{s.alumniName}</TableCell>
                           <TableCell className="hidden sm:table-cell text-xs">{s.date}</TableCell>
                           <TableCell>
                             <Badge variant={s.status === 'Completed' ? 'secondary' : s.status === 'Cancelled' ? 'destructive' : 'default'}>
