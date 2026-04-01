@@ -111,8 +111,8 @@ const SemesterReport = () => {
   if (!report) return null;
 
   const totalMilestones = report.milestones.internshipSecured + report.milestones.jobOfferReceived + report.milestones.interviewCalls + report.milestones.higherStudiesApplied;
-  const totalComparisonMilestones = report.mentoredVsNon.mentoredMilestones + report.mentoredVsNon.nonMentoredMilestones;
-  const mentoredPct = totalComparisonMilestones > 0 ? Math.round((report.mentoredVsNon.mentoredMilestones / totalComparisonMilestones) * 100) : 0;
+  const totalComparisonMilestones = report.guidedVsNon.guidedMilestones + report.guidedVsNon.nonGuidedMilestones;
+  const guidedPct = totalComparisonMilestones > 0 ? Math.round((report.guidedVsNon.guidedMilestones / totalComparisonMilestones) * 100) : 0;
 
   return (
     <div className="space-y-6">
