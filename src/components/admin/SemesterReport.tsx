@@ -234,10 +234,10 @@ const SemesterReport = () => {
         </CardContent>
       </Card>
 
-      {/* Top 5 Mentors */}
+      {/* Top 5 Alumni */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Top 5 Mentors by Student Outcomes</CardTitle>
+          <CardTitle className="text-base">Top 5 Alumni by Student Outcomes</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
