@@ -44,14 +44,14 @@ const REPORTS: ReportData[] = [
     totalStudentsGuided: 142,
     actionCompletionRate: 68,
     milestones: { internshipSecured: 42, jobOfferReceived: 28, interviewCalls: 89, higherStudiesApplied: 15 },
-    topMentors: [
+    topAlumni: [
       { name: 'Vikram Rao', outcomes: 18, rating: 4.8 },
       { name: 'Ritu Kapoor', outcomes: 15, rating: 4.7 },
       { name: 'Anita Desai', outcomes: 14, rating: 4.9 },
       { name: 'Suresh Kumar', outcomes: 11, rating: 4.6 },
       { name: 'Neha Gupta', outcomes: 9, rating: 4.8 },
     ],
-    mentoredVsNon: { mentoredMilestones: 134, nonMentoredMilestones: 40 },
+    guidedVsNon: { guidedMilestones: 134, nonGuidedMilestones: 40 },
     costPerSession: 345,
     costPerOutcome: 742,
     totalSpend: 64515,
