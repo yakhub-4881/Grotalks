@@ -15,7 +15,7 @@ const StudentFirstTimeView = () => {
   const studentName = "Ravi";
 
   const howItWorks = [
-    { step: '1', title: 'Browse Alumni', description: 'Find mentors in your desired career path' },
+    { step: '1', title: 'Browse Alumni', description: 'Find alumnis in your desired career path' },
     { step: '2', title: 'Book a Session', description: 'Choose a service and pick a time slot' },
     { step: '3', title: 'Connect & Learn', description: 'Join the video call and get personalized guidance' },
   ];

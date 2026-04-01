@@ -46,8 +46,8 @@ interface ActionFollowUp {
 
 interface JourneySession {
   id: number;
-  mentorName: string;
-  mentorInitials: string;
+  alumniName: string;
+  alumniInitials: string;
   date: string;
   preSessionGoal: string;
   actions: ActionFollowUp[];
@@ -121,8 +121,8 @@ const MyJourney = () => {
   const [sessions, setSessions] = useState<JourneySession[]>([
     {
       id: 1,
-      mentorName: 'Arjun Singh',
-      mentorInitials: 'AS',
+      alumniName: 'Arjun Singh',
+      alumniInitials: 'AS',
       date: 'Oct 28, 2024',
       preSessionGoal: 'Understand how to transition from engineering to product management',
       actions: [
@@ -135,8 +135,8 @@ const MyJourney = () => {
     },
     {
       id: 2,
-      mentorName: 'Priya Sharma',
-      mentorInitials: 'PS',
+      alumniName: 'Priya Sharma',
+      alumniInitials: 'PS',
       date: 'Oct 20, 2024',
       preSessionGoal: 'Prepare for Google SDE interview rounds',
       actions: [
@@ -147,8 +147,8 @@ const MyJourney = () => {
     },
     {
       id: 3,
-      mentorName: 'Rahul Verma',
-      mentorInitials: 'RV',
+      alumniName: 'Rahul Verma',
+      alumniInitials: 'RV',
       date: 'Sep 15, 2024',
       preSessionGoal: 'Understand startup fundraising basics',
       actions: [
@@ -282,11 +282,11 @@ const MyJourney = () => {
                         className="w-full flex items-center gap-3 p-4 text-left hover:bg-muted/30 transition-colors"
                       >
                         <div className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold flex-shrink-0">
-                          {session.mentorInitials}
+                          {session.alumniInitials}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <p className="text-sm font-semibold text-foreground">{session.mentorName}</p>
+                            <p className="text-sm font-semibold text-foreground">{session.alumniName}</p>
                             <Badge variant="outline" className={badge.className + ' text-[10px]'}>
                               {session.sessionStatus}
                             </Badge>

@@ -29,7 +29,7 @@ const StudentSessionAllocation = () => {
     used: 5,
     remaining: 0,
     month: 'March 2026',
-    mentorsConsulted: ['Arjun Singh (PM @ Flipkart)', 'Meera Patel (SDE @ Google)'],
+    alumniConsulted: ['Arjun Singh (PM @ Flipkart)', 'Meera Patel (SDE @ Google)'],
   };
 
   const hasRemaining = sessionData.remaining > 0;
@@ -111,14 +111,14 @@ const StudentSessionAllocation = () => {
             </Card>
           )}
 
-          {/* Mentors Consulted */}
+          {/* Alumni Consulted */}
           <Card className="p-4">
-            <h3 className="text-sm font-semibold text-foreground mb-3">Mentors Consulted This Month</h3>
+            <h3 className="text-sm font-semibold text-foreground mb-3">Alumni Consulted This Month</h3>
             <div className="space-y-2">
-              {sessionData.mentorsConsulted.map((mentor, i) => (
+              {sessionData.alumniConsulted.map((alumni, i) => (
                 <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
                   <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
-                  {mentor}
+                  {alumni}
                 </div>
               ))}
             </div>
@@ -146,9 +146,9 @@ const StudentSessionAllocation = () => {
             </div>
 
             <div className="space-y-1">
-              <Label className="text-xs text-muted-foreground">Mentors Consulted</Label>
+              <Label className="text-xs text-muted-foreground">Alumni Consulted</Label>
               <div className="px-3 py-2 bg-muted rounded-md text-sm text-foreground">
-                {sessionData.mentorsConsulted.join(', ')}
+                {sessionData.alumniConsulted.join(', ')}
               </div>
             </div>
 

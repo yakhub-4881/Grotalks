@@ -85,7 +85,7 @@ const AlumniFirstTimeView = () => {
             {[
               { label: 'Total Earnings', value: '₹0', icon: IndianRupee, color: 'text-success' },
               { label: 'Sessions', value: '0', icon: Calendar, color: 'text-primary' },
-              { label: 'Hours Mentored', value: '0', icon: Clock, color: 'text-secondary' },
+              { label: 'Hours Guided', value: '0', icon: Clock, color: 'text-secondary' },
               { label: 'Average Rating', value: '--', icon: Star, color: 'text-bonus' },
             ].map((stat) => (
               <Card key={stat.label} className="p-4 md:p-6">

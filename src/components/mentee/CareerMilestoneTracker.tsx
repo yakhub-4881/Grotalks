@@ -71,7 +71,7 @@ const CareerMilestoneTracker = () => {
       setMilestones((prev) =>
         prev.map((m) => (m.id === askingSessionId ? { ...m, linkedSession: selectedSession } : m))
       );
-      toast({ title: '✓ Linked to session', description: 'This helps us track mentorship impact.' });
+      toast({ title: '✓ Linked to session', description: 'This helps us track alumni guidance impact.' });
     }
     setAskingSessionId(null);
     setSelectedSession('');
@@ -130,7 +130,7 @@ const CareerMilestoneTracker = () => {
               {askingSessionId === milestone.id && (
                 <Card className="mt-2 p-4 border-primary/20 bg-primary/5">
                   <p className="text-sm font-medium text-foreground mb-3">
-                    Did any of your mentor sessions contribute to this?
+                    Did any of your alumni sessions contribute to this?
                   </p>
                   <div className="flex gap-2 mb-3">
                     <Button

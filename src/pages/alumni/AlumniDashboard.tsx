@@ -146,7 +146,7 @@ const AlumniDashboard = () => {
   const stats = [
     { label: 'Total Earnings', value: '₹12,500', icon: IndianRupee, color: 'text-success' },
     { label: 'Sessions This Month', value: '8', icon: Calendar, color: 'text-primary' },
-    { label: 'Hours Alumnied', value: '10.5', icon: Clock, color: 'text-secondary' },
+    { label: 'Hours Guided', value: '10.5', icon: Clock, color: 'text-secondary' },
     { label: 'Average Rating', value: '4.9', icon: Star, color: 'text-bonus' },
   ];
 
@@ -197,7 +197,7 @@ const AlumniDashboard = () => {
             <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-1">
               Welcome back, {alumniName}! 👋
             </h1>
-            <p className="text-sm md:text-base text-muted-foreground">Manage your alumniship sessions</p>
+            <p className="text-sm md:text-base text-muted-foreground">Manage your alumni sessions</p>
           </div>
 
           {/* Stats Grid */}
@@ -228,34 +228,57 @@ const AlumniDashboard = () => {
                   const sessionPrice = calculateSessionPrice(session.baseRate, session.duration);
                   
                   return (
-                    <Card key={session.id} className="p-4 md:p-6">
-                      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                        {/* Session Info */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-2">
-                            <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
-                            <span className="text-xs font-medium text-success uppercase">Confirmed</span>
-                          </div>
-                          <h3 className="text-base md:text-lg font-semibold text-foreground mb-1">{session.mentee}</h3>
-                          <p className="text-sm text-muted-foreground mb-3">{session.topic}</p>
-                          <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                            <div className="flex items-center gap-1.5">
-                              <Calendar className="h-4 w-4 text-primary" />
-                              <span>{session.date} at {session.time}</span>
-                            </div>
-                            <div className="flex items-center gap-1.5">
-                              <Clock className="h-4 w-4 text-primary" />
-                              <span>{session.duration} min</span>
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-2 mt-2">
-                            <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">{session.serviceName}</span>
-                            <span className="text-xs font-medium text-success bg-success/10 px-2 py-1 rounded-full">Earning {formatPrice(sessionPrice)}</span>
-                          </div>
+                    <Card key={session.id} className="p-4 md:p-6 border-l-4 border-l-success">
+                      <div className="flex flex-col gap-4">
+                        {/* Status */}
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 rounded-full bg-success flex-shrink-0"></div>
+                          <span className="text-xs font-medium text-success uppercase">Confirmed</span>
                         </div>
+
+                        <div className="flex flex-col lg:flex-row lg:justify-between gap-4">
+                          {/* Session Info */}
+                          <div className="flex-1 min-w-0 space-y-3">
+                            <div>
+                              <h3 className="text-base md:text-lg font-semibold text-foreground">{session.mentee}</h3>
+                              <p className="text-xs text-muted-foreground">Student</p>
+                            </div>
+
+                            {/* Service & Topic */}
+                            <div className="bg-muted/50 rounded-lg p-3 space-y-1.5">
+                              <div className="flex items-center gap-2">
+                                <Calendar className="h-4 w-4 text-primary flex-shrink-0" />
+                                <span className="text-sm font-medium text-foreground">{session.serviceName}</span>
+                              </div>
+                              <p className="text-sm text-foreground font-medium">{session.topic}</p>
+                            </div>
+
+                            {/* Date, Time, Duration */}
+                            <div className="flex flex-wrap items-center gap-3">
+                              <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                                <Calendar className="h-4 w-4 text-primary" />
+                                <span>{session.date} at {session.time}</span>
+                              </div>
+                              <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                                <Clock className="h-4 w-4 text-primary" />
+                                <span>{session.duration} min</span>
+                              </div>
+                            </div>
+
+                            {/* Earnings */}
+                            <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-1.5 bg-success/10 rounded-full px-2.5 py-0.5">
+                                <IndianRupee className="h-3.5 w-3.5 text-success" />
+                                <span className="text-xs font-medium text-success">
+                                  You earn {formatPrice(sessionPrice)}
+                                </span>
+                              </div>
+                              <span className="text-[10px] text-muted-foreground">before platform deductions</span>
+                            </div>
+                          </div>
                         
-                        {/* Action Buttons */}
-                        <div className="flex flex-col sm:flex-row gap-2 lg:flex-shrink-0">
+                          {/* Action Buttons */}
+                          <div className="flex flex-col sm:flex-row lg:flex-col gap-2 lg:flex-shrink-0 lg:justify-start">
                           <Button 
                             className="text-sm h-10"
                             disabled={!canStart}
@@ -287,6 +310,7 @@ const AlumniDashboard = () => {
                             <XCircle className="mr-2 h-4 w-4" />
                             Cancel
                           </Button>
+                          </div>
                         </div>
                       </div>
                     </Card>

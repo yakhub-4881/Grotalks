@@ -15,28 +15,28 @@ type MilestoneEntry = {
   year: string;
   milestone: MilestoneType;
   linkedSessionDate: string;
-  linkedMentor: string;
+  linkedAlumni: string;
   semester: string;
 };
 
 // ─── Mock Data ──────────────────────────────────────────────
 const MILESTONES: MilestoneEntry[] = [
-  { studentId: 'VT2024001', studentName: 'Arjun Mehta', branch: 'CSE', year: '3rd', milestone: 'Got Interview Call', linkedSessionDate: '2026-03-10', linkedMentor: 'Vikram Rao', semester: 'Spring 2026' },
-  { studentId: 'VT2024001', studentName: 'Arjun Mehta', branch: 'CSE', year: '3rd', milestone: 'Applied for Internship', linkedSessionDate: '2026-03-05', linkedMentor: 'Ritu Kapoor', semester: 'Spring 2026' },
-  { studentId: 'VT2024002', studentName: 'Priya Sharma', branch: 'ECE', year: '2nd', milestone: 'Applied for Internship', linkedSessionDate: '2026-03-08', linkedMentor: 'Anita Desai', semester: 'Spring 2026' },
-  { studentId: 'VT2024003', studentName: 'Rahul Verma', branch: 'ME', year: '4th', milestone: 'Got Job Offer', linkedSessionDate: '2026-03-07', linkedMentor: 'Suresh Kumar', semester: 'Spring 2026' },
-  { studentId: 'VT2024003', studentName: 'Rahul Verma', branch: 'ME', year: '4th', milestone: 'Got Interview Call', linkedSessionDate: '2026-02-15', linkedMentor: 'Neha Gupta', semester: 'Spring 2026' },
-  { studentId: 'VT2024003', studentName: 'Rahul Verma', branch: 'ME', year: '4th', milestone: 'Secured Internship', linkedSessionDate: '2026-02-15', linkedMentor: 'Neha Gupta', semester: 'Spring 2026' },
-  { studentId: 'VT2024004', studentName: 'Sneha Iyer', branch: 'CSE', year: '3rd', milestone: 'Applied for Internship', linkedSessionDate: '2026-03-06', linkedMentor: 'Vikram Rao', semester: 'Spring 2026' },
-  { studentId: 'VT2024006', studentName: 'Divya Nair', branch: 'IT', year: '3rd', milestone: 'Secured Internship', linkedSessionDate: '2026-03-12', linkedMentor: 'Anita Desai', semester: 'Spring 2026' },
-  { studentId: 'VT2024006', studentName: 'Divya Nair', branch: 'IT', year: '3rd', milestone: 'Got Interview Call', linkedSessionDate: '2026-02-25', linkedMentor: 'Ritu Kapoor', semester: 'Spring 2026' },
-  { studentId: 'VT2024007', studentName: 'Aditya Joshi', branch: 'CSE', year: '4th', milestone: 'Got Job Offer', linkedSessionDate: '2026-03-04', linkedMentor: 'Suresh Kumar', semester: 'Spring 2026' },
-  { studentId: 'VT2024007', studentName: 'Aditya Joshi', branch: 'CSE', year: '4th', milestone: 'Got Interview Call', linkedSessionDate: '2026-03-04', linkedMentor: 'Suresh Kumar', semester: 'Spring 2026' },
-  { studentId: 'VT2024007', studentName: 'Aditya Joshi', branch: 'CSE', year: '4th', milestone: 'Secured Internship', linkedSessionDate: '2026-03-04', linkedMentor: 'Suresh Kumar', semester: 'Spring 2026' },
-  { studentId: 'VT2024008', studentName: 'Meera Patel', branch: 'ECE', year: '2nd', milestone: 'Applied for Higher Studies', linkedSessionDate: '2026-02-20', linkedMentor: 'Anita Desai', semester: 'Spring 2026' },
+  { studentId: 'VT2024001', studentName: 'Arjun Mehta', branch: 'CSE', year: '3rd', milestone: 'Got Interview Call', linkedSessionDate: '2026-03-10', linkedAlumni: 'Vikram Rao', semester: 'Spring 2026' },
+  { studentId: 'VT2024001', studentName: 'Arjun Mehta', branch: 'CSE', year: '3rd', milestone: 'Applied for Internship', linkedSessionDate: '2026-03-05', linkedAlumni: 'Ritu Kapoor', semester: 'Spring 2026' },
+  { studentId: 'VT2024002', studentName: 'Priya Sharma', branch: 'ECE', year: '2nd', milestone: 'Applied for Internship', linkedSessionDate: '2026-03-08', linkedAlumni: 'Anita Desai', semester: 'Spring 2026' },
+  { studentId: 'VT2024003', studentName: 'Rahul Verma', branch: 'ME', year: '4th', milestone: 'Got Job Offer', linkedSessionDate: '2026-03-07', linkedAlumni: 'Suresh Kumar', semester: 'Spring 2026' },
+  { studentId: 'VT2024003', studentName: 'Rahul Verma', branch: 'ME', year: '4th', milestone: 'Got Interview Call', linkedSessionDate: '2026-02-15', linkedAlumni: 'Neha Gupta', semester: 'Spring 2026' },
+  { studentId: 'VT2024003', studentName: 'Rahul Verma', branch: 'ME', year: '4th', milestone: 'Secured Internship', linkedSessionDate: '2026-02-15', linkedAlumni: 'Neha Gupta', semester: 'Spring 2026' },
+  { studentId: 'VT2024004', studentName: 'Sneha Iyer', branch: 'CSE', year: '3rd', milestone: 'Applied for Internship', linkedSessionDate: '2026-03-06', linkedAlumni: 'Vikram Rao', semester: 'Spring 2026' },
+  { studentId: 'VT2024006', studentName: 'Divya Nair', branch: 'IT', year: '3rd', milestone: 'Secured Internship', linkedSessionDate: '2026-03-12', linkedAlumni: 'Anita Desai', semester: 'Spring 2026' },
+  { studentId: 'VT2024006', studentName: 'Divya Nair', branch: 'IT', year: '3rd', milestone: 'Got Interview Call', linkedSessionDate: '2026-02-25', linkedAlumni: 'Ritu Kapoor', semester: 'Spring 2026' },
+  { studentId: 'VT2024007', studentName: 'Aditya Joshi', branch: 'CSE', year: '4th', milestone: 'Got Job Offer', linkedSessionDate: '2026-03-04', linkedAlumni: 'Suresh Kumar', semester: 'Spring 2026' },
+  { studentId: 'VT2024007', studentName: 'Aditya Joshi', branch: 'CSE', year: '4th', milestone: 'Got Interview Call', linkedSessionDate: '2026-03-04', linkedAlumni: 'Suresh Kumar', semester: 'Spring 2026' },
+  { studentId: 'VT2024007', studentName: 'Aditya Joshi', branch: 'CSE', year: '4th', milestone: 'Secured Internship', linkedSessionDate: '2026-03-04', linkedAlumni: 'Suresh Kumar', semester: 'Spring 2026' },
+  { studentId: 'VT2024008', studentName: 'Meera Patel', branch: 'ECE', year: '2nd', milestone: 'Applied for Higher Studies', linkedSessionDate: '2026-02-20', linkedAlumni: 'Anita Desai', semester: 'Spring 2026' },
   // Fall 2025
-  { studentId: 'VT2024001', studentName: 'Arjun Mehta', branch: 'CSE', year: '3rd', milestone: 'Applied for Internship', linkedSessionDate: '2025-10-12', linkedMentor: 'Amit Patel', semester: 'Fall 2025' },
-  { studentId: 'VT2024006', studentName: 'Divya Nair', branch: 'IT', year: '3rd', milestone: 'Got Interview Call', linkedSessionDate: '2025-11-05', linkedMentor: 'Ritu Kapoor', semester: 'Fall 2025' },
+  { studentId: 'VT2024001', studentName: 'Arjun Mehta', branch: 'CSE', year: '3rd', milestone: 'Applied for Internship', linkedSessionDate: '2025-10-12', linkedAlumni: 'Amit Patel', semester: 'Fall 2025' },
+  { studentId: 'VT2024006', studentName: 'Divya Nair', branch: 'IT', year: '3rd', milestone: 'Got Interview Call', linkedSessionDate: '2025-11-05', linkedAlumni: 'Ritu Kapoor', semester: 'Fall 2025' },
 ];
 
 const MILESTONE_TYPES: MilestoneType[] = ['Applied for Internship', 'Got Interview Call', 'Secured Internship', 'Got Job Offer', 'Applied for Higher Studies'];
@@ -73,18 +73,18 @@ const CareerMilestones = () => {
     return acc;
   }, {} as Record<MilestoneType, number>);
 
-  // Top mentors by milestone count
-  const mentorCounts: Record<string, number> = {};
+  // Top alumnis by milestone count
+  const alumniCounts: Record<string, number> = {};
   filtered.forEach(m => {
-    mentorCounts[m.linkedMentor] = (mentorCounts[m.linkedMentor] || 0) + 1;
+    alumniCounts[m.linkedAlumni] = (alumniCounts[m.linkedAlumni] || 0) + 1;
   });
-  const topMentors = Object.entries(mentorCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  const topAlumnis = Object.entries(alumniCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
 
-  // Sessions most linked to milestones (unique session dates + mentors)
-  const sessionCounts: Record<string, { mentor: string; date: string; count: number }> = {};
+  // Sessions most linked to milestones (unique session dates + alumnis)
+  const sessionCounts: Record<string, { alumni: string; date: string; count: number }> = {};
   filtered.forEach(m => {
-    const key = `${m.linkedMentor}-${m.linkedSessionDate}`;
-    if (!sessionCounts[key]) sessionCounts[key] = { mentor: m.linkedMentor, date: m.linkedSessionDate, count: 0 };
+    const key = `${m.linkedAlumni}-${m.linkedSessionDate}`;
+    if (!sessionCounts[key]) sessionCounts[key] = { alumni: m.linkedAlumni, date: m.linkedSessionDate, count: 0 };
     sessionCounts[key].count++;
   });
   const topSessions = Object.values(sessionCounts).sort((a, b) => b.count - a.count).slice(0, 5);
@@ -130,18 +130,18 @@ const CareerMilestones = () => {
         ))}
       </div>
 
-      {/* Top Mentors & Top Sessions */}
+      {/* Top Alumnis & Top Sessions */}
       <div className="grid md:grid-cols-2 gap-4">
         <Card>
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
-              <Star className="h-4 w-4 text-warning" /> Top Mentors by Milestones
+              <Star className="h-4 w-4 text-warning" /> Top Alumnis by Milestones
             </CardTitle>
-            <CardDescription>Mentors most frequently linked to student career milestones</CardDescription>
+            <CardDescription>Alumnis most frequently linked to student career milestones</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {topMentors.map(([name, count], i) => (
+              {topAlumnis.map(([name, count], i) => (
                 <div key={name} className="flex items-center gap-3">
                   <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
                     {i + 1}
@@ -150,7 +150,7 @@ const CareerMilestones = () => {
                   <Badge variant="secondary">{count} milestones</Badge>
                 </div>
               ))}
-              {topMentors.length === 0 && <p className="text-sm text-muted-foreground text-center py-4">No data available</p>}
+              {topAlumnis.length === 0 && <p className="text-sm text-muted-foreground text-center py-4">No data available</p>}
             </div>
           </CardContent>
         </Card>
@@ -170,7 +170,7 @@ const CareerMilestones = () => {
                     {i + 1}
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium">{session.mentor}</p>
+                    <p className="text-sm font-medium">{session.alumni}</p>
                     <p className="text-xs text-muted-foreground">{new Date(session.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                   </div>
                   <Badge variant="secondary">{session.count} milestones</Badge>
@@ -196,7 +196,7 @@ const CareerMilestones = () => {
                 <TableHead className="hidden sm:table-cell">Branch</TableHead>
                 <TableHead className="hidden sm:table-cell">Year</TableHead>
                 <TableHead>Milestone</TableHead>
-                <TableHead className="hidden md:table-cell">Linked Mentor</TableHead>
+                <TableHead className="hidden md:table-cell">Linked Alumni</TableHead>
                 <TableHead className="hidden md:table-cell">Session Date</TableHead>
               </TableRow>
             </TableHeader>
@@ -214,7 +214,7 @@ const CareerMilestones = () => {
                   <TableCell>
                     <Badge variant="outline" className="text-xs">{m.milestone}</Badge>
                   </TableCell>
-                  <TableCell className="hidden md:table-cell">{m.linkedMentor}</TableCell>
+                  <TableCell className="hidden md:table-cell">{m.linkedAlumni}</TableCell>
                   <TableCell className="hidden md:table-cell text-xs">
                     {new Date(m.linkedSessionDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </TableCell>

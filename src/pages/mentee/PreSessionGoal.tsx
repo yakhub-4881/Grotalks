@@ -25,7 +25,7 @@ const PreSessionGoal = () => {
     if (goal.trim().length < 10) {
       toast({
         title: 'Please be more specific',
-        description: 'Share at least a short sentence so your mentor can prepare',
+        description: 'Share at least a short sentence so your alumni can prepare',
         variant: 'destructive',
       });
       return;
@@ -69,10 +69,10 @@ const PreSessionGoal = () => {
                 <Lightbulb className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="text-sm text-foreground font-medium mb-1">
-                    The more specific you are, the more your mentor can help you
+                    The more specific you are, the more your alumni can help you
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    Your mentor will see this before the session so they can prepare tailored advice for you.
+                    Your alumni will see this before the session so they can prepare tailored advice for you.
                   </p>
                 </div>
               </div>
@@ -93,7 +93,7 @@ const PreSessionGoal = () => {
               <div className="flex justify-between items-center">
                 <p className="text-xs text-muted-foreground">{goal.length}/500 characters</p>
                 {goal.length >= 10 && (
-                  <p className="text-xs text-success">✓ Great, your mentor will love this!</p>
+                  <p className="text-xs text-success">✓ Great, your alumni will love this!</p>
                 )}
               </div>
             </div>

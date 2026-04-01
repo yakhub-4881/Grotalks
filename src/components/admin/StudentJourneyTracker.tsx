@@ -24,7 +24,7 @@ type SessionTag = 'Action Pending' | 'Action Completed' | 'Outcome Achieved';
 type SessionJourney = {
   id: string;
   date: string;
-  mentorName: string;
+  alumniName: string;
   preSessionGoal: string;
   aiActionPlan: string[];
   followUpStatus: { action: string; status: ActionStatus; evidence?: string }[];
@@ -79,7 +79,7 @@ const STUDENT_JOURNEYS: StudentWithJourney[] = [
     id: 'VT2024001', name: 'Arjun Mehta', branch: 'CSE', year: '3rd',
     sessions: [
       {
-        id: 's1', date: '2026-03-10', mentorName: 'Vikram Rao',
+        id: 's1', date: '2026-03-10', alumniName: 'Vikram Rao',
         preSessionGoal: 'Understand system design basics for upcoming placement interviews',
         aiActionPlan: ['Complete 5 system design case studies from Grokking', 'Practice drawing architecture diagrams on whiteboard', 'Mock interview with peer on load balancer topic'],
         followUpStatus: [
@@ -90,7 +90,7 @@ const STUDENT_JOURNEYS: StudentWithJourney[] = [
         sessionTag: 'Action Pending',
       },
       {
-        id: 's2', date: '2026-03-05', mentorName: 'Ritu Kapoor',
+        id: 's2', date: '2026-03-05', alumniName: 'Ritu Kapoor',
         preSessionGoal: 'Get advice on choosing between backend and full-stack roles',
         aiActionPlan: ['Research 10 job descriptions for both roles', 'Build one small project in each domain', 'Write down pros and cons based on career goals'],
         followUpStatus: [
@@ -101,7 +101,7 @@ const STUDENT_JOURNEYS: StudentWithJourney[] = [
         sessionTag: 'Outcome Achieved',
       },
       {
-        id: 's3', date: '2026-02-20', mentorName: 'Amit Patel',
+        id: 's3', date: '2026-02-20', alumniName: 'Amit Patel',
         preSessionGoal: 'Review my resume and get feedback for tech companies',
         aiActionPlan: ['Rewrite experience section using STAR format', 'Add quantified metrics to project descriptions', 'Get 2 peers to review updated resume'],
         followUpStatus: [
@@ -117,7 +117,7 @@ const STUDENT_JOURNEYS: StudentWithJourney[] = [
     id: 'VT2024002', name: 'Priya Sharma', branch: 'ECE', year: '2nd',
     sessions: [
       {
-        id: 's4', date: '2026-03-08', mentorName: 'Anita Desai',
+        id: 's4', date: '2026-03-08', alumniName: 'Anita Desai',
         preSessionGoal: 'Explore career options in embedded systems vs VLSI design',
         aiActionPlan: ['Talk to 3 professionals in each field', 'Complete an online intro course in VLSI', 'Attend the next IEEE webinar on embedded systems'],
         followUpStatus: [
@@ -133,7 +133,7 @@ const STUDENT_JOURNEYS: StudentWithJourney[] = [
     id: 'VT2024003', name: 'Rahul Verma', branch: 'ME', year: '4th',
     sessions: [
       {
-        id: 's5', date: '2026-03-07', mentorName: 'Suresh Kumar',
+        id: 's5', date: '2026-03-07', alumniName: 'Suresh Kumar',
         preSessionGoal: 'Prepare for GATE ME exam – need a study plan',
         aiActionPlan: ['Create a 3-month study schedule covering all subjects', 'Solve previous year papers for last 5 years', 'Join a GATE study group for weekly discussions'],
         followUpStatus: [
@@ -144,7 +144,7 @@ const STUDENT_JOURNEYS: StudentWithJourney[] = [
         sessionTag: 'Outcome Achieved',
       },
       {
-        id: 's6', date: '2026-02-15', mentorName: 'Neha Gupta',
+        id: 's6', date: '2026-02-15', alumniName: 'Neha Gupta',
         preSessionGoal: 'Understand how to approach core company placements',
         aiActionPlan: ['List target companies and their hiring criteria', 'Prepare for aptitude tests specific to core companies', 'Build a portfolio of academic projects'],
         followUpStatus: [
@@ -160,7 +160,7 @@ const STUDENT_JOURNEYS: StudentWithJourney[] = [
     id: 'VT2024004', name: 'Sneha Iyer', branch: 'CSE', year: '3rd',
     sessions: [
       {
-        id: 's7', date: '2026-03-06', mentorName: 'Vikram Rao',
+        id: 's7', date: '2026-03-06', alumniName: 'Vikram Rao',
         preSessionGoal: 'Get guidance on open source contributions for GSoC',
         aiActionPlan: ['Find 5 beginner-friendly repos on GitHub', 'Make at least 2 pull requests this month', 'Write a GSoC proposal draft'],
         followUpStatus: [
@@ -176,7 +176,7 @@ const STUDENT_JOURNEYS: StudentWithJourney[] = [
     id: 'VT2024006', name: 'Divya Nair', branch: 'IT', year: '3rd',
     sessions: [
       {
-        id: 's8', date: '2026-03-12', mentorName: 'Anita Desai',
+        id: 's8', date: '2026-03-12', alumniName: 'Anita Desai',
         preSessionGoal: 'Explore AI/ML career paths and understand industry requirements',
         aiActionPlan: ['Complete Andrew Ng ML course on Coursera', 'Build a classification project with real dataset', 'Apply to 3 ML internships'],
         followUpStatus: [
@@ -187,7 +187,7 @@ const STUDENT_JOURNEYS: StudentWithJourney[] = [
         sessionTag: 'Outcome Achieved',
       },
       {
-        id: 's9', date: '2026-02-25', mentorName: 'Ritu Kapoor',
+        id: 's9', date: '2026-02-25', alumniName: 'Ritu Kapoor',
         preSessionGoal: 'Learn about product management as a career option',
         aiActionPlan: ['Read "Inspired" by Marty Cagan', 'Create a mock PRD for a product idea', 'Shadow a PM in your internship network'],
         followUpStatus: [
@@ -203,7 +203,7 @@ const STUDENT_JOURNEYS: StudentWithJourney[] = [
     id: 'VT2024007', name: 'Aditya Joshi', branch: 'CSE', year: '4th',
     sessions: [
       {
-        id: 's10', date: '2026-03-04', mentorName: 'Suresh Kumar',
+        id: 's10', date: '2026-03-04', alumniName: 'Suresh Kumar',
         preSessionGoal: 'Final placement preparation – mock interview practice',
         aiActionPlan: ['Do 3 mock interviews on Pramp', 'Revise top 50 DSA problems', 'Prepare behavioral interview answers using STAR'],
         followUpStatus: [
@@ -284,7 +284,7 @@ const StudentJourneyTracker = () => {
                         <span className="font-medium">{new Date(session.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                         <span className="text-muted-foreground">·</span>
                         <User className="h-4 w-4 text-muted-foreground" />
-                        <span>{session.mentorName}</span>
+                        <span>{session.alumniName}</span>
                       </div>
                       <Badge className={`text-xs border ${getTagColor(session.sessionTag)}`}>
                         {session.sessionTag}
@@ -453,7 +453,7 @@ const StudentJourneyTracker = () => {
     <div className="space-y-4">
       <div>
         <h1 className="text-2xl font-bold">Student Session Journey</h1>
-        <p className="text-muted-foreground text-sm mt-1">Track each student's complete mentoring journey chronologically</p>
+        <p className="text-muted-foreground text-sm mt-1">Track each student's complete alumni guidance journey chronologically</p>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">

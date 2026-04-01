@@ -21,8 +21,8 @@ import NonEngagedAlerts from '@/components/admin/NonEngagedAlerts';
 import {
   CreditCard, Users, CalendarCheck, UserCheck, Clock, GraduationCap,
   Search, Plus, Check, X, AlertTriangle, Settings, Banknote, Star,
-  Building, LogOut, LayoutDashboard, BookOpen, MessageSquare, Wallet, UserCog,
-  FileSpreadsheet, Bell, Shield, Calendar, Edit2, Trash2, Mail
+  Building, LogOut, LayoutDashboard, BookOpen, MessageSquare, Wallet, User,
+  FileSpreadsheet, Bell, Shield, Calendar, Edit2, Trash2
 } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 
@@ -40,20 +40,20 @@ const STUDENTS = [
 ];
 
 const SESSIONS = [
-  { studentId: 'VT2024001', studentName: 'Arjun Mehta', mentorName: 'Vikram Rao', date: '2026-03-10 10:00', status: 'Upcoming' as const, amount: 299 },
-  { studentId: 'VT2024002', studentName: 'Priya Sharma', mentorName: 'Anita Desai', date: '2026-03-08 14:00', status: 'Completed' as const, amount: 499 },
-  { studentId: 'VT2024003', studentName: 'Rahul Verma', mentorName: 'Suresh Kumar', date: '2026-03-07 11:00', status: 'Completed' as const, amount: 299 },
-  { studentId: 'VT2024004', studentName: 'Sneha Iyer', mentorName: 'Vikram Rao', date: '2026-03-06 16:00', status: 'Cancelled' as const, amount: 0 },
-  { studentId: 'VT2024001', studentName: 'Arjun Mehta', mentorName: 'Ritu Kapoor', date: '2026-03-05 09:00', status: 'Completed' as const, amount: 399 },
-  { studentId: 'VT2024006', studentName: 'Divya Nair', mentorName: 'Anita Desai', date: '2026-03-12 15:00', status: 'Upcoming' as const, amount: 499 },
-  { studentId: 'VT2024007', studentName: 'Aditya Joshi', mentorName: 'Suresh Kumar', date: '2026-03-04 13:00', status: 'Completed' as const, amount: 299 },
+  { studentId: 'VT2024001', studentName: 'Arjun Mehta', alumniName: 'Vikram Rao', date: '2026-03-10 10:00', status: 'Upcoming' as const, amount: 299 },
+  { studentId: 'VT2024002', studentName: 'Priya Sharma', alumniName: 'Anita Desai', date: '2026-03-08 14:00', status: 'Completed' as const, amount: 499 },
+  { studentId: 'VT2024003', studentName: 'Rahul Verma', alumniName: 'Suresh Kumar', date: '2026-03-07 11:00', status: 'Completed' as const, amount: 299 },
+  { studentId: 'VT2024004', studentName: 'Sneha Iyer', alumniName: 'Vikram Rao', date: '2026-03-06 16:00', status: 'Cancelled' as const, amount: 0 },
+  { studentId: 'VT2024001', studentName: 'Arjun Mehta', alumniName: 'Ritu Kapoor', date: '2026-03-05 09:00', status: 'Completed' as const, amount: 399 },
+  { studentId: 'VT2024006', studentName: 'Divya Nair', alumniName: 'Anita Desai', date: '2026-03-12 15:00', status: 'Upcoming' as const, amount: 499 },
+  { studentId: 'VT2024007', studentName: 'Aditya Joshi', alumniName: 'Suresh Kumar', date: '2026-03-04 13:00', status: 'Completed' as const, amount: 299 },
 ];
 
 const EXTRA_REQUESTS = [
-  { id: 1, studentId: 'VT2024003', name: 'Rahul Verma', used: 4, reason: 'I need guidance on placement preparation for the upcoming campus drive happening next month. I have interviews lined up with 3 companies but I am not confident about system design rounds and need a mentor who has been through the same process recently. My mock interviews have not gone well and I feel I need at least 2 more structured sessions to improve.', importance: 'Securing a placement is critical for my family\'s financial situation. I am the first person in my family to attend a university and getting placed in a good company would change everything for us. I cannot afford to miss this opportunity.', status: 'pending' as const },
+  { id: 1, studentId: 'VT2024003', name: 'Rahul Verma', used: 4, reason: 'I need guidance on placement preparation for the upcoming campus drive happening next month. I have interviews lined up with 3 companies but I am not confident about system design rounds and need an alumni who has been through the same process recently. My mock interviews have not gone well and I feel I need at least 2 more structured sessions to improve.', importance: 'Securing a placement is critical for my family\'s financial situation. I am the first person in my family to attend a university and getting placed in a good company would change everything for us. I cannot afford to miss this opportunity.', status: 'pending' as const },
   { id: 2, studentId: 'VT2024006', name: 'Divya Nair', used: 4, reason: 'Want to explore career options in AI/ML before choosing electives. I have been reading research papers but I need someone from the industry to help me understand what roles actually exist and what skills companies are hiring for right now.', importance: 'This decision will define my specialization and future career path. Choosing the wrong electives could set me back by a full year.', status: 'pending' as const },
-  { id: 3, studentId: 'VT2024001', name: 'Arjun Mehta', used: 3, reason: 'I am working on a startup idea in the ed-tech space and need mentor advice on choosing the right tech stack, understanding cloud deployment costs, and validating the product idea with someone who has industry experience. I have already built a basic prototype but need guidance on scaling it and whether to use microservices or a monolithic architecture. Additionally I want to understand how to pitch this to investors and what metrics they look for in early stage startups.', importance: 'I want to launch before graduation and need experienced guidance. This startup is not just a college project for me, it is my career plan.', status: 'pending' as const },
-  { id: 4, studentId: 'VT2024009', name: 'Sneha Iyer', used: 4, reason: 'Preparing for GATE exam alongside college and need a mentor who cleared GATE to help me with a realistic study plan and subject prioritization.', importance: 'GATE score will decide if I get into IIT for my masters. This is the only shot I have this year and I need structured mentorship to make it count. My family has invested a lot in my education and I do not want to let them down by not being prepared enough.', status: 'pending' as const },
+  { id: 3, studentId: 'VT2024001', name: 'Arjun Mehta', used: 3, reason: 'I am working on a startup idea in the ed-tech space and need alumni advice on choosing the right tech stack, understanding cloud deployment costs, and validating the product idea with someone who has industry experience. I have already built a basic prototype but need guidance on scaling it and whether to use microservices or a monolithic architecture. Additionally I want to understand how to pitch this to investors and what metrics they look for in early stage startups.', importance: 'I want to launch before graduation and need experienced guidance. This startup is not just a college project for me, it is my career plan.', status: 'pending' as const },
+  { id: 4, studentId: 'VT2024009', name: 'Sneha Iyer', used: 4, reason: 'Preparing for GATE exam alongside college and need an alumni who cleared GATE to help me with a realistic study plan and subject prioritization.', importance: 'GATE score will decide if I get into IIT for my masters. This is the only shot I have this year and I need structured guidance to make it count. My family has invested a lot in my education and I do not want to let them down by not being prepared enough.', status: 'pending' as const },
   { id: 5, studentId: 'VT2024012', name: 'Karthik Reddy', used: 3, reason: 'Need help with open source contributions.', importance: 'Want to build my resume for GSoC applications.', status: 'pending' as const },
 ];
 
@@ -105,7 +105,7 @@ const AdminDashboard = () => {
   const [sessionDateFilter, setSessionDateFilter] = useState('');
   const [sessionStatusFilter, setSessionStatusFilter] = useState('all');
   const [sessionStudentFilter, setSessionStudentFilter] = useState('');
-  const [sessionMentorFilter, setSessionMentorFilter] = useState('');
+  const [sessionAlumniFilter, setSessionAlumniFilter] = useState('');
 
   // Virtual card state
   const [totalCredits, setTotalCredits] = useState(50000);
@@ -158,8 +158,8 @@ const AdminDashboard = () => {
     const matchesDate = !sessionDateFilter || s.date.startsWith(sessionDateFilter);
     const matchesStatus = sessionStatusFilter === 'all' || s.status === sessionStatusFilter;
     const matchesStudent = !sessionStudentFilter || s.studentName.toLowerCase().includes(sessionStudentFilter.toLowerCase());
-    const matchesMentor = !sessionMentorFilter || s.mentorName.toLowerCase().includes(sessionMentorFilter.toLowerCase());
-    return matchesDate && matchesStatus && matchesStudent && matchesMentor;
+    const matchesAlumni = !sessionAlumniFilter || s.alumniName.toLowerCase().includes(sessionAlumniFilter.toLowerCase());
+    return matchesDate && matchesStatus && matchesStudent && matchesAlumni;
   });
 
   const handleAddSessions = () => {
@@ -250,7 +250,7 @@ const AdminDashboard = () => {
     { id: 'analytics', label: 'Analytics', icon: Star },
     { id: 'requests', label: 'Requests', icon: MessageSquare },
     { id: 'virtual-card', label: 'Virtual Card', icon: CreditCard },
-    { id: 'mentors', label: 'Mentors', icon: GraduationCap },
+    { id: 'mentors', label: 'Alumni', icon: GraduationCap },
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
@@ -316,7 +316,7 @@ const AdminDashboard = () => {
                 <SummaryCard icon={CalendarCheck} label="Sessions This Month" value={SESSIONS.filter(s => s.status !== 'Cancelled').length.toString()} />
                 <SummaryCard icon={UserCheck} label="Students Booked" value={new Set(SESSIONS.map(s => s.studentId)).size.toString()} />
                 <SummaryCard icon={Clock} label="Pending Requests" value={requests.length.toString()} highlight />
-                <SummaryCard icon={GraduationCap} label="Active Mentors" value={MENTORS.length.toString()} />
+                <SummaryCard icon={GraduationCap} label="Active Alumni" value={MENTORS.length.toString()} />
               </div>
               {creditsRemaining < alertThreshold && (
                 <div className="flex items-center gap-3 p-4 rounded-lg border border-warning bg-warning/10">
@@ -328,6 +328,109 @@ const AdminDashboard = () => {
                   <Button size="sm" className="ml-auto" onClick={() => { setActiveTab('virtual-card'); setReloadDialogOpen(true); }}>Reload</Button>
                 </div>
               )}
+
+              {/* Recent Sessions */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base">Recent Sessions</CardTitle>
+                  <CardDescription>Latest session activity across the platform</CardDescription>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Student</TableHead>
+                        <TableHead>Alumni</TableHead>
+                        <TableHead className="hidden sm:table-cell">Date</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">Amount</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {SESSIONS.slice(0, 5).map((s, i) => (
+                        <TableRow key={i}>
+                          <TableCell className="font-medium text-sm">{s.studentName}</TableCell>
+                          <TableCell className="text-sm">{s.alumniName}</TableCell>
+                          <TableCell className="hidden sm:table-cell text-xs text-muted-foreground">{s.date}</TableCell>
+                          <TableCell>
+                            <Badge variant={s.status === 'Completed' ? 'secondary' : s.status === 'Cancelled' ? 'destructive' : 'default'} className="text-[10px]">
+                              {s.status}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-right text-sm">₹{s.amount}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+
+              {/* Quick Actions + Pending Requests Preview */}
+              <div className="grid md:grid-cols-2 gap-4">
+                {/* Pending Requests Preview */}
+                {requests.length > 0 && (
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-base">Pending Requests</CardTitle>
+                        <Button variant="ghost" size="sm" onClick={() => setActiveTab('requests')} className="text-xs text-primary">View All →</Button>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        {requests.slice(0, 3).map(req => (
+                          <div key={req.id} className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
+                            <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                              <User className="h-4 w-4 text-primary" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium truncate">{req.name}</p>
+                              <p className="text-xs text-muted-foreground">{req.used} sessions used · Requesting more</p>
+                            </div>
+                            <div className="flex gap-1">
+                              <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-success" onClick={() => handleRequestAction(req.id, 'approve')}>
+                                <Check className="h-3.5 w-3.5" />
+                              </Button>
+                              <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-destructive" onClick={() => { setRejectDialog({ open: true, requestId: req.id, studentName: req.name }); setRejectionReason(''); }}>
+                                <X className="h-3.5 w-3.5" />
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Top Alumni */}
+                <Card>
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-base">Top Alumni</CardTitle>
+                      <Button variant="ghost" size="sm" onClick={() => setActiveTab('mentors')} className="text-xs text-primary">View All →</Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {MENTORS.slice(0, 4).map((m, i) => (
+                        <div key={i} className="flex items-center gap-3">
+                          <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                            <GraduationCap className="h-4 w-4 text-primary" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium truncate">{m.name}</p>
+                            <p className="text-xs text-muted-foreground">{m.company} · {m.role}</p>
+                          </div>
+                          <div className="flex items-center gap-1 text-xs">
+                            <Star className="h-3 w-3 fill-warning text-warning" />
+                            <span className="font-medium">{m.rating}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           )}
 
@@ -430,7 +533,7 @@ const AdminDashboard = () => {
               <div className="flex flex-col sm:flex-row gap-3">
                 <Input type="date" className="w-full sm:w-44" value={sessionDateFilter} onChange={e => setSessionDateFilter(e.target.value)} />
                 <Input placeholder="Student name..." className="w-full sm:w-44" value={sessionStudentFilter} onChange={e => setSessionStudentFilter(e.target.value)} />
-                <Input placeholder="Mentor name..." className="w-full sm:w-44" value={sessionMentorFilter} onChange={e => setSessionMentorFilter(e.target.value)} />
+                <Input placeholder="Alumni name..." className="w-full sm:w-44" value={sessionAlumniFilter} onChange={e => setSessionAlumniFilter(e.target.value)} />
                 <Select value={sessionStatusFilter} onValueChange={setSessionStatusFilter}>
                   <SelectTrigger className="w-full sm:w-36"><SelectValue placeholder="Status" /></SelectTrigger>
                   <SelectContent>
@@ -448,7 +551,7 @@ const AdminDashboard = () => {
                       <TableRow>
                         <TableHead>Student ID</TableHead>
                         <TableHead>Student</TableHead>
-                        <TableHead>Mentor</TableHead>
+                         <TableHead>Alumni</TableHead>
                         <TableHead className="hidden sm:table-cell">Date & Time</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead className="text-right">Amount</TableHead>
@@ -459,7 +562,7 @@ const AdminDashboard = () => {
                         <TableRow key={i}>
                           <TableCell className="font-mono text-xs">{s.studentId}</TableCell>
                           <TableCell className="font-medium">{s.studentName}</TableCell>
-                          <TableCell>{s.mentorName}</TableCell>
+                          <TableCell>{s.alumniName}</TableCell>
                           <TableCell className="hidden sm:table-cell text-xs">{s.date}</TableCell>
                           <TableCell>
                             <Badge variant={s.status === 'Completed' ? 'secondary' : s.status === 'Cancelled' ? 'destructive' : 'default'}>
@@ -634,7 +737,7 @@ const AdminDashboard = () => {
                         <TableRow>
                           <TableHead>Date</TableHead>
                           <TableHead>Student</TableHead>
-                          <TableHead>Mentor</TableHead>
+                          <TableHead>Alumni</TableHead>
                           <TableHead className="text-right">Amount</TableHead>
                         </TableRow>
                       </TableHeader>
@@ -655,12 +758,12 @@ const AdminDashboard = () => {
             </div>
           )}
 
-          {/* ── Mentor / Alumni Management (Tabbed) ── */}
+          {/* ── Alumni Management (Tabbed) ── */}
           {activeTab === 'mentors' && (
             <div className="space-y-4">
               <div>
-                <h1 className="text-2xl font-bold">Alumni & Mentor Management</h1>
-                <p className="text-muted-foreground text-sm mt-1">Directory, performance & session activity of mentors</p>
+                <h1 className="text-2xl font-bold">Alumni Management</h1>
+                <p className="text-muted-foreground text-sm mt-1">Directory, performance & session activity of alumni</p>
               </div>
               <Tabs value={mentorSubTab} onValueChange={setMentorSubTab}>
                 <TabsList className="w-full justify-start">
@@ -801,7 +904,7 @@ const AdminDashboard = () => {
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-base flex items-center gap-2"><CalendarCheck className="h-4 w-4 text-primary" /> Booking & Session Policies</CardTitle>
-                    <CardDescription>Control how students book and cancel mentorship sessions</CardDescription>
+                    <CardDescription>Control how students book and cancel alumni sessions</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
@@ -858,7 +961,7 @@ const AdminDashboard = () => {
                       <Switch checked={notifyNewRequest} onCheckedChange={setNotifyNewRequest} />
                     </div>
                     <div className="flex items-center justify-between">
-                      <div><p className="text-sm font-medium">Session Completed</p><p className="text-xs text-muted-foreground">After each mentorship session is completed</p></div>
+                      <div><p className="text-sm font-medium">Session Completed</p><p className="text-xs text-muted-foreground">After each alumni session is completed</p></div>
                       <Switch checked={notifySessionComplete} onCheckedChange={setNotifySessionComplete} />
                     </div>
                     <div className="flex items-center justify-between">
