@@ -241,7 +241,7 @@ const SemesterReport = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {report.topMentors.map((mentor, i) => (
+            {report.topAlumni.map((alumni, i) => (
               <div key={mentor.name} className="flex items-center gap-3">
                 <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary shrink-0">
                   {i + 1}
