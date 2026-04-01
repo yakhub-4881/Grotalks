@@ -259,25 +259,25 @@ const SemesterReport = () => {
         </CardContent>
       </Card>
 
-      {/* Mentored vs Non-Mentored */}
+      {/* Guided vs Non-Guided */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Mentored vs Non-Mentored Comparison</CardTitle>
-          <CardDescription>Career milestone distribution between mentored and non-mentored students</CardDescription>
+          <CardTitle className="text-base">Guided vs Non-Guided Comparison</CardTitle>
+          <CardDescription>Career milestone distribution between guided and non-guided students</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             <div className="flex h-8 rounded-full overflow-hidden bg-muted">
-              <div className="bg-primary flex items-center justify-center text-xs font-medium text-primary-foreground" style={{ width: `${mentoredPct}%` }}>
-                {report.mentoredVsNon.mentoredMilestones} ({mentoredPct}%)
+              <div className="bg-primary flex items-center justify-center text-xs font-medium text-primary-foreground" style={{ width: `${guidedPct}%` }}>
+                {report.guidedVsNon.guidedMilestones} ({guidedPct}%)
               </div>
-              <div className="bg-muted-foreground/30 flex items-center justify-center text-xs font-medium text-foreground" style={{ width: `${100 - mentoredPct}%` }}>
-                {report.mentoredVsNon.nonMentoredMilestones} ({100 - mentoredPct}%)
+              <div className="bg-muted-foreground/30 flex items-center justify-center text-xs font-medium text-foreground" style={{ width: `${100 - guidedPct}%` }}>
+                {report.guidedVsNon.nonGuidedMilestones} ({100 - guidedPct}%)
               </div>
             </div>
             <div className="flex gap-4 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1"><div className="h-2 w-2 rounded-sm bg-primary" /> Mentored Students</span>
-              <span className="flex items-center gap-1"><div className="h-2 w-2 rounded-sm bg-muted-foreground/30" /> Non-Mentored Students</span>
+              <span className="flex items-center gap-1"><div className="h-2 w-2 rounded-sm bg-primary" /> Guided Students</span>
+              <span className="flex items-center gap-1"><div className="h-2 w-2 rounded-sm bg-muted-foreground/30" /> Non-Guided Students</span>
             </div>
           </div>
         </CardContent>
