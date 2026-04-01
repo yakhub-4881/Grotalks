@@ -182,8 +182,8 @@ const SemesterReport = () => {
               <Users className="h-5 w-5 text-success" />
             </div>
             <div>
-              <p className="text-xs text-muted-foreground">Students Mentored</p>
-              <p className="text-lg font-bold">{report.totalStudentsMentored}</p>
+              <p className="text-xs text-muted-foreground">Students Guided</p>
+              <p className="text-lg font-bold">{report.totalStudentsGuided}</p>
             </div>
           </CardContent>
         </Card>
