@@ -448,7 +448,7 @@ const AdminDashboard = () => {
                       <TableRow>
                         <TableHead>Student ID</TableHead>
                         <TableHead>Student</TableHead>
-                        <TableHead>Mentor</TableHead>
+                         <TableHead>Alumni</TableHead>
                         <TableHead className="hidden sm:table-cell">Date & Time</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead className="text-right">Amount</TableHead>
