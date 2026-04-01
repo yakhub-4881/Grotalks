@@ -242,17 +242,17 @@ const SemesterReport = () => {
         <CardContent>
           <div className="space-y-3">
             {report.topAlumni.map((alumni, i) => (
-              <div key={mentor.name} className="flex items-center gap-3">
+              <div key={alumni.name} className="flex items-center gap-3">
                 <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary shrink-0">
                   {i + 1}
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium">{mentor.name}</p>
+                  <p className="text-sm font-medium">{alumni.name}</p>
                   <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                    <Star className="h-3 w-3 text-warning fill-warning" /> {mentor.rating}
+                    <Star className="h-3 w-3 text-warning fill-warning" /> {alumni.rating}
                   </div>
                 </div>
-                <Badge variant="secondary">{mentor.outcomes} outcomes</Badge>
+                <Badge variant="secondary">{alumni.outcomes} outcomes</Badge>
               </div>
             ))}
           </div>
