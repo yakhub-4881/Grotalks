@@ -19,13 +19,13 @@ type BatchData = {
     interviewCalls: number;
     higherStudiesApplied: number;
   };
-  mentoredMilestones: {
+  guidedMilestones: {
     internshipSecured: number;
     jobOfferReceived: number;
     interviewCalls: number;
     higherStudiesApplied: number;
   };
-  nonMentoredMilestones: {
+  nonGuidedMilestones: {
     internshipSecured: number;
     jobOfferReceived: number;
     interviewCalls: number;
@@ -38,43 +38,43 @@ const BATCH_DATA: BatchData[] = [
     year: '4th', branch: 'CSE', totalStudents: 120,
     bookedAtLeastOne: 89, notEngaged: 31, actionCompletionRate: 72,
     milestones: { internshipSecured: 34, jobOfferReceived: 28, interviewCalls: 67, higherStudiesApplied: 12 },
-    mentoredMilestones: { internshipSecured: 28, jobOfferReceived: 24, interviewCalls: 52, higherStudiesApplied: 9 },
-    nonMentoredMilestones: { internshipSecured: 6, jobOfferReceived: 4, interviewCalls: 15, higherStudiesApplied: 3 },
+    guidedMilestones: { internshipSecured: 28, jobOfferReceived: 24, interviewCalls: 52, higherStudiesApplied: 9 },
+    nonGuidedMilestones: { internshipSecured: 6, jobOfferReceived: 4, interviewCalls: 15, higherStudiesApplied: 3 },
   },
   {
     year: '4th', branch: 'ECE', totalStudents: 90,
     bookedAtLeastOne: 52, notEngaged: 38, actionCompletionRate: 65,
     milestones: { internshipSecured: 18, jobOfferReceived: 14, interviewCalls: 40, higherStudiesApplied: 8 },
-    mentoredMilestones: { internshipSecured: 14, jobOfferReceived: 12, interviewCalls: 30, higherStudiesApplied: 6 },
-    nonMentoredMilestones: { internshipSecured: 4, jobOfferReceived: 2, interviewCalls: 10, higherStudiesApplied: 2 },
+    guidedMilestones: { internshipSecured: 14, jobOfferReceived: 12, interviewCalls: 30, higherStudiesApplied: 6 },
+    nonGuidedMilestones: { internshipSecured: 4, jobOfferReceived: 2, interviewCalls: 10, higherStudiesApplied: 2 },
   },
   {
     year: '3rd', branch: 'CSE', totalStudents: 130,
     bookedAtLeastOne: 78, notEngaged: 52, actionCompletionRate: 68,
     milestones: { internshipSecured: 22, jobOfferReceived: 5, interviewCalls: 45, higherStudiesApplied: 3 },
-    mentoredMilestones: { internshipSecured: 18, jobOfferReceived: 4, interviewCalls: 35, higherStudiesApplied: 2 },
-    nonMentoredMilestones: { internshipSecured: 4, jobOfferReceived: 1, interviewCalls: 10, higherStudiesApplied: 1 },
+    guidedMilestones: { internshipSecured: 18, jobOfferReceived: 4, interviewCalls: 35, higherStudiesApplied: 2 },
+    nonGuidedMilestones: { internshipSecured: 4, jobOfferReceived: 1, interviewCalls: 10, higherStudiesApplied: 1 },
   },
   {
     year: '3rd', branch: 'ME', totalStudents: 80,
     bookedAtLeastOne: 35, notEngaged: 45, actionCompletionRate: 58,
     milestones: { internshipSecured: 10, jobOfferReceived: 2, interviewCalls: 20, higherStudiesApplied: 6 },
-    mentoredMilestones: { internshipSecured: 8, jobOfferReceived: 2, interviewCalls: 15, higherStudiesApplied: 4 },
-    nonMentoredMilestones: { internshipSecured: 2, jobOfferReceived: 0, interviewCalls: 5, higherStudiesApplied: 2 },
+    guidedMilestones: { internshipSecured: 8, jobOfferReceived: 2, interviewCalls: 15, higherStudiesApplied: 4 },
+    nonGuidedMilestones: { internshipSecured: 2, jobOfferReceived: 0, interviewCalls: 5, higherStudiesApplied: 2 },
   },
   {
     year: '2nd', branch: 'CSE', totalStudents: 140,
     bookedAtLeastOne: 45, notEngaged: 95, actionCompletionRate: 55,
     milestones: { internshipSecured: 5, jobOfferReceived: 0, interviewCalls: 12, higherStudiesApplied: 0 },
-    mentoredMilestones: { internshipSecured: 4, jobOfferReceived: 0, interviewCalls: 10, higherStudiesApplied: 0 },
-    nonMentoredMilestones: { internshipSecured: 1, jobOfferReceived: 0, interviewCalls: 2, higherStudiesApplied: 0 },
+    guidedMilestones: { internshipSecured: 4, jobOfferReceived: 0, interviewCalls: 10, higherStudiesApplied: 0 },
+    nonGuidedMilestones: { internshipSecured: 1, jobOfferReceived: 0, interviewCalls: 2, higherStudiesApplied: 0 },
   },
   {
     year: '2nd', branch: 'EEE', totalStudents: 60,
     bookedAtLeastOne: 18, notEngaged: 42, actionCompletionRate: 50,
     milestones: { internshipSecured: 3, jobOfferReceived: 0, interviewCalls: 8, higherStudiesApplied: 1 },
-    mentoredMilestones: { internshipSecured: 2, jobOfferReceived: 0, interviewCalls: 6, higherStudiesApplied: 1 },
-    nonMentoredMilestones: { internshipSecured: 1, jobOfferReceived: 0, interviewCalls: 2, higherStudiesApplied: 0 },
+    guidedMilestones: { internshipSecured: 2, jobOfferReceived: 0, interviewCalls: 6, higherStudiesApplied: 1 },
+    nonGuidedMilestones: { internshipSecured: 1, jobOfferReceived: 0, interviewCalls: 2, higherStudiesApplied: 0 },
   },
 ];
 
@@ -102,14 +102,14 @@ const BatchAnalytics = () => {
     jobOffer: acc.jobOffer + b.milestones.jobOfferReceived,
     interviewCalls: acc.interviewCalls + b.milestones.interviewCalls,
     higherStudies: acc.higherStudies + b.milestones.higherStudiesApplied,
-    mInternship: acc.mInternship + b.mentoredMilestones.internshipSecured,
-    mJobOffer: acc.mJobOffer + b.mentoredMilestones.jobOfferReceived,
-    mInterviewCalls: acc.mInterviewCalls + b.mentoredMilestones.interviewCalls,
-    mHigherStudies: acc.mHigherStudies + b.mentoredMilestones.higherStudiesApplied,
-    nmInternship: acc.nmInternship + b.nonMentoredMilestones.internshipSecured,
-    nmJobOffer: acc.nmJobOffer + b.nonMentoredMilestones.jobOfferReceived,
-    nmInterviewCalls: acc.nmInterviewCalls + b.nonMentoredMilestones.interviewCalls,
-    nmHigherStudies: acc.nmHigherStudies + b.nonMentoredMilestones.higherStudiesApplied,
+    mInternship: acc.mInternship + b.guidedMilestones.internshipSecured,
+    mJobOffer: acc.mJobOffer + b.guidedMilestones.jobOfferReceived,
+    mInterviewCalls: acc.mInterviewCalls + b.guidedMilestones.interviewCalls,
+    mHigherStudies: acc.mHigherStudies + b.guidedMilestones.higherStudiesApplied,
+    nmInternship: acc.nmInternship + b.nonGuidedMilestones.internshipSecured,
+    nmJobOffer: acc.nmJobOffer + b.nonGuidedMilestones.jobOfferReceived,
+    nmInterviewCalls: acc.nmInterviewCalls + b.nonGuidedMilestones.interviewCalls,
+    nmHigherStudies: acc.nmHigherStudies + b.nonGuidedMilestones.higherStudiesApplied,
   }), {
     totalStudents: 0, bookedAtLeastOne: 0, notEngaged: 0, actionCompletionRate: 0,
     internship: 0, jobOffer: 0, interviewCalls: 0, higherStudies: 0,
@@ -265,7 +265,7 @@ const BatchAnalytics = () => {
           <div className="space-y-5">
             {comparisonData.map(item => {
               const total = item.mentored + item.nonMentored;
-              const mentoredPct = total > 0 ? Math.round((item.mentored / total) * 100) : 0;
+              const guidedPct = total > 0 ? Math.round((item.mentored / total) * 100) : 0;
               return (
                 <div key={item.label} className="space-y-2">
                   <div className="flex justify-between text-sm">
@@ -276,7 +276,7 @@ const BatchAnalytics = () => {
                     {item.mentored > 0 && (
                       <div
                         className="bg-primary flex items-center justify-center text-[10px] font-medium text-primary-foreground transition-all"
-                        style={{ width: `${mentoredPct}%` }}
+                        style={{ width: `${guidedPct}%` }}
                       >
                         {item.mentored}
                       </div>
@@ -284,15 +284,15 @@ const BatchAnalytics = () => {
                     {item.nonMentored > 0 && (
                       <div
                         className="bg-muted-foreground/30 flex items-center justify-center text-[10px] font-medium text-foreground transition-all"
-                        style={{ width: `${100 - mentoredPct}%` }}
+                        style={{ width: `${100 - guidedPct}%` }}
                       >
                         {item.nonMentored}
                       </div>
                     )}
                   </div>
                   <div className="flex gap-4 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1"><div className="h-2 w-2 rounded-sm bg-primary" /> Mentored ({mentoredPct}%)</span>
-                    <span className="flex items-center gap-1"><div className="h-2 w-2 rounded-sm bg-muted-foreground/30" /> Non-Mentored ({100 - mentoredPct}%)</span>
+                    <span className="flex items-center gap-1"><div className="h-2 w-2 rounded-sm bg-primary" /> Mentored ({guidedPct}%)</span>
+                    <span className="flex items-center gap-1"><div className="h-2 w-2 rounded-sm bg-muted-foreground/30" /> Non-Mentored ({100 - guidedPct}%)</span>
                   </div>
                 </div>
               );
