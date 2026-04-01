@@ -328,6 +328,109 @@ const AdminDashboard = () => {
                   <Button size="sm" className="ml-auto" onClick={() => { setActiveTab('virtual-card'); setReloadDialogOpen(true); }}>Reload</Button>
                 </div>
               )}
+
+              {/* Recent Sessions */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base">Recent Sessions</CardTitle>
+                  <CardDescription>Latest session activity across the platform</CardDescription>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Student</TableHead>
+                        <TableHead>Alumni</TableHead>
+                        <TableHead className="hidden sm:table-cell">Date</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">Amount</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {SESSIONS.slice(0, 5).map((s, i) => (
+                        <TableRow key={i}>
+                          <TableCell className="font-medium text-sm">{s.studentName}</TableCell>
+                          <TableCell className="text-sm">{s.alumniName}</TableCell>
+                          <TableCell className="hidden sm:table-cell text-xs text-muted-foreground">{s.date}</TableCell>
+                          <TableCell>
+                            <Badge variant={s.status === 'Completed' ? 'secondary' : s.status === 'Cancelled' ? 'destructive' : 'default'} className="text-[10px]">
+                              {s.status}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-right text-sm">₹{s.amount}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+
+              {/* Quick Actions + Pending Requests Preview */}
+              <div className="grid md:grid-cols-2 gap-4">
+                {/* Pending Requests Preview */}
+                {requests.length > 0 && (
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-base">Pending Requests</CardTitle>
+                        <Button variant="ghost" size="sm" onClick={() => setActiveTab('requests')} className="text-xs text-primary">View All →</Button>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        {requests.slice(0, 3).map(req => (
+                          <div key={req.id} className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
+                            <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                              <User className="h-4 w-4 text-primary" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium truncate">{req.name}</p>
+                              <p className="text-xs text-muted-foreground">{req.used} sessions used · Requesting more</p>
+                            </div>
+                            <div className="flex gap-1">
+                              <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-success" onClick={() => handleRequestAction(req.id, 'approve')}>
+                                <Check className="h-3.5 w-3.5" />
+                              </Button>
+                              <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-destructive" onClick={() => { setRejectDialog({ open: true, requestId: req.id, studentName: req.name }); setRejectionReason(''); }}>
+                                <X className="h-3.5 w-3.5" />
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Top Alumni */}
+                <Card>
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-base">Top Alumni</CardTitle>
+                      <Button variant="ghost" size="sm" onClick={() => setActiveTab('mentors')} className="text-xs text-primary">View All →</Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {MENTORS.slice(0, 4).map((m, i) => (
+                        <div key={i} className="flex items-center gap-3">
+                          <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                            <GraduationCap className="h-4 w-4 text-primary" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium truncate">{m.name}</p>
+                            <p className="text-xs text-muted-foreground">{m.company} · {m.role}</p>
+                          </div>
+                          <div className="flex items-center gap-1 text-xs">
+                            <Star className="h-3 w-3 fill-warning text-warning" />
+                            <span className="font-medium">{m.rating}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           )}
 

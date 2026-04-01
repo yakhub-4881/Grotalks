@@ -186,7 +186,7 @@ const MenteeDashboard = () => {
                             </div>
                             <div className="flex items-center gap-1.5 bg-success/10 rounded-full px-2.5 py-0.5">
                               <CheckCircle className="h-3.5 w-3.5 text-success" />
-                              <span className="text-xs font-medium text-success">Covered by your college</span>
+                              <span className="text-xs font-medium text-success">₹{session.creditsPaid.toLocaleString()} · Covered by your college</span>
                             </div>
                           </div>
                         </div>
