@@ -21,8 +21,8 @@ import NonEngagedAlerts from '@/components/admin/NonEngagedAlerts';
 import {
   CreditCard, Users, CalendarCheck, UserCheck, Clock, GraduationCap,
   Search, Plus, Check, X, AlertTriangle, Settings, Banknote, Star,
-  Building, LogOut, LayoutDashboard, BookOpen, MessageSquare, Wallet, UserCog,
-  FileSpreadsheet, Bell, Shield, Calendar, Edit2, Trash2, Mail
+  Building, LogOut, LayoutDashboard, BookOpen, MessageSquare, Wallet, User,
+  FileSpreadsheet, Bell, Shield, Calendar, Edit2, Trash2
 } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 
