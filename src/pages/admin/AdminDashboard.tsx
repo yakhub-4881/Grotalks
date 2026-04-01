@@ -801,7 +801,7 @@ const AdminDashboard = () => {
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-base flex items-center gap-2"><CalendarCheck className="h-4 w-4 text-primary" /> Booking & Session Policies</CardTitle>
-                    <CardDescription>Control how students book and cancel mentorship sessions</CardDescription>
+                    <CardDescription>Control how students book and cancel alumni sessions</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
