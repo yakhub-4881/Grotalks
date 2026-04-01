@@ -18,7 +18,7 @@ interface ActionFollowUp {
 interface JourneySession {
   id: number;
   alumniName: string;
-  mentorInitials: string;
+  alumniInitials: string;
   date: string;
   preSessionGoal: string;
   actionItems: { title: string; description: string }[];
@@ -45,7 +45,7 @@ const SessionJourney = () => {
     {
       id: 1,
       alumniName: 'Arjun Singh',
-      mentorInitials: 'AS',
+      alumniInitials: 'AS',
       date: 'Oct 28, 2024',
       preSessionGoal: 'Understand how to transition from engineering to product management',
       actionItems: [
@@ -64,7 +64,7 @@ const SessionJourney = () => {
     {
       id: 2,
       alumniName: 'Priya Sharma',
-      mentorInitials: 'PS',
+      alumniInitials: 'PS',
       date: 'Oct 20, 2024',
       preSessionGoal: 'Prepare for Google SDE interview rounds',
       actionItems: [
@@ -80,7 +80,7 @@ const SessionJourney = () => {
     {
       id: 3,
       alumniName: 'Rahul Verma',
-      mentorInitials: 'RV',
+      alumniInitials: 'RV',
       date: 'Sep 15, 2024',
       preSessionGoal: 'Understand startup fundraising basics',
       actionItems: [
@@ -121,7 +121,7 @@ const SessionJourney = () => {
                   {/* Header */}
                   <div className="flex flex-wrap items-center gap-2">
                     <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold flex-shrink-0">
-                      {session.mentorInitials}
+                      {session.alumniInitials}
                     </div>
                     <div className="min-w-0">
                       <p className="text-sm font-semibold text-foreground">{session.alumniName}</p>

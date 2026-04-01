@@ -25,7 +25,7 @@ const JourneyPreview = () => {
     {
       id: 1,
       alumniName: 'Arjun Singh',
-      mentorInitials: 'AS',
+      alumniInitials: 'AS',
       date: 'Oct 28',
       goal: 'Transition to product management',
       status: 'Action Completed' as const,
@@ -36,7 +36,7 @@ const JourneyPreview = () => {
     {
       id: 2,
       alumniName: 'Priya Sharma',
-      mentorInitials: 'PS',
+      alumniInitials: 'PS',
       date: 'Oct 20',
       goal: 'Google SDE interview prep',
       status: 'Action Pending' as const,
@@ -67,7 +67,7 @@ const JourneyPreview = () => {
         {recentSessions.map((session) => (
           <div key={session.id} className="flex items-center gap-3 p-2.5 rounded-lg bg-muted/50">
             <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold flex-shrink-0">
-              {session.mentorInitials}
+              {session.alumniInitials}
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
