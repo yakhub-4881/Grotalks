@@ -41,7 +41,7 @@ const STUDENTS = [
 
 const SESSIONS = [
   { studentId: 'VT2024001', studentName: 'Arjun Mehta', alumniName: 'Vikram Rao', date: '2026-03-10 10:00', status: 'Upcoming' as const, amount: 299 },
-  { studentId: 'VT2024002', studentName: 'Priya Sharma', mentorName: 'Anita Desai', date: '2026-03-08 14:00', status: 'Completed' as const, amount: 499 },
+  { studentId: 'VT2024002', studentName: 'Priya Sharma', alumniName: 'Anita Desai', date: '2026-03-08 14:00', status: 'Completed' as const, amount: 499 },
   { studentId: 'VT2024003', studentName: 'Rahul Verma', mentorName: 'Suresh Kumar', date: '2026-03-07 11:00', status: 'Completed' as const, amount: 299 },
   { studentId: 'VT2024004', studentName: 'Sneha Iyer', mentorName: 'Vikram Rao', date: '2026-03-06 16:00', status: 'Cancelled' as const, amount: 0 },
   { studentId: 'VT2024001', studentName: 'Arjun Mehta', mentorName: 'Ritu Kapoor', date: '2026-03-05 09:00', status: 'Completed' as const, amount: 399 },
