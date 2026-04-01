@@ -24,10 +24,10 @@ type ReportData = {
     interviewCalls: number;
     higherStudiesApplied: number;
   };
-  topMentors: { name: string; outcomes: number; rating: number }[];
-  mentoredVsNon: {
-    mentoredMilestones: number;
-    nonMentoredMilestones: number;
+  topAlumni: { name: string; outcomes: number; rating: number }[];
+  guidedVsNon: {
+    guidedMilestones: number;
+    nonGuidedMilestones: number;
   };
   costPerSession: number;
   costPerOutcome: number;
