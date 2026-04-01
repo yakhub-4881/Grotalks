@@ -858,7 +858,7 @@ const AdminDashboard = () => {
                       <Switch checked={notifyNewRequest} onCheckedChange={setNotifyNewRequest} />
                     </div>
                     <div className="flex items-center justify-between">
-                      <div><p className="text-sm font-medium">Session Completed</p><p className="text-xs text-muted-foreground">After each mentorship session is completed</p></div>
+                      <div><p className="text-sm font-medium">Session Completed</p><p className="text-xs text-muted-foreground">After each alumni session is completed</p></div>
                       <Switch checked={notifySessionComplete} onCheckedChange={setNotifySessionComplete} />
                     </div>
                     <div className="flex items-center justify-between">
