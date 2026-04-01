@@ -120,10 +120,10 @@ const BatchAnalytics = () => {
   const avgCompletion = totals.totalStudents > 0 ? Math.round(totals.actionCompletionRate / totals.totalStudents) : 0;
 
   const comparisonData = [
-    { label: 'Internship Secured', mentored: totals.mInternship, nonMentored: totals.nmInternship },
-    { label: 'Job Offer Received', mentored: totals.mJobOffer, nonMentored: totals.nmJobOffer },
-    { label: 'Interview Calls', mentored: totals.mInterviewCalls, nonMentored: totals.nmInterviewCalls },
-    { label: 'Higher Studies Applied', mentored: totals.mHigherStudies, nonMentored: totals.nmHigherStudies },
+    { label: 'Internship Secured', guided: totals.mInternship, nonGuided: totals.nmInternship },
+    { label: 'Job Offer Received', guided: totals.mJobOffer, nonGuided: totals.nmJobOffer },
+    { label: 'Interview Calls', guided: totals.mInterviewCalls, nonGuided: totals.nmInterviewCalls },
+    { label: 'Higher Studies Applied', guided: totals.mHigherStudies, nonGuided: totals.nmHigherStudies },
   ];
 
   return (
@@ -255,17 +255,17 @@ const BatchAnalytics = () => {
         </CardContent>
       </Card>
 
-      {/* Mentored vs Non-Mentored Comparison */}
+      {/* Guided vs Non-Guided Comparison */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Mentored vs Non-Mentored Comparison</CardTitle>
-          <CardDescription>Career milestone comparison between students who used mentoring vs those who didn't</CardDescription>
+          <CardTitle className="text-base">Guided vs Non-Guided Comparison</CardTitle>
+          <CardDescription>Career milestone comparison between students who used alumni guidance vs those who didn't</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-5">
             {comparisonData.map(item => {
-              const total = item.mentored + item.nonMentored;
-              const guidedPct = total > 0 ? Math.round((item.mentored / total) * 100) : 0;
+              const total = item.guided + item.nonGuided;
+              const guidedPct = total > 0 ? Math.round((item.guided / total) * 100) : 0;
               return (
                 <div key={item.label} className="space-y-2">
                   <div className="flex justify-between text-sm">
@@ -273,26 +273,26 @@ const BatchAnalytics = () => {
                     <span className="text-muted-foreground">{total} total</span>
                   </div>
                   <div className="flex h-6 rounded-full overflow-hidden bg-muted">
-                    {item.mentored > 0 && (
+                    {item.guided > 0 && (
                       <div
                         className="bg-primary flex items-center justify-center text-[10px] font-medium text-primary-foreground transition-all"
                         style={{ width: `${guidedPct}%` }}
                       >
-                        {item.mentored}
+                        {item.guided}
                       </div>
                     )}
-                    {item.nonMentored > 0 && (
+                    {item.nonGuided > 0 && (
                       <div
                         className="bg-muted-foreground/30 flex items-center justify-center text-[10px] font-medium text-foreground transition-all"
                         style={{ width: `${100 - guidedPct}%` }}
                       >
-                        {item.nonMentored}
+                        {item.nonGuided}
                       </div>
                     )}
                   </div>
                   <div className="flex gap-4 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1"><div className="h-2 w-2 rounded-sm bg-primary" /> Mentored ({guidedPct}%)</span>
-                    <span className="flex items-center gap-1"><div className="h-2 w-2 rounded-sm bg-muted-foreground/30" /> Non-Mentored ({100 - guidedPct}%)</span>
+                    <span className="flex items-center gap-1"><div className="h-2 w-2 rounded-sm bg-primary" /> Guided ({guidedPct}%)</span>
+                    <span className="flex items-center gap-1"><div className="h-2 w-2 rounded-sm bg-muted-foreground/30" /> Non-Guided ({100 - guidedPct}%)</span>
                   </div>
                 </div>
               );

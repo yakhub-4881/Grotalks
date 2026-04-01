@@ -36,7 +36,7 @@ const NON_ENGAGED: NonEngagedStudent[] = [
   { id: 'VT2024015', name: 'Riya Gupta', branch: 'CSE', year: '2nd', email: 'riya.g@veltech.edu.in', lastActive: null },
 ];
 
-const DEFAULT_NUDGE_MESSAGE = 'Your college has provided you access to alumni mentors on Grotalks. Book your first session today!';
+const DEFAULT_NUDGE_MESSAGE = 'Your college has provided you access to alumni alumnis on Grotalks. Book your first session today!';
 const BRANCHES = ['All Branches', 'CSE', 'ECE', 'ME', 'EEE', 'IT'];
 const YEARS = ['All Years', '1st', '2nd', '3rd', '4th'];
 

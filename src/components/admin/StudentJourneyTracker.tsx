@@ -453,7 +453,7 @@ const StudentJourneyTracker = () => {
     <div className="space-y-4">
       <div>
         <h1 className="text-2xl font-bold">Student Session Journey</h1>
-        <p className="text-muted-foreground text-sm mt-1">Track each student's complete mentoring journey chronologically</p>
+        <p className="text-muted-foreground text-sm mt-1">Track each student's complete alumni guidance journey chronologically</p>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">
