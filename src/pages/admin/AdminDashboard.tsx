@@ -250,7 +250,7 @@ const AdminDashboard = () => {
     { id: 'analytics', label: 'Analytics', icon: Star },
     { id: 'requests', label: 'Requests', icon: MessageSquare },
     { id: 'virtual-card', label: 'Virtual Card', icon: CreditCard },
-    { id: 'mentors', label: 'Mentors', icon: GraduationCap },
+    { id: 'mentors', label: 'Alumni', icon: GraduationCap },
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
