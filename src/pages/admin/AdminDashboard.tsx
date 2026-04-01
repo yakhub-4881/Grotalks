@@ -634,7 +634,7 @@ const AdminDashboard = () => {
                         <TableRow>
                           <TableHead>Date</TableHead>
                           <TableHead>Student</TableHead>
-                          <TableHead>Mentor</TableHead>
+                          <TableHead>Alumni</TableHead>
                           <TableHead className="text-right">Amount</TableHead>
                         </TableRow>
                       </TableHeader>
