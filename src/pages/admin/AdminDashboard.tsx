@@ -158,8 +158,8 @@ const AdminDashboard = () => {
     const matchesDate = !sessionDateFilter || s.date.startsWith(sessionDateFilter);
     const matchesStatus = sessionStatusFilter === 'all' || s.status === sessionStatusFilter;
     const matchesStudent = !sessionStudentFilter || s.studentName.toLowerCase().includes(sessionStudentFilter.toLowerCase());
-    const matchesMentor = !sessionMentorFilter || s.mentorName.toLowerCase().includes(sessionMentorFilter.toLowerCase());
-    return matchesDate && matchesStatus && matchesStudent && matchesMentor;
+    const matchesAlumni = !sessionAlumniFilter || s.alumniName.toLowerCase().includes(sessionAlumniFilter.toLowerCase());
+    return matchesDate && matchesStatus && matchesStudent && matchesAlumni;
   });
 
   const handleAddSessions = () => {
