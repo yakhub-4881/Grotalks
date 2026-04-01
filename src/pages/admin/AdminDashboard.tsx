@@ -316,7 +316,7 @@ const AdminDashboard = () => {
                 <SummaryCard icon={CalendarCheck} label="Sessions This Month" value={SESSIONS.filter(s => s.status !== 'Cancelled').length.toString()} />
                 <SummaryCard icon={UserCheck} label="Students Booked" value={new Set(SESSIONS.map(s => s.studentId)).size.toString()} />
                 <SummaryCard icon={Clock} label="Pending Requests" value={requests.length.toString()} highlight />
-                <SummaryCard icon={GraduationCap} label="Active Mentors" value={MENTORS.length.toString()} />
+                <SummaryCard icon={GraduationCap} label="Active Alumni" value={MENTORS.length.toString()} />
               </div>
               {creditsRemaining < alertThreshold && (
                 <div className="flex items-center gap-3 p-4 rounded-lg border border-warning bg-warning/10">
