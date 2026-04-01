@@ -655,12 +655,12 @@ const AdminDashboard = () => {
             </div>
           )}
 
-          {/* ── Mentor / Alumni Management (Tabbed) ── */}
+          {/* ── Alumni Management (Tabbed) ── */}
           {activeTab === 'mentors' && (
             <div className="space-y-4">
               <div>
-                <h1 className="text-2xl font-bold">Alumni & Mentor Management</h1>
-                <p className="text-muted-foreground text-sm mt-1">Directory, performance & session activity of mentors</p>
+                <h1 className="text-2xl font-bold">Alumni Management</h1>
+                <p className="text-muted-foreground text-sm mt-1">Directory, performance & session activity of alumni</p>
               </div>
               <Tabs value={mentorSubTab} onValueChange={setMentorSubTab}>
                 <TabsList className="w-full justify-start">
