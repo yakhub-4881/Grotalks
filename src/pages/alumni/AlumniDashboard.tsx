@@ -146,7 +146,7 @@ const AlumniDashboard = () => {
   const stats = [
     { label: 'Total Earnings', value: '₹12,500', icon: IndianRupee, color: 'text-success' },
     { label: 'Sessions This Month', value: '8', icon: Calendar, color: 'text-primary' },
-    { label: 'Hours Alumnied', value: '10.5', icon: Clock, color: 'text-secondary' },
+    { label: 'Hours Guided', value: '10.5', icon: Clock, color: 'text-secondary' },
     { label: 'Average Rating', value: '4.9', icon: Star, color: 'text-bonus' },
   ];
 
