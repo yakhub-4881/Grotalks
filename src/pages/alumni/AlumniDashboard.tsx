@@ -380,42 +380,52 @@ const AlumniDashboard = () => {
           {/* Completed Sessions & Ratings */}
           {completedSessions.length > 0 && (
             <div className="mb-6 md:mb-8">
-              <h2 className="text-lg md:text-xl font-semibold text-foreground mb-4">Past Sessions & Feedback</h2>
-              <div className="space-y-4">
-                {completedSessions.map((session) => (
-                  <Card key={session.id} className="p-4 md:p-6">
-                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                      <div className="space-y-2 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4 text-success" />
-                          <span className="text-xs font-medium text-success uppercase">Completed</span>
-                        </div>
-                        <h3 className="text-base md:text-lg font-semibold text-foreground truncate">{session.mentee}</h3>
-                        <p className="text-sm text-muted-foreground line-clamp-2">{session.topic}</p>
-                        <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm">
-                          <span className="text-foreground font-medium whitespace-nowrap">{session.date}</span>
-                          <span className="text-muted-foreground whitespace-nowrap">{session.duration} min</span>
-                        </div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
-                        {session.ratingGiven ? (
-                          <div className="flex items-center gap-1 text-bonus font-semibold">
-                            {'⭐'.repeat(session.ratingGiven)} <span className="text-foreground text-sm">Rated</span>
+              <h2 className="text-lg md:text-xl font-semibold text-foreground mb-4">Recent Sessions</h2>
+              <div className="space-y-2">
+                {completedSessions.map((session) => {
+                  const earned = calculateSessionPrice(3000, session.duration);
+                  return (
+                    <Card key={session.id} className="p-3 md:p-4">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3 min-w-0 flex-1">
+                          <CheckCircle className="h-4 w-4 text-success flex-shrink-0" />
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="text-sm font-medium text-foreground truncate">{session.mentee}</span>
+                              <span className="text-xs text-muted-foreground">·</span>
+                              <span className="text-xs text-muted-foreground truncate">{session.topic}</span>
+                            </div>
+                            <div className="flex items-center gap-2 mt-0.5">
+                              <span className="text-xs text-muted-foreground">{session.date}</span>
+                              <span className="text-xs text-muted-foreground">·</span>
+                              <span className="text-xs text-muted-foreground">{session.duration} min</span>
+                              <span className="text-xs text-muted-foreground">·</span>
+                              <span className="inline-flex items-center gap-0.5 text-xs text-success/80">
+                                <IndianRupee className="h-3 w-3" />
+                                <span>{earned.toLocaleString()} earned</span>
+                              </span>
+                            </div>
                           </div>
-                        ) : (
-                          <Button
-                            variant="outline"
-                            className="text-sm h-10 md:h-11"
-                            onClick={() => navigate(`/feedback?type=alumni&sessionId=${session.id}`)}
-                          >
-                            <Star className="mr-2 h-4 w-4" />
-                            Rate Student
-                          </Button>
-                        )}
+                        </div>
+                        <div className="flex-shrink-0">
+                          {session.ratingGiven ? (
+                            <span className="text-xs text-bonus">{'⭐'.repeat(session.ratingGiven)}</span>
+                          ) : (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-8 text-xs"
+                              onClick={() => navigate(`/feedback?type=alumni&sessionId=${session.id}`)}
+                            >
+                              <Star className="mr-1 h-3.5 w-3.5" />
+                              Rate
+                            </Button>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  </Card>
-                ))}
+                    </Card>
+                  );
+                })}
               </div>
             </div>
           )}
