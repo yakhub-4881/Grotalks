@@ -270,7 +270,7 @@ const AlumniDashboard = () => {
                               <div className="flex items-center gap-1.5 bg-success/10 rounded-full px-2.5 py-0.5">
                                 <IndianRupee className="h-3.5 w-3.5 text-success" />
                                 <span className="text-xs font-medium text-success">
-                                  You earn {formatPrice(sessionPrice)}
+                                  Potential to earn {formatPrice(sessionPrice)}
                                 </span>
                               </div>
                               <span className="text-[10px] text-muted-foreground">before platform deductions</span>
