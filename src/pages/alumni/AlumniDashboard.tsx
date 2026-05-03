@@ -169,7 +169,11 @@ const AlumniDashboard = () => {
     {
       id: 201,
       mentee: 'Kavya Narayan',
-      topic: 'Career switch to product',
+      vtuNumber: '1VE21CS045',
+      year: '3rd Year',
+      department: 'Computer Science & Engineering',
+      college: 'Vel Tech University',
+      topic: 'Career switch to product management and roadmap planning',
       date: 'Oct 18, 2024',
       duration: 45,
       ratingGiven: null,
