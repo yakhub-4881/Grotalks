@@ -22,6 +22,7 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface BookingRequest {
   id: string;
@@ -169,7 +170,11 @@ const AlumniDashboard = () => {
     {
       id: 201,
       mentee: 'Kavya Narayan',
-      topic: 'Career switch to product',
+      vtuNumber: '1VE21CS045',
+      year: '3rd Year',
+      department: 'Computer Science & Engineering',
+      college: 'Vel Tech University',
+      topic: 'Career switch to product management and roadmap planning',
       date: 'Oct 18, 2024',
       duration: 45,
       ratingGiven: null,
@@ -390,11 +395,28 @@ const AlumniDashboard = () => {
                         <div className="flex items-center gap-3 min-w-0 flex-1">
                           <CheckCircle className="h-4 w-4 text-success flex-shrink-0" />
                           <div className="min-w-0 flex-1">
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-sm font-medium text-foreground truncate">{session.mentee}</span>
-                              <span className="text-xs text-muted-foreground">·</span>
-                              <span className="text-xs text-muted-foreground truncate">{session.topic}</span>
-                            </div>
+                            <TooltipProvider delayDuration={200}>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <div className="flex items-center gap-1.5 min-w-0 cursor-default">
+                                    <span className="text-sm font-medium text-foreground flex-shrink-0">{session.mentee}</span>
+                                    <span className="text-xs text-muted-foreground flex-shrink-0">·</span>
+                                    <span className="text-xs text-muted-foreground truncate min-w-0">
+                                      {session.vtuNumber} · {session.year} · {session.department} · {session.college} · {session.topic}
+                                    </span>
+                                  </div>
+                                </TooltipTrigger>
+                                <TooltipContent side="top" className="max-w-xs">
+                                  <div className="space-y-1 text-xs">
+                                    <p><span className="text-muted-foreground">VTU:</span> {session.vtuNumber}</p>
+                                    <p><span className="text-muted-foreground">Year:</span> {session.year}</p>
+                                    <p><span className="text-muted-foreground">Dept:</span> {session.department}</p>
+                                    <p><span className="text-muted-foreground">College:</span> {session.college}</p>
+                                    <p><span className="text-muted-foreground">Topic:</span> {session.topic}</p>
+                                  </div>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
                             <div className="flex items-center gap-2 mt-0.5">
                               <span className="text-xs text-muted-foreground">{session.date}</span>
                               <span className="text-xs text-muted-foreground">·</span>
