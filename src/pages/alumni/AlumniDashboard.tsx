@@ -248,9 +248,25 @@ const AlumniDashboard = () => {
                         <div className="flex flex-col lg:flex-row lg:justify-between gap-4">
                           {/* Session Info */}
                           <div className="flex-1 min-w-0 space-y-3">
-                            <div>
+                            <div className="min-w-0">
                               <h3 className="text-base md:text-lg font-semibold text-foreground">{session.mentee}</h3>
-                              <p className="text-xs text-muted-foreground">Student</p>
+                              <TooltipProvider delayDuration={200}>
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <p className="text-xs text-muted-foreground truncate cursor-default">
+                                      {session.collegeId} · {session.year} · {session.department} · {session.college}
+                                    </p>
+                                  </TooltipTrigger>
+                                  <TooltipContent side="bottom" className="max-w-xs">
+                                    <div className="space-y-1 text-xs">
+                                      <p><span className="text-muted-foreground">College ID:</span> {session.collegeId}</p>
+                                      <p><span className="text-muted-foreground">Year:</span> {session.year}</p>
+                                      <p><span className="text-muted-foreground">Dept:</span> {session.department}</p>
+                                      <p><span className="text-muted-foreground">College:</span> {session.college}</p>
+                                    </div>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
                             </div>
 
                             {/* Service & Topic */}
