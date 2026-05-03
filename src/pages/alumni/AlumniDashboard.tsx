@@ -155,6 +155,10 @@ const AlumniDashboard = () => {
     {
       id: 1,
       mentee: 'Amit Sharma',
+      collegeId: '1VE22EC012',
+      year: '2nd Year',
+      department: 'Electronics & Communication Engineering',
+      college: 'Vel Tech University',
       topic: 'Startup funding strategies',
       date: 'Nov 4, 2024',
       time: '2:00 PM',
