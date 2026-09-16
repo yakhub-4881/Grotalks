@@ -440,6 +440,9 @@ const alumni = [
   },
 ];
 
+/** Shared alumni directory used by Grotalks AI recommendations */
+export const alumniDirectory = alumni;
+
 export const AlumniBrowseSection = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
