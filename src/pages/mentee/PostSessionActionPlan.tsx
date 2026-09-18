@@ -74,7 +74,14 @@ const PostSessionActionPlan = () => {
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
-      toast({ title: '🎉 Action plan saved!', description: 'Your session is now fully complete.' });
+      toast({
+        title: '🎉 Action plan saved!',
+        description: takeaway.trim()
+          ? shareProfile
+            ? 'Your answer is now in your college library, and juniors can reach out to you.'
+            : 'Your answer is now part of your college knowledge library.'
+          : 'Your session is now fully complete.',
+      });
       navigate('/mentee/dashboard');
     }, 1500);
   };
