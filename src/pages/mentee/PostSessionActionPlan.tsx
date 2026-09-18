@@ -6,7 +6,8 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { Star, CheckCircle2, Sparkles, Edit3, Loader2 } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Star, CheckCircle2, Sparkles, Edit3, Loader2, Library } from 'lucide-react';
 
 interface ActionItem {
   id: number;
@@ -171,6 +172,43 @@ const PostSessionActionPlan = () => {
                 maxLength={300}
               />
               <p className="text-xs text-muted-foreground mt-1">{review.length}/300 characters</p>
+            </div>
+
+            {/* Contribute to the college knowledge library */}
+            <div className="border-t pt-6 mb-6">
+              <div className="flex items-start gap-2 mb-3">
+                <Library className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                <div>
+                  <h2 className="text-base font-semibold text-foreground">Help your juniors with this answer</h2>
+                  <p className="text-xs text-muted-foreground">
+                    What you learned gets added to your college's Grotalks AI library, so the next student asking
+                    "{preSessionGoal}" finds it instantly.
+                  </p>
+                </div>
+              </div>
+
+              <Textarea
+                placeholder="In 2-3 lines, what was the most useful thing you learned? (optional)"
+                value={takeaway}
+                onChange={(e) => setTakeaway(e.target.value)}
+                className="min-h-20 resize-none mb-3"
+                maxLength={400}
+              />
+
+              <label className="flex items-start gap-3 rounded-lg border p-3 cursor-pointer hover:bg-muted/50 transition-colors">
+                <Checkbox
+                  checked={shareProfile}
+                  onCheckedChange={(v) => setShareProfile(v === true)}
+                  className="mt-0.5"
+                />
+                <span className="text-sm">
+                  <span className="font-medium text-foreground">Let juniors reach out to me on this topic</span>
+                  <span className="block text-xs text-muted-foreground mt-0.5">
+                    Only students asking a similar question will see your name, year and department. Your guidance
+                    gets recorded on your profile. You can turn this off anytime.
+                  </span>
+                </span>
+              </label>
             </div>
 
             {/* Submit */}
