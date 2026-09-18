@@ -4,7 +4,7 @@ import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useAppContext } from '@/lib/app-context';
-import { Calendar, Clock, RotateCcw, Video, Star, XCircle, Users, CheckCircle, Briefcase } from 'lucide-react';
+import { Calendar, Clock, RotateCcw, Video, Star, XCircle, Users, CheckCircle, Briefcase, Sparkles, ArrowRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { RescheduleDialog } from '@/components/RescheduleDialog';
 import { AlumniBrowseSection } from '@/components/AlumniBrowseSection';
@@ -125,6 +125,25 @@ const MenteeDashboard = () => {
             </h1>
             <p className="text-sm md:text-base text-muted-foreground">Learn from those who've succeeded</p>
           </div>
+
+          {/* Ask Grotalks AI - subtle entry point */}
+          <Card
+            className="p-4 mb-6 border-primary/20 bg-primary/5 hover:shadow-md transition-shadow cursor-pointer"
+            onClick={() => navigate('/mentee/ask-ai')}
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Sparkles className="h-4.5 w-4.5 text-primary" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-foreground">Have a question? Ask Grotalks AI first</p>
+                <p className="text-xs text-muted-foreground truncate">
+                  Get answers from past alumni sessions, then book only if you need more
+                </p>
+              </div>
+              <ArrowRight className="h-4 w-4 text-primary flex-shrink-0" />
+            </div>
+          </Card>
 
           {/* Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
