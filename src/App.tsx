@@ -55,6 +55,7 @@ import PreSessionGoal from "./pages/mentee/PreSessionGoal";
 import PostSessionActionPlan from "./pages/mentee/PostSessionActionPlan";
 import FollowUpCheck from "./pages/mentee/FollowUpCheck";
 import MyJourney from "./pages/mentee/MyJourney";
+import AskGrotalksAI from "./pages/mentee/AskGrotalksAI";
 
 // Booking & Feedback
 import BookingSchedule from "./pages/BookingSchedule";
@@ -144,6 +145,7 @@ const App = () => (
             <Route path="/mentee/post-session-action-plan" element={<PostSessionActionPlan />} />
             <Route path="/mentee/follow-up" element={<FollowUpCheck />} />
             <Route path="/mentee/journey" element={<MyJourney />} />
+            <Route path="/mentee/ask-ai" element={<AskGrotalksAI />} />
             
             {/* Chat Session */}
             <Route path="/session/:sessionId" element={<ChatSession />} />
