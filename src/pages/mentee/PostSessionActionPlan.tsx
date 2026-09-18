@@ -50,6 +50,8 @@ const PostSessionActionPlan = () => {
   const [hoveredRating, setHoveredRating] = useState(0);
   const [review, setReview] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [takeaway, setTakeaway] = useState('');
+  const [shareProfile, setShareProfile] = useState(false);
 
   const toggleEdit = (id: number) => {
     setActionItems((prev) =>
