@@ -7,7 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
-import { searchKnowledge, visiblePeers, type MatchedEntry } from '@/lib/knowledge-base';
+import { searchKnowledge, visiblePeers, type MatchedEntry, type PeerHelper } from '@/lib/knowledge-base';
+import { PeerChatDialog } from '@/components/mentee/PeerChatDialog';
 import { alumniDirectory } from '@/components/AlumniBrowseSection';
 import {
   ArrowLeft,
