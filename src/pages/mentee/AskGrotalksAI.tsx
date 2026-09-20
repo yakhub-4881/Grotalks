@@ -358,16 +358,10 @@ const AskGrotalksAI = () => {
                             variant="outline"
                             size="sm"
                             className="w-full mt-3"
-                            onClick={() =>
-                              toast({
-                                title: `Request sent to ${peer.name}`,
-                                description:
-                                  'They will get a notification and can reply from their dashboard.',
-                              })
-                            }
+                            onClick={() => setChatPeer(peer)}
                           >
                             <MessageSquare className="mr-2 h-3.5 w-3.5" />
-                            Ask for guidance
+                            Chat with {peer.name.split(' ')[0]}
                           </Button>
                         </Card>
                       ))}
