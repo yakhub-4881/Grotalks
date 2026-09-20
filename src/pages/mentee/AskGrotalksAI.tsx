@@ -215,7 +215,49 @@ const AskGrotalksAI = () => {
                         <span>{entry.askedByCount} students asked this</span>
                       </div>
 
-                      <div className="flex items-center gap-2 pt-3 border-t">
+                      {visiblePeers(entry).length > 0 && (
+                        <div className="rounded-lg border bg-muted/40 p-3 mb-3">
+                          <p className="text-xs font-medium text-foreground mb-2">
+                            Batchmates who asked this — chat with them free
+                          </p>
+                          <div className="space-y-2">
+                            {visiblePeers(entry).map((peer) => (
+                              <div
+                                key={peer.id}
+                                className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3"
+                              >
+                                <div className="flex items-center gap-2 min-w-0 flex-1">
+                                  <div className="w-8 h-8 rounded-full bg-secondary/10 text-secondary flex items-center justify-center text-xs font-semibold flex-shrink-0">
+                                    {peer.name
+                                      .split(' ')
+                                      .map((n) => n[0])
+                                      .join('')}
+                                  </div>
+                                  <div className="min-w-0">
+                                    <p className="text-xs font-semibold text-foreground truncate">
+                                      {peer.name}
+                                    </p>
+                                    <p className="text-[11px] text-muted-foreground truncate">
+                                      {peer.year} · {peer.department} · helped {peer.helpedCount}
+                                    </p>
+                                  </div>
+                                </div>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="w-full sm:w-auto flex-shrink-0"
+                                  onClick={() => setChatPeer(peer)}
+                                >
+                                  <MessageSquare className="mr-2 h-3.5 w-3.5" />
+                                  Chat
+                                </Button>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="flex flex-wrap items-center gap-2 pt-3 border-t">
                         <Button
                           variant={helpfulIds.includes(entry.id) ? 'secondary' : 'outline'}
                           size="sm"
@@ -234,6 +276,7 @@ const AskGrotalksAI = () => {
                           View alumni
                         </Button>
                       </div>
+
                     </Card>
                   ))}
                 </div>
