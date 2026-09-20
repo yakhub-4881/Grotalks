@@ -44,6 +44,7 @@ const AskGrotalksAI = () => {
   const [stage, setStage] = useState<Stage>('idle');
   const [matches, setMatches] = useState<MatchedEntry[]>([]);
   const [helpfulIds, setHelpfulIds] = useState<number[]>([]);
+  const [chatPeer, setChatPeer] = useState<PeerHelper | null>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
