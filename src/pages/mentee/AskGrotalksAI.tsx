@@ -455,6 +455,15 @@ const AskGrotalksAI = () => {
           </div>
         </div>
       </div>
+
+      {chatPeer && (
+        <PeerChatDialog
+          peer={chatPeer}
+          question={askedQuestion}
+          open={!!chatPeer}
+          onOpenChange={(open) => !open && setChatPeer(null)}
+        />
+      )}
     </Layout>
   );
 };
