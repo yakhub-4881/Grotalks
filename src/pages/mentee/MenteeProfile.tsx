@@ -10,6 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { ArrowLeft, Upload, Loader2, Save } from 'lucide-react';
 import CareerMilestoneTracker from '@/components/mentee/CareerMilestoneTracker';
 import JourneyPreview from '@/components/mentee/JourneyPreview';
+import PeerGuidanceRecord from '@/components/mentee/PeerGuidanceRecord';
 
 const MenteeProfile = () => {
   const navigate = useNavigate();
@@ -240,6 +241,11 @@ const MenteeProfile = () => {
               </Button>
             </div>
           )}
+
+          {/* Peer Guidance Record */}
+          <div className="mt-6">
+            <PeerGuidanceRecord />
+          </div>
 
           {/* Career Milestone Tracker */}
           <div className="mt-6">

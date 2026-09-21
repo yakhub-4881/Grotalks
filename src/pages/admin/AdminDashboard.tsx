@@ -18,6 +18,7 @@ import BatchAnalytics from '@/components/admin/BatchAnalytics';
 import CareerMilestones from '@/components/admin/CareerMilestones';
 import SemesterReport from '@/components/admin/SemesterReport';
 import NonEngagedAlerts from '@/components/admin/NonEngagedAlerts';
+import PeerGuidanceTracker from '@/components/admin/PeerGuidanceTracker';
 import {
   CreditCard, Users, CalendarCheck, UserCheck, Clock, GraduationCap,
   Search, Plus, Check, X, AlertTriangle, Settings, Banknote, Star,
@@ -447,6 +448,7 @@ const AdminDashboard = () => {
                   <TabsTrigger value="import" className="gap-1.5"><FileSpreadsheet className="h-3.5 w-3.5" /> Import</TabsTrigger>
                   <TabsTrigger value="journey" className="gap-1.5"><BookOpen className="h-3.5 w-3.5" /> Journey</TabsTrigger>
                   <TabsTrigger value="non-engaged" className="gap-1.5"><Bell className="h-3.5 w-3.5" /> Non-Engaged</TabsTrigger>
+                  <TabsTrigger value="peer-guidance" className="gap-1.5"><Users className="h-3.5 w-3.5" /> Peer Guidance</TabsTrigger>
                 </TabsList>
                 <TabsContent value="records">
                   <div className="space-y-4 mt-2">
@@ -518,6 +520,11 @@ const AdminDashboard = () => {
                 </TabsContent>
                 <TabsContent value="non-engaged">
                   <NonEngagedAlerts />
+                </TabsContent>
+                <TabsContent value="peer-guidance">
+                  <div className="mt-2">
+                    <PeerGuidanceTracker />
+                  </div>
                 </TabsContent>
               </Tabs>
             </div>
