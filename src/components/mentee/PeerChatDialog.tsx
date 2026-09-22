@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -8,8 +8,20 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Send, MessageSquare } from 'lucide-react';
+import {
+  Conversation,
+  ConversationContent,
+  ConversationScrollButton,
+} from '@/components/ai-elements/conversation';
+import { Message, MessageContent } from '@/components/ai-elements/message';
+import {
+  PromptInput,
+  PromptInputFooter,
+  PromptInputSubmit,
+  PromptInputTextarea,
+} from '@/components/ai-elements/prompt-input';
+import { Shimmer } from '@/components/ai-elements/shimmer';
+import { MessageSquare } from 'lucide-react';
 import type { PeerHelper } from '@/lib/knowledge-base';
 
 interface ChatMessage {
@@ -45,7 +57,6 @@ export const PeerChatDialog = ({ peer, question, open, onOpenChange }: PeerChatD
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState('');
   const [typing, setTyping] = useState(false);
-  const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (open) {
@@ -55,10 +66,6 @@ export const PeerChatDialog = ({ peer, question, open, onOpenChange }: PeerChatD
     }
   }, [open]);
 
-  useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, typing]);
-
   const send = (text: string) => {
     const value = text.trim();
     if (!value) return;
@@ -67,7 +74,7 @@ export const PeerChatDialog = ({ peer, question, open, onOpenChange }: PeerChatD
     setDraft('');
     setTyping(true);
     const replyIndex = messages.filter((m) => m.from === 'me').length % PEER_REPLIES.length;
-    setTimeout(() => {
+    window.setTimeout(() => {
       setTyping(false);
       setMessages((prev) => [
         ...prev,
@@ -83,109 +90,112 @@ export const PeerChatDialog = ({ peer, question, open, onOpenChange }: PeerChatD
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md p-0 gap-0 overflow-hidden">
-        <DialogHeader className="p-4 border-b text-left space-y-0">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-secondary/10 text-secondary flex items-center justify-center text-sm font-semibold flex-shrink-0">
+      <DialogContent className="grid h-[min(680px,calc(100dvh-2rem))] w-[calc(100%-2rem)] max-w-lg grid-rows-[auto_minmax(0,1fr)_auto] gap-0 overflow-hidden rounded-lg p-0 sm:h-[min(680px,calc(100dvh-4rem))]">
+        <DialogHeader className="border-b px-4 py-3 pr-12 text-left sm:px-5 sm:py-4">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
               {initials}
             </div>
-            <div className="min-w-0">
-              <DialogTitle className="text-sm font-semibold truncate">{peer.name}</DialogTitle>
-              <DialogDescription className="text-xs truncate">
+            <div className="min-w-0 flex-1">
+              <DialogTitle className="truncate text-base font-semibold leading-5">{peer.name}</DialogTitle>
+              <DialogDescription className="truncate text-xs leading-5">
                 {peer.year} · {peer.department}
               </DialogDescription>
             </div>
-            <Badge variant="secondary" className="ml-auto text-[11px] flex-shrink-0">
+            <Badge variant="secondary" className="hidden flex-shrink-0 text-[11px] sm:inline-flex">
               Peer guide
             </Badge>
           </div>
         </DialogHeader>
 
-        <div className="h-[46vh] max-h-80 overflow-y-auto p-4 space-y-3 bg-muted/30">
-          <div className="rounded-lg border bg-background p-3">
-            <p className="text-[11px] uppercase tracking-wide text-muted-foreground mb-1">
-              Your question
-            </p>
-            <p className="text-xs text-foreground">{question}</p>
-          </div>
+        <Conversation className="min-h-0 bg-muted/30">
+          <ConversationContent className="gap-4 p-4 sm:p-5">
+            <div className="rounded-lg border bg-background p-3">
+              <p className="mb-1 text-[11px] font-medium uppercase text-muted-foreground">
+                Your question
+              </p>
+              <p className="break-words text-sm leading-5 text-foreground">{question}</p>
+            </div>
 
-          {messages.length === 0 && (
-            <p className="text-xs text-muted-foreground text-center py-2">
-              Say hello — {peer.name.split(' ')[0]} opted in to guide juniors on this topic.
-            </p>
-          )}
-
-          {messages.map((m) => (
-            <div key={m.id} className={m.from === 'me' ? 'flex justify-end' : 'flex justify-start'}>
-              <div
-                className={`max-w-[80%] rounded-lg px-3 py-2 text-sm ${
-                  m.from === 'me'
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-background border text-foreground'
-                }`}
-              >
-                <p className="whitespace-pre-wrap break-words">{m.text}</p>
-                <p
-                  className={`text-[10px] mt-1 ${
-                    m.from === 'me' ? 'text-primary-foreground/70' : 'text-muted-foreground'
-                  }`}
-                >
-                  {m.time}
+            {messages.length === 0 && (
+              <div className="mx-auto max-w-xs py-5 text-center">
+                <MessageSquare className="mx-auto mb-2 h-5 w-5 text-primary" />
+                <p className="text-xs leading-5 text-muted-foreground">
+                  Say hello — {peer.name.split(' ')[0]} opted in to guide juniors on this topic.
                 </p>
               </div>
-            </div>
-          ))}
+            )}
 
-          {typing && (
-            <div className="flex justify-start">
-              <div className="bg-background border rounded-lg px-3 py-2 flex gap-1">
-                {[0, 150, 300].map((d) => (
-                  <span
-                    key={d}
-                    className="w-1.5 h-1.5 rounded-full bg-muted-foreground/60 animate-bounce"
-                    style={{ animationDelay: `${d}ms` }}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-          <div ref={endRef} />
-        </div>
+            {messages.map((message) => (
+              <Message key={message.id} from={message.from === 'me' ? 'user' : 'assistant'}>
+                <MessageContent
+                  className={
+                    message.from === 'me'
+                      ? 'max-w-[85%] gap-1 bg-primary px-3 py-2 text-primary-foreground'
+                      : 'max-w-[85%] gap-1'
+                  }
+                >
+                  <p className="whitespace-pre-wrap break-words text-sm leading-5">{message.text}</p>
+                  <p
+                    className={
+                      message.from === 'me'
+                        ? 'text-[10px] text-primary-foreground/70'
+                        : 'text-[10px] text-muted-foreground'
+                    }
+                  >
+                    {message.time}
+                  </p>
+                </MessageContent>
+              </Message>
+            ))}
 
-        <div className="p-3 border-t space-y-2">
+            {typing && (
+              <Message from="assistant">
+                <MessageContent>
+                  <Shimmer className="text-xs">Typing…</Shimmer>
+                </MessageContent>
+              </Message>
+            )}
+          </ConversationContent>
+          <ConversationScrollButton className="bottom-3 h-8 w-8" />
+        </Conversation>
+
+        <div className="space-y-2 border-t bg-background p-3 sm:p-4">
           {messages.length === 0 && (
-            <div className="flex gap-2 overflow-x-auto pb-1">
+            <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {QUICK_MESSAGES.map((q) => (
-                <button
+                <Button
                   key={q}
+                  type="button"
+                  variant="outline"
+                  size="sm"
                   onClick={() => send(q)}
-                  className="text-[11px] whitespace-nowrap px-3 py-1.5 rounded-full border border-border bg-background hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+                  className="h-8 flex-shrink-0 rounded-full px-3 text-[11px] font-normal text-muted-foreground"
                 >
                   {q}
-                </button>
+                </Button>
               ))}
             </div>
           )}
-          <form
-            className="flex items-center gap-2"
-            onSubmit={(e) => {
-              e.preventDefault();
-              send(draft);
+          <PromptInput
+            className="bg-background"
+            onSubmit={(message) => {
+              send(message.text || draft);
             }}
           >
-            <Input
+            <PromptInputTextarea
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
               placeholder="Write a message..."
-              className="h-10"
+              className="min-h-12 max-h-28 py-3 text-sm"
+              aria-label="Message to peer guide"
             />
-            <Button type="submit" size="icon" className="h-10 w-10 flex-shrink-0" disabled={!draft.trim()}>
-              <Send className="h-4 w-4" />
-              <span className="sr-only">Send</span>
-            </Button>
-          </form>
-          <p className="text-[11px] text-muted-foreground flex items-center gap-1.5">
-            <MessageSquare className="h-3 w-3" />
+            <PromptInputFooter className="justify-end px-2 pb-2 pt-0">
+              <PromptInputSubmit disabled={!draft.trim() || typing} />
+            </PromptInputFooter>
+          </PromptInput>
+          <p className="flex items-start gap-1.5 px-1 text-[11px] leading-4 text-muted-foreground">
+            <MessageSquare className="mt-0.5 h-3 w-3 flex-shrink-0" />
             Peer chats are recorded on their guidance record.
           </p>
         </div>
