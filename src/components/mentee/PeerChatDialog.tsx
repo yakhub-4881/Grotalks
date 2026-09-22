@@ -108,9 +108,9 @@ export const PeerChatDialog = ({ peer, question, open, onOpenChange }: PeerChatD
           </div>
         </DialogHeader>
 
-        <Conversation className="min-h-0 bg-muted/30">
-          <ConversationContent className="gap-4 p-4 sm:p-5">
-            <div className="rounded-lg border bg-background p-3">
+        <Conversation className="min-h-0 min-w-0 bg-muted/30">
+          <ConversationContent className="w-full min-w-0 gap-4 p-4 sm:p-5">
+            <div className="w-full min-w-0 rounded-lg border bg-background p-3">
               <p className="mb-1 text-[11px] font-medium uppercase text-muted-foreground">
                 Your question
               </p>
@@ -118,9 +118,9 @@ export const PeerChatDialog = ({ peer, question, open, onOpenChange }: PeerChatD
             </div>
 
             {messages.length === 0 && (
-              <div className="mx-auto max-w-xs py-5 text-center">
+              <div className="flex w-full min-w-0 flex-col items-center px-4 py-5 text-center">
                 <MessageSquare className="mx-auto mb-2 h-5 w-5 text-primary" />
-                <p className="text-xs leading-5 text-muted-foreground">
+                <p className="w-full max-w-xs break-words text-xs leading-5 text-muted-foreground">
                   Say hello — {peer.name.split(' ')[0]} opted in to guide juniors on this topic.
                 </p>
               </div>
@@ -160,7 +160,7 @@ export const PeerChatDialog = ({ peer, question, open, onOpenChange }: PeerChatD
           <ConversationScrollButton className="bottom-3 h-8 w-8" />
         </Conversation>
 
-        <div className="space-y-2 border-t bg-background p-3 sm:p-4">
+        <div className="min-w-0 space-y-2 border-t bg-background p-3 sm:p-4">
           {messages.length === 0 && (
             <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {QUICK_MESSAGES.map((q) => (
@@ -178,7 +178,7 @@ export const PeerChatDialog = ({ peer, question, open, onOpenChange }: PeerChatD
             </div>
           )}
           <PromptInput
-            className="bg-background"
+            className="min-w-0 bg-background"
             onSubmit={(message) => {
               send(message.text || draft);
             }}
@@ -187,7 +187,8 @@ export const PeerChatDialog = ({ peer, question, open, onOpenChange }: PeerChatD
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
               placeholder="Write a message..."
-              className="min-h-12 max-h-28 py-3 text-sm"
+              rows={1}
+              className="min-h-11 max-h-24 resize-none py-3 text-sm"
               aria-label="Message to peer guide"
             />
             <PromptInputFooter className="justify-end px-2 pb-2 pt-0">
