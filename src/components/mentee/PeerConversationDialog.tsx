@@ -108,7 +108,7 @@ const PeerConversationDialog = ({ session, role, open, onOpenChange }: Props) =>
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="grid h-[min(680px,calc(100dvh-2rem))] w-[calc(100%-2rem)] max-w-lg grid-rows-[auto_minmax(0,1fr)_auto] gap-0 overflow-hidden rounded-lg p-0 sm:h-[min(680px,calc(100dvh-4rem))]">
+      <DialogContent className="grid h-[min(680px,calc(100dvh-2rem))] w-[calc(100%-2rem)] max-w-lg grid-cols-[minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)_auto] gap-0 overflow-hidden rounded-lg p-0 sm:h-[min(680px,calc(100dvh-4rem))]">
         <DialogHeader className="border-b px-4 py-3 pr-12 text-left sm:px-5 sm:py-4">
           <div className="flex min-w-0 items-center gap-3">
             <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
