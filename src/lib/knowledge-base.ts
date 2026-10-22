@@ -22,12 +22,6 @@ export interface KnowledgeEntry {
   answer: string;
   keyPoints: string[];
   tags: string[];
-  source: {
-    alumniId: number;
-    alumniName: string;
-    alumniRole: string;
-    sessionDate: string;
-  };
   helpfulCount: number;
   askedByCount: number;
   /** Students who asked this before and agreed to guide peers */
