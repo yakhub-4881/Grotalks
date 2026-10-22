@@ -26,7 +26,7 @@ export interface KnowledgeEntry {
   askedByCount: number;
   /** Students who asked this before and agreed to guide peers */
   peers: PeerHelper[];
-  /** Alumni best suited if the library answer is not enough */
+  /** Alumni best suited if the AI answer is not enough */
   suggestedAlumniIds: number[];
 }
 

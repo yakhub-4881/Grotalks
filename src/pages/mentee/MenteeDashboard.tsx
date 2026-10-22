@@ -153,7 +153,7 @@ const MenteeDashboard = () => {
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-foreground">Have a question? Ask Grotalks AI first</p>
                 <p className="text-xs text-muted-foreground truncate">
-                  Get answers from past alumni sessions, then book only if you need more
+                  Quick answers first, book an alumni only if you need more
                 </p>
               </div>
               <ArrowRight className="h-4 w-4 text-primary flex-shrink-0" />
