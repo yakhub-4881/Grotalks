@@ -50,7 +50,6 @@ const PostSessionActionPlan = () => {
   const [hoveredRating, setHoveredRating] = useState(0);
   const [review, setReview] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [takeaway, setTakeaway] = useState('');
   const [shareProfile, setShareProfile] = useState(false);
 
   const toggleEdit = (id: number) => {
@@ -76,10 +75,8 @@ const PostSessionActionPlan = () => {
       setIsSubmitting(false);
       toast({
         title: '🎉 Action plan saved!',
-        description: takeaway.trim()
-          ? shareProfile
-            ? 'Your answer is now in your college library, and juniors can reach out to you.'
-            : 'Your answer is now part of your college knowledge library.'
+        description: shareProfile
+          ? 'Juniors asking the same topic can now reach out to you.'
           : 'Your session is now fully complete.',
       });
       navigate('/mentee/dashboard');
@@ -183,26 +180,19 @@ const PostSessionActionPlan = () => {
               <p className="text-xs text-muted-foreground mt-1">{review.length}/300 characters</p>
             </div>
 
-            {/* Contribute to the college knowledge library */}
+            {/* Opt in to peer guidance — no session content is ever captured */}
             <div className="border-t pt-6 mb-6">
               <div className="flex items-start gap-2 mb-3">
                 <Library className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                 <div>
-                  <h2 className="text-base font-semibold text-foreground">Help your juniors with this answer</h2>
+                  <h2 className="text-base font-semibold text-foreground">Help juniors with the same doubt</h2>
                   <p className="text-xs text-muted-foreground">
-                    What you learned gets added to your college's Grotalks AI library, so the next student asking
-                    "{preSessionGoal}" finds it instantly.
+                    Your conversation with {alumniName} stays private — nothing from it is stored
+                    or used by Grotalks AI. Only if you opt in below, juniors asking the same topic
+                    can reach out to you.
                   </p>
                 </div>
               </div>
-
-              <Textarea
-                placeholder="In 2-3 lines, what was the most useful thing you learned? (optional)"
-                value={takeaway}
-                onChange={(e) => setTakeaway(e.target.value)}
-                className="min-h-20 resize-none mb-3"
-                maxLength={400}
-              />
 
               <label className="flex items-start gap-3 rounded-lg border p-3 cursor-pointer hover:bg-muted/50 transition-colors">
                 <Checkbox
@@ -213,8 +203,8 @@ const PostSessionActionPlan = () => {
                 <span className="text-sm">
                   <span className="font-medium text-foreground">Let juniors reach out to me on this topic</span>
                   <span className="block text-xs text-muted-foreground mt-0.5">
-                    Only students asking a similar question will see your name, year and department. Your guidance
-                    gets recorded on your profile. You can turn this off anytime.
+                    Only students asking a similar question will see your name, year and department.
+                    You can turn this off anytime.
                   </span>
                 </span>
               </label>
