@@ -88,10 +88,10 @@ const AskGrotalksAI = () => {
   const markHelpful = (id: number) => {
     if (helpfulIds.includes(id)) return;
     setHelpfulIds((prev) => [...prev, id]);
-    toast({
-      title: 'Thanks for the signal',
-      description: 'This answer will rank higher for students asking the same thing.',
-    });
+      toast({
+        title: 'Thanks for the feedback',
+        description: 'Noted — it helps us make this guidance better.',
+      });
   };
 
   return (
@@ -110,8 +110,8 @@ const AskGrotalksAI = () => {
             </div>
             <h1 className="text-xl md:text-2xl font-bold text-foreground mb-1">Ask Grotalks AI</h1>
             <p className="text-sm text-muted-foreground max-w-md mx-auto">
-              Answers built from real sessions your seniors already had. If it isn't enough, we'll
-              point you to the right alumni.
+              Quick, general guidance on your question. When you need depth, we point you to the
+              right alumni — and to batchmates who've worked through the same doubt.
             </p>
           </div>
 
@@ -164,7 +164,7 @@ const AskGrotalksAI = () => {
             <Card className="p-6 flex items-center gap-3">
               <Loader2 className="h-5 w-5 animate-spin text-primary" />
               <p className="text-sm text-muted-foreground">
-                Looking through your college's guidance library...
+                Working on guidance for your question...
               </p>
             </Card>
           )}
@@ -174,9 +174,9 @@ const AskGrotalksAI = () => {
             {stage !== 'idle' && stage !== 'thinking' && matches.length > 0 && (
               <div className="mb-8">
                 <div className="flex items-center gap-2 mb-3">
-                  <Library className="h-4 w-4 text-primary" />
+                  <Sparkles className="h-4 w-4 text-primary" />
                   <h2 className="text-base font-semibold text-foreground">
-                    From your college's guidance library
+                    What Grotalks AI suggests
                   </h2>
                 </div>
 
@@ -206,11 +206,7 @@ const AskGrotalksAI = () => {
                       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground mb-3">
                         <span className="flex items-center gap-1.5">
                           <BookOpen className="h-3.5 w-3.5 text-primary" />
-                          From a session with{' '}
-                          <span className="font-medium text-foreground">
-                            {entry.source.alumniName}
-                          </span>{' '}
-                          · {entry.source.alumniRole}
+                          General guidance from Grotalks AI
                         </span>
                         <span>·</span>
                         <span>{entry.askedByCount} students asked this</span>
@@ -269,13 +265,6 @@ const AskGrotalksAI = () => {
                             ? 'Marked helpful'
                             : `Helpful (${entry.helpfulCount})`}
                         </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => navigate(`/alumni/profile/${entry.source.alumniId}`)}
-                        >
-                          View alumni
-                        </Button>
                       </div>
 
                     </Card>
@@ -325,7 +314,8 @@ const AskGrotalksAI = () => {
                       </h2>
                     </div>
                     <p className="text-xs text-muted-foreground mb-3">
-                      They agreed to guide juniors after their own session. Free peer guidance.
+                      They had the same doubt, worked through it, and opted in to guide juniors.
+                      Free peer guidance.
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {peers.map((peer) => (
@@ -440,12 +430,12 @@ const AskGrotalksAI = () => {
                     <Library className="h-5 w-5 text-success flex-shrink-0 mt-0.5" />
                     <div>
                       <p className="text-sm font-medium text-foreground mb-1">
-                        Your session answer joins the library
+                        Your sessions stay private
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        After the session, the guidance you receive is summarised and added to your
-                        college's knowledge library. You can also choose to appear as a peer guide
-                        for juniors who ask this same question later.
+                        Grotalks AI never reads or learns from your alumni conversations. After a
+                        session, you can separately choose to guide juniors who ask the same
+                        question — only your name, year and department are shared.
                       </p>
                     </div>
                   </div>
