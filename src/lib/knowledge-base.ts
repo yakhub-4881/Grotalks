@@ -1,5 +1,8 @@
-// Grotalks AI knowledge library (prototype data)
-// Answers here originate from completed alumni sessions and grow over time.
+// Grotalks AI guidance content (prototype data)
+// NOTE: These are general guidance answers produced by Grotalks AI itself.
+// They are NOT sourced from, or trained on, alumni-student session conversations.
+// Alumni conversations are never captured or reused. The peer lists below only
+// show students who explicitly opted in to guide others on the same question.
 
 export interface PeerHelper {
   id: number;
@@ -45,12 +48,6 @@ export const knowledgeLibrary: KnowledgeEntry[] = [
       'Show measurable impact, not tool lists, on your resume',
     ],
     tags: ['product', 'management', 'pm', 'career', 'switch', 'engineering', 'transition', 'apm'],
-    source: {
-      alumniId: 1,
-      alumniName: 'Arjun Singh',
-      alumniRole: 'Product Manager @ Flipkart',
-      sessionDate: 'Aug 12, 2026',
-    },
     helpfulCount: 46,
     askedByCount: 61,
     peers: [
@@ -88,12 +85,6 @@ export const knowledgeLibrary: KnowledgeEntry[] = [
       'Keep one project you can discuss for 15 minutes in depth',
     ],
     tags: ['interview', 'preparation', 'dsa', 'placement', 'coding', 'product', 'company', 'system', 'design'],
-    source: {
-      alumniId: 7,
-      alumniName: 'Karthik Rajan',
-      alumniRole: 'Software Engineer @ Microsoft',
-      sessionDate: 'Jul 29, 2026',
-    },
     helpfulCount: 88,
     askedByCount: 120,
     peers: [
@@ -121,12 +112,6 @@ export const knowledgeLibrary: KnowledgeEntry[] = [
       'Ask professors for research assistantships directly by email',
     ],
     tags: ['masters', 'abroad', 'ms', 'higher', 'studies', 'gre', 'university', 'scholarship', 'funding'],
-    source: {
-      alumniId: 2,
-      alumniName: 'Priya Sharma',
-      alumniRole: 'Software Engineer @ Google',
-      sessionDate: 'Jun 18, 2026',
-    },
     helpfulCount: 53,
     askedByCount: 74,
     peers: [
@@ -154,12 +139,6 @@ export const knowledgeLibrary: KnowledgeEntry[] = [
       'Apply for analyst roles and grow into data science internally',
     ],
     tags: ['data', 'science', 'analytics', 'sql', 'machine', 'learning', 'analyst', 'career'],
-    source: {
-      alumniId: 8,
-      alumniName: 'Divya Lakshmi',
-      alumniRole: 'Data Analyst @ Deloitte',
-      sessionDate: 'Aug 30, 2026',
-    },
     helpfulCount: 37,
     askedByCount: 49,
     peers: [
@@ -187,12 +166,6 @@ export const knowledgeLibrary: KnowledgeEntry[] = [
       'Use campus incubation and alumni angels for the first cheque',
     ],
     tags: ['startup', 'entrepreneurship', 'founder', 'business', 'funding', 'idea'],
-    source: {
-      alumniId: 3,
-      alumniName: 'Rahul Verma',
-      alumniRole: 'Startup Founder & CEO',
-      sessionDate: 'May 22, 2026',
-    },
     helpfulCount: 29,
     askedByCount: 33,
     peers: [],
@@ -209,12 +182,6 @@ export const knowledgeLibrary: KnowledgeEntry[] = [
       'Keep the portfolio site loading in under 3 seconds',
     ],
     tags: ['design', 'portfolio', 'ux', 'ui', 'figma', 'creative', 'internship'],
-    source: {
-      alumniId: 14,
-      alumniName: 'Lakshmi Narayanan',
-      alumniRole: 'Product Designer @ Swiggy',
-      sessionDate: 'Sep 1, 2026',
-    },
     helpfulCount: 24,
     askedByCount: 31,
     peers: [
