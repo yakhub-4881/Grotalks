@@ -7,7 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { Calendar as CalendarIcon, Clock, User, ArrowLeft, Video, ChevronLeft, ChevronRight, Star, MessageSquare, Users, Package, GraduationCap, ShieldCheck, CreditCard, IdCard, Mail, Loader2, CheckCircle2, Shield } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, User, ArrowLeft, Video, ChevronLeft, ChevronRight, Star, MessageSquare, Users, Package, GraduationCap, ShieldCheck, CreditCard, IdCard, Mail, Loader2, CheckCircle2, Shield, Sparkles } from 'lucide-react';
+
 import { calculateSessionPrice, formatPrice } from '@/lib/college-config';
 import { format, addDays, startOfDay, isSameDay } from 'date-fns';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
@@ -84,7 +85,21 @@ const BookingSchedule = () => {
   const availableDates = Array.from({ length: 14 }, (_, i) => addDays(startOfDay(new Date()), i + 1))
     .filter(date => date.getDay() !== 0);
 
+  // Mock availability: some days are fully booked, some have a few slots taken
+  const fullyBookedOffsets = new Set([3, 8]);
+  const partiallyBookedOffsets: Record<number, string[]> = {
+    5: ['02:00 PM', '03:00 PM'],
+    10: ['09:00 AM', '10:00 AM'],
+  };
+  const dayOffsetFor = (date: Date) =>
+    Math.round((startOfDay(date).getTime() - startOfDay(new Date()).getTime()) / 86400000);
+  const selectedDateOffset = selectedDate ? dayOffsetFor(selectedDate) : null;
+  const isFullyBooked = selectedDateOffset !== null && fullyBookedOffsets.has(selectedDateOffset);
+  const bookedSlots = selectedDateOffset !== null ? (partiallyBookedOffsets[selectedDateOffset] || []) : [];
+  const isSlotBooked = (slot: string) => bookedSlots.includes(slot);
+
   const visibleDates = availableDates.slice(dateScrollIndex, dateScrollIndex + 5);
+
 
   const sessionPrice = selectedService.price;
   const isFormValid = selectedDate && selectedSlot;
@@ -366,7 +381,11 @@ const BookingSchedule = () => {
                             className={`flex flex-col h-auto py-2 px-3 md:px-4 min-w-[60px] md:min-w-[70px] ${
                               selectedDate && isSameDay(selectedDate, date) ? '' : 'hover:border-primary'
                             }`}
-                            onClick={() => setSelectedDate(date)}
+                            onClick={() => {
+                              setSelectedDate(date);
+                              setSelectedSlot('');
+                            }}
+
                           >
                             <span className={`text-[10px] md:text-xs ${selectedDate && isSameDay(selectedDate, date) ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
                               {format(date, 'EEE')}
