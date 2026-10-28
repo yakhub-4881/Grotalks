@@ -130,6 +130,37 @@ const BrowseAlumni = () => {
     },
   ];
 
+  const expertiseKeywords: Record<string, string> = {
+    career: 'Career Guidance',
+    masters: 'Masters',
+    startup: 'Entrepreneurship',
+    interview: 'Interview',
+    data: 'Data Science',
+    design: 'UX',
+    finance: 'Finance',
+  };
+
+  const filtered = alumni.filter((a) => {
+    const q = searchQuery.trim().toLowerCase();
+    const matchesQuery =
+      !q ||
+      a.name.toLowerCase().includes(q) ||
+      a.company.toLowerCase().includes(q) ||
+      a.role.toLowerCase().includes(q) ||
+      a.expertise.some((e) => e.toLowerCase().includes(q));
+    const matchesCollege = collegeFilter === 'all' || a.college === collegeFilter;
+    const matchesBatch = batchYearFilter === 'all' || a.batch.includes(batchYearFilter);
+    const matchesExpertise =
+      expertiseFilter === 'all' ||
+      a.expertise.some((e) =>
+        e.toLowerCase().includes((expertiseKeywords[expertiseFilter] || '').toLowerCase())
+      );
+    const matchesLanguage =
+      languageFilter === 'all' || a.language.toLowerCase().includes(languageFilter);
+    return matchesQuery && matchesCollege && matchesBatch && matchesExpertise && matchesLanguage;
+  });
+
+
   return (
     <Layout>
       <div className="min-h-[calc(100vh-4rem)] bg-muted">
