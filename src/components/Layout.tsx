@@ -140,7 +140,17 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-72 max-h-96 overflow-y-auto">
+                  {isAuthenticated && isMenteePage && (
+                    <>
+                      <DropdownMenuItem onClick={() => navigate('/mentee/ask-ai')} className="text-sm">
+                        <Sparkles className="mr-2 h-4 w-4 text-primary" />
+                        ✨ Grotalks AI
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                    </>
+                  )}
                   <DropdownMenuLabel>📋 Screen Navigator</DropdownMenuLabel>
+
                   {screens.map((screen) => (
                     <DropdownMenuItem
                       key={screen.path}
