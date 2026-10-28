@@ -6,7 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { Search, Star, MapPin, Video, ShieldCheck } from 'lucide-react';
+import { Search, Star, MapPin, Video, ShieldCheck, Sparkles } from 'lucide-react';
+
 import { getCollegeDisplay, collegeMap } from '@/lib/college-config';
 import { PricingDisplay } from '@/components/PricingDisplay';
 
@@ -275,13 +276,35 @@ const BrowseAlumni = () => {
           {/* Results Count */}
           <div className="mb-4 md:mb-6">
             <p className="text-sm text-muted-foreground">
-              Showing {alumni.length} alumni
+              Showing {filtered.length} alumni
             </p>
           </div>
 
+          {/* No results — Grotalks AI fallback */}
+          {filtered.length === 0 && (
+            <Card className="p-6 md:p-8 text-center mb-6 md:mb-8">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <Sparkles className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground mb-1">
+                No alumni available for this right now
+              </h3>
+              <p className="text-sm text-muted-foreground max-w-md mx-auto mb-5">
+                Try clearing a filter, or let Grotalks AI help while you wait — it gives quick
+                guidance and can connect you with students at your college who had the same doubt.
+              </p>
+              <Button onClick={() => navigate('/mentee/ask-ai', { state: { query: searchQuery, from: 'browse' } })}>
+                <Sparkles className="mr-2 h-4 w-4" />
+                Ask Grotalks AI
+              </Button>
+            </Card>
+          )}
+
+
           {/* Alumni Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {alumni.map((alumni) => (
+            {filtered.map((alumni) => (
+
               <Card
                 key={alumni.id}
                 className="p-4 md:p-6 hover:shadow-xl transition-all cursor-pointer group"

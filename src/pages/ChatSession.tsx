@@ -2,7 +2,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/Layout';
 import { Card } from '@/components/ui/card';
-import { Video, Calendar, Clock, ExternalLink, CheckCircle2 } from 'lucide-react';
+import { Video, Calendar, Clock, ExternalLink, CheckCircle2, Sparkles } from 'lucide-react';
+
 
 const ChatSession = () => {
   const { sessionId } = useParams();
