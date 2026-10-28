@@ -7,7 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { Calendar as CalendarIcon, Clock, User, ArrowLeft, Video, ChevronLeft, ChevronRight, Star, MessageSquare, Users, Package, GraduationCap, ShieldCheck, CreditCard, IdCard, Mail, Loader2, CheckCircle2, Shield } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, User, ArrowLeft, Video, ChevronLeft, ChevronRight, Star, MessageSquare, Users, Package, GraduationCap, ShieldCheck, CreditCard, IdCard, Mail, Loader2, CheckCircle2, Shield, Sparkles } from 'lucide-react';
+
 import { calculateSessionPrice, formatPrice } from '@/lib/college-config';
 import { format, addDays, startOfDay, isSameDay } from 'date-fns';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
@@ -84,7 +85,21 @@ const BookingSchedule = () => {
   const availableDates = Array.from({ length: 14 }, (_, i) => addDays(startOfDay(new Date()), i + 1))
     .filter(date => date.getDay() !== 0);
 
+  // Mock availability: some days are fully booked, some have a few slots taken
+  const fullyBookedOffsets = new Set([3, 8]);
+  const partiallyBookedOffsets: Record<number, string[]> = {
+    5: ['02:00 PM', '03:00 PM'],
+    10: ['09:00 AM', '10:00 AM'],
+  };
+  const dayOffsetFor = (date: Date) =>
+    Math.round((startOfDay(date).getTime() - startOfDay(new Date()).getTime()) / 86400000);
+  const selectedDateOffset = selectedDate ? dayOffsetFor(selectedDate) : null;
+  const isFullyBooked = selectedDateOffset !== null && fullyBookedOffsets.has(selectedDateOffset);
+  const bookedSlots = selectedDateOffset !== null ? (partiallyBookedOffsets[selectedDateOffset] || []) : [];
+  const isSlotBooked = (slot: string) => bookedSlots.includes(slot);
+
   const visibleDates = availableDates.slice(dateScrollIndex, dateScrollIndex + 5);
+
 
   const sessionPrice = selectedService.price;
   const isFormValid = selectedDate && selectedSlot;
@@ -209,9 +224,14 @@ const BookingSchedule = () => {
                 </div>
               </Card>
 
+              <p className="text-xs text-muted-foreground bg-muted rounded-lg py-3 px-4 mb-2 flex items-start gap-2 text-left">
+                <Sparkles className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
+                <span>Grotalks AI will help you create goals and tasks from this session — it never records your conversation.</span>
+              </p>
               <p className="text-xs text-muted-foreground bg-muted rounded-lg py-3 px-4 mb-6">
                 Meeting details will be sent to your registered college email and WhatsApp number.
               </p>
+
 
               <div className="space-y-3">
                 <Button className="w-full h-12 text-base font-semibold" onClick={() => navigate('/mentee/dashboard')}>
@@ -366,7 +386,11 @@ const BookingSchedule = () => {
                             className={`flex flex-col h-auto py-2 px-3 md:px-4 min-w-[60px] md:min-w-[70px] ${
                               selectedDate && isSameDay(selectedDate, date) ? '' : 'hover:border-primary'
                             }`}
-                            onClick={() => setSelectedDate(date)}
+                            onClick={() => {
+                              setSelectedDate(date);
+                              setSelectedSlot('');
+                            }}
+
                           >
                             <span className={`text-[10px] md:text-xs ${selectedDate && isSameDay(selectedDate, date) ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
                               {format(date, 'EEE')}
@@ -397,6 +421,34 @@ const BookingSchedule = () => {
                     )}
                   </Card>
 
+                  {/* Fully booked — Grotalks AI fallback */}
+                  {selectedDate && isFullyBooked && (
+                    <Card className="p-4 md:p-6 border-primary/20 bg-primary/5">
+                      <div className="flex items-start gap-3">
+                        <Sparkles className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-foreground">
+                            All of {alumni.name}'s slots are booked on {format(selectedDate, 'MMMM d')}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            Meanwhile, Grotalks AI can help — see if students at your college had
+                            the same doubt and chat with them free, or get quick guidance while you
+                            wait for a slot.
+                          </p>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="mt-3"
+                            onClick={() => navigate('/mentee/ask-ai', { state: { from: 'booking' } })}
+                          >
+                            <Sparkles className="mr-2 h-3.5 w-3.5" />
+                            Ask Grotalks AI
+                          </Button>
+                        </div>
+                      </div>
+                    </Card>
+                  )}
+
                   {/* Time Selection */}
                   <Card className="p-4 md:p-6">
                     <Label className="flex items-center gap-2 mb-4 text-base font-semibold">
@@ -408,6 +460,7 @@ const BookingSchedule = () => {
                         <Button
                           key={slot}
                           variant={selectedSlot === slot ? 'default' : 'outline'}
+                          disabled={isSlotBooked(slot)}
                           className={`h-10 text-sm ${selectedSlot === slot ? '' : 'hover:border-primary'}`}
                           onClick={() => setSelectedSlot(slot)}
                         >
@@ -415,12 +468,18 @@ const BookingSchedule = () => {
                         </Button>
                       ))}
                     </div>
+                    {isFullyBooked && (
+                      <p className="mt-3 text-xs text-muted-foreground">
+                        Every slot on this date is taken — pick another date above.
+                      </p>
+                    )}
                     {selectedSlot && (
                       <p className="mt-3 text-sm text-success flex items-center gap-1">
                         <span>✓</span> {selectedSlot} (IST)
                       </p>
                     )}
                   </Card>
+
 
                   {/* Note about goal — removed duplicate textarea */}
                   <Card className="p-4 md:p-6 bg-primary/5 border-primary/20">
@@ -431,7 +490,15 @@ const BookingSchedule = () => {
                         <p className="text-xs text-muted-foreground mt-1">Share what you want to achieve — your alumni will see it before the session to prepare tailored advice.</p>
                       </div>
                     </div>
+                    <div className="flex items-start gap-3 mt-3 pt-3 border-t border-primary/10">
+                      <Sparkles className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                      <p className="text-xs text-muted-foreground">
+                        Grotalks AI will also help you create goals and tasks for this session — it
+                        never records your conversation.
+                      </p>
+                    </div>
                   </Card>
+
 
                   {/* Continue Button */}
                   <Button
@@ -459,11 +526,19 @@ const BookingSchedule = () => {
                       <p className="text-sm text-muted-foreground">The more specific you are, the more your alumni can help you</p>
                     </div>
 
-                    <div className="bg-primary/5 border border-primary/15 rounded-lg p-4 mb-5">
+                    <div className="bg-primary/5 border border-primary/15 rounded-lg p-4 mb-3">
                       <p className="text-xs text-muted-foreground">
                         Your alumni will see this before the session so they can prepare tailored advice for you.
                       </p>
                     </div>
+
+                    <div className="flex items-start gap-2 mb-5">
+                      <Sparkles className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
+                      <p className="text-xs text-muted-foreground">
+                        Grotalks AI can also help you shape this goal and turn it into tasks afterwards — it never records your conversation.
+                      </p>
+                    </div>
+
 
                     <div className="space-y-3 mb-5">
                       <Label className="text-sm font-medium">What is the one thing you want to walk away with from this session?</Label>

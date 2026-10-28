@@ -141,24 +141,6 @@ const MenteeDashboard = () => {
             ))}
           </div>
 
-          {/* Ask Grotalks AI - subtle entry point */}
-          <Card
-            className="p-4 mb-8 border-primary/20 bg-primary/5 hover:shadow-md transition-shadow cursor-pointer"
-            onClick={() => navigate('/mentee/ask-ai')}
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Sparkles className="h-4.5 w-4.5 text-primary" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-foreground">Have a question? Ask Grotalks AI first</p>
-                <p className="text-xs text-muted-foreground truncate">
-                  Quick answers first, book an alumni only if you need more
-                </p>
-              </div>
-              <ArrowRight className="h-4 w-4 text-primary flex-shrink-0" />
-            </div>
-          </Card>
 
 
           {/* Upcoming Sessions */}

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Settings, Menu, User, LogOut, UserCircle, GraduationCap, Wallet, Calendar, HelpCircle, ShieldCheck, CreditCard, BarChart3 } from 'lucide-react';
+import { Settings, Menu, User, LogOut, UserCircle, GraduationCap, Wallet, Calendar, HelpCircle, ShieldCheck, CreditCard, BarChart3, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -140,7 +140,17 @@ export const Layout = ({ children, showNav = true }: LayoutProps) => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-72 max-h-96 overflow-y-auto">
+                  {isAuthenticated && isMenteePage && (
+                    <>
+                      <DropdownMenuItem onClick={() => navigate('/mentee/ask-ai')} className="text-sm">
+                        <Sparkles className="mr-2 h-4 w-4 text-primary" />
+                        ✨ Grotalks AI
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                    </>
+                  )}
                   <DropdownMenuLabel>📋 Screen Navigator</DropdownMenuLabel>
+
                   {screens.map((screen) => (
                     <DropdownMenuItem
                       key={screen.path}

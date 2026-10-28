@@ -2,7 +2,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/Layout';
 import { Card } from '@/components/ui/card';
-import { Video, Calendar, Clock, ExternalLink, CheckCircle2 } from 'lucide-react';
+import { Video, Calendar, Clock, ExternalLink, CheckCircle2, Sparkles } from 'lucide-react';
+
 
 const ChatSession = () => {
   const { sessionId } = useParams();
@@ -60,9 +61,13 @@ const ChatSession = () => {
               View All Sessions
             </Button>
 
-            <p className="text-xs text-muted-foreground mt-6">
-              Meeting link also sent to your email
-            </p>
+            <div className="flex items-start gap-2 text-left bg-muted rounded-lg p-3 mt-6">
+              <Sparkles className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
+              <p className="text-xs text-muted-foreground">
+                Grotalks AI will help you create goals and tasks to work on after this session — it never records your conversation.
+              </p>
+            </div>
+
           </Card>
         </div>
       </div>
