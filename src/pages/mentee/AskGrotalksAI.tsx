@@ -110,8 +110,8 @@ const AskGrotalksAI = () => {
             </div>
             <h1 className="text-xl md:text-2xl font-bold text-foreground mb-1">Ask Grotalks AI</h1>
             <p className="text-sm text-muted-foreground max-w-md mx-auto">
-              Quick, general guidance on your question. When you need depth, we point you to the
-              right alumni — and to batchmates who've worked through the same doubt.
+              No alumni slot free right now? Get quick, general guidance here — and chat free with
+              batchmates who had the same doubt. Alumni slots open up regularly, so check back soon.
             </p>
           </div>
 
@@ -367,7 +367,8 @@ const AskGrotalksAI = () => {
                     </h2>
                   </div>
                   <p className="text-xs text-muted-foreground mb-3">
-                    Matched to "{askedQuestion}" · covered by your college
+                    Matched to "{askedQuestion}" · covered by your college · if their slots are
+                    full, they open up regularly — check back soon
                   </p>
                   <div className="space-y-3">
                     {suggestedAlumni.map((a) => (
