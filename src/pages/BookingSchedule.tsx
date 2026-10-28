@@ -224,9 +224,14 @@ const BookingSchedule = () => {
                 </div>
               </Card>
 
+              <p className="text-xs text-muted-foreground bg-muted rounded-lg py-3 px-4 mb-2 flex items-start gap-2 text-left">
+                <Sparkles className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
+                <span>Grotalks AI will help you create goals and tasks from this session — it never records your conversation.</span>
+              </p>
               <p className="text-xs text-muted-foreground bg-muted rounded-lg py-3 px-4 mb-6">
                 Meeting details will be sent to your registered college email and WhatsApp number.
               </p>
+
 
               <div className="space-y-3">
                 <Button className="w-full h-12 text-base font-semibold" onClick={() => navigate('/mentee/dashboard')}>
@@ -521,11 +526,19 @@ const BookingSchedule = () => {
                       <p className="text-sm text-muted-foreground">The more specific you are, the more your alumni can help you</p>
                     </div>
 
-                    <div className="bg-primary/5 border border-primary/15 rounded-lg p-4 mb-5">
+                    <div className="bg-primary/5 border border-primary/15 rounded-lg p-4 mb-3">
                       <p className="text-xs text-muted-foreground">
                         Your alumni will see this before the session so they can prepare tailored advice for you.
                       </p>
                     </div>
+
+                    <div className="flex items-start gap-2 mb-5">
+                      <Sparkles className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
+                      <p className="text-xs text-muted-foreground">
+                        Grotalks AI can also help you shape this goal and turn it into tasks afterwards — it never records your conversation.
+                      </p>
+                    </div>
+
 
                     <div className="space-y-3 mb-5">
                       <Label className="text-sm font-medium">What is the one thing you want to walk away with from this session?</Label>
