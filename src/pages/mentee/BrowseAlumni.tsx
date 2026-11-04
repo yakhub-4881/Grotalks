@@ -227,17 +227,29 @@ const BrowseAlumni = () => {
         score += 20;
         reasons.unshift(a.role.split(' @ ')[1] || a.company);
       }
+      // Direct word overlap with any expertise tag
+      for (const exp of a.expertise) {
+        for (const w of exp.toLowerCase().split(/[^a-z]+/)) {
+          if (w.length > 3 && q.includes(w)) {
+            score += 18;
+            if (!reasons.includes(exp)) reasons.push(exp);
+          }
+        }
+      }
       return { a, score, reasons };
     });
     const matched = scored.filter((m) => m.reasons.length > 0).sort((x, y) => y.score - x.score);
-    if (matched.length >= 3) return matched.slice(0, 4);
-    // Fallback — general career guidance alumni, highest rated
-    const general = scored
+    if (matched.length >= 4) return matched.slice(0, 4);
+    // Top up the shortlist with the strongest general guidance alumni
+    const result = [...matched];
+    for (const m of scored
       .filter((m) => m.a.expertise.includes('Career Guidance'))
-      .sort((x, y) => y.score - x.score)
-      .slice(0, 4)
-      .map((m) => ({ ...m, reasons: ['Career Guidance'] }));
-    return general;
+      .sort((x, y) => y.score - x.score)) {
+      if (result.length >= 4) break;
+      if (result.some((r) => r.a.id === m.a.id)) continue;
+      result.push({ ...m, reasons: m.reasons.length ? m.reasons : ['Top-rated for general career guidance'] });
+    }
+    return result.slice(0, 4);
   };
 
   const AI_SUGGESTIONS = [
