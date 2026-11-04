@@ -12,6 +12,27 @@ import { Search, Star, MapPin, Video, ShieldCheck, Sparkles, Send, Loader2, Libr
 import { getCollegeDisplay, collegeMap } from '@/lib/college-config';
 import { PricingDisplay } from '@/components/PricingDisplay';
 
+type AlumniEntry = {
+  id: number;
+  name: string;
+  role: string;
+  company: string;
+  location: string;
+  college: string;
+  collegeId: string;
+  batch: string;
+  verified: boolean;
+  language: string;
+  stream: string;
+  expertise: string[];
+  rating: number;
+  reviews: number;
+  baseRate: number;
+  sessionsCompleted: number;
+};
+
+type AIMatch = { a: AlumniEntry; score: number; reasons: string[] };
+
 const BrowseAlumni = () => {
   const navigate = useNavigate();
   const [mode, setMode] = useState<'browse' | 'ai'>('browse');
@@ -26,6 +47,7 @@ const BrowseAlumni = () => {
   const [aiQuery, setAiQuery] = useState('');
   const [aiAsked, setAiAsked] = useState('');
   const [aiStage, setAiStage] = useState<'idle' | 'thinking' | 'results'>('idle');
+  const [aiMatches, setAiMatches] = useState<AIMatch[]>([]);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -34,7 +56,7 @@ const BrowseAlumni = () => {
     }
   }, [aiStage]);
 
-  const alumni = [
+  const alumni: AlumniEntry[] = [
     {
       id: 1,
       name: 'Arjun Singh',
@@ -188,8 +210,6 @@ const BrowseAlumni = () => {
     { terms: ['career', 'switch', 'transition', 'confused'], expertise: 'career' },
   ];
 
-  type AIMatch = { a: typeof alumni[number]; score: number; reasons: string[] };
-
   const matchAlumni = (query: string): AIMatch[] => {
     const q = query.toLowerCase();
     const scored: AIMatch[] = alumni.map((a) => {
@@ -239,7 +259,7 @@ const BrowseAlumni = () => {
     }, 1100);
   };
 
-  const renderAlumniCard = (alumni: typeof alumni[number], matchReason?: string) => (
+  const renderAlumniCard = (alumni: AlumniEntry, matchReason?: string) => (
     <Card
       className="p-4 md:p-6 hover:shadow-xl transition-all cursor-pointer group"
       onClick={() => navigate(`/alumni/profile/${alumni.id}`)}
