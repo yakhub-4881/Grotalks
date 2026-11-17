@@ -38,9 +38,11 @@ const SUGGESTIONS = [
 
 const AskGrotalksAI = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
 
-  const [query, setQuery] = useState('');
+  const incomingQuery = (location.state as { query?: unknown } | null)?.query;
+  const [query, setQuery] = useState(typeof incomingQuery === 'string' ? incomingQuery : '');
   const [askedQuestion, setAskedQuestion] = useState('');
   const [stage, setStage] = useState<Stage>('idle');
   const [matches, setMatches] = useState<MatchedEntry[]>([]);

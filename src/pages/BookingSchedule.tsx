@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -25,9 +25,11 @@ const serviceIcons = {
 const BookingSchedule = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
   const serviceId = searchParams.get('service');
+  const bookingContext = location.state as { preSessionGoal?: unknown } | null;
 
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedSlot, setSelectedSlot] = useState('');
@@ -36,7 +38,9 @@ const BookingSchedule = () => {
   const [dateScrollIndex, setDateScrollIndex] = useState(0);
 
   const [step, setStep] = useState<'schedule' | 'goal' | 'verify' | 'confirmed'>('schedule');
-  const [preSessionGoal, setPreSessionGoal] = useState('');
+  const [preSessionGoal, setPreSessionGoal] = useState(
+    typeof bookingContext?.preSessionGoal === 'string' ? bookingContext.preSessionGoal : ''
+  );
   const [cardNumber, setCardNumber] = useState('VTGU-2024-8834-1234');
   const [collegeId, setCollegeId] = useState('');
   const [otp, setOtp] = useState('');
@@ -226,7 +230,7 @@ const BookingSchedule = () => {
 
               <p className="text-xs text-muted-foreground bg-muted rounded-lg py-3 px-4 mb-2 flex items-start gap-2 text-left">
                 <Sparkles className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
-                <span>Grotalks AI will help you create goals and tasks from this session — it never records your conversation.</span>
+                <span>Grotalks AI does not join, listen to, record, or learn from this conversation. Afterward, it can help turn the goal you choose to share into personal next steps.</span>
               </p>
               <p className="text-xs text-muted-foreground bg-muted rounded-lg py-3 px-4 mb-6">
                 Meeting details will be sent to your registered college email and WhatsApp number.
@@ -439,7 +443,12 @@ const BookingSchedule = () => {
                             variant="outline"
                             size="sm"
                             className="mt-3"
-                            onClick={() => navigate('/mentee/ask-ai', { state: { from: 'booking' } })}
+                            onClick={() => navigate('/mentee/ask-ai', {
+                              state: {
+                                from: 'booking',
+                                query: preSessionGoal.trim() || `I'm looking for guidance on ${selectedService.title.toLowerCase()}, but no slots are available with ${alumni.name} right now. Can you help me find relevant guidance or students with a similar question?`,
+                              },
+                            })}
                           >
                             <Sparkles className="mr-2 h-3.5 w-3.5" />
                             Ask Grotalks AI
@@ -460,7 +469,7 @@ const BookingSchedule = () => {
                         <Button
                           key={slot}
                           variant={selectedSlot === slot ? 'default' : 'outline'}
-                          disabled={isSlotBooked(slot)}
+                          disabled={isFullyBooked || isSlotBooked(slot)}
                           className={`h-10 text-sm ${selectedSlot === slot ? '' : 'hover:border-primary'}`}
                           onClick={() => setSelectedSlot(slot)}
                         >
@@ -493,8 +502,8 @@ const BookingSchedule = () => {
                     <div className="flex items-start gap-3 mt-3 pt-3 border-t border-primary/10">
                       <Sparkles className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
                       <p className="text-xs text-muted-foreground">
-                        Grotalks AI will also help you create goals and tasks for this session — it
-                        never records your conversation.
+                        Grotalks AI does not join, listen to, record, or learn from this conversation.
+                        Afterward, it can help turn the goal you choose to share into personal next steps.
                       </p>
                     </div>
                   </Card>
@@ -535,7 +544,7 @@ const BookingSchedule = () => {
                     <div className="flex items-start gap-2 mb-5">
                       <Sparkles className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
                       <p className="text-xs text-muted-foreground">
-                        Grotalks AI can also help you shape this goal and turn it into tasks afterwards — it never records your conversation.
+                        Grotalks AI does not join, listen to, record, or learn from this conversation. Afterward, it can help turn the goal you enter here into personal next steps.
                       </p>
                     </div>
 
