@@ -64,7 +64,7 @@ const ChatSession = () => {
             <div className="flex items-start gap-2 text-left bg-muted rounded-lg p-3 mt-6">
               <Sparkles className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
               <p className="text-xs text-muted-foreground">
-                Grotalks AI will help you create goals and tasks to work on after this session — it never records your conversation.
+                Grotalks AI does not join, listen to, record, or learn from this conversation. Afterward, it can help turn the goal you choose to share into personal next steps.
               </p>
             </div>
 
