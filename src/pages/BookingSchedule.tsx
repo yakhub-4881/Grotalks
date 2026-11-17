@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -25,9 +25,11 @@ const serviceIcons = {
 const BookingSchedule = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
   const serviceId = searchParams.get('service');
+  const bookingContext = location.state as { preSessionGoal?: unknown } | null;
 
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedSlot, setSelectedSlot] = useState('');
@@ -36,7 +38,9 @@ const BookingSchedule = () => {
   const [dateScrollIndex, setDateScrollIndex] = useState(0);
 
   const [step, setStep] = useState<'schedule' | 'goal' | 'verify' | 'confirmed'>('schedule');
-  const [preSessionGoal, setPreSessionGoal] = useState('');
+  const [preSessionGoal, setPreSessionGoal] = useState(
+    typeof bookingContext?.preSessionGoal === 'string' ? bookingContext.preSessionGoal : ''
+  );
   const [cardNumber, setCardNumber] = useState('VTGU-2024-8834-1234');
   const [collegeId, setCollegeId] = useState('');
   const [otp, setOtp] = useState('');
